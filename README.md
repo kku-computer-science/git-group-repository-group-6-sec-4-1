@@ -8,5 +8,6 @@ Team Members
 2.
 3.
 4.
-5.Tanawat Tanatka
-6.
+5.
+6.Tanawat Tanatka
+7.Phongwarin Kaewsanga
