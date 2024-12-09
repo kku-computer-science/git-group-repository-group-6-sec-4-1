@@ -4,7 +4,7 @@ Group 6 Sec 4 Soften ตึงๆ
 
 Team Members
 
-1.
+1.Siriyakorn  Eaksiri
 2.Nutthapat Trongwattanawut
 3.Attawat Kammas
 4.
