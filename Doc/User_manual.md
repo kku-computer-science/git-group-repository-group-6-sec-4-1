@@ -30,7 +30,7 @@ User Manual
 
 3.ไปที่เมนู View System Logs
 <br>
-![alt text](../Doc/img/img3.jpg)
+![alt text](../Doc/img/img4.jpg)
 
 4.สามารถดูรายละเอียดกิจกรรมของทุก User ได้
 <br>
