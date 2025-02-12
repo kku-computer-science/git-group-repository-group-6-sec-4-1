@@ -25,17 +25,17 @@ User Manual
 
 
 2.เข้าสู่ระบบด้วยบัญชี Admin
-
+![alt text](../Doc/img/img2.jpg)
 
 3.ไปที่เมนู View System Logs
-
+![alt text](../Doc/img/img3.jpg)
 
 4.สามารถดูรายละเอียดกิจกรรมของทุก User ได้
-
+![alt text](../Doc/img/img4.jpg)
 
 
 Change Log
-
+![alt text](../Doc/img/img5.jpg)
 
 
 
