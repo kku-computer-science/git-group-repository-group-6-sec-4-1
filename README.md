@@ -1,13 +1,13 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/Bwpk2ByU)
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=17458433&assignment_repo_type=AssignmentRepo)
-Group 6 Sec 4 Soften ตึงๆ
+# Software Engineering Group 6 Section 4 ตึงๆ
 
-Team Members
+ยินดีต้อนรับสู่โครงการของ **Software Engineering Group 6 Section 4**  
 
-1.
-2.
-3.
-4.
-5.
-6.Tanawat Tanatka
-7.Phongwarin Kaewsanga
+#สมาชิก
+1.นางสาวสิริยากร  เอกศิริ
+2.นายณัฐภัทร  ตรงวัฒนาวุฒิ
+3.นายอัฏฐวัฒน์  คำมาศ
+4.นายพรศิลป์  ศรีอุฬารวัฒน์
+5.นางสาวสุชญา  พานสมภพ
+6.นายธนวัฒน์  ถนัดค้า
+7.นายพงษ์วรินทร์  แก้วสง่า
+
