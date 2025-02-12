@@ -18,9 +18,7 @@
 -[Visual Studio Code](https://code.visualstudio.com/)    
 2.เมื่อทำการติดตั้ง xampp เสร็จแล้วเปิดไฟล์ และไปยังตำแหน่ง Xampp\htdocsต่อมาทำการแตกไฟล์ **(Extract files) GitHub Clone** เข้าไปใน **xampp/htdocs** จากนั้นไปยัง **Visual Studio Code เพื่อทำการเปิดGitHub Clone ที่ทำการ Extract filesแล้ว**  
 3.ขั้นตอนใช้งานหลังการติดตั้ง
-เปิด **Terminal** ใน **Visual Studio Code** และใช้คำสั่ง *Composer install*  
-จากนั้นสร้างไฟล์ .env ที่ Root folder และทำการคัดลอกข้อมูลจากไฟล์ [.env.example](https://github.com/kku-computer-science/git-group-repository-group-6-sec-4-1/blob/suchaya_2169/.env.example)   จากนั้นทำการติดตั้งฐานข้อมูล  <p align="center">โดยการ เปิดใช้งาน xampp และไปที่เมนู Admin ของ Mysql</p>   ![ภาพxampp](https://github.com/user-attachments/assets/583dec89-c949-4ec1-9f97-90d8d003ccb0)  <p align="center">จากนั้นทำการสร้างฐานข้อมูลใหม่ ตัวอย่าง **myapp1-4**</p>  ![Image](https://github.com/user-attachments/assets/b9c9ee31-ad86-4217-9733-6724f003aa3e)  <p align="center">จากนั้นทำการสร้างฐานข้อมูลใหม่ใน **phpMyAdmin** โดยนำข้อมูลจาก database.sql ใน Visual Studio Code มาลงใน **myapp**จากนั้นกด **Go** เพื่อบันทึก</p>  ![Image](https://github.com/user-attachments/assets/15943c91-59b7-4c06-97e7-59dd32b4631f) 
-
+![Image](https://github.com/user-attachments/assets/713778ff-dfc3-4721-83c9-6abc72c8b653) <p align="center">หน้าHome ของโปรแกรม</p>
 
 
 #สมาชิก
