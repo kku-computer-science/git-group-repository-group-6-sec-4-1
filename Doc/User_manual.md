@@ -20,7 +20,7 @@ User Manual
 
 วิธีการใช้งาน การตรวจสอบ Log
 1.	คลิกเมนู Login เพื่อไปยังหน้าเข้าสู่ระบบ
-![alt text](Doc/img/img1.jpg)
+![alt text](../Doc/img/img1.jpg)
 
 
 
