@@ -6,8 +6,16 @@
 ## สารบัญ
 [การติดตั้ง](#การติดตั้ง)
 ## การติดตั้ง Installation
--Operating System: Windows,macOS,Linux
--Minimum Ram: 4GB
+### System Requirements
+-Operating System: Windows,macOS,Linux  
+-Minimum Ram: 4GB  
+-Disk space:500MB free
+### Installation Steps
+1.Dowload the setup file from   
+-[XAMPP](https://www.apachefriends.org/download.html)  
+-[GitHub Clone](https://github.com/kku-computer-science/git-group-repository-group-6-sec-4-1.git)  
+-[Composer](https://getcomposer.org/download/)  
+-[Visual Studio Code](https://code.visualstudio.com/)
 #สมาชิก
 1.นางสาวสิริยากร  เอกศิริ
 2.นายณัฐภัทร  ตรงวัฒนาวุฒิ
