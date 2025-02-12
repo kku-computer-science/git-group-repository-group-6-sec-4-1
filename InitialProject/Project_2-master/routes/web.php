@@ -38,6 +38,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\TcicallController;
+use App\Http\Controllers\LogsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -133,6 +134,9 @@ Route::group(['middleware' => ['isAdmin', 'auth', 'PreventBackHistory']], functi
     Route::get('importfiles', [ImportExportController::class, 'index'])->name('importfiles');
     Route::post('import', [ImportExportController::class, 'import']);
     // Route::get('export', [ImportExportController::class, 'export']);
+    Route::get('/logs', 'LogsController@index')->name('logs');
+    Route::get('/logs/{index}', 'LogsController@show')->name('logs.show');
+    Route::get('/logs', [ProfileuserController::class, 'logs'])->name('admin.logs');
 
 });
 
