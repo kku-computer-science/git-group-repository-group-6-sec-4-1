@@ -1,7 +1,13 @@
 # Software Engineering Group 6 Section 4 ตึงๆ
 
-ยินดีต้อนรับสู่โครงการของ **Software Engineering Group 6 Section 4**  
-
+ยินดีต้อนรับสู่โครงการของ **Software Engineering Group 6 Section 4** 
+## จุดประสงค์
+เพื่อ
+## สารบัญ
+[การติดตั้ง](#การติดตั้ง)
+## การติดตั้ง Installation
+-Operating System: Windows,macOS,Linux
+-Minimum Ram: 4GB
 #สมาชิก
 1.นางสาวสิริยากร  เอกศิริ
 2.นายณัฐภัทร  ตรงวัฒนาวุฒิ
