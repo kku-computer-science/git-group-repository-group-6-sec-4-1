@@ -6,6 +6,9 @@ use App\Models\Educaton;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use App\Models\User;
 
 class ProfileuserController extends Controller
@@ -206,5 +209,29 @@ class ProfileuserController extends Controller
                 return response()->json(['status' => 1, 'msg' => 'Your password has been changed successfully']);
             }
         }
+    }
+
+    function logs()
+    {
+        $logPath = storage_path('logs/laravel.log'); // ระบุไฟล์ log
+    
+        $logData = [];
+        if (File::exists($logPath)) {
+            $logData = explode("\n", File::get($logPath)); // อ่านไฟล์และแยกบรรทัด
+        }
+    
+        // สร้าง Pagination (กำหนดหน้าละ 20 บรรทัด)
+        $currentPage = request()->get('page', 1);
+        $perPage = 20;
+        $logCollection = new Collection(array_reverse($logData)); // ให้ Log ล่าสุดขึ้นก่อน
+        $pagedLogs = new LengthAwarePaginator(
+            $logCollection->forPage($currentPage, $perPage),
+            $logCollection->count(),
+            $perPage,
+            $currentPage,
+            ['path' => url('/logs')] // URL ของหน้า Logs
+        );
+    
+        return view('logs.index', compact('pagedLogs'));
     }
 }
