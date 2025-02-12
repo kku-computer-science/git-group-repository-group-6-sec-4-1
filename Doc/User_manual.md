@@ -20,21 +20,26 @@ User Manual
 
 วิธีการใช้งาน การตรวจสอบ Log
 1.	คลิกเมนู Login เพื่อไปยังหน้าเข้าสู่ระบบ
+<br>
 ![alt text](../Doc/img/img1.jpg)
 
 
 
 2.เข้าสู่ระบบด้วยบัญชี Admin
+<br>
 ![alt text](../Doc/img/img2.jpg)
 
 3.ไปที่เมนู View System Logs
+<br>
 ![alt text](../Doc/img/img3.jpg)
 
 4.สามารถดูรายละเอียดกิจกรรมของทุก User ได้
+<br>
 ![alt text](../Doc/img/img4.jpg)
 
 
 Change Log
+<br>
 ![alt text](../Doc/img/img5.jpg)
 
 
