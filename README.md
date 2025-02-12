@@ -19,7 +19,7 @@
 2.เมื่อทำการติดตั้ง xampp เสร็จแล้วเปิดไฟล์ และไปยังตำแหน่ง Xampp\htdocsต่อมาทำการแตกไฟล์ **(Extract files) GitHub Clone** เข้าไปใน **xampp/htdocs** จากนั้นไปยัง **Visual Studio Code เพื่อทำการเปิดGitHub Clone ที่ทำการ Extract filesแล้ว**  
 3.ขั้นตอนใช้งานหลังการติดตั้ง
 เปิด **Terminal** ใน **Visual Studio Code** และใช้คำสั่ง *Composer install*  
-จากนั้นทำการติดตั้งฐานข้อมูล
+จากนั้นสร้างไฟล์ .env ที่ Root folder และทำการคัดลอกข้อมูลจากไฟล์ [.env.example] 
 
 
 #สมาชิก
