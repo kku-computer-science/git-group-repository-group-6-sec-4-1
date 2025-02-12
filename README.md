@@ -16,8 +16,10 @@
 -[GitHub Clone](https://github.com/kku-computer-science/git-group-repository-group-6-sec-4-1.git)  
 -[Composer](https://getcomposer.org/download/)  
 -[Visual Studio Code](https://code.visualstudio.com/)    
-2.เมื่อทำการติดตั้ง xampp เสร็จแล้วเปิดไฟล์ และไปยังตำแหน่ง Xampp\htdocs ต่อมาทำการแตกไฟล์(Extract files)  GitHub Clone เข้าไปใน xampp/htdocs จากนั้นไปยัง Visual Studio Code เพื่อทำการเปิดGitHub Clone ที่ทำการ Extract filesแล้ว
-3.ขั้นตอนใช้งานหลังการติดตั้ง  
+2.เมื่อทำการติดตั้ง xampp เสร็จแล้วเปิดไฟล์ และไปยังตำแหน่ง Xampp\htdocsต่อมาทำการแตกไฟล์ **(Extract files) GitHub Clone** เข้าไปใน **xampp/htdocs** จากนั้นไปยัง **Visual Studio Code เพื่อทำการเปิดGitHub Clone ที่ทำการ Extract filesแล้ว**  
+3.ขั้นตอนใช้งานหลังการติดตั้ง
+
+
 #สมาชิก
 1.นางสาวสิริยากร  เอกศิริ
 2.นายณัฐภัทร  ตรงวัฒนาวุฒิ
