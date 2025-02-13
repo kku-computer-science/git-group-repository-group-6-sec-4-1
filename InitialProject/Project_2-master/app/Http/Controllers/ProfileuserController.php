@@ -211,27 +211,44 @@ class ProfileuserController extends Controller
         }
     }
 
-    function logs()
-    {
-        $logPath = storage_path('logs/laravel.log'); // ระบุไฟล์ log
-    
-        $logData = [];
-        if (File::exists($logPath)) {
-            $logData = explode("\n", File::get($logPath)); // อ่านไฟล์และแยกบรรทัด
-        }
-    
-        // สร้าง Pagination (กำหนดหน้าละ 20 บรรทัด)
-        $currentPage = request()->get('page', 1);
-        $perPage = 20;
-        $logCollection = new Collection(array_reverse($logData)); // ให้ Log ล่าสุดขึ้นก่อน
-        $pagedLogs = new LengthAwarePaginator(
-            $logCollection->forPage($currentPage, $perPage),
-            $logCollection->count(),
-            $perPage,
-            $currentPage,
-            ['path' => url('/logs')] // URL ของหน้า Logs
-        );
-    
-        return view('logs.index', compact('pagedLogs'));
+    function logs(Request $request)
+{
+    $logType = $request->query('type', 'activity'); // ค่าเริ่มต้นเป็น activity.log
+    $logPath = storage_path("logs/{$logType}.log");
+
+    if (!File::exists($logPath)) {
+        return view('logs.index', ['pagedLogs' => null, 'logType' => $logType]);
     }
+
+    $logs = array_reverse(explode("\n", File::get($logPath)));
+    $perPage = 20; 
+    $currentPage = request()->get('page', 1);
+    $pagedLogs = new LengthAwarePaginator(
+        collect($logs)->forPage($currentPage, $perPage),
+        count($logs),
+        $perPage,
+        $currentPage,
+        ['path' => url('/logs?type=' . $logType)]
+    );
+
+    return view('logs.index', compact('pagedLogs', 'logType'));
+}
+
+function exportLogs(Request $request)
+{
+    $logType = $request->query('type', 'activity'); // ค่าเริ่มต้นเป็น activity.log
+    $logPath = storage_path("logs/{$logType}.log");
+
+    if (!File::exists($logPath)) {
+        return redirect()->back()->with('error', 'ไม่มีไฟล์ Log ให้ดาวน์โหลด');
+    }
+
+    $logs = File::get($logPath);
+    $fileName = "{$logType}_" . now()->format('Ymd_His') . ".txt";
+
+    return response($logs)
+        ->header('Content-Type', 'text/plain')
+        ->header('Content-Disposition', "attachment; filename={$fileName}");
+}
+
 }
