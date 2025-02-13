@@ -34,8 +34,11 @@ User Manual
 
 4.สามารถดูรายละเอียดกิจกรรมของทุก User ได้
 <br>
-![alt text](../Doc/img/img4.jpg)
+![alt text](../Doc/img/img6.jpg)
 
+5.สามารถดูรายละเอียดข้อผิดพลาดและข้อความที่เกี่ยวข้องกับระบบได้
+<br>
+![alt text](../Doc/img/img7.jpg)
 
 Change Log
 <br>
