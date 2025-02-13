@@ -120,7 +120,11 @@ final class Color
                 {
                     return self::dim($matches[0]);
                 },
+<<<<<<< HEAD
                 $path[$last]
+=======
+                $path[$last],
+>>>>>>> main
             );
         }
 

@@ -4,7 +4,11 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\MathTrig;
 
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class Random
 {
@@ -17,7 +21,11 @@ class Random
      */
     public static function rand()
     {
+<<<<<<< HEAD
         return (mt_rand(0, 10000000)) / 10000000;
+=======
+        return mt_rand(0, 10000000) / 10000000;
+>>>>>>> main
     }
 
     /**
@@ -78,7 +86,11 @@ class Random
             $max = Helpers::validateNumericNullSubstitution($max, 1);
 
             if ($max <= $min) {
+<<<<<<< HEAD
                 return Functions::VALUE();
+=======
+                return ExcelError::VALUE();
+>>>>>>> main
             }
         } catch (Exception $e) {
             return $e->getMessage();

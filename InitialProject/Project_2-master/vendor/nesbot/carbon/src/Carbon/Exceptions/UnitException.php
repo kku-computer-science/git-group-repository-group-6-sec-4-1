@@ -11,11 +11,15 @@
 
 namespace Carbon\Exceptions;
 
+<<<<<<< HEAD
 use Exception;
+=======
+>>>>>>> main
 use InvalidArgumentException as BaseInvalidArgumentException;
 
 class UnitException extends BaseInvalidArgumentException implements InvalidArgumentException
 {
+<<<<<<< HEAD
     /**
      * Constructor.
      *
@@ -27,4 +31,7 @@ class UnitException extends BaseInvalidArgumentException implements InvalidArgum
     {
         parent::__construct($message, $code, $previous);
     }
+=======
+    //
+>>>>>>> main
 }

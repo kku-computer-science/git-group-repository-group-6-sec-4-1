@@ -6,6 +6,9 @@ use App\Models\Educaton;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use App\Models\User;
 
 class ProfileuserController extends Controller
@@ -207,4 +210,45 @@ class ProfileuserController extends Controller
             }
         }
     }
+
+    function logs(Request $request)
+{
+    $logType = $request->query('type', 'activity'); // ค่าเริ่มต้นเป็น activity.log
+    $logPath = storage_path("logs/{$logType}.log");
+
+    if (!File::exists($logPath)) {
+        return view('logs.index', ['pagedLogs' => null, 'logType' => $logType]);
+    }
+
+    $logs = array_reverse(explode("\n", File::get($logPath)));
+    $perPage = 20; 
+    $currentPage = request()->get('page', 1);
+    $pagedLogs = new LengthAwarePaginator(
+        collect($logs)->forPage($currentPage, $perPage),
+        count($logs),
+        $perPage,
+        $currentPage,
+        ['path' => url('/logs?type=' . $logType)]
+    );
+
+    return view('logs.index', compact('pagedLogs', 'logType'));
+}
+
+function exportLogs(Request $request)
+{
+    $logType = $request->query('type', 'activity'); // ค่าเริ่มต้นเป็น activity.log
+    $logPath = storage_path("logs/{$logType}.log");
+
+    if (!File::exists($logPath)) {
+        return redirect()->back()->with('error', 'ไม่มีไฟล์ Log ให้ดาวน์โหลด');
+    }
+
+    $logs = File::get($logPath);
+    $fileName = "{$logType}_" . now()->format('Ymd_His') . ".txt";
+
+    return response($logs)
+        ->header('Content-Type', 'text/plain')
+        ->header('Content-Disposition', "attachment; filename={$fileName}");
+}
+
 }

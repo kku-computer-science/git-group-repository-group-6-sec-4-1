@@ -67,7 +67,11 @@ abstract class LogToReportMigration implements Migration
     private function findLogNode(DOMDocument $document): ?DOMElement
     {
         $logNode = (new DOMXPath($document))->query(
+<<<<<<< HEAD
             sprintf('//logging/log[@type="%s"]', $this->forType())
+=======
+            sprintf('//logging/log[@type="%s"]', $this->forType()),
+>>>>>>> main
         )->item(0);
 
         if (!$logNode instanceof DOMElement) {

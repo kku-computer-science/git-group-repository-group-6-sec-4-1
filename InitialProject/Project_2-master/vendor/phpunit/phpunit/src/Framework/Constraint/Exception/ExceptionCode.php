@@ -10,6 +10,10 @@
 namespace PHPUnit\Framework\Constraint;
 
 use function sprintf;
+<<<<<<< HEAD
+=======
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+>>>>>>> main
 use Throwable;
 
 /**
@@ -54,14 +58,22 @@ final class ExceptionCode extends Constraint
      *
      * @param mixed $other evaluated value or object
      *
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     protected function failureDescription($other): string
     {
         return sprintf(
             '%s is equal to expected exception code %s',
             $this->exporter()->export($other->getCode()),
+<<<<<<< HEAD
             $this->exporter()->export($this->expectedCode)
+=======
+            $this->exporter()->export($this->expectedCode),
+>>>>>>> main
         );
     }
 }

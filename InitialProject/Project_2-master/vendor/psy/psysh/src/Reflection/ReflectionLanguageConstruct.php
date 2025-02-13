@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -21,7 +25,11 @@ class ReflectionLanguageConstruct extends \ReflectionFunctionAbstract
     /**
      * Language construct parameter definitions.
      */
+<<<<<<< HEAD
     private static $languageConstructs = [
+=======
+    private const LANGUAGE_CONSTRUCTS = [
+>>>>>>> main
         'isset' => [
             'var' => [],
             '...' => [
@@ -95,8 +103,11 @@ class ReflectionLanguageConstruct extends \ReflectionFunctionAbstract
 
     /**
      * Get language construct name.
+<<<<<<< HEAD
      *
      * @return string
+=======
+>>>>>>> main
      */
     public function getName(): string
     {
@@ -105,8 +116,11 @@ class ReflectionLanguageConstruct extends \ReflectionFunctionAbstract
 
     /**
      * None of these return references.
+<<<<<<< HEAD
      *
      * @return bool
+=======
+>>>>>>> main
      */
     public function returnsReference(): bool
     {
@@ -121,7 +135,11 @@ class ReflectionLanguageConstruct extends \ReflectionFunctionAbstract
     public function getParameters(): array
     {
         $params = [];
+<<<<<<< HEAD
         foreach (self::$languageConstructs[$this->keyword] as $parameter => $opts) {
+=======
+        foreach (self::LANGUAGE_CONSTRUCTS[$this->keyword] as $parameter => $opts) {
+>>>>>>> main
             $params[] = new ReflectionLanguageConstructParameter($this->keyword, $parameter, $opts);
         }
 
@@ -145,8 +163,11 @@ class ReflectionLanguageConstruct extends \ReflectionFunctionAbstract
 
     /**
      * To string.
+<<<<<<< HEAD
      *
      * @return string
+=======
+>>>>>>> main
      */
     public function __toString(): string
     {
@@ -157,11 +178,18 @@ class ReflectionLanguageConstruct extends \ReflectionFunctionAbstract
      * Check whether keyword is a (known) language construct.
      *
      * @param string $keyword
+<<<<<<< HEAD
      *
      * @return bool
      */
     public static function isLanguageConstruct(string $keyword): bool
     {
         return \array_key_exists($keyword, self::$languageConstructs);
+=======
+     */
+    public static function isLanguageConstruct(string $keyword): bool
+    {
+        return \array_key_exists($keyword, self::LANGUAGE_CONSTRUCTS);
+>>>>>>> main
     }
 }

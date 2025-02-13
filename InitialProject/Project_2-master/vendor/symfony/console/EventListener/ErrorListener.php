@@ -26,7 +26,11 @@ class ErrorListener implements EventSubscriberInterface
 {
     private $logger;
 
+<<<<<<< HEAD
     public function __construct(LoggerInterface $logger = null)
+=======
+    public function __construct(?LoggerInterface $logger = null)
+>>>>>>> main
     {
         $this->logger = $logger;
     }

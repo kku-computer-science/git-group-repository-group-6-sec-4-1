@@ -16,7 +16,10 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Extension\CommonMark\Parser\Inline;
 
+<<<<<<< HEAD
 use League\CommonMark\Delimiter\Delimiter;
+=======
+>>>>>>> main
 use League\CommonMark\Node\Inline\Text;
 use League\CommonMark\Parser\Inline\InlineParserInterface;
 use League\CommonMark\Parser\Inline\InlineParserMatch;
@@ -36,8 +39,12 @@ final class OpenBracketParser implements InlineParserInterface
         $inlineContext->getContainer()->appendChild($node);
 
         // Add entry to stack for this opener
+<<<<<<< HEAD
         $delimiter = new Delimiter('[', 1, $node, true, false, $inlineContext->getCursor()->getPosition());
         $inlineContext->getDelimiterStack()->push($delimiter);
+=======
+        $inlineContext->getDelimiterStack()->addBracket($node, $inlineContext->getCursor()->getPosition(), false);
+>>>>>>> main
 
         return true;
     }

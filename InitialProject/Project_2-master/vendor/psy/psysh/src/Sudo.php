@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -27,7 +31,11 @@ class Sudo
      */
     public static function fetchProperty($object, string $property)
     {
+<<<<<<< HEAD
         $prop = static::getProperty(new \ReflectionObject($object), $property);
+=======
+        $prop = self::getProperty(new \ReflectionObject($object), $property);
+>>>>>>> main
 
         return $prop->getValue($object);
     }
@@ -43,7 +51,11 @@ class Sudo
      */
     public static function assignProperty($object, string $property, $value)
     {
+<<<<<<< HEAD
         $prop = static::getProperty(new \ReflectionObject($object), $property);
+=======
+        $prop = self::getProperty(new \ReflectionObject($object), $property);
+>>>>>>> main
         $prop->setValue($object, $value);
 
         return $value;
@@ -58,12 +70,17 @@ class Sudo
      *
      * @return mixed
      */
+<<<<<<< HEAD
     public static function callMethod($object, string $method, $args = null)
     {
         $args = \func_get_args();
         $object = \array_shift($args);
         $method = \array_shift($args);
 
+=======
+    public static function callMethod($object, string $method, ...$args)
+    {
+>>>>>>> main
         $refl = new \ReflectionObject($object);
         $reflMethod = $refl->getMethod($method);
         $reflMethod->setAccessible(true);
@@ -81,7 +98,11 @@ class Sudo
      */
     public static function fetchStaticProperty($class, string $property)
     {
+<<<<<<< HEAD
         $prop = static::getProperty(new \ReflectionClass($class), $property);
+=======
+        $prop = self::getProperty(new \ReflectionClass($class), $property);
+>>>>>>> main
         $prop->setAccessible(true);
 
         return $prop->getValue();
@@ -98,8 +119,19 @@ class Sudo
      */
     public static function assignStaticProperty($class, string $property, $value)
     {
+<<<<<<< HEAD
         $prop = static::getProperty(new \ReflectionClass($class), $property);
         $prop->setValue($value);
+=======
+        $prop = self::getProperty(new \ReflectionClass($class), $property);
+        $refl = $prop->getDeclaringClass();
+
+        if (\method_exists($refl, 'setStaticPropertyValue')) {
+            $refl->setStaticPropertyValue($property, $value);
+        } else {
+            $prop->setValue($value);
+        }
+>>>>>>> main
 
         return $value;
     }
@@ -113,12 +145,17 @@ class Sudo
      *
      * @return mixed
      */
+<<<<<<< HEAD
     public static function callStatic($class, string $method, $args = null)
     {
         $args = \func_get_args();
         $class = \array_shift($args);
         $method = \array_shift($args);
 
+=======
+    public static function callStatic($class, string $method, ...$args)
+    {
+>>>>>>> main
         $refl = new \ReflectionClass($class);
         $reflMethod = $refl->getMethod($method);
         $reflMethod->setAccessible(true);
@@ -138,6 +175,14 @@ class Sudo
     {
         $refl = new \ReflectionClass($class);
 
+<<<<<<< HEAD
+=======
+        // Special case the ::class magic constant, because `getConstant` does the wrong thing here.
+        if ($const === 'class') {
+            return $refl->getName();
+        }
+
+>>>>>>> main
         do {
             if ($refl->hasConstant($const)) {
                 return $refl->getConstant($const);
@@ -150,6 +195,27 @@ class Sudo
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Construct an instance of a class, bypassing private constructors.
+     *
+     * @param string $class   class name
+     * @param mixed  $args...
+     */
+    public static function newInstance(string $class, ...$args)
+    {
+        $refl = new \ReflectionClass($class);
+        $instance = $refl->newInstanceWithoutConstructor();
+
+        $constructor = $refl->getConstructor();
+        $constructor->setAccessible(true);
+        $constructor->invokeArgs($instance, $args);
+
+        return $instance;
+    }
+
+    /**
+>>>>>>> main
      * Get a ReflectionProperty from an object (or its parent classes).
      *
      * @throws \ReflectionException if neither the object nor any of its parents has this property

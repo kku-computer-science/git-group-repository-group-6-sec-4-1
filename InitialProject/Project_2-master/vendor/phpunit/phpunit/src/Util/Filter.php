@@ -53,7 +53,11 @@ final class Filter
         if (!self::frameExists($eTrace, $eFile, $eLine)) {
             array_unshift(
                 $eTrace,
+<<<<<<< HEAD
                 ['file' => $eFile, 'line' => $eLine]
+=======
+                ['file' => $eFile, 'line' => $eLine],
+>>>>>>> main
             );
         }
 
@@ -65,7 +69,11 @@ final class Filter
                 $filteredStacktrace .= sprintf(
                     "%s:%s\n",
                     $frame['file'],
+<<<<<<< HEAD
                     $frame['line'] ?? '?'
+=======
+                    $frame['line'] ?? '?',
+>>>>>>> main
                 );
             }
         }

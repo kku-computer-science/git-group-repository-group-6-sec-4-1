@@ -62,7 +62,11 @@ class TestView
      */
     public function assertSeeInOrder(array $values, $escape = true)
     {
+<<<<<<< HEAD
         $values = $escape ? array_map('e', ($values)) : $values;
+=======
+        $values = $escape ? array_map('e', $values) : $values;
+>>>>>>> main
 
         PHPUnit::assertThat($values, new SeeInOrder($this->rendered));
 
@@ -94,7 +98,11 @@ class TestView
      */
     public function assertSeeTextInOrder(array $values, $escape = true)
     {
+<<<<<<< HEAD
         $values = $escape ? array_map('e', ($values)) : $values;
+=======
+        $values = $escape ? array_map('e', $values) : $values;
+>>>>>>> main
 
         PHPUnit::assertThat($values, new SeeInOrder(strip_tags($this->rendered)));
 

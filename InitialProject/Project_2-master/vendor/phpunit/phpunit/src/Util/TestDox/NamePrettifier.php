@@ -46,6 +46,10 @@ use ReflectionException;
 use ReflectionMethod;
 use ReflectionObject;
 use SebastianBergmann\Exporter\Exporter;
+<<<<<<< HEAD
+=======
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+>>>>>>> main
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
@@ -118,13 +122,21 @@ final class NamePrettifier
     }
 
     /**
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     public function prettifyTestCase(TestCase $test): string
     {
         $annotations = Test::parseTestMethodAnnotations(
             get_class($test),
+<<<<<<< HEAD
             $test->getName(false)
+=======
+            $test->getName(false),
+>>>>>>> main
         );
 
         $annotationWithPlaceholders = false;
@@ -232,7 +244,11 @@ final class NamePrettifier
     }
 
     /**
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     private function mapTestMethodParameterNamesToProvidedDataValues(TestCase $test): array
     {
@@ -242,8 +258,13 @@ final class NamePrettifier
         } catch (ReflectionException $e) {
             throw new UtilException(
                 $e->getMessage(),
+<<<<<<< HEAD
                 (int) $e->getCode(),
                 $e
+=======
+                $e->getCode(),
+                $e,
+>>>>>>> main
             );
         }
         // @codeCoverageIgnoreEnd
@@ -262,8 +283,13 @@ final class NamePrettifier
                 } catch (ReflectionException $e) {
                     throw new UtilException(
                         $e->getMessage(),
+<<<<<<< HEAD
                         (int) $e->getCode(),
                         $e
+=======
+                        $e->getCode(),
+                        $e,
+>>>>>>> main
                     );
                 }
                 // @codeCoverageIgnoreEnd

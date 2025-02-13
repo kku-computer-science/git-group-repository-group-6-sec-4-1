@@ -51,6 +51,10 @@ class RowCellIterator extends CellIterator
     {
         // Set subject and row index
         $this->worksheet = $worksheet;
+<<<<<<< HEAD
+=======
+        $this->cellCollection = $worksheet->getCellCollection();
+>>>>>>> main
         $this->rowIndex = $rowIndex;
         $this->resetEnd($endColumn);
         $this->resetStart($startColumn);
@@ -97,6 +101,7 @@ class RowCellIterator extends CellIterator
      */
     public function seek(string $column = 'A')
     {
+<<<<<<< HEAD
         $columnx = $column;
         $column = Coordinate::columnIndexFromString($column);
         if ($this->onlyExistingCells && !($this->worksheet->cellExistsByColumnAndRow($column, $this->rowIndex))) {
@@ -106,6 +111,16 @@ class RowCellIterator extends CellIterator
             throw new PhpSpreadsheetException("Column $columnx is out of range ({$this->startColumnIndex} - {$this->endColumnIndex})");
         }
         $this->currentColumnIndex = $column;
+=======
+        $columnId = Coordinate::columnIndexFromString($column);
+        if ($this->onlyExistingCells && !($this->cellCollection->has($column . $this->rowIndex))) {
+            throw new PhpSpreadsheetException('In "IterateOnlyExistingCells" mode and Cell does not exist');
+        }
+        if (($columnId < $this->startColumnIndex) || ($columnId > $this->endColumnIndex)) {
+            throw new PhpSpreadsheetException("Column $column is out of range ({$this->startColumnIndex} - {$this->endColumnIndex})");
+        }
+        $this->currentColumnIndex = $columnId;
+>>>>>>> main
 
         return $this;
     }
@@ -123,7 +138,19 @@ class RowCellIterator extends CellIterator
      */
     public function current(): ?Cell
     {
+<<<<<<< HEAD
         return $this->worksheet->getCellByColumnAndRow($this->currentColumnIndex, $this->rowIndex);
+=======
+        $cellAddress = Coordinate::stringFromColumnIndex($this->currentColumnIndex) . $this->rowIndex;
+
+        return $this->cellCollection->has($cellAddress)
+            ? $this->cellCollection->get($cellAddress)
+            : (
+                $this->ifNotExists === self::IF_NOT_EXISTS_CREATE_NEW
+                ? $this->worksheet->createNewCell($cellAddress)
+                : null
+            );
+>>>>>>> main
     }
 
     /**
@@ -141,7 +168,11 @@ class RowCellIterator extends CellIterator
     {
         do {
             ++$this->currentColumnIndex;
+<<<<<<< HEAD
         } while (($this->onlyExistingCells) && (!$this->worksheet->cellExistsByColumnAndRow($this->currentColumnIndex, $this->rowIndex)) && ($this->currentColumnIndex <= $this->endColumnIndex));
+=======
+        } while (($this->onlyExistingCells) && (!$this->cellCollection->has(Coordinate::stringFromColumnIndex($this->currentColumnIndex) . $this->rowIndex)) && ($this->currentColumnIndex <= $this->endColumnIndex));
+>>>>>>> main
     }
 
     /**
@@ -151,7 +182,11 @@ class RowCellIterator extends CellIterator
     {
         do {
             --$this->currentColumnIndex;
+<<<<<<< HEAD
         } while (($this->onlyExistingCells) && (!$this->worksheet->cellExistsByColumnAndRow($this->currentColumnIndex, $this->rowIndex)) && ($this->currentColumnIndex >= $this->startColumnIndex));
+=======
+        } while (($this->onlyExistingCells) && (!$this->cellCollection->has(Coordinate::stringFromColumnIndex($this->currentColumnIndex) . $this->rowIndex)) && ($this->currentColumnIndex >= $this->startColumnIndex));
+>>>>>>> main
     }
 
     /**
@@ -176,10 +211,17 @@ class RowCellIterator extends CellIterator
     protected function adjustForExistingOnlyRange(): void
     {
         if ($this->onlyExistingCells) {
+<<<<<<< HEAD
             while ((!$this->worksheet->cellExistsByColumnAndRow($this->startColumnIndex, $this->rowIndex)) && ($this->startColumnIndex <= $this->endColumnIndex)) {
                 ++$this->startColumnIndex;
             }
             while ((!$this->worksheet->cellExistsByColumnAndRow($this->endColumnIndex, $this->rowIndex)) && ($this->endColumnIndex >= $this->startColumnIndex)) {
+=======
+            while ((!$this->cellCollection->has(Coordinate::stringFromColumnIndex($this->startColumnIndex) . $this->rowIndex)) && ($this->startColumnIndex <= $this->endColumnIndex)) {
+                ++$this->startColumnIndex;
+            }
+            while ((!$this->cellCollection->has(Coordinate::stringFromColumnIndex($this->endColumnIndex) . $this->rowIndex)) && ($this->endColumnIndex >= $this->startColumnIndex)) {
+>>>>>>> main
                 --$this->endColumnIndex;
             }
         }

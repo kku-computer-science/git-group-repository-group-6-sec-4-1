@@ -190,6 +190,12 @@ class HTMLPurifier_ChildDef_Table extends HTMLPurifier_ChildDef
             $current_tr_tbody = null;
 
             foreach($content as $node) {
+<<<<<<< HEAD
+=======
+                if (!isset($node->name)) {
+                    continue;
+                }
+>>>>>>> main
                 switch ($node->name) {
                 case 'tbody':
                     $current_tr_tbody = null;

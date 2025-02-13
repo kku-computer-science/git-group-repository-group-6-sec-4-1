@@ -62,7 +62,11 @@ class MockArraySessionStorage implements SessionStorageInterface
      */
     protected $bags = [];
 
+<<<<<<< HEAD
     public function __construct(string $name = 'MOCKSESSID', MetadataBag $metaBag = null)
+=======
+    public function __construct(string $name = 'MOCKSESSID', ?MetadataBag $metaBag = null)
+>>>>>>> main
     {
         $this->name = $name;
         $this->setMetadataBag($metaBag);
@@ -94,7 +98,11 @@ class MockArraySessionStorage implements SessionStorageInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function regenerate(bool $destroy = false, int $lifetime = null)
+=======
+    public function regenerate(bool $destroy = false, ?int $lifetime = null)
+>>>>>>> main
     {
         if (!$this->started) {
             $this->start();
@@ -204,7 +212,11 @@ class MockArraySessionStorage implements SessionStorageInterface
         return $this->started;
     }
 
+<<<<<<< HEAD
     public function setMetadataBag(MetadataBag $bag = null)
+=======
+    public function setMetadataBag(?MetadataBag $bag = null)
+>>>>>>> main
     {
         if (null === $bag) {
             $bag = new MetadataBag();
@@ -226,14 +238,21 @@ class MockArraySessionStorage implements SessionStorageInterface
     /**
      * Generates a session ID.
      *
+<<<<<<< HEAD
      * This doesn't need to be particularly cryptographically secure since this is just
      * a mock.
      *
+=======
+>>>>>>> main
      * @return string
      */
     protected function generateId()
     {
+<<<<<<< HEAD
         return hash('sha256', uniqid('ss_mock_', true));
+=======
+        return bin2hex(random_bytes(16));
+>>>>>>> main
     }
 
     protected function loadSession()

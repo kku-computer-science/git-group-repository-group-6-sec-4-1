@@ -53,7 +53,11 @@ class Uuid extends Base
             $byte[12],
             $byte[13],
             $byte[14],
+<<<<<<< HEAD
             $byte[15]
+=======
+            $byte[15],
+>>>>>>> main
         );
     }
 }

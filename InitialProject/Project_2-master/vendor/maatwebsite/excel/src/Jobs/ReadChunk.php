@@ -5,9 +5,17 @@ namespace Maatwebsite\Excel\Jobs;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+<<<<<<< HEAD
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
 use Maatwebsite\Excel\Concerns\WithEvents;
+=======
+use Illuminate\Support\Facades\Cache;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterChunk;
+>>>>>>> main
 use Maatwebsite\Excel\Events\ImportFailed;
 use Maatwebsite\Excel\Files\RemoteTemporaryFile;
 use Maatwebsite\Excel\Files\TemporaryFile;
@@ -40,6 +48,24 @@ class ReadChunk implements ShouldQueue
     public $maxExceptions;
 
     /**
+<<<<<<< HEAD
+=======
+     * @var int
+     */
+    public $backoff;
+
+    /**
+     * @var string
+     */
+    public $queue;
+
+    /**
+     * @var string
+     */
+    public $connection;
+
+    /**
+>>>>>>> main
      * @var WithChunkReading
      */
     private $import;
@@ -75,6 +101,14 @@ class ReadChunk implements ShouldQueue
     private $chunkSize;
 
     /**
+<<<<<<< HEAD
+=======
+     * @var string
+     */
+    private $uniqueId;
+
+    /**
+>>>>>>> main
      * @param  WithChunkReading  $import
      * @param  IReader  $reader
      * @param  TemporaryFile  $temporaryFile
@@ -95,6 +129,27 @@ class ReadChunk implements ShouldQueue
         $this->timeout       = $import->timeout ?? null;
         $this->tries         = $import->tries ?? null;
         $this->maxExceptions = $import->maxExceptions ?? null;
+<<<<<<< HEAD
+=======
+        $this->backoff       = method_exists($import, 'backoff') ? $import->backoff() : ($import->backoff ?? null);
+        $this->connection    = property_exists($import, 'connection') ? $import->connection : null;
+        $this->queue         = property_exists($import, 'queue') ? $import->queue : null;
+    }
+
+    public function getUniqueId(): string
+    {
+        if (!isset($this->uniqueId)) {
+            $this->uniqueId = uniqid();
+            Cache::set('laravel-excel/read-chunk/' . $this->uniqueId, true);
+        }
+
+        return $this->uniqueId;
+    }
+
+    public static function isComplete(string $id): bool
+    {
+        return !Cache::has('laravel-excel/read-chunk/' . $id);
+>>>>>>> main
     }
 
     /**
@@ -129,6 +184,13 @@ class ReadChunk implements ShouldQueue
             $this->import->setChunkOffset($this->startRow);
         }
 
+<<<<<<< HEAD
+=======
+        if (method_exists($this->sheetImport, 'setChunkOffset')) {
+            $this->sheetImport->setChunkOffset($this->startRow);
+        }
+
+>>>>>>> main
         if ($this->sheetImport instanceof WithCustomValueBinder) {
             Cell::setValueBinder($this->sheetImport);
         }
@@ -143,8 +205,13 @@ class ReadChunk implements ShouldQueue
         );
 
         $this->reader->setReadFilter($filter);
+<<<<<<< HEAD
         $this->reader->setReadDataOnly(true);
         $this->reader->setReadEmptyCells(false);
+=======
+        $this->reader->setReadDataOnly(config('excel.imports.read_only', true));
+        $this->reader->setReadEmptyCells(!config('excel.imports.ignore_empty', false));
+>>>>>>> main
 
         $spreadsheet = $this->reader->load(
             $this->temporaryFile->sync()->getLocalPath()
@@ -172,6 +239,11 @@ class ReadChunk implements ShouldQueue
             $sheet->disconnect();
 
             $this->cleanUpTempFile();
+<<<<<<< HEAD
+=======
+
+            $sheet->raise(new AfterChunk($sheet, $this->import, $this->startRow));
+>>>>>>> main
         });
     }
 
@@ -180,9 +252,13 @@ class ReadChunk implements ShouldQueue
      */
     public function failed(Throwable $e)
     {
+<<<<<<< HEAD
         if ($this->temporaryFile instanceof RemoteTemporaryFile) {
             $this->temporaryFile->deleteLocalCopy();
         }
+=======
+        $this->cleanUpTempFile(true);
+>>>>>>> main
 
         if ($this->import instanceof WithEvents) {
             $this->registerListeners($this->import->registerEvents());
@@ -194,9 +270,19 @@ class ReadChunk implements ShouldQueue
         }
     }
 
+<<<<<<< HEAD
     private function cleanUpTempFile()
     {
         if (!config('excel.temporary_files.force_resync_remote')) {
+=======
+    private function cleanUpTempFile(bool $force = false): bool
+    {
+        if (!empty($this->uniqueId)) {
+            Cache::delete('laravel-excel/read-chunk/' . $this->uniqueId);
+        }
+
+        if (!$force && !config('excel.temporary_files.force_resync_remote')) {
+>>>>>>> main
             return true;
         }
 

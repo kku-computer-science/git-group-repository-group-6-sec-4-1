@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 /**
  * Mockery
  *
@@ -16,14 +17,34 @@
  * @package    Mockery
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+=======
+
+/**
+ * Mockery (https://docs.mockery.io/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
+>>>>>>> main
  */
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Generator\MockConfiguration;
+<<<<<<< HEAD
 
 class CallTypeHintPass implements Pass
 {
+=======
+use function str_replace;
+
+class CallTypeHintPass implements Pass
+{
+    /**
+     * @param  string $code
+     * @return string
+     */
+>>>>>>> main
     public function apply($code, MockConfiguration $config)
     {
         if ($config->requiresCallTypeHintRemoval()) {
@@ -35,7 +56,11 @@ class CallTypeHintPass implements Pass
         }
 
         if ($config->requiresCallStaticTypeHintRemoval()) {
+<<<<<<< HEAD
             $code = str_replace(
+=======
+            return str_replace(
+>>>>>>> main
                 'public static function __callStatic($method, array $args)',
                 'public static function __callStatic($method, $args)',
                 $code

@@ -7,17 +7,33 @@ class Iban
     /**
      * Generates IBAN Checksum
      *
+<<<<<<< HEAD
      * @param string $iban
      *
      * @return string Checksum (numeric string)
      */
     public static function checksum($iban)
+=======
+     * @return string Checksum (numeric string)
+     */
+    public static function checksum(string $iban)
+>>>>>>> main
     {
         // Move first four digits to end and set checksum to '00'
         $checkString = substr($iban, 4) . substr($iban, 0, 2) . '00';
 
         // Replace all letters with their number equivalents
+<<<<<<< HEAD
         $checkString = preg_replace_callback('/[A-Z]/', ['self', 'alphaToNumberCallback'], $checkString);
+=======
+        $checkString = preg_replace_callback(
+            '/[A-Z]/',
+            static function (array $matches): string {
+                return (string) self::alphaToNumber($matches[0]);
+            },
+            $checkString,
+        );
+>>>>>>> main
 
         // Perform mod 97 and subtract from 98
         $checksum = 98 - self::mod97($checkString);
@@ -26,6 +42,7 @@ class Iban
     }
 
     /**
+<<<<<<< HEAD
      * @param string $match
      *
      * @return int
@@ -43,6 +60,13 @@ class Iban
      * @return int
      */
     public static function alphaToNumber($char)
+=======
+     * Converts letter to number
+     *
+     * @return int
+     */
+    public static function alphaToNumber(string $char)
+>>>>>>> main
     {
         return ord($char) - 55;
     }
@@ -54,7 +78,11 @@ class Iban
      *
      * @return int
      */
+<<<<<<< HEAD
     public static function mod97($number)
+=======
+    public static function mod97(string $number)
+>>>>>>> main
     {
         $checksum = (int) $number[0];
 
@@ -68,11 +96,17 @@ class Iban
     /**
      * Checks whether an IBAN has a valid checksum
      *
+<<<<<<< HEAD
      * @param string $iban
      *
      * @return bool
      */
     public static function isValid($iban)
+=======
+     * @return bool
+     */
+    public static function isValid(string $iban)
+>>>>>>> main
     {
         return self::checksum($iban) === substr($iban, 2, 2);
     }

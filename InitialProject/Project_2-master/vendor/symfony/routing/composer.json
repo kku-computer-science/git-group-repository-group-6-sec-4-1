@@ -2,7 +2,11 @@
     "name": "symfony/routing",
     "type": "library",
     "description": "Maps an HTTP request to a set of configuration variables",
+<<<<<<< HEAD
     "keywords": ["routing", "router", "URL", "URI"],
+=======
+    "keywords": ["routing", "router", "url", "uri"],
+>>>>>>> main
     "homepage": "https://symfony.com",
     "license": "MIT",
     "authors": [
@@ -26,7 +30,11 @@
         "symfony/yaml": "^4.4|^5.0|^6.0",
         "symfony/expression-language": "^4.4|^5.0|^6.0",
         "symfony/dependency-injection": "^4.4|^5.0|^6.0",
+<<<<<<< HEAD
         "doctrine/annotations": "^1.12",
+=======
+        "doctrine/annotations": "^1.12|^2",
+>>>>>>> main
         "psr/log": "^1|^2|^3"
     },
     "conflict": {

@@ -16,6 +16,10 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Util;
 
+<<<<<<< HEAD
+=======
+use League\CommonMark\Exception\InvalidArgumentException;
+>>>>>>> main
 use League\CommonMark\Extension\CommonMark\Node\Block\HtmlBlock;
 
 /**
@@ -40,7 +44,11 @@ final class RegexHelper
     public const PARTIAL_REG_CHAR              = '[^\\\\()\x00-\x20]';
     public const PARTIAL_IN_PARENS_NOSP        = '\((' . self::PARTIAL_REG_CHAR . '|' . self::PARTIAL_ESCAPED_CHAR . '|\\\\)*\)';
     public const PARTIAL_TAGNAME               = '[a-z][a-z0-9-]*';
+<<<<<<< HEAD
     public const PARTIAL_BLOCKTAGNAME          = '(?:address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h1|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|nav|noframes|ol|optgroup|option|p|param|section|source|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul)';
+=======
+    public const PARTIAL_BLOCKTAGNAME          = '(?:address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h1|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|nav|noframes|ol|optgroup|option|p|param|search|section|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul)';
+>>>>>>> main
     public const PARTIAL_ATTRIBUTENAME         = '[a-z_:][a-z0-9:._-]*';
     public const PARTIAL_UNQUOTEDVALUE         = '[^"\'=<>`\x00-\x20]+';
     public const PARTIAL_SINGLEQUOTEDVALUE     = '\'[^\']*\'';
@@ -52,19 +60,33 @@ final class RegexHelper
     public const PARTIAL_CLOSETAG              = '<\/' . self::PARTIAL_TAGNAME . '\s*[>]';
     public const PARTIAL_OPENBLOCKTAG          = '<' . self::PARTIAL_BLOCKTAGNAME . self::PARTIAL_ATTRIBUTE . '*' . '\s*\/?>';
     public const PARTIAL_CLOSEBLOCKTAG         = '<\/' . self::PARTIAL_BLOCKTAGNAME . '\s*[>]';
+<<<<<<< HEAD
     public const PARTIAL_HTMLCOMMENT           = '<!---->|<!--(?:-?[^>-])(?:-?[^-])*-->';
     public const PARTIAL_PROCESSINGINSTRUCTION = '[<][?][\s\S]*?[?][>]';
     public const PARTIAL_DECLARATION           = '<![A-Z]+' . '\s+[^>]*>';
+=======
+    public const PARTIAL_HTMLCOMMENT           = '<!-->|<!--->|<!--[\s\S]*?-->';
+    public const PARTIAL_PROCESSINGINSTRUCTION = '[<][?][\s\S]*?[?][>]';
+    public const PARTIAL_DECLARATION           = '<![A-Za-z]+' . '[^>]*>';
+>>>>>>> main
     public const PARTIAL_CDATA                 = '<!\[CDATA\[[\s\S]*?]\]>';
     public const PARTIAL_HTMLTAG               = '(?:' . self::PARTIAL_OPENTAG . '|' . self::PARTIAL_CLOSETAG . '|' . self::PARTIAL_HTMLCOMMENT . '|' .
         self::PARTIAL_PROCESSINGINSTRUCTION . '|' . self::PARTIAL_DECLARATION . '|' . self::PARTIAL_CDATA . ')';
     public const PARTIAL_HTMLBLOCKOPEN         = '<(?:' . self::PARTIAL_BLOCKTAGNAME . '(?:[\s\/>]|$)' . '|' .
         '\/' . self::PARTIAL_BLOCKTAGNAME . '(?:[\s>]|$)' . '|' . '[?!])';
+<<<<<<< HEAD
     public const PARTIAL_LINK_TITLE            = '^(?:"(' . self::PARTIAL_ESCAPED_CHAR . '|[^"\x00])*"' .
         '|' . '\'(' . self::PARTIAL_ESCAPED_CHAR . '|[^\'\x00])*\'' .
         '|' . '\((' . self::PARTIAL_ESCAPED_CHAR . '|[^()\x00])*\))';
 
     public const REGEX_PUNCTUATION        = '/^[\x{2000}-\x{206F}\x{2E00}-\x{2E7F}\p{Pc}\p{Pd}\p{Pe}\p{Pf}\p{Pi}\p{Po}\p{Ps}\\\\\'!"#\$%&\(\)\*\+,\-\.\\/:;<=>\?@\[\]\^_`\{\|\}~]/u';
+=======
+    public const PARTIAL_LINK_TITLE            = '^(?:"(' . self::PARTIAL_ESCAPED_CHAR . '|[^"\x00])*+"' .
+        '|' . '\'(' . self::PARTIAL_ESCAPED_CHAR . '|[^\'\x00])*+\'' .
+        '|' . '\((' . self::PARTIAL_ESCAPED_CHAR . '|[^()\x00])*+\))';
+
+    public const REGEX_PUNCTUATION        = '/^[!"#$%&\'()*+,\-.\\/:;<=>?@\\[\\]\\\\^_`{|}~\p{P}\p{S}]/u';
+>>>>>>> main
     public const REGEX_UNSAFE_PROTOCOL    = '/^javascript:|vbscript:|file:|data:/i';
     public const REGEX_SAFE_DATA_PROTOCOL = '/^data:image\/(?:png|gif|jpeg|webp)/i';
     public const REGEX_NON_SPACE          = '/[^ \t\f\v\r\n]/';
@@ -82,6 +104,15 @@ final class RegexHelper
         return \preg_match('/' . self::PARTIAL_ESCAPABLE . '/', $character) === 1;
     }
 
+<<<<<<< HEAD
+=======
+    public static function isWhitespace(string $character): bool
+    {
+        /** @psalm-suppress InvalidLiteralArgument */
+        return $character !== '' && \strpos(" \t\n\x0b\x0c\x0d", $character) !== false;
+    }
+
+>>>>>>> main
     /**
      * @psalm-pure
      */
@@ -97,6 +128,11 @@ final class RegexHelper
     /**
      * Attempt to match a regex in string s at offset offset
      *
+<<<<<<< HEAD
+=======
+     * @psalm-param non-empty-string $regex
+     *
+>>>>>>> main
      * @return int|null Index of match, or null
      *
      * @psalm-pure
@@ -104,13 +140,21 @@ final class RegexHelper
     public static function matchAt(string $regex, string $string, int $offset = 0): ?int
     {
         $matches = [];
+<<<<<<< HEAD
         $string  = \mb_substr($string, $offset, null, 'utf-8');
+=======
+        $string  = \mb_substr($string, $offset, null, 'UTF-8');
+>>>>>>> main
         if (! \preg_match($regex, $string, $matches, \PREG_OFFSET_CAPTURE)) {
             return null;
         }
 
         // PREG_OFFSET_CAPTURE always returns the byte offset, not the char offset, which is annoying
+<<<<<<< HEAD
         $charPos = \mb_strlen(\mb_strcut($string, 0, $matches[0][1], 'utf-8'), 'utf-8');
+=======
+        $charPos = \mb_strlen(\mb_strcut($string, 0, $matches[0][1], 'UTF-8'), 'UTF-8');
+>>>>>>> main
 
         return $offset + $charPos;
     }
@@ -118,6 +162,11 @@ final class RegexHelper
     /**
      * Functional wrapper around preg_match_all which only returns the first set of matches
      *
+<<<<<<< HEAD
+=======
+     * @psalm-param non-empty-string $pattern
+     *
+>>>>>>> main
      * @return string[]|null
      *
      * @psalm-pure
@@ -161,7 +210,13 @@ final class RegexHelper
      *
      * @phpstan-param HtmlBlock::TYPE_* $type
      *
+<<<<<<< HEAD
      * @throws \InvalidArgumentException if an invalid type is given
+=======
+     * @psalm-return non-empty-string
+     *
+     * @throws InvalidArgumentException if an invalid type is given
+>>>>>>> main
      *
      * @psalm-pure
      */
@@ -183,7 +238,11 @@ final class RegexHelper
             case HtmlBlock::TYPE_7_MISC_ELEMENT:
                 return '/^(?:' . self::PARTIAL_OPENTAG . '|' . self::PARTIAL_CLOSETAG . ')\\s*$/i';
             default:
+<<<<<<< HEAD
                 throw new \InvalidArgumentException('Invalid HTML block type');
+=======
+                throw new InvalidArgumentException('Invalid HTML block type');
+>>>>>>> main
         }
     }
 
@@ -196,7 +255,13 @@ final class RegexHelper
      *
      * @phpstan-param HtmlBlock::TYPE_* $type
      *
+<<<<<<< HEAD
      * @throws \InvalidArgumentException if an invalid type is given
+=======
+     * @psalm-return non-empty-string
+     *
+     * @throws InvalidArgumentException if an invalid type is given
+>>>>>>> main
      *
      * @psalm-pure
      */
@@ -214,7 +279,11 @@ final class RegexHelper
             case HtmlBlock::TYPE_5_CDATA:
                 return '/\]\]>/';
             default:
+<<<<<<< HEAD
                 throw new \InvalidArgumentException('Invalid HTML block type');
+=======
+                throw new InvalidArgumentException('Invalid HTML block type');
+>>>>>>> main
         }
     }
 

@@ -13,11 +13,17 @@ namespace Faker\Calculator;
 class Luhn
 {
     /**
+<<<<<<< HEAD
      * @param string $number
      *
      * @return int
      */
     private static function checksum($number)
+=======
+     * @return int
+     */
+    private static function checksum(string $number)
+>>>>>>> main
     {
         $number = (string) $number;
         $length = strlen($number);
@@ -35,16 +41,26 @@ class Luhn
     }
 
     /**
+<<<<<<< HEAD
      * @param string $partialNumber
      *
      * @return string
      */
     public static function computeCheckDigit($partialNumber)
+=======
+     * @return string
+     */
+    public static function computeCheckDigit(string $partialNumber)
+>>>>>>> main
     {
         $checkDigit = self::checksum($partialNumber . '0');
 
         if ($checkDigit === 0) {
+<<<<<<< HEAD
             return 0;
+=======
+            return '0';
+>>>>>>> main
         }
 
         return (string) (10 - $checkDigit);
@@ -53,11 +69,17 @@ class Luhn
     /**
      * Checks whether a number (partial number + check digit) is Luhn compliant
      *
+<<<<<<< HEAD
      * @param string $number
      *
      * @return bool
      */
     public static function isValid($number)
+=======
+     * @return bool
+     */
+    public static function isValid(string $number)
+>>>>>>> main
     {
         return self::checksum($number) === 0;
     }
@@ -65,11 +87,17 @@ class Luhn
     /**
      * Generate a Luhn compliant number.
      *
+<<<<<<< HEAD
      * @param string $partialValue
      *
      * @return string
      */
     public static function generateLuhnNumber($partialValue)
+=======
+     * @return string
+     */
+    public static function generateLuhnNumber(string $partialValue)
+>>>>>>> main
     {
         if (!preg_match('/^\d+$/', $partialValue)) {
             throw new \InvalidArgumentException('Argument should be an integer.');

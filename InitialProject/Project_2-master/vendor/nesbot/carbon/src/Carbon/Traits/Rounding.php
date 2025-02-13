@@ -52,12 +52,19 @@ trait Rounding
             'millisecond' => [1000, 'microsecond'],
         ];
         $normalizedUnit = static::singularUnit($unit);
+<<<<<<< HEAD
         $ranges = array_merge(static::getRangesByUnit(), [
+=======
+        $ranges = array_merge(static::getRangesByUnit($this->daysInMonth), [
+>>>>>>> main
             // @call roundUnit
             'microsecond' => [0, 999999],
         ]);
         $factor = 1;
+<<<<<<< HEAD
         $initialMonth = $this->month;
+=======
+>>>>>>> main
 
         if ($normalizedUnit === 'week') {
             $normalizedUnit = 'day';
@@ -77,12 +84,23 @@ trait Rounding
         $found = false;
         $fraction = 0;
         $arguments = null;
+<<<<<<< HEAD
         $factor = $this->year < 0 ? -1 : 1;
         $changes = [];
+=======
+        $initialValue = null;
+        $factor = $this->year < 0 ? -1 : 1;
+        $changes = [];
+        $minimumInc = null;
+>>>>>>> main
 
         foreach ($ranges as $unit => [$minimum, $maximum]) {
             if ($normalizedUnit === $unit) {
                 $arguments = [$this->$unit, $minimum];
+<<<<<<< HEAD
+=======
+                $initialValue = $this->$unit;
+>>>>>>> main
                 $fraction = $precision - floor($precision);
                 $found = true;
 
@@ -93,7 +111,27 @@ trait Rounding
                 $delta = $maximum + 1 - $minimum;
                 $factor /= $delta;
                 $fraction *= $delta;
+<<<<<<< HEAD
                 $arguments[0] += $this->$unit * $factor;
+=======
+                $inc = ($this->$unit - $minimum) * $factor;
+
+                if ($inc !== 0.0) {
+                    $minimumInc = $minimumInc ?? ($arguments[0] / pow(2, 52));
+
+                    // If value is still the same when adding a non-zero increment/decrement,
+                    // it means precision got lost in the addition
+                    if (abs($inc) < $minimumInc) {
+                        $inc = $minimumInc * ($inc < 0 ? -1 : 1);
+                    }
+
+                    // If greater than $precision, assume precision loss caused an overflow
+                    if ($function !== 'floor' || abs($arguments[0] + $inc - $initialValue) >= $precision) {
+                        $arguments[0] += $inc;
+                    }
+                }
+
+>>>>>>> main
                 $changes[$unit] = round(
                     $minimum + ($fraction ? $fraction * $function(($this->$unit - $minimum) / $fraction) : 0)
                 );
@@ -111,16 +149,24 @@ trait Rounding
         $normalizedValue = floor($function(($value - $minimum) / $precision) * $precision + $minimum);
 
         /** @var CarbonInterface $result */
+<<<<<<< HEAD
         $result = $this->$normalizedUnit($normalizedValue);
+=======
+        $result = $this;
+>>>>>>> main
 
         foreach ($changes as $unit => $value) {
             $result = $result->$unit($value);
         }
 
+<<<<<<< HEAD
         return $normalizedUnit === 'month' && $precision <= 1 && abs($result->month - $initialMonth) === 2
             // Re-run the change in case an overflow occurred
             ? $result->$normalizedUnit($normalizedValue)
             : $result;
+=======
+        return $result->$normalizedUnit($normalizedValue);
+>>>>>>> main
     }
 
     /**

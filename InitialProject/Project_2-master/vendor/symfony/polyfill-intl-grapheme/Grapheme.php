@@ -48,7 +48,11 @@ final class Grapheme
             $start = \strlen($s) + $start;
         }
 
+<<<<<<< HEAD
         if (!is_scalar($s)) {
+=======
+        if (!\is_scalar($s)) {
+>>>>>>> main
             $hasError = false;
             set_error_handler(function () use (&$hasError) { $hasError = true; });
             $next = substr($s, $start);

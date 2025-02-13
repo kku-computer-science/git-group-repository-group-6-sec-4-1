@@ -47,7 +47,11 @@ class TextElement implements ITextElement
     }
 
     /**
+<<<<<<< HEAD
      * Get font.
+=======
+     * Get font. For this class, the return value is always null.
+>>>>>>> main
      *
      * @return null|\PhpOffice\PhpSpreadsheet\Style\Font
      */
@@ -68,6 +72,7 @@ class TextElement implements ITextElement
             __CLASS__
         );
     }
+<<<<<<< HEAD
 
     /**
      * Implement PHP __clone to create a deep clone, not just a shallow copy.
@@ -83,4 +88,6 @@ class TextElement implements ITextElement
             }
         }
     }
+=======
+>>>>>>> main
 }

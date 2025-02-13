@@ -17,10 +17,16 @@ class Logical
      * Excel Function:
      *        =TRUE()
      *
+<<<<<<< HEAD
      * @Deprecated 1.17.0
      *
      * @see Logical\Boolean::TRUE()
      * Use the TRUE() method in the Logical\Boolean class instead
+=======
+     * @deprecated 1.17.0
+     * Use the TRUE() method in the Logical\Boolean class instead
+     * @see Logical\Boolean::TRUE()
+>>>>>>> main
      *
      * @return bool True
      */
@@ -37,10 +43,16 @@ class Logical
      * Excel Function:
      *        =FALSE()
      *
+<<<<<<< HEAD
      * @Deprecated 1.17.0
      *
      * @see Logical\Boolean::FALSE()
      * Use the FALSE() method in the Logical\Boolean class instead
+=======
+     * @deprecated 1.17.0
+     * Use the FALSE() method in the Logical\Boolean class instead
+     * @see Logical\Boolean::FALSE()
+>>>>>>> main
      *
      * @return bool False
      */
@@ -65,10 +77,16 @@ class Logical
      *        If any argument value is a string, or a Null, the function returns a #VALUE! error, unless the string
      *            holds the value TRUE or FALSE, in which case it is evaluated as the corresponding boolean value
      *
+<<<<<<< HEAD
      * @Deprecated 1.17.0
      *
      * @see Logical\Operations::logicalAnd()
      * Use the logicalAnd() method in the Logical\Operations class instead
+=======
+     * @deprecated 1.17.0
+     * Use the logicalAnd() method in the Logical\Operations class instead
+     * @see Logical\Operations::logicalAnd()
+>>>>>>> main
      *
      * @param mixed ...$args Data values
      *
@@ -95,10 +113,16 @@ class Logical
      *        If any argument value is a string, or a Null, the function returns a #VALUE! error, unless the string
      *            holds the value TRUE or FALSE, in which case it is evaluated as the corresponding boolean value
      *
+<<<<<<< HEAD
      * @Deprecated 1.17.0
      *
      * @see Logical\Operations::logicalOr()
      * Use the logicalOr() method in the Logical\Operations class instead
+=======
+     * @deprecated 1.17.0
+     * Use the logicalOr() method in the Logical\Operations class instead
+     * @see Logical\Operations::logicalOr()
+>>>>>>> main
      *
      * @param mixed $args Data values
      *
@@ -127,10 +151,16 @@ class Logical
      *        If any argument value is a string, or a Null, the function returns a #VALUE! error, unless the string
      *            holds the value TRUE or FALSE, in which case it is evaluated as the corresponding boolean value
      *
+<<<<<<< HEAD
      * @Deprecated 1.17.0
      *
      * @see Logical\Operations::logicalXor()
      * Use the logicalXor() method in the Logical\Operations class instead
+=======
+     * @deprecated 1.17.0
+     * Use the logicalXor() method in the Logical\Operations class instead
+     * @see Logical\Operations::logicalXor()
+>>>>>>> main
      *
      * @param mixed $args Data values
      *
@@ -156,10 +186,16 @@ class Logical
      *        If any argument value is a string, or a Null, the function returns a #VALUE! error, unless the string
      *            holds the value TRUE or FALSE, in which case it is evaluated as the corresponding boolean value
      *
+<<<<<<< HEAD
      * @Deprecated 1.17.0
      *
      * @see Logical\Operations::NOT()
      * Use the NOT() method in the Logical\Operations class instead
+=======
+     * @deprecated 1.17.0
+     * Use the NOT() method in the Logical\Operations class instead
+     * @see Logical\Operations::NOT()
+>>>>>>> main
      *
      * @param mixed $logical A value or expression that can be evaluated to TRUE or FALSE
      *
@@ -195,10 +231,16 @@ class Logical
      *            If condition is FALSE and ReturnIfFalse is blank, then the value 0 (zero) is returned.
      *            ReturnIfFalse can be another formula.
      *
+<<<<<<< HEAD
      * @Deprecated 1.17.0
      *
      * @see Logical\Conditional::statementIf()
      * Use the statementIf() method in the Logical\Conditional class instead
+=======
+     * @deprecated 1.17.0
+     * Use the statementIf() method in the Logical\Conditional class instead
+     * @see Logical\Conditional::statementIf()
+>>>>>>> main
      *
      * @param mixed $condition Condition to evaluate
      * @param mixed $returnIfTrue Value to return when condition is true
@@ -231,10 +273,16 @@ class Logical
      *              Optional. It is the default to return if expression does not match any of the values
      *              (value1, value2, ... value_n).
      *
+<<<<<<< HEAD
      * @Deprecated 1.17.0
      *
      * @see Logical\Conditional::statementSwitch()
      * Use the statementSwitch() method in the Logical\Conditional class instead
+=======
+     * @deprecated 1.17.0
+     * Use the statementSwitch() method in the Logical\Conditional class instead
+     * @see Logical\Conditional::statementSwitch()
+>>>>>>> main
      *
      * @param mixed $arguments Statement arguments
      *
@@ -251,10 +299,16 @@ class Logical
      * Excel Function:
      *        =IFERROR(testValue,errorpart)
      *
+<<<<<<< HEAD
      * @Deprecated 1.17.0
      *
      * @see Logical\Conditional::IFERROR()
      * Use the IFERROR() method in the Logical\Conditional class instead
+=======
+     * @deprecated 1.17.0
+     * Use the IFERROR() method in the Logical\Conditional class instead
+     * @see Logical\Conditional::IFERROR()
+>>>>>>> main
      *
      * @param mixed $testValue Value to check, is also the value returned when no error
      * @param mixed $errorpart Value to return when testValue is an error condition
@@ -272,10 +326,16 @@ class Logical
      * Excel Function:
      *        =IFNA(testValue,napart)
      *
+<<<<<<< HEAD
      * @Deprecated 1.17.0
      *
      * @see Logical\Conditional::IFNA()
      * Use the IFNA() method in the Logical\Conditional class instead
+=======
+     * @deprecated 1.17.0
+     * Use the IFNA() method in the Logical\Conditional class instead
+     * @see Logical\Conditional::IFNA()
+>>>>>>> main
      *
      * @param mixed $testValue Value to check, is also the value returned when not an NA
      * @param mixed $napart Value to return when testValue is an NA condition
@@ -298,10 +358,16 @@ class Logical
      *         returnIfTrue1 ... returnIfTrue_n
      *             Value returned if corresponding testValue (nth) was true
      *
+<<<<<<< HEAD
      * @Deprecated 1.17.0
      *
      * @see Logical\Conditional::IFS()
      * Use the IFS() method in the Logical\Conditional class instead
+=======
+     * @deprecated 1.17.0
+     * Use the IFS() method in the Logical\Conditional class instead
+     * @see Logical\Conditional::IFS()
+>>>>>>> main
      *
      * @param mixed ...$arguments Statement arguments
      *

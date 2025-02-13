@@ -18,7 +18,11 @@ final class File implements Extension\FileExtension
      *
      * @see http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
      */
+<<<<<<< HEAD
     private $mimeTypes = [
+=======
+    private array $mimeTypes = [
+>>>>>>> main
         'application/atom+xml' => 'atom',
         'application/ecmascript' => 'ecma',
         'application/emma+xml' => 'emma',

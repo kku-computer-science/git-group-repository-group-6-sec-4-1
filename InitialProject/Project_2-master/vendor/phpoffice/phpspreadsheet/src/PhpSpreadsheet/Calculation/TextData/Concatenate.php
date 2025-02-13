@@ -4,6 +4,13 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\TextData;
 
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ErrorValue;
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Shared\StringHelper;
+>>>>>>> main
 
 class Concatenate
 {
@@ -22,7 +29,22 @@ class Concatenate
         $aArgs = Functions::flattenArray($args);
 
         foreach ($aArgs as $arg) {
+<<<<<<< HEAD
             $returnValue .= Helpers::extractString($arg);
+=======
+            $value = Helpers::extractString($arg);
+            if (ErrorValue::isError($value)) {
+                $returnValue = $value;
+
+                break;
+            }
+            $returnValue .= Helpers::extractString($arg);
+            if (StringHelper::countCharacters($returnValue) > DataType::MAX_STRING_LENGTH) {
+                $returnValue = ExcelError::CALC();
+
+                break;
+            }
+>>>>>>> main
         }
 
         return $returnValue;
@@ -41,7 +63,11 @@ class Concatenate
      *         If an array of values is passed for the $delimiter or $ignoreEmpty arguments, then the returned result
      *            will also be an array with matching dimensions
      */
+<<<<<<< HEAD
     public static function TEXTJOIN($delimiter, $ignoreEmpty, ...$args)
+=======
+    public static function TEXTJOIN($delimiter = '', $ignoreEmpty = true, ...$args)
+>>>>>>> main
     {
         if (is_array($delimiter) || is_array($ignoreEmpty)) {
             return self::evaluateArrayArgumentsSubset(
@@ -53,17 +79,46 @@ class Concatenate
             );
         }
 
+<<<<<<< HEAD
         // Loop through arguments
         $aArgs = Functions::flattenArray($args);
         foreach ($aArgs as $key => &$arg) {
             if ($ignoreEmpty === true && is_string($arg) && trim($arg) === '') {
+=======
+        $delimiter ??= '';
+        $ignoreEmpty ??= true;
+        $aArgs = Functions::flattenArray($args);
+        $returnValue = self::evaluateTextJoinArray($ignoreEmpty, $aArgs);
+
+        $returnValue ??= implode($delimiter, $aArgs);
+        if (StringHelper::countCharacters($returnValue) > DataType::MAX_STRING_LENGTH) {
+            $returnValue = ExcelError::CALC();
+        }
+
+        return $returnValue;
+    }
+
+    private static function evaluateTextJoinArray(bool $ignoreEmpty, array &$aArgs): ?string
+    {
+        foreach ($aArgs as $key => &$arg) {
+            $value = Helpers::extractString($arg);
+            if (ErrorValue::isError($value)) {
+                return $value;
+            }
+
+            if ($ignoreEmpty === true && ((is_string($arg) && trim($arg) === '') || $arg === null)) {
+>>>>>>> main
                 unset($aArgs[$key]);
             } elseif (is_bool($arg)) {
                 $arg = Helpers::convertBooleanValue($arg);
             }
         }
 
+<<<<<<< HEAD
         return implode($delimiter, $aArgs);
+=======
+        return null;
+>>>>>>> main
     }
 
     /**
@@ -89,9 +144,23 @@ class Concatenate
         $stringValue = Helpers::extractString($stringValue);
 
         if (!is_numeric($repeatCount) || $repeatCount < 0) {
+<<<<<<< HEAD
             return Functions::VALUE();
         }
 
         return str_repeat($stringValue, (int) $repeatCount);
+=======
+            $returnValue = ExcelError::VALUE();
+        } elseif (ErrorValue::isError($stringValue)) {
+            $returnValue = $stringValue;
+        } else {
+            $returnValue = str_repeat($stringValue, (int) $repeatCount);
+            if (StringHelper::countCharacters($returnValue) > DataType::MAX_STRING_LENGTH) {
+                $returnValue = ExcelError::VALUE(); // note VALUE not CALC
+            }
+        }
+
+        return $returnValue;
+>>>>>>> main
     }
 }

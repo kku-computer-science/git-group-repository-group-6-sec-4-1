@@ -16,6 +16,7 @@
  */
 
 use Carbon\CarbonInterface;
+<<<<<<< HEAD
 
 return [
     'year' => '{2,3,4,22,23,24,32,33,34,42,43,44,52,53,54}:count године|[0,Inf[:count година',
@@ -31,17 +32,51 @@ return [
     'minute' => '{1,21,31,41,51}:count минут|[0,Inf[:count минута',
     'min' => ':count мин.',
     'second' => '{1,21,31,41,51}:count секунд|{2,3,4,22,23,24,32,33,34,42,43,44,52,53,54}:count секунде|[0,Inf[:count секунди',
+=======
+use Symfony\Component\Translation\PluralizationRules;
+
+// @codeCoverageIgnoreStart
+if (class_exists(PluralizationRules::class)) {
+    PluralizationRules::set(static function ($number) {
+        return PluralizationRules::get($number, 'sr');
+    }, 'sr_Cyrl_ME');
+}
+// @codeCoverageIgnoreEnd
+
+return [
+    'year' => ':count година|:count године|:count година',
+    'y' => ':count г.',
+    'month' => ':count мјесец|:count мјесеца|:count мјесеци',
+    'm' => ':count мј.',
+    'week' => ':count недјеља|:count недјеље|:count недјеља',
+    'w' => ':count нед.',
+    'day' => ':count дан|:count дана|:count дана',
+    'd' => ':count д.',
+    'hour' => ':count сат|:count сата|:count сати',
+    'h' => ':count ч.',
+    'minute' => ':count минут|:count минута|:count минута',
+    'min' => ':count мин.',
+    'second' => ':count секунд|:count секунде|:count секунди',
+>>>>>>> main
     's' => ':count сек.',
     'ago' => 'прије :time',
     'from_now' => 'за :time',
     'after' => ':time након',
     'before' => ':time прије',
 
+<<<<<<< HEAD
     'year_from_now' => '{1,21,31,41,51}:count годину|{2,3,4,22,23,24,32,33,34,42,43,44,52,53,54}:count године|[0,Inf[:count година',
     'year_ago' => '{1,21,31,41,51}:count годину|{2,3,4,22,23,24,32,33,34,42,43,44,52,53,54}:count године|[0,Inf[:count година',
 
     'week_from_now' => '{1}:count недјељу|{2,3,4}:count недјеље|[0,Inf[:count недјеља',
     'week_ago' => '{1}:count недјељу|{2,3,4}:count недјеље|[0,Inf[:count недјеља',
+=======
+    'year_from_now' => ':count годину|:count године|:count година',
+    'year_ago' => ':count годину|:count године|:count година',
+
+    'week_from_now' => ':count недјељу|:count недјеље|:count недјеља',
+    'week_ago' => ':count недјељу|:count недјеље|:count недјеља',
+>>>>>>> main
 
     'diff_now' => 'управо сада',
     'diff_today' => 'данас',

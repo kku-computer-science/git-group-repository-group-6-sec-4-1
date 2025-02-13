@@ -2,6 +2,10 @@
 
 namespace Maatwebsite\Excel;
 
+<<<<<<< HEAD
+=======
+use Illuminate\Pipeline\Pipeline;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 use PhpOffice\PhpSpreadsheet\Cell\Cell as SpreadsheetCell;
 use PhpOffice\PhpSpreadsheet\RichText\RichText;
@@ -77,6 +81,10 @@ class Cell
             }
         }
 
+<<<<<<< HEAD
         return $value;
+=======
+        return app(Pipeline::class)->send($value)->through(config('excel.imports.cells.middleware', []))->thenReturn();
+>>>>>>> main
     }
 }

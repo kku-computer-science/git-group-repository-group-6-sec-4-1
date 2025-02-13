@@ -181,7 +181,11 @@ final class ReferenceParser
         $cursor->advance();
 
         // spec: A link label can have at most 999 characters inside the square brackets
+<<<<<<< HEAD
         if (\mb_strlen($this->label, 'utf-8') > 999) {
+=======
+        if (\mb_strlen($this->label, 'UTF-8') > 999) {
+>>>>>>> main
             return false;
         }
 

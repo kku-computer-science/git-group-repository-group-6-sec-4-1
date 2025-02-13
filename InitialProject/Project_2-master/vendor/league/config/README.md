@@ -14,8 +14,13 @@
 
 This project requires PHP 7.4 or higher.  To install it via [Composer] simply run:
 
+<<<<<<< HEAD
 ``` bash
 $ composer require league/config
+=======
+```bash
+composer require league/config
+>>>>>>> main
 ```
 
 ## 🧰️ Basic Usage
@@ -127,8 +132,13 @@ Contributions to this library are **welcome**! We only ask that you adhere to ou
 
 ## 🧪 Testing
 
+<<<<<<< HEAD
 ``` bash
 $ composer test
+=======
+```bash
+composer test
+>>>>>>> main
 ```
 
 ## 📄 License

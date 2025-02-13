@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 /**
  * Mockery
  *
@@ -16,16 +17,33 @@
  * @package    Mockery
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+=======
+
+/**
+ * Mockery (https://docs.mockery.io/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
+>>>>>>> main
  */
 
 namespace Mockery\Matcher;
 
+<<<<<<< HEAD
 /**
  * @deprecated 2.0 Due to ambiguity, use Hamcrest or PHPUnit equivalents
+=======
+use function is_object;
+
+/**
+ * @deprecated 2.0 Due to ambiguity, use PHPUnit equivalents
+>>>>>>> main
  */
 class MustBe extends MatcherAbstract
 {
     /**
+<<<<<<< HEAD
      * Check if the actual value matches the expected.
      *
      * @param mixed $actual
@@ -41,6 +59,8 @@ class MustBe extends MatcherAbstract
     }
 
     /**
+=======
+>>>>>>> main
      * Return a string representation of this Matcher
      *
      * @return string
@@ -49,4 +69,25 @@ class MustBe extends MatcherAbstract
     {
         return '<MustBe>';
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * Check if the actual value matches the expected.
+     *
+     * @template TMixed
+     *
+     * @param TMixed $actual
+     *
+     * @return bool
+     */
+    public function match(&$actual)
+    {
+        if (! is_object($actual)) {
+            return $this->_expected === $actual;
+        }
+
+        return $this->_expected == $actual;
+    }
+>>>>>>> main
 }

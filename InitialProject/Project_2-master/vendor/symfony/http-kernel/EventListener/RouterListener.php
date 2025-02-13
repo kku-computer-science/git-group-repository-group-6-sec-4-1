@@ -55,7 +55,11 @@ class RouterListener implements EventSubscriberInterface
      *
      * @throws \InvalidArgumentException
      */
+<<<<<<< HEAD
     public function __construct($matcher, RequestStack $requestStack, RequestContext $context = null, LoggerInterface $logger = null, string $projectDir = null, bool $debug = true)
+=======
+    public function __construct($matcher, RequestStack $requestStack, ?RequestContext $context = null, ?LoggerInterface $logger = null, ?string $projectDir = null, bool $debug = true)
+>>>>>>> main
     {
         if (!$matcher instanceof UrlMatcherInterface && !$matcher instanceof RequestMatcherInterface) {
             throw new \InvalidArgumentException('Matcher must either implement UrlMatcherInterface or RequestMatcherInterface.');
@@ -73,7 +77,11 @@ class RouterListener implements EventSubscriberInterface
         $this->debug = $debug;
     }
 
+<<<<<<< HEAD
     private function setCurrentRequest(Request $request = null)
+=======
+    private function setCurrentRequest(?Request $request = null)
+>>>>>>> main
     {
         if (null !== $request) {
             try {

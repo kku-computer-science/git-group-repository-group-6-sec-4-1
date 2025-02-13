@@ -58,15 +58,26 @@ final class Lines
      */
     private static function multilineProcess(bool $multiline, string $line, array $buffer)
     {
+<<<<<<< HEAD
         // check if $line can be multiline variable
         if ($started = self::looksLikeMultilineStart($line)) {
+=======
+        $startsOnCurrentLine = $multiline ? false : self::looksLikeMultilineStart($line);
+
+        // check if $line can be multiline variable
+        if ($startsOnCurrentLine) {
+>>>>>>> main
             $multiline = true;
         }
 
         if ($multiline) {
             \array_push($buffer, $line);
 
+<<<<<<< HEAD
             if (self::looksLikeMultilineStop($line, $started)) {
+=======
+            if (self::looksLikeMultilineStop($line, $startsOnCurrentLine)) {
+>>>>>>> main
                 $multiline = false;
                 $line = \implode("\n", $buffer);
                 $buffer = [];
@@ -104,7 +115,11 @@ final class Lines
             return true;
         }
 
+<<<<<<< HEAD
         return Regex::occurences('/(?=([^\\\\]"))/', \str_replace('\\\\', '', $line))->map(static function (int $count) use ($started) {
+=======
+        return Regex::occurrences('/(?=([^\\\\]"))/', \str_replace('\\\\', '', $line))->map(static function (int $count) use ($started) {
+>>>>>>> main
             return $started ? $count > 1 : $count >= 1;
         })->success()->getOrElse(false);
     }

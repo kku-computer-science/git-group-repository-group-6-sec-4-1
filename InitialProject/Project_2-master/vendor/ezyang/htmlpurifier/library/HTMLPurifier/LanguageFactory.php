@@ -109,7 +109,11 @@ class HTMLPurifier_LanguageFactory
         } else {
             $class = 'HTMLPurifier_Language_' . $pcode;
             $file  = $this->dir . '/Language/classes/' . $code . '.php';
+<<<<<<< HEAD
             if (file_exists($file) || class_exists($class, false)) {
+=======
+            if (file_exists($file) || class_exists($class)) {
+>>>>>>> main
                 $lang = new $class($config, $context);
             } else {
                 // Go fallback

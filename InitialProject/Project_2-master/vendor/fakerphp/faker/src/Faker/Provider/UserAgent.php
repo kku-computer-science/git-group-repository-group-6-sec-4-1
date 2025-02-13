@@ -4,7 +4,11 @@ namespace Faker\Provider;
 
 class UserAgent extends Base
 {
+<<<<<<< HEAD
     protected static $userAgents = ['firefox', 'chrome', 'internetExplorer', 'opera', 'safari'];
+=======
+    protected static $userAgents = ['firefox', 'chrome', 'internetExplorer', 'opera', 'safari', 'msedge'];
+>>>>>>> main
 
     protected static $windowsPlatformTokens = [
         'Windows NT 6.2', 'Windows NT 6.1', 'Windows NT 6.0', 'Windows NT 5.2', 'Windows NT 5.1',
@@ -25,7 +29,11 @@ class UserAgent extends Base
     /**
      * Add as many languages as you like.
      */
+<<<<<<< HEAD
     protected static $lang = ['en-US', 'sl-SI'];
+=======
+    protected static $lang = ['en-US', 'sl-SI', 'nl-NL'];
+>>>>>>> main
 
     /**
      * Generate mac processor
@@ -82,6 +90,31 @@ class UserAgent extends Base
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Generate Edge user agent
+     *
+     * @example 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36 Edg/99.0.1150.36'
+     *
+     * @return string
+     */
+    public static function msedge()
+    {
+        $saf = self::numberBetween(531, 537) . '.' . self::numberBetween(0, 2);
+        $chrv = self::numberBetween(79, 99) . '.0';
+
+        $platforms = [
+            '(' . static::windowsPlatformToken() . ") AppleWebKit/$saf (KHTML, like Gecko) Chrome/$chrv" . '.' . self::numberBetween(4000, 4844) . '.' . self::numberBetween(10, 99) . " Safari/$saf Edg/$chrv" . self::numberBetween(1000, 1146) . '.' . self::numberBetween(0, 99),
+            '(' . static::macPlatformToken() . ") AppleWebKit/$saf (KHTML, like Gecko) Chrome/$chrv" . '.' . self::numberBetween(4000, 4844) . '.' . self::numberBetween(10, 99) . " Safari/$saf Edg/$chrv" . self::numberBetween(1000, 1146) . '.' . self::numberBetween(0, 99),
+            '(' . static::linuxPlatformToken() . ") AppleWebKit/$saf (KHTML, like Gecko) Chrome/$chrv" . '.' . self::numberBetween(4000, 4844) . '.' . self::numberBetween(10, 99) . " Safari/$saf EdgA/$chrv" . self::numberBetween(1000, 1146) . '.' . self::numberBetween(0, 99),
+            '(' . static::iosMobileToken() . ") AppleWebKit/$saf (KHTML, like Gecko) Version/15.0 EdgiOS/$chrv" . self::numberBetween(1000, 1146) . '.' . self::numberBetween(0, 99) . " Mobile/15E148 Safari/$saf",
+        ];
+
+        return 'Mozilla/5.0 ' . static::randomElement($platforms);
+    }
+
+    /**
+>>>>>>> main
      * Generate Firefox user agent
      *
      * @example 'Mozilla/5.0 (X11; Linuxi686; rv:7.0) Gecko/20101231 Firefox/3.6'
@@ -180,6 +213,19 @@ class UserAgent extends Base
     /**
      * @return string
      */
+<<<<<<< HEAD
+=======
+    public static function iosMobileToken()
+    {
+        $iosVer = self::numberBetween(13, 15) . '_' . self::numberBetween(0, 2);
+
+        return 'iPhone; CPU iPhone OS ' . $iosVer . ' like Mac OS X';
+    }
+
+    /**
+     * @return string
+     */
+>>>>>>> main
     public static function linuxPlatformToken()
     {
         return 'X11; Linux ' . static::randomElement(static::$linuxProcessor);

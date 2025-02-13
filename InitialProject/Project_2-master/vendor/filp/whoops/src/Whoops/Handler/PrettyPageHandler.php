@@ -28,6 +28,10 @@ class PrettyPageHandler extends Handler
     const EDITOR_ESPRESSO = "espresso";
     const EDITOR_XDEBUG = "xdebug";
     const EDITOR_NETBEANS = "netbeans";
+<<<<<<< HEAD
+=======
+    const EDITOR_CURSOR = "cursor";
+>>>>>>> main
 
     /**
      * Search paths to be scanned for resources.
@@ -122,6 +126,10 @@ class PrettyPageHandler extends Handler
         "atom"     => "atom://core/open/file?filename=%file&line=%line",
         "espresso" => "x-espresso://open?filepath=%file&lines=%line",
         "netbeans" => "netbeans://open/?f=%file:%line",
+<<<<<<< HEAD
+=======
+        "cursor"   => "cursor://file/%file:%line",
+>>>>>>> main
     ];
 
     /**
@@ -287,6 +295,10 @@ class PrettyPageHandler extends Handler
         $vars["tables"] = array_merge($extraTables, $vars["tables"]);
 
         $plainTextHandler = new PlainTextHandler();
+<<<<<<< HEAD
+=======
+        $plainTextHandler->setRun($this->getRun());
+>>>>>>> main
         $plainTextHandler->setException($this->getException());
         $plainTextHandler->setInspector($this->getInspector());
         $vars["preface"] = "<!--\n\n\n" .  $this->templateHelper->escape($plainTextHandler->generateResponse()) . "\n\n\n\n\n\n\n\n\n\n\n-->";
@@ -304,7 +316,11 @@ class PrettyPageHandler extends Handler
      */
     protected function getExceptionFrames()
     {
+<<<<<<< HEAD
         $frames = $this->getInspector()->getFrames();
+=======
+        $frames = $this->getInspector()->getFrames($this->getRun()->getFrameFilters());
+>>>>>>> main
 
         if ($this->getApplicationPaths()) {
             foreach ($frames as $frame) {
@@ -353,7 +369,10 @@ class PrettyPageHandler extends Handler
      * will be flattened with `print_r`.
      *
      * @param string $label
+<<<<<<< HEAD
      * @param array  $data
+=======
+>>>>>>> main
      *
      * @return static
      */
@@ -383,7 +402,11 @@ class PrettyPageHandler extends Handler
             throw new InvalidArgumentException('Expecting callback argument to be callable');
         }
 
+<<<<<<< HEAD
         $this->extraTables[$label] = function (\Whoops\Exception\Inspector $inspector = null) use ($callback) {
+=======
+        $this->extraTables[$label] = function (?\Whoops\Inspector\InspectorInterface $inspector = null) use ($callback) {
+>>>>>>> main
             try {
                 $result = call_user_func($callback, $inspector);
 
@@ -755,11 +778,17 @@ class PrettyPageHandler extends Handler
     /**
      * Set the application paths.
      *
+<<<<<<< HEAD
      * @param array $applicationPaths
      *
      * @return void
      */
     public function setApplicationPaths($applicationPaths)
+=======
+     * @return void
+     */
+    public function setApplicationPaths(array $applicationPaths)
+>>>>>>> main
     {
         $this->applicationPaths = $applicationPaths;
     }

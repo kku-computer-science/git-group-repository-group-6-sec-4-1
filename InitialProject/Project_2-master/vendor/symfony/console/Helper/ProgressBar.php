@@ -53,7 +53,10 @@ final class ProgressBar
     private $startTime;
     private $stepWidth;
     private $percent = 0.0;
+<<<<<<< HEAD
     private $formatLineCount;
+=======
+>>>>>>> main
     private $messages = [];
     private $overwrite = true;
     private $terminal;
@@ -170,9 +173,18 @@ final class ProgressBar
         $this->messages[$name] = $message;
     }
 
+<<<<<<< HEAD
     public function getMessage(string $name = 'message')
     {
         return $this->messages[$name];
+=======
+    /**
+     * @return string|null
+     */
+    public function getMessage(string $name = 'message')
+    {
+        return $this->messages[$name] ?? null;
+>>>>>>> main
     }
 
     public function getStartTime(): int
@@ -294,7 +306,11 @@ final class ProgressBar
      *
      * @param int|null $max Number of steps to complete the bar (0 if indeterminate), if null it will be inferred from $iterable
      */
+<<<<<<< HEAD
     public function iterate(iterable $iterable, int $max = null): iterable
+=======
+    public function iterate(iterable $iterable, ?int $max = null): iterable
+>>>>>>> main
     {
         $this->start($max ?? (is_countable($iterable) ? \count($iterable) : 0));
 
@@ -312,7 +328,11 @@ final class ProgressBar
      *
      * @param int|null $max Number of steps to complete the bar (0 if indeterminate), null to leave unchanged
      */
+<<<<<<< HEAD
     public function start(int $max = null)
+=======
+    public function start(?int $max = null)
+>>>>>>> main
     {
         $this->startTime = time();
         $this->step = 0;
@@ -446,8 +466,11 @@ final class ProgressBar
         } else {
             $this->format = $format;
         }
+<<<<<<< HEAD
 
         $this->formatLineCount = substr_count($this->format, "\n");
+=======
+>>>>>>> main
     }
 
     /**
@@ -464,7 +487,11 @@ final class ProgressBar
         if ($this->overwrite) {
             if (null !== $this->previousMessage) {
                 if ($this->output instanceof ConsoleSectionOutput) {
+<<<<<<< HEAD
                     $messageLines = explode("\n", $message);
+=======
+                    $messageLines = explode("\n", $this->previousMessage);
+>>>>>>> main
                     $lineCount = \count($messageLines);
                     foreach ($messageLines as $messageLine) {
                         $messageLineLength = Helper::width(Helper::removeDecoration($this->output->getFormatter(), $messageLine));
@@ -474,7 +501,12 @@ final class ProgressBar
                     }
                     $this->output->clear($lineCount);
                 } else {
+<<<<<<< HEAD
                     for ($i = 0; $i < $this->formatLineCount; ++$i) {
+=======
+                    $lineCount = substr_count($this->previousMessage, "\n");
+                    for ($i = 0; $i < $lineCount; ++$i) {
+>>>>>>> main
                         $this->cursor->moveToColumn(1);
                         $this->cursor->clearLine();
                         $this->cursor->moveUp();

@@ -12,8 +12,13 @@ use Psr\Http\Message\StreamInterface;
 class Stream implements StreamInterface
 {
     /**
+<<<<<<< HEAD
      * @see http://php.net/manual/function.fopen.php
      * @see http://php.net/manual/en/function.gzopen.php
+=======
+     * @see https://www.php.net/manual/en/function.fopen.php
+     * @see https://www.php.net/manual/en/function.gzopen.php
+>>>>>>> main
      */
     private const READABLE_MODES = '/r|a\+|ab\+|w\+|wb\+|x\+|xb\+|c\+|cb\+/';
     private const WRITABLE_MODES = '/a|w|r\+|rb\+|rw|x|c/';
@@ -61,8 +66,13 @@ class Stream implements StreamInterface
         $this->stream = $stream;
         $meta = stream_get_meta_data($this->stream);
         $this->seekable = $meta['seekable'];
+<<<<<<< HEAD
         $this->readable = (bool)preg_match(self::READABLE_MODES, $meta['mode']);
         $this->writable = (bool)preg_match(self::WRITABLE_MODES, $meta['mode']);
+=======
+        $this->readable = (bool) preg_match(self::READABLE_MODES, $meta['mode']);
+        $this->writable = (bool) preg_match(self::WRITABLE_MODES, $meta['mode']);
+>>>>>>> main
         $this->uri = $this->getMetadata('uri');
     }
 
@@ -80,12 +90,20 @@ class Stream implements StreamInterface
             if ($this->isSeekable()) {
                 $this->seek(0);
             }
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
             return $this->getContents();
         } catch (\Throwable $e) {
             if (\PHP_VERSION_ID >= 70400) {
                 throw $e;
             }
             trigger_error(sprintf('%s::__toString exception: %s', self::class, (string) $e), E_USER_ERROR);
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
             return '';
         }
     }
@@ -96,6 +114,7 @@ class Stream implements StreamInterface
             throw new \RuntimeException('Stream is detached');
         }
 
+<<<<<<< HEAD
         $contents = stream_get_contents($this->stream);
 
         if ($contents === false) {
@@ -103,6 +122,13 @@ class Stream implements StreamInterface
         }
 
         return $contents;
+=======
+        if (!$this->readable) {
+            throw new \RuntimeException('Cannot read from non-readable stream');
+        }
+
+        return Utils::tryGetContents($this->stream);
+>>>>>>> main
     }
 
     public function close(): void
@@ -147,6 +173,10 @@ class Stream implements StreamInterface
         $stats = fstat($this->stream);
         if (is_array($stats) && isset($stats['size'])) {
             $this->size = $stats['size'];
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
             return $this->size;
         }
 
@@ -209,7 +239,11 @@ class Stream implements StreamInterface
         }
         if (fseek($this->stream, $offset, $whence) === -1) {
             throw new \RuntimeException('Unable to seek to stream position '
+<<<<<<< HEAD
                 . $offset . ' with whence ' . var_export($whence, true));
+=======
+                .$offset.' with whence '.var_export($whence, true));
+>>>>>>> main
         }
     }
 
@@ -229,7 +263,16 @@ class Stream implements StreamInterface
             return '';
         }
 
+<<<<<<< HEAD
         $string = fread($this->stream, $length);
+=======
+        try {
+            $string = fread($this->stream, $length);
+        } catch (\Exception $e) {
+            throw new \RuntimeException('Unable to read from stream', 0, $e);
+        }
+
+>>>>>>> main
         if (false === $string) {
             throw new \RuntimeException('Unable to read from stream');
         }
@@ -258,8 +301,11 @@ class Stream implements StreamInterface
     }
 
     /**
+<<<<<<< HEAD
      * {@inheritdoc}
      *
+=======
+>>>>>>> main
      * @return mixed
      */
     public function getMetadata($key = null)

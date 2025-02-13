@@ -28,7 +28,11 @@ final class FragmentUriGenerator implements FragmentUriGeneratorInterface
     private $signer;
     private $requestStack;
 
+<<<<<<< HEAD
     public function __construct(string $fragmentPath, UriSigner $signer = null, RequestStack $requestStack = null)
+=======
+    public function __construct(string $fragmentPath, ?UriSigner $signer = null, ?RequestStack $requestStack = null)
+>>>>>>> main
     {
         $this->fragmentPath = $fragmentPath;
         $this->signer = $signer;
@@ -38,7 +42,11 @@ final class FragmentUriGenerator implements FragmentUriGeneratorInterface
     /**
      * {@inheritDoc}
      */
+<<<<<<< HEAD
     public function generate(ControllerReference $controller, Request $request = null, bool $absolute = false, bool $strict = true, bool $sign = true): string
+=======
+    public function generate(ControllerReference $controller, ?Request $request = null, bool $absolute = false, bool $strict = true, bool $sign = true): string
+>>>>>>> main
     {
         if (null === $request && (null === $this->requestStack || null === $request = $this->requestStack->getCurrentRequest())) {
             throw new \LogicException('Generating a fragment URL can only be done when handling a Request.');
@@ -85,7 +93,11 @@ final class FragmentUriGenerator implements FragmentUriGeneratorInterface
         foreach ($values as $key => $value) {
             if (\is_array($value)) {
                 $this->checkNonScalar($value);
+<<<<<<< HEAD
             } elseif (!is_scalar($value) && null !== $value) {
+=======
+            } elseif (!\is_scalar($value) && null !== $value) {
+>>>>>>> main
                 throw new \LogicException(sprintf('Controller attributes cannot contain non-scalar/non-null values (value for key "%s" is not a scalar or null).', $key));
             }
         }

@@ -19,8 +19,19 @@ abstract class Type
 {
     public static function fromValue($value, bool $allowsNull): self
     {
+<<<<<<< HEAD
         if ($value === false) {
             return new FalseType;
+=======
+        if ($allowsNull === false) {
+            if ($value === true) {
+                return new TrueType;
+            }
+
+            if ($value === false) {
+                return new FalseType;
+            }
+>>>>>>> main
         }
 
         $typeName = gettype($value);
@@ -48,6 +59,12 @@ abstract class Type
             case 'callable':
                 return new CallableType($allowsNull);
 
+<<<<<<< HEAD
+=======
+            case 'true':
+                return new TrueType;
+
+>>>>>>> main
             case 'false':
                 return new FalseType;
 
@@ -89,71 +106,163 @@ abstract class Type
         return ($this->allowsNull() ? '?' : '') . $this->name();
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true CallableType $this
+     */
+>>>>>>> main
     public function isCallable(): bool
     {
         return false;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true TrueType $this
+     */
+    public function isTrue(): bool
+    {
+        return false;
+    }
+
+    /**
+     * @psalm-assert-if-true FalseType $this
+     */
+>>>>>>> main
     public function isFalse(): bool
     {
         return false;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true GenericObjectType $this
+     */
+>>>>>>> main
     public function isGenericObject(): bool
     {
         return false;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true IntersectionType $this
+     */
+>>>>>>> main
     public function isIntersection(): bool
     {
         return false;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true IterableType $this
+     */
+>>>>>>> main
     public function isIterable(): bool
     {
         return false;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true MixedType $this
+     */
+>>>>>>> main
     public function isMixed(): bool
     {
         return false;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true NeverType $this
+     */
+>>>>>>> main
     public function isNever(): bool
     {
         return false;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true NullType $this
+     */
+>>>>>>> main
     public function isNull(): bool
     {
         return false;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true ObjectType $this
+     */
+>>>>>>> main
     public function isObject(): bool
     {
         return false;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true SimpleType $this
+     */
+>>>>>>> main
     public function isSimple(): bool
     {
         return false;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true StaticType $this
+     */
+>>>>>>> main
     public function isStatic(): bool
     {
         return false;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true UnionType $this
+     */
+>>>>>>> main
     public function isUnion(): bool
     {
         return false;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true UnknownType $this
+     */
+>>>>>>> main
     public function isUnknown(): bool
     {
         return false;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true VoidType $this
+     */
+>>>>>>> main
     public function isVoid(): bool
     {
         return false;

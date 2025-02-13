@@ -12,7 +12,11 @@
 namespace Symfony\Component\HttpFoundation\Exception;
 
 /**
+<<<<<<< HEAD
  * Raised when a session does not exists. This happens in the following cases:
+=======
+ * Raised when a session does not exist. This happens in the following cases:
+>>>>>>> main
  * - the session is not enabled
  * - attempt to read a session outside a request context (ie. cli script).
  *
@@ -20,7 +24,11 @@ namespace Symfony\Component\HttpFoundation\Exception;
  */
 class SessionNotFoundException extends \LogicException implements RequestExceptionInterface
 {
+<<<<<<< HEAD
     public function __construct(string $message = 'There is currently no session available.', int $code = 0, \Throwable $previous = null)
+=======
+    public function __construct(string $message = 'There is currently no session available.', int $code = 0, ?\Throwable $previous = null)
+>>>>>>> main
     {
         parent::__construct($message, $code, $previous);
     }

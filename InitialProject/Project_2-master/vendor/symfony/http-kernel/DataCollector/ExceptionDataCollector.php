@@ -25,7 +25,11 @@ class ExceptionDataCollector extends DataCollector
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function collect(Request $request, Response $response, \Throwable $exception = null)
+=======
+    public function collect(Request $request, Response $response, ?\Throwable $exception = null)
+>>>>>>> main
     {
         if (null !== $exception) {
             $this->data = [

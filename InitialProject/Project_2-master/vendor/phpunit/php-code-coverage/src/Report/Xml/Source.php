@@ -31,7 +31,11 @@ final class Source
     {
         $context = $this->context;
 
+<<<<<<< HEAD
         $tokens = (new Tokenizer())->parse($source);
+=======
+        $tokens = (new Tokenizer)->parse($source);
+>>>>>>> main
         $srcDom = (new XMLSerializer(new NamespaceUri($context->namespaceURI)))->toDom($tokens);
 
         $context->parentNode->replaceChild(

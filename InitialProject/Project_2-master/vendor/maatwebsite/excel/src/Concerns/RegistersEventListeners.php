@@ -2,6 +2,11 @@
 
 namespace Maatwebsite\Excel\Concerns;
 
+<<<<<<< HEAD
+=======
+use Maatwebsite\Excel\Events\AfterBatch;
+use Maatwebsite\Excel\Events\AfterChunk;
+>>>>>>> main
 use Maatwebsite\Excel\Events\AfterImport;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Events\BeforeExport;
@@ -17,6 +22,7 @@ trait RegistersEventListeners
      */
     public function registerEvents(): array
     {
+<<<<<<< HEAD
         $listeners = [];
 
         if (method_exists($this, 'beforeExport')) {
@@ -45,6 +51,27 @@ trait RegistersEventListeners
 
         if (method_exists($this, 'afterSheet')) {
             $listeners[AfterSheet::class] = [static::class, 'afterSheet'];
+=======
+        $listenersClasses = [
+            BeforeExport::class  => 'beforeExport',
+            BeforeWriting::class => 'beforeWriting',
+            BeforeImport::class  => 'beforeImport',
+            AfterImport::class   => 'afterImport',
+            AfterBatch::class    => 'afterBatch',
+            AfterChunk::class    => 'afterChunk',
+            ImportFailed::class  => 'importFailed',
+            BeforeSheet::class   => 'beforeSheet',
+            AfterSheet::class    => 'afterSheet',
+        ];
+        $listeners = [];
+
+        foreach ($listenersClasses as $class => $name) {
+            // Method names are case insensitive in php
+            if (method_exists($this, $name)) {
+                // Allow methods to not be static
+                $listeners[$class] = [$this, $name];
+            }
+>>>>>>> main
         }
 
         return $listeners;

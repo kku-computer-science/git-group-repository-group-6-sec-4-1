@@ -4,6 +4,7 @@ namespace PhpParser\Builder;
 
 use PhpParser;
 use PhpParser\BuilderHelpers;
+<<<<<<< HEAD
 use PhpParser\Node;
 
 class Param implements PhpParser\Builder
@@ -21,6 +22,21 @@ class Param implements PhpParser\Builder
 
     /** @var Node\AttributeGroup[] */
     protected $attributeGroups = [];
+=======
+use PhpParser\Modifiers;
+use PhpParser\Node;
+
+class Param implements PhpParser\Builder {
+    protected string $name;
+    protected ?Node\Expr $default = null;
+    /** @var Node\Identifier|Node\Name|Node\ComplexType|null */
+    protected ?Node $type = null;
+    protected bool $byRef = false;
+    protected int $flags = 0;
+    protected bool $variadic = false;
+    /** @var list<Node\AttributeGroup> */
+    protected array $attributeGroups = [];
+>>>>>>> main
 
     /**
      * Creates a parameter builder.
@@ -61,6 +77,7 @@ class Param implements PhpParser\Builder
     }
 
     /**
+<<<<<<< HEAD
      * Sets type for the parameter.
      *
      * @param string|Node\Name|Node\Identifier|Node\ComplexType $type Parameter type
@@ -74,6 +91,8 @@ class Param implements PhpParser\Builder
     }
 
     /**
+=======
+>>>>>>> main
      * Make the parameter accept the value by reference.
      *
      * @return $this The builder instance (for fluid interface)
@@ -96,6 +115,75 @@ class Param implements PhpParser\Builder
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Makes the (promoted) parameter public.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function makePublic() {
+        $this->flags = BuilderHelpers::addModifier($this->flags, Modifiers::PUBLIC);
+
+        return $this;
+    }
+
+    /**
+     * Makes the (promoted) parameter protected.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function makeProtected() {
+        $this->flags = BuilderHelpers::addModifier($this->flags, Modifiers::PROTECTED);
+
+        return $this;
+    }
+
+    /**
+     * Makes the (promoted) parameter private.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function makePrivate() {
+        $this->flags = BuilderHelpers::addModifier($this->flags, Modifiers::PRIVATE);
+
+        return $this;
+    }
+
+    /**
+     * Makes the (promoted) parameter readonly.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function makeReadonly() {
+        $this->flags = BuilderHelpers::addModifier($this->flags, Modifiers::READONLY);
+
+        return $this;
+    }
+
+    /**
+     * Gives the promoted property private(set) visibility.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function makePrivateSet() {
+        $this->flags = BuilderHelpers::addModifier($this->flags, Modifiers::PRIVATE_SET);
+
+        return $this;
+    }
+
+    /**
+     * Gives the promoted property protected(set) visibility.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function makeProtectedSet() {
+        $this->flags = BuilderHelpers::addModifier($this->flags, Modifiers::PROTECTED_SET);
+
+        return $this;
+    }
+
+    /**
+>>>>>>> main
      * Adds an attribute group.
      *
      * @param Node\Attribute|Node\AttributeGroup $attribute
@@ -113,10 +201,17 @@ class Param implements PhpParser\Builder
      *
      * @return Node\Param The built parameter node
      */
+<<<<<<< HEAD
     public function getNode() : Node {
         return new Node\Param(
             new Node\Expr\Variable($this->name),
             $this->default, $this->type, $this->byRef, $this->variadic, [], 0, $this->attributeGroups
+=======
+    public function getNode(): Node {
+        return new Node\Param(
+            new Node\Expr\Variable($this->name),
+            $this->default, $this->type, $this->byRef, $this->variadic, [], $this->flags, $this->attributeGroups
+>>>>>>> main
         );
     }
 }

@@ -29,7 +29,11 @@ class UnknownImageFileException extends ImageException
 /**
  * The exception that indicates error of JSON encoding/decoding.
  */
+<<<<<<< HEAD
 class JsonException extends \Exception
+=======
+class JsonException extends \JsonException
+>>>>>>> main
 {
 }
 
@@ -39,6 +43,7 @@ class JsonException extends \Exception
  */
 class RegexpException extends \Exception
 {
+<<<<<<< HEAD
 	public const MESSAGES = [
 		PREG_INTERNAL_ERROR => 'Internal error',
 		PREG_BACKTRACK_LIMIT_ERROR => 'Backtrack limit was exhausted',
@@ -47,6 +52,8 @@ class RegexpException extends \Exception
 		PREG_BAD_UTF8_OFFSET_ERROR => 'Offset didn\'t correspond to the begin of a valid UTF-8 code point',
 		6 => 'Failed due to limited JIT stack space', // PREG_JIT_STACKLIMIT_ERROR
 	];
+=======
+>>>>>>> main
 }
 
 

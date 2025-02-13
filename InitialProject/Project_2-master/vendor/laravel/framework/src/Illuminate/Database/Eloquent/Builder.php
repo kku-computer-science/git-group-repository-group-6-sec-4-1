@@ -1706,8 +1706,13 @@ class Builder
     protected static function registerMixin($mixin, $replace)
     {
         $methods = (new ReflectionClass($mixin))->getMethods(
+<<<<<<< HEAD
                 ReflectionMethod::IS_PUBLIC | ReflectionMethod::IS_PROTECTED
             );
+=======
+            ReflectionMethod::IS_PUBLIC | ReflectionMethod::IS_PROTECTED
+        );
+>>>>>>> main
 
         foreach ($methods as $method) {
             if ($replace || ! static::hasGlobalMacro($method->name)) {

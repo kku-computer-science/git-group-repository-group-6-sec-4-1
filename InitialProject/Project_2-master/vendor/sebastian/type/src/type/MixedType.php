@@ -31,6 +31,12 @@ final class MixedType extends Type
         return true;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true MixedType $this
+     */
+>>>>>>> main
     public function isMixed(): bool
     {
         return true;

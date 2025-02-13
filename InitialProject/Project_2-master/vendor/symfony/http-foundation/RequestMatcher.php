@@ -58,7 +58,11 @@ class RequestMatcher implements RequestMatcherInterface
      * @param string|string[]|null $ips
      * @param string|string[]|null $schemes
      */
+<<<<<<< HEAD
     public function __construct(string $path = null, string $host = null, $methods = null, $ips = null, array $attributes = [], $schemes = null, int $port = null)
+=======
+    public function __construct(?string $path = null, ?string $host = null, $methods = null, $ips = null, array $attributes = [], $schemes = null, ?int $port = null)
+>>>>>>> main
     {
         $this->matchPath($path);
         $this->matchHost($host);
@@ -91,7 +95,11 @@ class RequestMatcher implements RequestMatcherInterface
     }
 
     /**
+<<<<<<< HEAD
      * Adds a check for the the URL port.
+=======
+     * Adds a check for the URL port.
+>>>>>>> main
      *
      * @param int|null $port The port number to connect to
      */

@@ -5,6 +5,10 @@ namespace Maatwebsite\Excel\Jobs;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
+<<<<<<< HEAD
+=======
+use Maatwebsite\Excel\Exceptions\NoSheetsFoundException;
+>>>>>>> main
 use Maatwebsite\Excel\Files\TemporaryFile;
 use Maatwebsite\Excel\Jobs\Middleware\LocalizeJob;
 use Maatwebsite\Excel\Writer;
@@ -66,6 +70,13 @@ class QueueExport implements ShouldQueue
                 $sheetExports = $this->export->sheets();
             }
 
+<<<<<<< HEAD
+=======
+            if (count($sheetExports) === 0) {
+                throw new NoSheetsFoundException('Your export did not return any sheet export instances, please make sure your sheets() method always at least returns one instance.');
+            }
+
+>>>>>>> main
             // Pre-create the worksheets
             foreach ($sheetExports as $sheetIndex => $sheetExport) {
                 $sheet = $writer->addNewSheet($sheetIndex);

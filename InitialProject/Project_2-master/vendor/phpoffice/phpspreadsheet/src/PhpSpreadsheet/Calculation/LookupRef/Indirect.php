@@ -5,7 +5,14 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\LookupRef;
 use Exception;
 use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+use PhpOffice\PhpSpreadsheet\Cell\AddressRange;
+use PhpOffice\PhpSpreadsheet\Cell\Cell;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class Indirect
@@ -23,7 +30,11 @@ class Indirect
             return Helpers::CELLADDRESS_USE_A1;
         }
         if (is_string($a1fmt)) {
+<<<<<<< HEAD
             throw new Exception(Functions::VALUE());
+=======
+            throw new Exception(ExcelError::VALUE());
+>>>>>>> main
         }
 
         return (bool) $a1fmt;
@@ -38,7 +49,11 @@ class Indirect
     {
         $cellAddress = Functions::flattenSingleValue($cellAddress);
         if (!is_string($cellAddress) || !$cellAddress) {
+<<<<<<< HEAD
             throw new Exception(Functions::REF());
+=======
+            throw new Exception(ExcelError::REF());
+>>>>>>> main
         }
 
         return $cellAddress;
@@ -62,6 +77,11 @@ class Indirect
      */
     public static function INDIRECT($cellAddress, $a1fmt, Cell $cell)
     {
+<<<<<<< HEAD
+=======
+        [$baseCol, $baseRow] = Coordinate::indexesFromString($cell->getCoordinate());
+
+>>>>>>> main
         try {
             $a1 = self::a1Format($a1fmt);
             $cellAddress = self::validateAddress($cellAddress);
@@ -71,6 +91,7 @@ class Indirect
 
         [$cellAddress, $worksheet, $sheetName] = Helpers::extractWorksheet($cellAddress, $cell);
 
+<<<<<<< HEAD
         [$cellAddress1, $cellAddress2, $cellAddress] = Helpers::extractCellAddresses($cellAddress, $a1, $cell->getWorkSheet(), $sheetName);
 
         if (
@@ -78,6 +99,25 @@ class Indirect
             (($cellAddress2 !== null) && (!preg_match('/^' . Calculation::CALCULATION_REGEXP_CELLREF . '$/i', $cellAddress2, $matches)))
         ) {
             return Functions::REF();
+=======
+        if (preg_match('/^' . Calculation::CALCULATION_REGEXP_COLUMNRANGE_RELATIVE . '$/miu', $cellAddress, $matches)) {
+            $cellAddress = self::handleRowColumnRanges($worksheet, ...explode(':', $cellAddress));
+        } elseif (preg_match('/^' . Calculation::CALCULATION_REGEXP_ROWRANGE_RELATIVE . '$/miu', $cellAddress, $matches)) {
+            $cellAddress = self::handleRowColumnRanges($worksheet, ...explode(':', $cellAddress));
+        }
+
+        try {
+            [$cellAddress1, $cellAddress2, $cellAddress] = Helpers::extractCellAddresses($cellAddress, $a1, $cell->getWorkSheet(), $sheetName, $baseRow, $baseCol);
+        } catch (Exception $e) {
+            return ExcelError::REF();
+        }
+
+        if (
+            (!preg_match('/^' . Calculation::CALCULATION_REGEXP_CELLREF . '$/miu', $cellAddress1, $matches)) ||
+            (($cellAddress2 !== null) && (!preg_match('/^' . Calculation::CALCULATION_REGEXP_CELLREF . '$/miu', $cellAddress2, $matches)))
+        ) {
+            return ExcelError::REF();
+>>>>>>> main
         }
 
         return self::extractRequiredCells($worksheet, $cellAddress);
@@ -94,4 +134,25 @@ class Indirect
         return Calculation::getInstance($worksheet !== null ? $worksheet->getParent() : null)
             ->extractCellRange($cellAddress, $worksheet, false);
     }
+<<<<<<< HEAD
+=======
+
+    private static function handleRowColumnRanges(?Worksheet $worksheet, string $start, string $end): string
+    {
+        // Being lazy, we're only checking a single row/column to get the max
+        if (ctype_digit($start) && $start <= 1048576) {
+            // Max 16,384 columns for Excel2007
+            $endColRef = ($worksheet !== null) ? $worksheet->getHighestDataColumn((int) $start) : AddressRange::MAX_COLUMN;
+
+            return "A{$start}:{$endColRef}{$end}";
+        } elseif (ctype_alpha($start) && strlen($start) <= 3) {
+            // Max 1,048,576 rows for Excel2007
+            $endRowRef = ($worksheet !== null) ? $worksheet->getHighestDataRow($start) : AddressRange::MAX_ROW;
+
+            return "{$start}1:{$end}{$endRowRef}";
+        }
+
+        return "{$start}:{$end}";
+    }
+>>>>>>> main
 }

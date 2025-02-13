@@ -40,7 +40,11 @@ final class Reader
      *
      * @return array<string,string>
      */
+<<<<<<< HEAD
     public static function read(array $filePaths, bool $shortCircuit = true, string $fileEncoding = null)
+=======
+    public static function read(array $filePaths, bool $shortCircuit = true, ?string $fileEncoding = null)
+>>>>>>> main
     {
         $output = [];
 
@@ -67,7 +71,11 @@ final class Reader
      *
      * @return \PhpOption\Option<string>
      */
+<<<<<<< HEAD
     private static function readFromFile(string $path, string $encoding = null)
+=======
+    private static function readFromFile(string $path, ?string $encoding = null)
+>>>>>>> main
     {
         /** @var Option<string> */
         $content = Option::fromValue(@\file_get_contents($path), false);

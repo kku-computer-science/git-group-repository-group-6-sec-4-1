@@ -5,6 +5,10 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\Statistical;
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class Confidence
 {
@@ -41,9 +45,18 @@ class Confidence
         }
 
         if (($alpha <= 0) || ($alpha >= 1) || ($stdDev <= 0) || ($size < 1)) {
+<<<<<<< HEAD
             return Functions::NAN();
         }
 
         return Functions::scalar(Distributions\StandardNormal::inverse(1 - $alpha / 2) * $stdDev / sqrt($size));
+=======
+            return ExcelError::NAN();
+        }
+        /** @var float */
+        $temp = Distributions\StandardNormal::inverse(1 - $alpha / 2);
+
+        return Functions::scalar($temp * $stdDev / sqrt($size));
+>>>>>>> main
     }
 }

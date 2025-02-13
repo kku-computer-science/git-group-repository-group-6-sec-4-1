@@ -23,11 +23,16 @@ use function substr;
 use function substr_count;
 use function trim;
 use function var_export;
+<<<<<<< HEAD
 use ReflectionIntersectionType;
 use ReflectionMethod;
 use ReflectionNamedType;
 use ReflectionParameter;
 use ReflectionUnionType;
+=======
+use ReflectionMethod;
+use ReflectionParameter;
+>>>>>>> main
 use SebastianBergmann\Template\Exception as TemplateException;
 use SebastianBergmann\Template\Template;
 use SebastianBergmann\Type\ReflectionMapper;
@@ -143,7 +148,11 @@ final class MockMethod
             $reference,
             $callOriginalMethod,
             $method->isStatic(),
+<<<<<<< HEAD
             $deprecation
+=======
+            $deprecation,
+>>>>>>> main
         );
     }
 
@@ -160,7 +169,11 @@ final class MockMethod
             '',
             false,
             false,
+<<<<<<< HEAD
             null
+=======
+            null,
+>>>>>>> main
         );
     }
 
@@ -194,12 +207,20 @@ final class MockMethod
         } elseif ($this->returnType->isNever() || $this->returnType->isVoid()) {
             $templateFile = sprintf(
                 '%s_method_never_or_void.tpl',
+<<<<<<< HEAD
                 $this->callOriginalMethod ? 'proxied' : 'mocked'
+=======
+                $this->callOriginalMethod ? 'proxied' : 'mocked',
+>>>>>>> main
             );
         } else {
             $templateFile = sprintf(
                 '%s_method.tpl',
+<<<<<<< HEAD
                 $this->callOriginalMethod ? 'proxied' : 'mocked'
+=======
+                $this->callOriginalMethod ? 'proxied' : 'mocked',
+>>>>>>> main
             );
         }
 
@@ -212,7 +233,11 @@ final class MockMethod
             $deprecationTemplate->setVar(
                 [
                     'deprecation' => var_export($deprecation, true),
+<<<<<<< HEAD
                 ]
+=======
+                ],
+>>>>>>> main
             );
 
             $deprecation = $deprecationTemplate->render();
@@ -233,7 +258,11 @@ final class MockMethod
                 'reference'          => $this->reference,
                 'clone_arguments'    => $this->cloneArguments ? 'true' : 'false',
                 'deprecation'        => $deprecation,
+<<<<<<< HEAD
             ]
+=======
+            ],
+>>>>>>> main
         );
 
         return $template->render();
@@ -257,8 +286,13 @@ final class MockMethod
             } catch (TemplateException $e) {
                 throw new RuntimeException(
                     $e->getMessage(),
+<<<<<<< HEAD
                     (int) $e->getCode(),
                     $e
+=======
+                    $e->getCode(),
+                    $e,
+>>>>>>> main
                 );
             }
         }
@@ -274,6 +308,10 @@ final class MockMethod
     private static function getMethodParametersForDeclaration(ReflectionMethod $method): string
     {
         $parameters = [];
+<<<<<<< HEAD
+=======
+        $types      = (new ReflectionMapper)->fromParameterTypes($method);
+>>>>>>> main
 
         foreach ($method->getParameters() as $i => $parameter) {
             $name = '$' . $parameter->getName();
@@ -285,6 +323,7 @@ final class MockMethod
                 $name = '$arg' . $i;
             }
 
+<<<<<<< HEAD
             $nullable        = '';
             $default         = '';
             $reference       = '';
@@ -298,6 +337,18 @@ final class MockMethod
                 if ($type instanceof ReflectionNamedType) {
                     $typeName = $type->getName();
                 }
+=======
+            $default         = '';
+            $reference       = '';
+            $typeDeclaration = '';
+
+            if (!$types[$i]->type()->isUnknown()) {
+                $typeDeclaration = $types[$i]->type()->asString() . ' ';
+            }
+
+            if ($parameter->isPassedByReference()) {
+                $reference = '&';
+>>>>>>> main
             }
 
             if ($parameter->isVariadic()) {
@@ -308,6 +359,7 @@ final class MockMethod
                 $default = ' = null';
             }
 
+<<<<<<< HEAD
             if ($type !== null) {
                 if ($typeName !== 'mixed' && $parameter->allowsNull() && !$type instanceof ReflectionIntersectionType && !$type instanceof ReflectionUnionType) {
                     $nullable = '?';
@@ -332,6 +384,9 @@ final class MockMethod
             }
 
             $parameters[] = $nullable . $typeDeclaration . $reference . $name . $default;
+=======
+            $parameters[] = $typeDeclaration . $reference . $name . $default;
+>>>>>>> main
         }
 
         return implode(', ', $parameters);
@@ -389,22 +444,36 @@ final class MockMethod
                 substr(
                     substr(
                         $parameterAsString,
+<<<<<<< HEAD
                         strpos($parameterAsString, '<optional> ') + strlen('<optional> ')
                     ),
                     0,
                     -2
                 )
+=======
+                        strpos($parameterAsString, '<optional> ') + strlen('<optional> '),
+                    ),
+                    0,
+                    -2,
+                ),
+>>>>>>> main
             )[1];
             // @codeCoverageIgnoreStart
         } catch (\ReflectionException $e) {
             throw new ReflectionException(
                 $e->getMessage(),
+<<<<<<< HEAD
                 (int) $e->getCode(),
                 $e
+=======
+                $e->getCode(),
+                $e,
+>>>>>>> main
             );
         }
         // @codeCoverageIgnoreEnd
     }
+<<<<<<< HEAD
 
     private static function unionTypeAsString(ReflectionUnionType $union, string $self): string
     {
@@ -431,4 +500,6 @@ final class MockMethod
 
         return implode('&', $types) . ' ';
     }
+=======
+>>>>>>> main
 }

@@ -27,19 +27,27 @@ abstract class AbstractProviderFactory implements ProviderFactoryInterface
 
     protected function getUser(Dsn $dsn): string
     {
+<<<<<<< HEAD
         if (null === $user = $dsn->getUser()) {
             throw new IncompleteDsnException('User is not set.', $dsn->getOriginalDsn());
         }
 
         return $user;
+=======
+        return $dsn->getUser() ?? throw new IncompleteDsnException('User is not set.', $dsn->getScheme().'://'.$dsn->getHost());
+>>>>>>> main
     }
 
     protected function getPassword(Dsn $dsn): string
     {
+<<<<<<< HEAD
         if (null === $password = $dsn->getPassword()) {
             throw new IncompleteDsnException('Password is not set.', $dsn->getOriginalDsn());
         }
 
         return $password;
+=======
+        return $dsn->getPassword() ?? throw new IncompleteDsnException('Password is not set.', $dsn->getOriginalDsn());
+>>>>>>> main
     }
 }

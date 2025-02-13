@@ -14,7 +14,11 @@ final class Rfc7230
      *
      * Note: header delimiter (\r\n) is modified to \r?\n to accept line feed only delimiters for BC reasons.
      *
+<<<<<<< HEAD
      * @link    https://github.com/amphp/http/blob/v1.0.1/src/Rfc7230.php#L12-L15
+=======
+     * @see https://github.com/amphp/http/blob/v1.0.1/src/Rfc7230.php#L12-L15
+>>>>>>> main
      *
      * @license https://github.com/amphp/http/blob/v1.0.1/LICENSE
      */

@@ -25,7 +25,11 @@ abstract class Calculator
     /**
      * The maximum exponent value allowed for the pow() method.
      */
+<<<<<<< HEAD
     public const MAX_POWER = 1000000;
+=======
+    public const MAX_POWER = 1_000_000;
+>>>>>>> main
 
     /**
      * The alphabet for converting from and to base 2 to 36, lowercase.
@@ -34,10 +38,15 @@ abstract class Calculator
 
     /**
      * The Calculator instance in use.
+<<<<<<< HEAD
      *
      * @var Calculator|null
      */
     private static $instance;
+=======
+     */
+    private static ?Calculator $instance = null;
+>>>>>>> main
 
     /**
      * Sets the Calculator instance to use.
@@ -45,8 +54,11 @@ abstract class Calculator
      * An instance is typically set only in unit tests: the autodetect is usually the best option.
      *
      * @param Calculator|null $calculator The calculator instance, or NULL to revert to autodetect.
+<<<<<<< HEAD
      *
      * @return void
+=======
+>>>>>>> main
      */
     final public static function set(?Calculator $calculator) : void
     {
@@ -58,8 +70,11 @@ abstract class Calculator
      *
      * If none has been explicitly set, the fastest available implementation will be returned.
      *
+<<<<<<< HEAD
      * @return Calculator
      *
+=======
+>>>>>>> main
      * @psalm-pure
      * @psalm-suppress ImpureStaticProperty
      */
@@ -77,8 +92,11 @@ abstract class Calculator
      * Returns the fastest available Calculator implementation.
      *
      * @codeCoverageIgnore
+<<<<<<< HEAD
      *
      * @return Calculator
+=======
+>>>>>>> main
      */
     private static function detect() : Calculator
     {
@@ -96,9 +114,12 @@ abstract class Calculator
     /**
      * Extracts the sign & digits of the operands.
      *
+<<<<<<< HEAD
      * @param string $a The first operand.
      * @param string $b The second operand.
      *
+=======
+>>>>>>> main
      * @return array{bool, bool, string, string} Whether $a and $b are negative, followed by their digits.
      */
     final protected function init(string $a, string $b) : array
@@ -114,10 +135,13 @@ abstract class Calculator
 
     /**
      * Returns the absolute value of a number.
+<<<<<<< HEAD
      *
      * @param string $n The number.
      *
      * @return string The absolute value.
+=======
+>>>>>>> main
      */
     final public function abs(string $n) : string
     {
@@ -126,10 +150,13 @@ abstract class Calculator
 
     /**
      * Negates a number.
+<<<<<<< HEAD
      *
      * @param string $n The number.
      *
      * @return string The negated value.
+=======
+>>>>>>> main
      */
     final public function neg(string $n) : string
     {
@@ -147,10 +174,16 @@ abstract class Calculator
     /**
      * Compares two numbers.
      *
+<<<<<<< HEAD
      * @param string $a The first number.
      * @param string $b The second number.
      *
      * @return int [-1, 0, 1] If the first number is less than, equal to, or greater than the second number.
+=======
+     * @psalm-return -1|0|1
+     *
+     * @return int -1 if the first number is less than, 0 if equal to, 1 if greater than the second number.
+>>>>>>> main
      */
     final public function cmp(string $a, string $b) : int
     {
@@ -180,31 +213,40 @@ abstract class Calculator
 
     /**
      * Adds two numbers.
+<<<<<<< HEAD
      *
      * @param string $a The augend.
      * @param string $b The addend.
      *
      * @return string The sum.
+=======
+>>>>>>> main
      */
     abstract public function add(string $a, string $b) : string;
 
     /**
      * Subtracts two numbers.
+<<<<<<< HEAD
      *
      * @param string $a The minuend.
      * @param string $b The subtrahend.
      *
      * @return string The difference.
+=======
+>>>>>>> main
      */
     abstract public function sub(string $a, string $b) : string;
 
     /**
      * Multiplies two numbers.
+<<<<<<< HEAD
      *
      * @param string $a The multiplicand.
      * @param string $b The multiplier.
      *
      * @return string The product.
+=======
+>>>>>>> main
      */
     abstract public function mul(string $a, string $b) : string;
 
@@ -234,7 +276,11 @@ abstract class Calculator
      * @param string $a The dividend.
      * @param string $b The divisor, must not be zero.
      *
+<<<<<<< HEAD
      * @return string[] An array containing the quotient and remainder.
+=======
+     * @return array{string, string} An array containing the quotient and remainder.
+>>>>>>> main
      */
     abstract public function divQR(string $a, string $b) : array;
 
@@ -249,10 +295,14 @@ abstract class Calculator
     abstract public function pow(string $a, int $e) : string;
 
     /**
+<<<<<<< HEAD
      * @param string $a
      * @param string $b The modulus; must not be zero.
      *
      * @return string
+=======
+     * @param string $b The modulus; must not be zero.
+>>>>>>> main
      */
     public function mod(string $a, string $b) : string
     {
@@ -266,10 +316,14 @@ abstract class Calculator
      *
      * This method can be overridden by the concrete implementation if the underlying library has built-in support.
      *
+<<<<<<< HEAD
      * @param string $x
      * @param string $m The modulus; must not be negative or zero.
      *
      * @return string|null
+=======
+     * @param string $m The modulus; must not be negative or zero.
+>>>>>>> main
      */
     public function modInverse(string $x, string $m) : ?string
     {
@@ -283,9 +337,13 @@ abstract class Calculator
             $modVal = $this->mod($x, $m);
         }
 
+<<<<<<< HEAD
         $x = '0';
         $y = '0';
         $g = $this->gcdExtended($modVal, $m, $x, $y);
+=======
+        [$g, $x] = $this->gcdExtended($modVal, $m);
+>>>>>>> main
 
         if ($g !== '1') {
             return null;
@@ -300,8 +358,11 @@ abstract class Calculator
      * @param string $base The base number; must be positive or zero.
      * @param string $exp  The exponent; must be positive or zero.
      * @param string $mod  The modulus; must be strictly positive.
+<<<<<<< HEAD
      *
      * @return string The power.
+=======
+>>>>>>> main
      */
     abstract public function modPow(string $base, string $exp, string $mod) : string;
 
@@ -311,9 +372,12 @@ abstract class Calculator
      * This method can be overridden by the concrete implementation if the underlying library
      * has built-in support for GCD calculations.
      *
+<<<<<<< HEAD
      * @param string $a The first number.
      * @param string $b The second number.
      *
+=======
+>>>>>>> main
      * @return string The GCD, always positive, or zero if both arguments are zero.
      */
     public function gcd(string $a, string $b) : string
@@ -329,6 +393,7 @@ abstract class Calculator
         return $this->gcd($b, $this->divR($a, $b));
     }
 
+<<<<<<< HEAD
     private function gcdExtended(string $a, string $b, string &$x, string &$y) : string
     {
         if ($a === '0') {
@@ -342,11 +407,27 @@ abstract class Calculator
         $y1 = '0';
 
         $gcd = $this->gcdExtended($this->mod($b, $a), $a, $x1, $y1);
+=======
+    /**
+     * @return array{string, string, string} GCD, X, Y
+     */
+    private function gcdExtended(string $a, string $b) : array
+    {
+        if ($a === '0') {
+            return [$b, '0', '1'];
+        }
+
+        [$gcd, $x1, $y1] = $this->gcdExtended($this->mod($b, $a), $a);
+>>>>>>> main
 
         $x = $this->sub($y1, $this->mul($this->divQ($b, $a), $x1));
         $y = $x1;
 
+<<<<<<< HEAD
         return $gcd;
+=======
+        return [$gcd, $x, $y];
+>>>>>>> main
     }
 
     /**
@@ -354,10 +435,13 @@ abstract class Calculator
      *
      * The result is the largest x such that x² ≤ n.
      * The input MUST NOT be negative.
+<<<<<<< HEAD
      *
      * @param string $n The number.
      *
      * @return string The square root.
+=======
+>>>>>>> main
      */
     abstract public function sqrt(string $n) : string;
 
@@ -485,6 +569,7 @@ abstract class Calculator
      *
      * Rounding is performed when the remainder of the division is not zero.
      *
+<<<<<<< HEAD
      * @param string $a            The dividend.
      * @param string $b            The divisor, must not be zero.
      * @param int    $roundingMode The rounding mode.
@@ -495,6 +580,18 @@ abstract class Calculator
      * @throws RoundingNecessaryException If RoundingMode::UNNECESSARY is provided but rounding is necessary.
      */
     final public function divRound(string $a, string $b, int $roundingMode) : string
+=======
+     * @param string       $a            The dividend.
+     * @param string       $b            The divisor, must not be zero.
+     * @param RoundingMode $roundingMode The rounding mode.
+     *
+     * @throws \InvalidArgumentException  If the rounding mode is invalid.
+     * @throws RoundingNecessaryException If RoundingMode::UNNECESSARY is provided but rounding is necessary.
+     *
+     * @psalm-suppress ImpureFunctionCall
+     */
+    final public function divRound(string $a, string $b, RoundingMode $roundingMode) : string
+>>>>>>> main
     {
         [$quotient, $remainder] = $this->divQR($a, $b);
 
@@ -570,11 +667,14 @@ abstract class Calculator
      *
      * This method can be overridden by the concrete implementation if the underlying library
      * has built-in support for bitwise operations.
+<<<<<<< HEAD
      *
      * @param string $a
      * @param string $b
      *
      * @return string
+=======
+>>>>>>> main
      */
     public function and(string $a, string $b) : string
     {
@@ -586,11 +686,14 @@ abstract class Calculator
      *
      * This method can be overridden by the concrete implementation if the underlying library
      * has built-in support for bitwise operations.
+<<<<<<< HEAD
      *
      * @param string $a
      * @param string $b
      *
      * @return string
+=======
+>>>>>>> main
      */
     public function or(string $a, string $b) : string
     {
@@ -602,11 +705,14 @@ abstract class Calculator
      *
      * This method can be overridden by the concrete implementation if the underlying library
      * has built-in support for bitwise operations.
+<<<<<<< HEAD
      *
      * @param string $a
      * @param string $b
      *
      * @return string
+=======
+>>>>>>> main
      */
     public function xor(string $a, string $b) : string
     {
@@ -616,11 +722,17 @@ abstract class Calculator
     /**
      * Performs a bitwise operation on a decimal number.
      *
+<<<<<<< HEAD
      * @param string $operator The operator to use, must be "and", "or" or "xor".
      * @param string $a        The left operand.
      * @param string $b        The right operand.
      *
      * @return string
+=======
+     * @param 'and'|'or'|'xor' $operator The operator to use.
+     * @param string           $a        The left operand.
+     * @param string           $b        The right operand.
+>>>>>>> main
      */
     private function bitwise(string $operator, string $a, string $b) : string
     {
@@ -645,6 +757,7 @@ abstract class Calculator
             $bBin = $this->twosComplement($bBin);
         }
 
+<<<<<<< HEAD
         switch ($operator) {
             case 'and':
                 $value = $aBin & $bBin;
@@ -666,6 +779,19 @@ abstract class Calculator
                 throw new \InvalidArgumentException('Invalid bitwise operator.');
             // @codeCoverageIgnoreEnd
         }
+=======
+        $value = match ($operator) {
+            'and' => $aBin & $bBin,
+            'or' => $aBin | $bBin,
+            'xor' => $aBin ^ $bBin,
+        };
+
+        $negative = match ($operator) {
+            'and' => $aNeg and $bNeg,
+            'or' => $aNeg or $bNeg,
+            'xor' => $aNeg xor $bNeg,
+        };
+>>>>>>> main
 
         if ($negative) {
             $value = $this->twosComplement($value);
@@ -678,8 +804,11 @@ abstract class Calculator
 
     /**
      * @param string $number A positive, binary number.
+<<<<<<< HEAD
      *
      * @return string
+=======
+>>>>>>> main
      */
     private function twosComplement(string $number) : string
     {
@@ -709,8 +838,11 @@ abstract class Calculator
      * Converts a decimal number to a binary string.
      *
      * @param string $number The number to convert, positive or zero, only digits.
+<<<<<<< HEAD
      *
      * @return string
+=======
+>>>>>>> main
      */
     private function toBinary(string $number) : string
     {
@@ -728,8 +860,11 @@ abstract class Calculator
      * Returns the positive decimal representation of a binary number.
      *
      * @param string $bytes The bytes representing the number.
+<<<<<<< HEAD
      *
      * @return string
+=======
+>>>>>>> main
      */
     private function toDecimal(string $bytes) : string
     {

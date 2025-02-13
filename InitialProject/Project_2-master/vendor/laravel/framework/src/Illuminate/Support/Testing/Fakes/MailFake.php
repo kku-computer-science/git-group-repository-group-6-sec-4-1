@@ -363,12 +363,20 @@ class MailFake implements Factory, Mailer, MailQueue
 
         $view->mailer($this->currentMailer);
 
+<<<<<<< HEAD
         $this->currentMailer = null;
 
+=======
+>>>>>>> main
         if ($view instanceof ShouldQueue) {
             return $this->queue($view, $data);
         }
 
+<<<<<<< HEAD
+=======
+        $this->currentMailer = null;
+
+>>>>>>> main
         $this->mailables[] = $view;
     }
 

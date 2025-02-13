@@ -9,6 +9,11 @@
  */
 namespace PHPUnit\Util;
 
+<<<<<<< HEAD
+=======
+use const PHP_MAJOR_VERSION;
+use const PHP_MINOR_VERSION;
+>>>>>>> main
 use function array_keys;
 use function array_reverse;
 use function array_shift;
@@ -48,6 +53,82 @@ final class GlobalState
     ];
 
     /**
+<<<<<<< HEAD
+=======
+     * @psalm-var array<string, array<string, true>>
+     */
+    private const DEPRECATED_INI_SETTINGS = [
+        '7.3' => [
+            'iconv.input_encoding'       => true,
+            'iconv.output_encoding'      => true,
+            'iconv.internal_encoding'    => true,
+            'mbstring.func_overload'     => true,
+            'mbstring.http_input'        => true,
+            'mbstring.http_output'       => true,
+            'mbstring.internal_encoding' => true,
+            'string.strip_tags'          => true,
+        ],
+
+        '7.4' => [
+            'iconv.input_encoding'       => true,
+            'iconv.output_encoding'      => true,
+            'iconv.internal_encoding'    => true,
+            'mbstring.func_overload'     => true,
+            'mbstring.http_input'        => true,
+            'mbstring.http_output'       => true,
+            'mbstring.internal_encoding' => true,
+            'pdo_odbc.db2_instance_name' => true,
+            'string.strip_tags'          => true,
+        ],
+
+        '8.0' => [
+            'iconv.input_encoding'       => true,
+            'iconv.output_encoding'      => true,
+            'iconv.internal_encoding'    => true,
+            'mbstring.http_input'        => true,
+            'mbstring.http_output'       => true,
+            'mbstring.internal_encoding' => true,
+        ],
+
+        '8.1' => [
+            'auto_detect_line_endings'     => true,
+            'filter.default'               => true,
+            'iconv.input_encoding'         => true,
+            'iconv.output_encoding'        => true,
+            'iconv.internal_encoding'      => true,
+            'mbstring.http_input'          => true,
+            'mbstring.http_output'         => true,
+            'mbstring.internal_encoding'   => true,
+            'oci8.old_oci_close_semantics' => true,
+        ],
+
+        '8.2' => [
+            'auto_detect_line_endings'     => true,
+            'filter.default'               => true,
+            'iconv.input_encoding'         => true,
+            'iconv.output_encoding'        => true,
+            'iconv.internal_encoding'      => true,
+            'mbstring.http_input'          => true,
+            'mbstring.http_output'         => true,
+            'mbstring.internal_encoding'   => true,
+            'oci8.old_oci_close_semantics' => true,
+        ],
+
+        '8.3' => [
+            'auto_detect_line_endings'     => true,
+            'filter.default'               => true,
+            'iconv.input_encoding'         => true,
+            'iconv.output_encoding'        => true,
+            'iconv.internal_encoding'      => true,
+            'mbstring.http_input'          => true,
+            'mbstring.http_output'         => true,
+            'mbstring.internal_encoding'   => true,
+            'oci8.old_oci_close_semantics' => true,
+        ],
+    ];
+
+    /**
+>>>>>>> main
      * @throws Exception
      */
     public static function getIncludedFilesAsString(): string
@@ -106,10 +187,21 @@ final class GlobalState
         $result = '';
 
         foreach (ini_get_all(null, false) as $key => $value) {
+<<<<<<< HEAD
             $result .= sprintf(
                 '@ini_set(%s, %s);' . "\n",
                 self::exportVariable($key),
                 self::exportVariable((string) $value)
+=======
+            if (self::isIniSettingDeprecated($key)) {
+                continue;
+            }
+
+            $result .= sprintf(
+                '@ini_set(%s, %s);' . "\n",
+                self::exportVariable($key),
+                self::exportVariable((string) $value),
+>>>>>>> main
             );
         }
 
@@ -127,7 +219,11 @@ final class GlobalState
                     'if (!defined(\'%s\')) define(\'%s\', %s);' . "\n",
                     $name,
                     $name,
+<<<<<<< HEAD
                     self::exportVariable($value)
+=======
+                    self::exportVariable($value),
+>>>>>>> main
                 );
             }
         }
@@ -150,7 +246,11 @@ final class GlobalState
                         '$GLOBALS[\'%s\'][\'%s\'] = %s;' . "\n",
                         $superGlobalArray,
                         $key,
+<<<<<<< HEAD
                         self::exportVariable($GLOBALS[$superGlobalArray][$key])
+=======
+                        self::exportVariable($GLOBALS[$superGlobalArray][$key]),
+>>>>>>> main
                     );
                 }
             }
@@ -164,7 +264,11 @@ final class GlobalState
                 $result .= sprintf(
                     '$GLOBALS[\'%s\'] = %s;' . "\n",
                     $key,
+<<<<<<< HEAD
                     self::exportVariable($GLOBALS[$key])
+=======
+                    self::exportVariable($GLOBALS[$key]),
+>>>>>>> main
                 );
             }
         }
@@ -200,4 +304,12 @@ final class GlobalState
 
         return $result;
     }
+<<<<<<< HEAD
+=======
+
+    private static function isIniSettingDeprecated(string $iniSetting): bool
+    {
+        return isset(self::DEPRECATED_INI_SETTINGS[PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION][$iniSetting]);
+    }
+>>>>>>> main
 }

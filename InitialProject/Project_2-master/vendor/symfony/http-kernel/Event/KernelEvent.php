@@ -16,7 +16,11 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
+<<<<<<< HEAD
  * Base class for events thrown in the HttpKernel component.
+=======
+ * Base class for events dispatched in the HttpKernel component.
+>>>>>>> main
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */

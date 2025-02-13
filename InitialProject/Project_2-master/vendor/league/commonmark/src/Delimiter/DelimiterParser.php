@@ -38,9 +38,13 @@ final class DelimiterParser implements InlineParserInterface
         $cursor    = $inlineContext->getCursor();
         $processor = $this->collection->getDelimiterProcessor($character);
 
+<<<<<<< HEAD
         if ($processor === null) {
             throw new \LogicException('Delimiter processor should never be null here');
         }
+=======
+        \assert($processor !== null); // Delimiter processor should never be null here
+>>>>>>> main
 
         $charBefore = $cursor->peek(-1);
         if ($charBefore === null) {
@@ -64,16 +68,30 @@ final class DelimiterParser implements InlineParserInterface
 
         [$canOpen, $canClose] = self::determineCanOpenOrClose($charBefore, $charAfter, $character, $processor);
 
+<<<<<<< HEAD
+=======
+        if (! ($canOpen || $canClose)) {
+            $inlineContext->getContainer()->appendChild(new Text(\str_repeat($character, $numDelims)));
+
+            return true;
+        }
+
+>>>>>>> main
         $node = new Text(\str_repeat($character, $numDelims), [
             'delim' => true,
         ]);
         $inlineContext->getContainer()->appendChild($node);
 
         // Add entry to stack to this opener
+<<<<<<< HEAD
         if ($canOpen || $canClose) {
             $delimiter = new Delimiter($character, $numDelims, $node, $canOpen, $canClose);
             $inlineContext->getDelimiterStack()->push($delimiter);
         }
+=======
+        $delimiter = new Delimiter($character, $numDelims, $node, $canOpen, $canClose, $inlineContext->getCursor()->getPosition());
+        $inlineContext->getDelimiterStack()->push($delimiter);
+>>>>>>> main
 
         return true;
     }

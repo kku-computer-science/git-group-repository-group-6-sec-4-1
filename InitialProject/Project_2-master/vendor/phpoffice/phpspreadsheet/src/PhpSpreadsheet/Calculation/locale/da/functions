@@ -245,6 +245,10 @@ ROWS = RÆKKER
 RTD = RTD
 TRANSPOSE = TRANSPONER
 VLOOKUP = LOPSLAG
+<<<<<<< HEAD
+=======
+*RC = RK
+>>>>>>> main
 
 ##
 ## Matematiske og trigonometriske funktioner (Math & Trig Functions)

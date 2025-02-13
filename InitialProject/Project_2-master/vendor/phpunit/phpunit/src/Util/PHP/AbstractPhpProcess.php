@@ -15,6 +15,11 @@ use function array_keys;
 use function array_merge;
 use function assert;
 use function escapeshellarg;
+<<<<<<< HEAD
+=======
+use function file_exists;
+use function file_get_contents;
+>>>>>>> main
 use function ini_get_all;
 use function restore_error_handler;
 use function set_error_handler;
@@ -24,6 +29,10 @@ use function strpos;
 use function strrpos;
 use function substr;
 use function trim;
+<<<<<<< HEAD
+=======
+use function unlink;
+>>>>>>> main
 use function unserialize;
 use __PHP_Incomplete_Class;
 use ErrorException;
@@ -35,6 +44,10 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestFailure;
 use PHPUnit\Framework\TestResult;
 use SebastianBergmann\Environment\Runtime;
+<<<<<<< HEAD
+=======
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+>>>>>>> main
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
@@ -172,6 +185,7 @@ abstract class AbstractPhpProcess
     /**
      * Runs a single test in a separate PHP process.
      *
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
     public function runTestJob(string $job, Test $test, TestResult $result): void
@@ -179,19 +193,44 @@ abstract class AbstractPhpProcess
         $result->startTest($test);
 
         $_result = $this->runJob($job);
+=======
+     * @throws InvalidArgumentException
+     */
+    public function runTestJob(string $job, Test $test, TestResult $result, string $processResultFile): void
+    {
+        $result->startTest($test);
+
+        $processResult = '';
+        $_result       = $this->runJob($job);
+
+        if (file_exists($processResultFile)) {
+            $processResult = file_get_contents($processResultFile);
+
+            @unlink($processResultFile);
+        }
+>>>>>>> main
 
         $this->processChildResult(
             $test,
             $result,
+<<<<<<< HEAD
             $_result['stdout'],
             $_result['stderr']
+=======
+            $processResult,
+            $_result['stderr'],
+>>>>>>> main
         );
     }
 
     /**
      * Returns the command based into the configurations.
      */
+<<<<<<< HEAD
     public function getCommand(array $settings, string $file = null): string
+=======
+    public function getCommand(array $settings, ?string $file = null): string
+>>>>>>> main
     {
         $command = $this->runtime->getBinary();
 
@@ -199,15 +238,25 @@ abstract class AbstractPhpProcess
             $settings = array_merge(
                 $settings,
                 $this->runtime->getCurrentSettings(
+<<<<<<< HEAD
                     array_keys(ini_get_all('pcov'))
                 )
+=======
+                    array_keys(ini_get_all('pcov')),
+                ),
+>>>>>>> main
             );
         } elseif ($this->runtime->hasXdebug()) {
             $settings = array_merge(
                 $settings,
                 $this->runtime->getCurrentSettings(
+<<<<<<< HEAD
                     array_keys(ini_get_all('xdebug'))
                 )
+=======
+                    array_keys(ini_get_all('xdebug')),
+                ),
+>>>>>>> main
             );
         }
 
@@ -258,7 +307,11 @@ abstract class AbstractPhpProcess
     /**
      * Processes the TestResult object from an isolated process.
      *
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     private function processChildResult(Test $test, TestResult $result, string $stdout, string $stderr): void
     {
@@ -268,7 +321,11 @@ abstract class AbstractPhpProcess
             $result->addError(
                 $test,
                 new Exception(trim($stderr)),
+<<<<<<< HEAD
                 $time
+=======
+                $time,
+>>>>>>> main
             );
         } else {
             set_error_handler(
@@ -278,7 +335,11 @@ abstract class AbstractPhpProcess
                 static function ($errno, $errstr, $errfile, $errline): void
                 {
                     throw new ErrorException($errstr, $errno, $errno, $errfile, $errline);
+<<<<<<< HEAD
                 }
+=======
+                },
+>>>>>>> main
             );
 
             try {
@@ -293,7 +354,11 @@ abstract class AbstractPhpProcess
                     $result->addFailure(
                         $test,
                         new AssertionFailedError('Test was run in child process and ended unexpectedly'),
+<<<<<<< HEAD
                         $time
+=======
+                        $time,
+>>>>>>> main
                     );
                 }
             } catch (ErrorException $e) {
@@ -303,7 +368,11 @@ abstract class AbstractPhpProcess
                 $result->addError(
                     $test,
                     new Exception(trim($stdout), 0, $e),
+<<<<<<< HEAD
                     $time
+=======
+                    $time,
+>>>>>>> main
                 );
             }
 
@@ -322,7 +391,11 @@ abstract class AbstractPhpProcess
 
                 if ($result->getCollectCodeCoverageInformation()) {
                     $result->getCodeCoverage()->merge(
+<<<<<<< HEAD
                         $childResult->getCodeCoverage()
+=======
+                        $childResult->getCodeCoverage(),
+>>>>>>> main
                     );
                 }
 
@@ -338,37 +411,61 @@ abstract class AbstractPhpProcess
                     $result->addError(
                         $test,
                         $this->getException($notImplemented[0]),
+<<<<<<< HEAD
                         $time
+=======
+                        $time,
+>>>>>>> main
                     );
                 } elseif (!empty($risky)) {
                     $result->addError(
                         $test,
                         $this->getException($risky[0]),
+<<<<<<< HEAD
                         $time
+=======
+                        $time,
+>>>>>>> main
                     );
                 } elseif (!empty($skipped)) {
                     $result->addError(
                         $test,
                         $this->getException($skipped[0]),
+<<<<<<< HEAD
                         $time
+=======
+                        $time,
+>>>>>>> main
                     );
                 } elseif (!empty($errors)) {
                     $result->addError(
                         $test,
                         $this->getException($errors[0]),
+<<<<<<< HEAD
                         $time
+=======
+                        $time,
+>>>>>>> main
                     );
                 } elseif (!empty($warnings)) {
                     $result->addWarning(
                         $test,
                         $this->getException($warnings[0]),
+<<<<<<< HEAD
                         $time
+=======
+                        $time,
+>>>>>>> main
                     );
                 } elseif (!empty($failures)) {
                     $result->addFailure(
                         $test,
                         $this->getException($failures[0]),
+<<<<<<< HEAD
                         $time
+=======
+                        $time,
+>>>>>>> main
                     );
                 }
             }
@@ -402,12 +499,20 @@ abstract class AbstractPhpProcess
                 sprintf(
                     '%s: %s',
                     $exceptionArray['_PHP_Incomplete_Class_Name'],
+<<<<<<< HEAD
                     $exceptionArray['message']
+=======
+                    $exceptionArray['message'],
+>>>>>>> main
                 ),
                 $exceptionArray['code'],
                 $exceptionArray['file'],
                 $exceptionArray['line'],
+<<<<<<< HEAD
                 $exceptionArray['trace']
+=======
+                $exceptionArray['trace'],
+>>>>>>> main
             );
         }
 

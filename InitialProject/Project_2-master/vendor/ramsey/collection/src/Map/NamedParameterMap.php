@@ -26,7 +26,11 @@ use function is_int;
  * `NamedParameterMap` represents a mapping of values to a set of named keys
  * that may optionally be typed
  *
+<<<<<<< HEAD
  * @extends AbstractMap<mixed>
+=======
+ * @extends AbstractMap<string, mixed>
+>>>>>>> main
  */
 class NamedParameterMap extends AbstractMap
 {
@@ -38,13 +42,21 @@ class NamedParameterMap extends AbstractMap
      *
      * @var array<string, string>
      */
+<<<<<<< HEAD
     protected $namedParameters;
+=======
+    private readonly array $namedParameters;
+>>>>>>> main
 
     /**
      * Constructs a new `NamedParameterMap`.
      *
      * @param array<array-key, string> $namedParameters The named parameters defined for this map.
+<<<<<<< HEAD
      * @param array<array-key, mixed> $data An initial set of data to set on this map.
+=======
+     * @param array<string, mixed> $data An initial set of data to set on this map.
+>>>>>>> main
      */
     public function __construct(array $namedParameters, array $data = [])
     {
@@ -62,6 +74,7 @@ class NamedParameterMap extends AbstractMap
         return $this->namedParameters;
     }
 
+<<<<<<< HEAD
     /**
      * @inheritDoc
      */
@@ -78,6 +91,14 @@ class NamedParameterMap extends AbstractMap
             throw new InvalidArgumentException(
                 'Attempting to set value for unconfigured parameter \''
                 . $offset . '\''
+=======
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        if (!array_key_exists($offset, $this->namedParameters)) {
+            throw new InvalidArgumentException(
+                'Attempting to set value for unconfigured parameter \''
+                . $this->toolValueToString($offset) . '\'',
+>>>>>>> main
             );
         }
 
@@ -85,7 +106,11 @@ class NamedParameterMap extends AbstractMap
             throw new InvalidArgumentException(
                 'Value for \'' . $offset . '\' must be of type '
                 . $this->namedParameters[$offset] . '; value is '
+<<<<<<< HEAD
                 . $this->toolValueToString($value)
+=======
+                . $this->toolValueToString($value),
+>>>>>>> main
             );
         }
 

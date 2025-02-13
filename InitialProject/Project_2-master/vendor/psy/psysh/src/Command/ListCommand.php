@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -26,7 +30,10 @@ use Psy\Output\ShellOutput;
 use Psy\VarDumper\Presenter;
 use Psy\VarDumper\PresenterAware;
 use Symfony\Component\Console\Formatter\OutputFormatter;
+<<<<<<< HEAD
 use Symfony\Component\Console\Helper\TableHelper;
+=======
+>>>>>>> main
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -36,8 +43,13 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ListCommand extends ReflectingCommand implements PresenterAware
 {
+<<<<<<< HEAD
     protected $presenter;
     protected $enumerators;
+=======
+    protected Presenter $presenter;
+    protected array $enumerators;
+>>>>>>> main
 
     /**
      * PresenterAware interface.
@@ -112,8 +124,15 @@ HELP
 
     /**
      * {@inheritdoc}
+<<<<<<< HEAD
      */
     protected function execute(InputInterface $input, OutputInterface $output)
+=======
+     *
+     * @return int 0 if everything went fine, or an exit code
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): int
+>>>>>>> main
     {
         $this->validateInput($input);
         $this->initEnumerators();
@@ -211,11 +230,15 @@ HELP
                 $table->addRow([$this->formatItemName($item), $item['value']]);
             }
 
+<<<<<<< HEAD
             if ($table instanceof TableHelper) {
                 $table->render($output);
             } else {
                 $table->render();
             }
+=======
+            $table->render();
+>>>>>>> main
         }
     }
 
@@ -223,8 +246,11 @@ HELP
      * Format an item name given its visibility.
      *
      * @param array $item
+<<<<<<< HEAD
      *
      * @return string
+=======
+>>>>>>> main
      */
     private function formatItemName(array $item): string
     {

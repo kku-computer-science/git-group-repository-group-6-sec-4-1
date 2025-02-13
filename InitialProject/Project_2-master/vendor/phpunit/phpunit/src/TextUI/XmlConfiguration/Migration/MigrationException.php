@@ -9,11 +9,19 @@
  */
 namespace PHPUnit\TextUI\XmlConfiguration;
 
+<<<<<<< HEAD
+=======
+use PHPUnit\Exception;
+>>>>>>> main
 use RuntimeException;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
+<<<<<<< HEAD
 final class MigrationException extends RuntimeException implements \PHPUnit\Exception
+=======
+final class MigrationException extends RuntimeException implements Exception
+>>>>>>> main
 {
 }

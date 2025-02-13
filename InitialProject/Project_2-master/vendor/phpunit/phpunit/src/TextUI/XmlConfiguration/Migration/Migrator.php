@@ -34,7 +34,11 @@ final class Migrator
                 sprintf(
                     '"%s" is not a valid PHPUnit XML configuration file that can be migrated',
                     $filename,
+<<<<<<< HEAD
                 )
+=======
+                ),
+>>>>>>> main
             );
         }
 
@@ -42,7 +46,11 @@ final class Migrator
             $filename,
             false,
             true,
+<<<<<<< HEAD
             true
+=======
+            true,
+>>>>>>> main
         );
 
         foreach ((new MigrationBuilder)->build($origin->version()) as $migration) {

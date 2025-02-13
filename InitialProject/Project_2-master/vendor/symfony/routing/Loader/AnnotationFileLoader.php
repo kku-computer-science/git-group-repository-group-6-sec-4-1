@@ -47,7 +47,11 @@ class AnnotationFileLoader extends FileLoader
      *
      * @throws \InvalidArgumentException When the file does not exist or its routes cannot be parsed
      */
+<<<<<<< HEAD
     public function load($file, string $type = null)
+=======
+    public function load($file, ?string $type = null)
+>>>>>>> main
     {
         $path = $this->locator->locate($file);
 
@@ -70,7 +74,11 @@ class AnnotationFileLoader extends FileLoader
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function supports($resource, string $type = null)
+=======
+    public function supports($resource, ?string $type = null)
+>>>>>>> main
     {
         return \is_string($resource) && 'php' === pathinfo($resource, \PATHINFO_EXTENSION) && (!$type || 'annotation' === $type);
     }
@@ -87,7 +95,11 @@ class AnnotationFileLoader extends FileLoader
         $tokens = token_get_all(file_get_contents($file));
 
         if (1 === \count($tokens) && \T_INLINE_HTML === $tokens[0][0]) {
+<<<<<<< HEAD
             throw new \InvalidArgumentException(sprintf('The file "%s" does not contain PHP code. Did you forgot to add the "<?php" start tag at the beginning of the file?', $file));
+=======
+            throw new \InvalidArgumentException(sprintf('The file "%s" does not contain PHP code. Did you forget to add the "<?php" start tag at the beginning of the file?', $file));
+>>>>>>> main
         }
 
         $nsTokens = [\T_NS_SEPARATOR => true, \T_STRING => true];

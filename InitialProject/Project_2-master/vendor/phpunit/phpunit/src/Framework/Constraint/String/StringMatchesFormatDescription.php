@@ -33,8 +33,13 @@ final class StringMatchesFormatDescription extends RegularExpression
     {
         parent::__construct(
             $this->createPatternFromFormat(
+<<<<<<< HEAD
                 $this->convertNewlines($string)
             )
+=======
+                $this->convertNewlines($string),
+            ),
+>>>>>>> main
         );
 
         $this->string = $string;
@@ -49,7 +54,11 @@ final class StringMatchesFormatDescription extends RegularExpression
     protected function matches($other): bool
     {
         return parent::matches(
+<<<<<<< HEAD
             $this->convertNewlines($other)
+=======
+            $this->convertNewlines($other),
+>>>>>>> main
         );
     }
 
@@ -96,7 +105,11 @@ final class StringMatchesFormatDescription extends RegularExpression
                 '%x' => '[0-9a-fA-F]+',
                 '%f' => '[+-]?\.?\d+\.?\d*(?:[Ee][+-]?\d+)?',
                 '%c' => '.',
+<<<<<<< HEAD
             ]
+=======
+            ],
+>>>>>>> main
         );
 
         return '/^' . $string . '$/s';

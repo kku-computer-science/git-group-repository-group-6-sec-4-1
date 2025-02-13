@@ -19,6 +19,7 @@ final class Reflection
 {
 	use Nette\StaticClass;
 
+<<<<<<< HEAD
 	private const BUILTIN_TYPES = [
 		'string' => 1, 'int' => 1, 'float' => 1, 'bool' => 1, 'array' => 1, 'object' => 1,
 		'callable' => 1, 'iterable' => 1, 'void' => 1, 'null' => 1, 'mixed' => 1, 'false' => 1,
@@ -138,6 +139,24 @@ final class Reflection
 	 * @throws \ReflectionException  If the parameter does not have a default value or the constant cannot be resolved
 	 */
 	public static function getParameterDefaultValue(\ReflectionParameter $param)
+=======
+	/** @deprecated use Nette\Utils\Validator::isBuiltinType() */
+	public static function isBuiltinType(string $type): bool
+	{
+		return Validators::isBuiltinType($type);
+	}
+
+
+	/** @deprecated use Nette\Utils\Validator::isClassKeyword() */
+	public static function isClassKeyword(string $name): bool
+	{
+		return Validators::isClassKeyword($name);
+	}
+
+
+	/** @deprecated use native ReflectionParameter::getDefaultValue() */
+	public static function getParameterDefaultValue(\ReflectionParameter $param): mixed
+>>>>>>> main
 	{
 		if ($param->isDefaultValueConstant()) {
 			$const = $orig = $param->getDefaultValueConstantName();
@@ -203,7 +222,11 @@ final class Reflection
 
 		$hash = [$method->getFileName(), $method->getStartLine(), $method->getEndLine()];
 		if (($alias = $decl->getTraitAliases()[$method->name] ?? null)
+<<<<<<< HEAD
 			&& ($m = new \ReflectionMethod($alias))
+=======
+			&& ($m = new \ReflectionMethod(...explode('::', $alias, 2)))
+>>>>>>> main
 			&& $hash === [$m->getFileName(), $m->getStartLine(), $m->getEndLine()]
 		) {
 			return self::getMethodDeclaringMethod($m);
@@ -228,7 +251,11 @@ final class Reflection
 	public static function areCommentsAvailable(): bool
 	{
 		static $res;
+<<<<<<< HEAD
 		return $res ?? $res = (bool) (new \ReflectionMethod(__METHOD__))->getDocComment();
+=======
+		return $res ?? $res = (bool) (new \ReflectionMethod(self::class, __FUNCTION__))->getDocComment();
+>>>>>>> main
 	}
 
 
@@ -239,7 +266,13 @@ final class Reflection
 		} elseif ($ref instanceof \ReflectionMethod) {
 			return $ref->getDeclaringClass()->name . '::' . $ref->name . '()';
 		} elseif ($ref instanceof \ReflectionFunction) {
+<<<<<<< HEAD
 			return $ref->name . '()';
+=======
+			return PHP_VERSION_ID >= 80200 && $ref->isAnonymous()
+				? '{closure}()'
+				: $ref->name . '()';
+>>>>>>> main
 		} elseif ($ref instanceof \ReflectionProperty) {
 			return self::getPropertyDeclaringClass($ref)->name . '::$' . $ref->name;
 		} elseif ($ref instanceof \ReflectionParameter) {
@@ -261,7 +294,11 @@ final class Reflection
 		if (empty($name)) {
 			throw new Nette\InvalidArgumentException('Class name must not be empty.');
 
+<<<<<<< HEAD
 		} elseif (isset(self::BUILTIN_TYPES[$lower])) {
+=======
+		} elseif (Validators::isBuiltinType($lower)) {
+>>>>>>> main
 			return $lower;
 
 		} elseif ($lower === 'self' || $lower === 'static') {
@@ -291,7 +328,11 @@ final class Reflection
 	}
 
 
+<<<<<<< HEAD
 	/** @return array of [alias => class] */
+=======
+	/** @return array<string, class-string> of [alias => class] */
+>>>>>>> main
 	public static function getUseStatements(\ReflectionClass $class): array
 	{
 		if ($class->isAnonymous()) {
@@ -318,12 +359,17 @@ final class Reflection
 	private static function parseUseStatements(string $code, ?string $forClass = null): array
 	{
 		try {
+<<<<<<< HEAD
 			$tokens = token_get_all($code, TOKEN_PARSE);
+=======
+			$tokens = \PhpToken::tokenize($code, TOKEN_PARSE);
+>>>>>>> main
 		} catch (\ParseError $e) {
 			trigger_error($e->getMessage(), E_USER_NOTICE);
 			$tokens = [];
 		}
 
+<<<<<<< HEAD
 		$namespace = $class = $classLevel = $level = null;
 		$res = $uses = [];
 
@@ -334,6 +380,17 @@ final class Reflection
 		while ($token = current($tokens)) {
 			next($tokens);
 			switch (is_array($token) ? $token[0] : $token) {
+=======
+		$namespace = $class = null;
+		$classLevel = $level = 0;
+		$res = $uses = [];
+
+		$nameTokens = [T_STRING, T_NS_SEPARATOR, T_NAME_QUALIFIED, T_NAME_FULLY_QUALIFIED];
+
+		while ($token = current($tokens)) {
+			next($tokens);
+			switch ($token->id) {
+>>>>>>> main
 				case T_NAMESPACE:
 					$namespace = ltrim(self::fetch($tokens, $nameTokens) . '\\', '\\');
 					$uses = [];
@@ -389,6 +446,7 @@ final class Reflection
 
 				case T_CURLY_OPEN:
 				case T_DOLLAR_OPEN_CURLY_BRACES:
+<<<<<<< HEAD
 				case '{':
 					$level++;
 					break;
@@ -396,6 +454,15 @@ final class Reflection
 				case '}':
 					if ($level === $classLevel) {
 						$class = $classLevel = null;
+=======
+				case ord('{'):
+					$level++;
+					break;
+
+				case ord('}'):
+					if ($level === $classLevel) {
+						$class = $classLevel = 0;
+>>>>>>> main
 					}
 
 					$level--;
@@ -406,6 +473,7 @@ final class Reflection
 	}
 
 
+<<<<<<< HEAD
 	private static function fetch(array &$tokens, $take): ?string
 	{
 		$res = null;
@@ -414,6 +482,15 @@ final class Reflection
 			if (in_array($token, (array) $take, true)) {
 				$res .= $s;
 			} elseif (!in_array($token, [T_DOC_COMMENT, T_WHITESPACE, T_COMMENT], true)) {
+=======
+	private static function fetch(array &$tokens, string|int|array $take): ?string
+	{
+		$res = null;
+		while ($token = current($tokens)) {
+			if ($token->is($take)) {
+				$res .= $token->text;
+			} elseif (!$token->is([T_DOC_COMMENT, T_WHITESPACE, T_COMMENT])) {
+>>>>>>> main
 				break;
 			}
 

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Nette\Schema;
 
+<<<<<<< HEAD
 use Nette;
 
 
@@ -33,6 +34,26 @@ final class Context
 
 	/** @var array[] */
 	public $dynamics = [];
+=======
+
+final class Context
+{
+	public bool $skipDefaults = false;
+
+	/** @var string[] */
+	public array $path = [];
+
+	public bool $isKey = false;
+
+	/** @var Message[] */
+	public array $errors = [];
+
+	/** @var Message[] */
+	public array $warnings = [];
+
+	/** @var array[] */
+	public array $dynamics = [];
+>>>>>>> main
 
 
 	public function addError(string $message, string $code, array $variables = []): Message
@@ -46,4 +67,15 @@ final class Context
 	{
 		return $this->warnings[] = new Message($message, $code, $this->path, $variables);
 	}
+<<<<<<< HEAD
+=======
+
+
+	/** @return \Closure(): bool */
+	public function createChecker(): \Closure
+	{
+		$count = count($this->errors);
+		return fn(): bool => $count === count($this->errors);
+	}
+>>>>>>> main
 }

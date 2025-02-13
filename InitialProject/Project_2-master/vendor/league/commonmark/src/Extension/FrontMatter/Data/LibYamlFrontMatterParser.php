@@ -13,6 +13,10 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Extension\FrontMatter\Data;
 
+<<<<<<< HEAD
+=======
+use League\CommonMark\Exception\MissingDependencyException;
+>>>>>>> main
 use League\CommonMark\Extension\FrontMatter\Exception\InvalidFrontMatterException;
 
 final class LibYamlFrontMatterParser implements FrontMatterDataParserInterface
@@ -32,7 +36,11 @@ final class LibYamlFrontMatterParser implements FrontMatterDataParserInterface
     public function parse(string $frontMatter)
     {
         if (! \extension_loaded('yaml')) {
+<<<<<<< HEAD
             throw new \RuntimeException('Failed to parse yaml: "ext-yaml" extension is missing');
+=======
+            throw new MissingDependencyException('Failed to parse yaml: "ext-yaml" extension is missing');
+>>>>>>> main
         }
 
         $result = @\yaml_parse($frontMatter);

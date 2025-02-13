@@ -11,7 +11,11 @@ use Psr\Http\Message\UriInterface;
  *
  * @author Tobias Schultze
  *
+<<<<<<< HEAD
  * @link https://tools.ietf.org/html/rfc3986#section-6
+=======
+ * @see https://datatracker.ietf.org/doc/html/rfc3986#section-6
+>>>>>>> main
  */
 final class UriNormalizer
 {
@@ -119,7 +123,11 @@ final class UriNormalizer
      * @param UriInterface $uri   The URI to normalize
      * @param int          $flags A bitmask of normalizations to apply, see constants
      *
+<<<<<<< HEAD
      * @link https://tools.ietf.org/html/rfc3986#section-6.2
+=======
+     * @see https://datatracker.ietf.org/doc/html/rfc3986#section-6.2
+>>>>>>> main
      */
     public static function normalize(UriInterface $uri, int $flags = self::PRESERVING_NORMALIZATIONS): UriInterface
     {
@@ -131,8 +139,13 @@ final class UriNormalizer
             $uri = self::decodeUnreservedCharacters($uri);
         }
 
+<<<<<<< HEAD
         if ($flags & self::CONVERT_EMPTY_PATH && $uri->getPath() === '' &&
             ($uri->getScheme() === 'http' || $uri->getScheme() === 'https')
+=======
+        if ($flags & self::CONVERT_EMPTY_PATH && $uri->getPath() === ''
+            && ($uri->getScheme() === 'http' || $uri->getScheme() === 'https')
+>>>>>>> main
         ) {
             $uri = $uri->withPath('/');
         }
@@ -174,7 +187,11 @@ final class UriNormalizer
      * @param UriInterface $uri2           An URI to compare
      * @param int          $normalizations A bitmask of normalizations to apply, see constants
      *
+<<<<<<< HEAD
      * @link https://tools.ietf.org/html/rfc3986#section-6.1
+=======
+     * @see https://datatracker.ietf.org/doc/html/rfc3986#section-6.1
+>>>>>>> main
      */
     public static function isEquivalent(UriInterface $uri1, UriInterface $uri2, int $normalizations = self::PRESERVING_NORMALIZATIONS): bool
     {
@@ -185,7 +202,11 @@ final class UriNormalizer
     {
         $regex = '/(?:%[A-Fa-f0-9]{2})++/';
 
+<<<<<<< HEAD
         $callback = function (array $match) {
+=======
+        $callback = function (array $match): string {
+>>>>>>> main
             return strtoupper($match[0]);
         };
 
@@ -201,7 +222,11 @@ final class UriNormalizer
     {
         $regex = '/%(?:2D|2E|5F|7E|3[0-9]|[46][1-9A-F]|[57][0-9A])/i';
 
+<<<<<<< HEAD
         $callback = function (array $match) {
+=======
+        $callback = function (array $match): string {
+>>>>>>> main
             return rawurldecode($match[0]);
         };
 

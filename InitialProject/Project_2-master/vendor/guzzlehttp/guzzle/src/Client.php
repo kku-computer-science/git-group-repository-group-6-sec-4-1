@@ -52,7 +52,11 @@ class Client implements ClientInterface, \Psr\Http\Client\ClientInterface
      *
      * @param array $config Client configuration settings.
      *
+<<<<<<< HEAD
      * @see \GuzzleHttp\RequestOptions for a list of available request options.
+=======
+     * @see RequestOptions for a list of available request options.
+>>>>>>> main
      */
     public function __construct(array $config = [])
     {
@@ -120,13 +124,21 @@ class Client implements ClientInterface, \Psr\Http\Client\ClientInterface
     public function send(RequestInterface $request, array $options = []): ResponseInterface
     {
         $options[RequestOptions::SYNCHRONOUS] = true;
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
         return $this->sendAsync($request, $options)->wait();
     }
 
     /**
      * The HttpClient PSR (PSR-18) specify this method.
      *
+<<<<<<< HEAD
      * @inheritDoc
+=======
+     * {@inheritDoc}
+>>>>>>> main
      */
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
@@ -184,6 +196,10 @@ class Client implements ClientInterface, \Psr\Http\Client\ClientInterface
     public function request(string $method, $uri = '', array $options = []): ResponseInterface
     {
         $options[RequestOptions::SYNCHRONOUS] = true;
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
         return $this->requestAsync($method, $uri, $options)->wait();
     }
 
@@ -228,11 +244,19 @@ class Client implements ClientInterface, \Psr\Http\Client\ClientInterface
     {
         $defaults = [
             'allow_redirects' => RedirectMiddleware::$defaultSettings,
+<<<<<<< HEAD
             'http_errors'     => true,
             'decode_content'  => true,
             'verify'          => true,
             'cookies'         => false,
             'idn_conversion'  => false,
+=======
+            'http_errors' => true,
+            'decode_content' => true,
+            'verify' => true,
+            'cookies' => false,
+            'idn_conversion' => false,
+>>>>>>> main
         ];
 
         // Use the standard Linux HTTP_PROXY and HTTPS_PROXY if set.
@@ -354,10 +378,17 @@ class Client implements ClientInterface, \Psr\Http\Client\ClientInterface
         if (isset($options['form_params'])) {
             if (isset($options['multipart'])) {
                 throw new InvalidArgumentException('You cannot use '
+<<<<<<< HEAD
                     . 'form_params and multipart at the same time. Use the '
                     . 'form_params option if you want to send application/'
                     . 'x-www-form-urlencoded requests, and the multipart '
                     . 'option to send multipart/form-data requests.');
+=======
+                    .'form_params and multipart at the same time. Use the '
+                    .'form_params option if you want to send application/'
+                    .'x-www-form-urlencoded requests, and the multipart '
+                    .'option to send multipart/form-data requests.');
+>>>>>>> main
             }
             $options['body'] = \http_build_query($options['form_params'], '', '&');
             unset($options['form_params']);
@@ -403,7 +434,11 @@ class Client implements ClientInterface, \Psr\Http\Client\ClientInterface
                     // Ensure that we don't have the header in different case and set the new value.
                     $modify['set_headers'] = Psr7\Utils::caselessRemove(['Authorization'], $modify['set_headers']);
                     $modify['set_headers']['Authorization'] = 'Basic '
+<<<<<<< HEAD
                         . \base64_encode("$value[0]:$value[1]");
+=======
+                        .\base64_encode("$value[0]:$value[1]");
+>>>>>>> main
                     break;
                 case 'digest':
                     // @todo: Do not rely on curl
@@ -437,13 +472,24 @@ class Client implements ClientInterface, \Psr\Http\Client\ClientInterface
             }
         }
 
+<<<<<<< HEAD
+=======
+        if (isset($options['version'])) {
+            $modify['version'] = $options['version'];
+        }
+
+>>>>>>> main
         $request = Psr7\Utils::modifyRequest($request, $modify);
         if ($request->getBody() instanceof Psr7\MultipartStream) {
             // Use a multipart/form-data POST if a Content-Type is not set.
             // Ensure that we don't have the header in different case and set the new value.
             $options['_conditional'] = Psr7\Utils::caselessRemove(['Content-Type'], $options['_conditional']);
             $options['_conditional']['Content-Type'] = 'multipart/form-data; boundary='
+<<<<<<< HEAD
                 . $request->getBody()->getBoundary();
+=======
+                .$request->getBody()->getBoundary();
+>>>>>>> main
         }
 
         // Merge in conditional headers if they are not present.
@@ -469,9 +515,16 @@ class Client implements ClientInterface, \Psr\Http\Client\ClientInterface
     private function invalidBody(): InvalidArgumentException
     {
         return new InvalidArgumentException('Passing in the "body" request '
+<<<<<<< HEAD
             . 'option as an array to send a request is not supported. '
             . 'Please use the "form_params" request option to send a '
             . 'application/x-www-form-urlencoded request, or the "multipart" '
             . 'request option to send a multipart/form-data request.');
+=======
+            .'option as an array to send a request is not supported. '
+            .'Please use the "form_params" request option to send a '
+            .'application/x-www-form-urlencoded request, or the "multipart" '
+            .'request option to send a multipart/form-data request.');
+>>>>>>> main
     }
 }

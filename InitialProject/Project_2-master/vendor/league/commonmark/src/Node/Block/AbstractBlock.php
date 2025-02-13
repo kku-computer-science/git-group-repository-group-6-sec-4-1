@@ -16,6 +16,10 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Node\Block;
 
+<<<<<<< HEAD
+=======
+use League\CommonMark\Exception\InvalidArgumentException;
+>>>>>>> main
 use League\CommonMark\Node\Node;
 
 /**
@@ -32,7 +36,11 @@ abstract class AbstractBlock extends Node
     protected function setParent(?Node $node = null): void
     {
         if ($node && ! $node instanceof self) {
+<<<<<<< HEAD
             throw new \InvalidArgumentException('Parent of block must also be block (cannot be inline)');
+=======
+            throw new InvalidArgumentException('Parent of block must also be block (cannot be inline)');
+>>>>>>> main
         }
 
         parent::setParent($node);

@@ -3,6 +3,10 @@
 namespace PhpOffice\PhpSpreadsheet\Calculation\Financial\CashFlow\Variable;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class Periodic
 {
@@ -33,7 +37,11 @@ class Periodic
     public static function rate($values, $guess = 0.1)
     {
         if (!is_array($values)) {
+<<<<<<< HEAD
             return Functions::VALUE();
+=======
+            return ExcelError::VALUE();
+>>>>>>> main
         }
         $values = Functions::flattenArray($values);
         $guess = Functions::flattenSingleValue($guess);
@@ -54,7 +62,11 @@ class Periodic
             }
         }
         if (($f1 * $f2) > 0.0) {
+<<<<<<< HEAD
             return Functions::VALUE();
+=======
+            return ExcelError::VALUE();
+>>>>>>> main
         }
 
         $f = self::presentValue($x1, $values);
@@ -78,7 +90,11 @@ class Periodic
             }
         }
 
+<<<<<<< HEAD
         return Functions::VALUE();
+=======
+        return ExcelError::VALUE();
+>>>>>>> main
     }
 
     /**
@@ -101,7 +117,11 @@ class Periodic
     public static function modifiedRate($values, $financeRate, $reinvestmentRate)
     {
         if (!is_array($values)) {
+<<<<<<< HEAD
             return Functions::VALUE();
+=======
+            return ExcelError::DIV0();
+>>>>>>> main
         }
         $values = Functions::flattenArray($values);
         $financeRate = Functions::flattenSingleValue($financeRate);
@@ -111,7 +131,11 @@ class Periodic
         $rr = 1.0 + $reinvestmentRate;
         $fr = 1.0 + $financeRate;
 
+<<<<<<< HEAD
         $npvPos = $npvNeg = 0.0;
+=======
+        $npvPos = $npvNeg = self::$zeroPointZero;
+>>>>>>> main
         foreach ($values as $i => $v) {
             if ($v >= 0) {
                 $npvPos += $v / $rr ** $i;
@@ -120,22 +144,45 @@ class Periodic
             }
         }
 
+<<<<<<< HEAD
         if (($npvNeg === 0.0) || ($npvPos === 0.0) || ($reinvestmentRate <= -1.0)) {
             return Functions::VALUE();
+=======
+        if ($npvNeg === self::$zeroPointZero || $npvPos === self::$zeroPointZero) {
+            return ExcelError::DIV0();
+>>>>>>> main
         }
 
         $mirr = ((-$npvPos * $rr ** $n)
                 / ($npvNeg * ($rr))) ** (1.0 / ($n - 1)) - 1.0;
 
+<<<<<<< HEAD
         return is_finite($mirr) ? $mirr : Functions::VALUE();
     }
 
     /**
+=======
+        return is_finite($mirr) ? $mirr : ExcelError::NAN();
+    }
+
+    /**
+     * Sop to Scrutinizer.
+     *
+     * @var float
+     */
+    private static $zeroPointZero = 0.0;
+
+    /**
+>>>>>>> main
      * NPV.
      *
      * Returns the Net Present Value of a cash flow series given a discount rate.
      *
      * @param mixed $rate
+<<<<<<< HEAD
+=======
+     * @param array $args
+>>>>>>> main
      *
      * @return float
      */

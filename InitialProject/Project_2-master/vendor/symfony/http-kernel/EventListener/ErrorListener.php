@@ -33,9 +33,21 @@ class ErrorListener implements EventSubscriberInterface
     protected $controller;
     protected $logger;
     protected $debug;
+<<<<<<< HEAD
     protected $exceptionsMapping;
 
     public function __construct($controller, LoggerInterface $logger = null, bool $debug = false, array $exceptionsMapping = [])
+=======
+    /**
+     * @var array<class-string, array{log_level: string|null, status_code: int<100,599>|null}>
+     */
+    protected $exceptionsMapping;
+
+    /**
+     * @param array<class-string, array{log_level: string|null, status_code: int<100,599>|null}> $exceptionsMapping
+     */
+    public function __construct($controller, ?LoggerInterface $logger = null, bool $debug = false, array $exceptionsMapping = [])
+>>>>>>> main
     {
         $this->controller = $controller;
         $this->logger = $logger;
@@ -149,7 +161,11 @@ class ErrorListener implements EventSubscriberInterface
     /**
      * Logs an exception.
      */
+<<<<<<< HEAD
     protected function logException(\Throwable $exception, string $message, string $logLevel = null): void
+=======
+    protected function logException(\Throwable $exception, string $message, ?string $logLevel = null): void
+>>>>>>> main
     {
         if (null !== $this->logger) {
             if (null !== $logLevel) {

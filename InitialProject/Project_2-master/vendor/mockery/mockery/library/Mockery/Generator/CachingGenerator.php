@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 /**
  * Mockery
  *
@@ -16,20 +17,42 @@
  * @package    Mockery
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+=======
+
+/**
+ * Mockery (https://docs.mockery.io/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
+>>>>>>> main
  */
 
 namespace Mockery\Generator;
 
 class CachingGenerator implements Generator
 {
+<<<<<<< HEAD
     protected $generator;
     protected $cache = array();
+=======
+    /**
+     * @var array<string,string>
+     */
+    protected $cache = [];
+
+    /**
+     * @var Generator
+     */
+    protected $generator;
+>>>>>>> main
 
     public function __construct(Generator $generator)
     {
         $this->generator = $generator;
     }
 
+<<<<<<< HEAD
     public function generate(MockConfiguration $config)
     {
         $hash = $config->getHash();
@@ -41,5 +64,19 @@ class CachingGenerator implements Generator
         $this->cache[$hash] = $definition;
 
         return $definition;
+=======
+    /**
+     * @return string
+     */
+    public function generate(MockConfiguration $config)
+    {
+        $hash = $config->getHash();
+
+        if (array_key_exists($hash, $this->cache)) {
+            return $this->cache[$hash];
+        }
+
+        return $this->cache[$hash] = $this->generator->generate($config);
+>>>>>>> main
     }
 }

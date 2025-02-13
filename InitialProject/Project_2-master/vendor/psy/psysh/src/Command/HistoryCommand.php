@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -26,8 +30,13 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class HistoryCommand extends Command
 {
+<<<<<<< HEAD
     private $filter;
     private $readline;
+=======
+    private FilterOptions $filter;
+    private Readline $readline;
+>>>>>>> main
 
     /**
      * {@inheritdoc}
@@ -90,8 +99,15 @@ HELP
 
     /**
      * {@inheritdoc}
+<<<<<<< HEAD
      */
     protected function execute(InputInterface $input, OutputInterface $output)
+=======
+     *
+     * @return int 0 if everything went fine, or an exit code
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): int
+>>>>>>> main
     {
         $this->validateOnlyOne($input, ['show', 'head', 'tail']);
         $this->validateOnlyOne($input, ['save', 'replay', 'clear']);
@@ -133,7 +149,12 @@ HELP
 
             $count = \count($history);
             $output->writeln(\sprintf('Replaying %d line%s of history', $count, ($count !== 1) ? 's' : ''));
+<<<<<<< HEAD
             $this->getApplication()->addInput($history);
+=======
+
+            $this->getShell()->addInput($history);
+>>>>>>> main
         } elseif ($input->getOption('clear')) {
             $this->clearHistory();
             $output->writeln('<info>History cleared.</info>');
@@ -154,12 +175,20 @@ HELP
      *
      * @param string $range
      *
+<<<<<<< HEAD
      * @return array [ start, end ]
+=======
+     * @return int[] [ start, end ]
+>>>>>>> main
      */
     private function extractRange(string $range): array
     {
         if (\preg_match('/^\d+$/', $range)) {
+<<<<<<< HEAD
             return [$range, $range + 1];
+=======
+            return [(int) $range, (int) $range + 1];
+>>>>>>> main
         }
 
         $matches = [];
@@ -204,7 +233,11 @@ HELP
                 throw new \InvalidArgumentException('Please specify an integer argument for --tail');
             }
 
+<<<<<<< HEAD
             $start = \count($history) - $tail;
+=======
+            $start = \count($history) - (int) $tail;
+>>>>>>> main
             $length = (int) $tail + 1;
         } else {
             return $history;

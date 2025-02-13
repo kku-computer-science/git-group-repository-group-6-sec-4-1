@@ -9,7 +9,13 @@
  */
 namespace PHPUnit\Framework\Constraint;
 
+<<<<<<< HEAD
 use PHPUnit\Framework\ExpectationFailedException;
+=======
+use PHPUnit\Framework\Exception;
+use PHPUnit\Framework\ExpectationFailedException;
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+>>>>>>> main
 use Traversable;
 
 /**
@@ -28,7 +34,11 @@ final class TraversableContainsOnly extends Constraint
     private $type;
 
     /**
+<<<<<<< HEAD
      * @throws \PHPUnit\Framework\Exception
+=======
+     * @throws Exception
+>>>>>>> main
      */
     public function __construct(string $type, bool $isNativeType = true)
     {
@@ -36,7 +46,11 @@ final class TraversableContainsOnly extends Constraint
             $this->constraint = new IsType($type);
         } else {
             $this->constraint = new IsInstanceOf(
+<<<<<<< HEAD
                 $type
+=======
+                $type,
+>>>>>>> main
             );
         }
 
@@ -55,8 +69,13 @@ final class TraversableContainsOnly extends Constraint
      *
      * @param mixed|Traversable $other
      *
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws ExpectationFailedException
+=======
+     * @throws ExpectationFailedException
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     public function evaluate($other, string $description = '', bool $returnResult = false): ?bool
     {

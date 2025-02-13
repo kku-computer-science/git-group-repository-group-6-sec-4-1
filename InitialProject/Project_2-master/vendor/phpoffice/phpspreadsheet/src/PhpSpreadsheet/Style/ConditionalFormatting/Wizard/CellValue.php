@@ -140,8 +140,13 @@ class CellValue extends WizardAbstract implements WizardInterface
             // Best-guess to try and identify if the text is a string literal, a cell reference or a formula?
             $operandValueType = Wizard::VALUE_TYPE_LITERAL;
             if (is_string($condition)) {
+<<<<<<< HEAD
                 if (array_key_exists($condition, Calculation::$excelConstants)) {
                     $condition = Calculation::$excelConstants[$condition];
+=======
+                if (Calculation::keyInExcelConstants($condition)) {
+                    $condition = Calculation::getExcelConstants($condition);
+>>>>>>> main
                 } elseif (preg_match('/^' . Calculation::CALCULATION_REGEXP_CELLREF_RELATIVE . '$/i', $condition)) {
                     $operandValueType = Wizard::VALUE_TYPE_CELL;
                     $condition = self::reverseAdjustCellRef($condition, $cellRange);
@@ -176,13 +181,32 @@ class CellValue extends WizardAbstract implements WizardInterface
                 throw new Exception('AND Value is only appropriate for range operators');
             }
 
+<<<<<<< HEAD
             $this->operand(1, ...$arguments);
+=======
+            // Scrutinizer ignores its own suggested workaround.
+            //$this->operand(1, /** @scrutinizer ignore-type */ ...$arguments);
+            if (count($arguments) < 2) {
+                $this->operand(1, $arguments[0]);
+            } else {
+                $this->operand(1, $arguments[0], $arguments[1]);
+            }
+>>>>>>> main
 
             return $this;
         }
 
         $this->operator(self::MAGIC_OPERATIONS[$methodName]);
+<<<<<<< HEAD
         $this->operand(0, ...$arguments);
+=======
+        //$this->operand(0, ...$arguments);
+        if (count($arguments) < 2) {
+            $this->operand(0, $arguments[0]);
+        } else {
+            $this->operand(0, $arguments[0], $arguments[1]);
+        }
+>>>>>>> main
 
         return $this;
     }

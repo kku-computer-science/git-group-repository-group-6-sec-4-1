@@ -45,10 +45,15 @@ class Helpers
 
 	/**
 	 * Converts false to null, does not change other values.
+<<<<<<< HEAD
 	 * @param  mixed  $value
 	 * @return mixed
 	 */
 	public static function falseToNull($value)
+=======
+	 */
+	public static function falseToNull(mixed $value): mixed
+>>>>>>> main
 	{
 		return $value === false ? null : $value;
 	}
@@ -56,12 +61,17 @@ class Helpers
 
 	/**
 	 * Returns value clamped to the inclusive range of min and max.
+<<<<<<< HEAD
 	 * @param  int|float  $value
 	 * @param  int|float  $min
 	 * @param  int|float  $max
 	 * @return int|float
 	 */
 	public static function clamp($value, $min, $max)
+=======
+	 */
+	public static function clamp(int|float $value, int|float $min, int|float $max): int|float
+>>>>>>> main
 	{
 		if ($min > $max) {
 			throw new Nette\InvalidArgumentException("Minimum ($min) is not less than maximum ($max).");
@@ -88,4 +98,26 @@ class Helpers
 
 		return $best;
 	}
+<<<<<<< HEAD
+=======
+
+
+	/**
+	 * Compares two values in the same way that PHP does. Recognizes operators: >, >=, <, <=, =, ==, ===, !=, !==, <>
+	 */
+	public static function compare(mixed $left, string $operator, mixed $right): bool
+	{
+		return match ($operator) {
+			'>' => $left > $right,
+			'>=' => $left >= $right,
+			'<' => $left < $right,
+			'<=' => $left <= $right,
+			'=', '==' => $left == $right,
+			'===' => $left === $right,
+			'!=', '<>' => $left != $right,
+			'!==' => $left !== $right,
+			default => throw new Nette\InvalidArgumentException("Unknown operator '$operator'"),
+		};
+	}
+>>>>>>> main
 }

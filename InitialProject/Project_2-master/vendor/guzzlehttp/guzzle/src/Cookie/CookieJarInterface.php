@@ -13,7 +13,12 @@ use Psr\Http\Message\ResponseInterface;
  * necessary. Subclasses are also responsible for storing and retrieving
  * cookies from a file, database, etc.
  *
+<<<<<<< HEAD
  * @link https://docs.python.org/2/library/cookielib.html Inspiration
+=======
+ * @see https://docs.python.org/2/library/cookielib.html Inspiration
+ *
+>>>>>>> main
  * @extends \IteratorAggregate<SetCookie>
  */
 interface CookieJarInterface extends \Countable, \IteratorAggregate

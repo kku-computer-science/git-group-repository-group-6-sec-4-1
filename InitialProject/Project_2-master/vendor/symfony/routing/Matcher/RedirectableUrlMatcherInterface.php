@@ -27,5 +27,9 @@ interface RedirectableUrlMatcherInterface
      *
      * @return array
      */
+<<<<<<< HEAD
     public function redirect(string $path, string $route, string $scheme = null);
+=======
+    public function redirect(string $path, string $route, ?string $scheme = null);
+>>>>>>> main
 }

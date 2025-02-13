@@ -4,6 +4,10 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\LookupRef;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
@@ -48,11 +52,19 @@ class Offset
         $width = Functions::flattenSingleValue($width);
 
         if ($cellAddress === null || $cellAddress === '') {
+<<<<<<< HEAD
             return Functions::VALUE();
         }
 
         if (!is_object($cell)) {
             return Functions::REF();
+=======
+            return ExcelError::VALUE();
+        }
+
+        if (!is_object($cell)) {
+            return ExcelError::REF();
+>>>>>>> main
         }
 
         [$cellAddress, $worksheet] = self::extractWorksheet($cellAddress, $cell);
@@ -69,7 +81,11 @@ class Offset
         $startCellColumn += $columns;
 
         if (($startCellRow <= 0) || ($startCellColumn < 0)) {
+<<<<<<< HEAD
             return Functions::REF();
+=======
+            return ExcelError::REF();
+>>>>>>> main
         }
 
         $endCellColumn = self::adjustEndCellColumnForWidth($endCellColumn, $width, $startCellColumn, $columns);
@@ -78,7 +94,11 @@ class Offset
         $endCellRow = self::adustEndCellRowForHeight($height, $startCellRow, $rows, $endCellRow);
 
         if (($endCellRow <= 0) || ($endCellColumn < 0)) {
+<<<<<<< HEAD
             return Functions::REF();
+=======
+            return ExcelError::REF();
+>>>>>>> main
         }
         $endCellColumn = Coordinate::stringFromColumnIndex($endCellColumn + 1);
 
@@ -90,14 +110,25 @@ class Offset
         return self::extractRequiredCells($worksheet, $cellAddress);
     }
 
+<<<<<<< HEAD
+=======
+    /** @return mixed */
+>>>>>>> main
     private static function extractRequiredCells(?Worksheet $worksheet, string $cellAddress)
     {
         return Calculation::getInstance($worksheet !== null ? $worksheet->getParent() : null)
             ->extractCellRange($cellAddress, $worksheet, false);
     }
 
+<<<<<<< HEAD
     private static function extractWorksheet($cellAddress, Cell $cell): array
     {
+=======
+    private static function extractWorksheet(?string $cellAddress, Cell $cell): array
+    {
+        $cellAddress = self::assessCellAddress($cellAddress ?? '', $cell);
+
+>>>>>>> main
         $sheetName = '';
         if (strpos($cellAddress, '!') !== false) {
             [$sheetName, $cellAddress] = Worksheet::extractSheetTitle($cellAddress, true);
@@ -105,13 +136,34 @@ class Offset
         }
 
         $worksheet = ($sheetName !== '')
+<<<<<<< HEAD
             ? $cell->getWorksheet()->getParent()->getSheetByName($sheetName)
+=======
+            ? $cell->getWorksheet()->getParentOrThrow()->getSheetByName($sheetName)
+>>>>>>> main
             : $cell->getWorksheet();
 
         return [$cellAddress, $worksheet];
     }
 
+<<<<<<< HEAD
     private static function adjustEndCellColumnForWidth(string $endCellColumn, $width, int $startCellColumn, $columns)
+=======
+    private static function assessCellAddress(string $cellAddress, Cell $cell): string
+    {
+        if (preg_match('/^' . Calculation::CALCULATION_REGEXP_DEFINEDNAME . '$/mui', $cellAddress) !== false) {
+            $cellAddress = Functions::expandDefinedName($cellAddress, $cell);
+        }
+
+        return $cellAddress;
+    }
+
+    /**
+     * @param mixed $width
+     * @param mixed $columns
+     */
+    private static function adjustEndCellColumnForWidth(string $endCellColumn, $width, int $startCellColumn, $columns): int
+>>>>>>> main
     {
         $endCellColumn = Coordinate::columnIndexFromString($endCellColumn) - 1;
         if (($width !== null) && (!is_object($width))) {
@@ -123,6 +175,14 @@ class Offset
         return $endCellColumn;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @param mixed $height
+     * @param mixed $rows
+     * @param mixed $endCellRow
+     */
+>>>>>>> main
     private static function adustEndCellRowForHeight($height, int $startCellRow, $rows, $endCellRow): int
     {
         if (($height !== null) && (!is_object($height))) {

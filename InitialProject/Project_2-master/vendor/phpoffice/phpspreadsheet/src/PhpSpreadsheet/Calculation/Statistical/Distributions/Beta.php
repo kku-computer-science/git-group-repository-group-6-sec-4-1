@@ -5,6 +5,10 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\Statistical\Distributions;
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class Beta
 {
@@ -61,7 +65,11 @@ class Beta
             $rMax = $tmp;
         }
         if (($value < $rMin) || ($value > $rMax) || ($alpha <= 0) || ($beta <= 0) || ($rMin == $rMax)) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         $value -= $rMin;
@@ -115,7 +123,11 @@ class Beta
             $rMax = $tmp;
         }
         if (($alpha <= 0) || ($beta <= 0) || ($rMin == $rMax) || ($probability <= 0.0)) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         return self::calculateInverse($probability, $alpha, $beta, $rMin, $rMax);
@@ -128,6 +140,10 @@ class Beta
     {
         $a = 0;
         $b = 2;
+<<<<<<< HEAD
+=======
+        $guess = ($a + $b) / 2;
+>>>>>>> main
 
         $i = 0;
         while ((($b - $a) > Functions::PRECISION) && (++$i <= self::MAX_ITERATIONS)) {
@@ -143,7 +159,11 @@ class Beta
         }
 
         if ($i === self::MAX_ITERATIONS) {
+<<<<<<< HEAD
             return Functions::NA();
+=======
+            return ExcelError::NA();
+>>>>>>> main
         }
 
         return round($rMin + $guess * ($rMax - $rMin), 12);
@@ -182,10 +202,20 @@ class Beta
     }
 
     // Function cache for logBeta function
+<<<<<<< HEAD
     private static $logBetaCacheP = 0.0;
 
     private static $logBetaCacheQ = 0.0;
 
+=======
+    /** @var float */
+    private static $logBetaCacheP = 0.0;
+
+    /** @var float */
+    private static $logBetaCacheQ = 0.0;
+
+    /** @var float */
+>>>>>>> main
     private static $logBetaCacheResult = 0.0;
 
     /**
@@ -266,6 +296,10 @@ class Beta
         return $frac;
     }
 
+<<<<<<< HEAD
+=======
+    /*
+>>>>>>> main
     private static function betaValue(float $a, float $b): float
     {
         return (Gamma::gammaValue($a) * Gamma::gammaValue($b)) /
@@ -276,4 +310,8 @@ class Beta
     {
         return self::incompleteBeta($value, $a, $b) / self::betaValue($a, $b);
     }
+<<<<<<< HEAD
+=======
+    */
+>>>>>>> main
 }

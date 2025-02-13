@@ -73,7 +73,11 @@ class IpUtils
             return false;
         }
 
+<<<<<<< HEAD
         $cacheKey = $requestIp.'-'.$ip;
+=======
+        $cacheKey = $requestIp.'-'.$ip.'-v4';
+>>>>>>> main
         if (isset(self::$checkedIps[$cacheKey])) {
             return self::$checkedIps[$cacheKey];
         }
@@ -86,7 +90,11 @@ class IpUtils
             [$address, $netmask] = explode('/', $ip, 2);
 
             if ('0' === $netmask) {
+<<<<<<< HEAD
                 return self::$checkedIps[$cacheKey] = filter_var($address, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4);
+=======
+                return self::$checkedIps[$cacheKey] = false !== filter_var($address, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4);
+>>>>>>> main
             }
 
             if ($netmask < 0 || $netmask > 32) {
@@ -126,7 +134,11 @@ class IpUtils
             return false;
         }
 
+<<<<<<< HEAD
         $cacheKey = $requestIp.'-'.$ip;
+=======
+        $cacheKey = $requestIp.'-'.$ip.'-v6';
+>>>>>>> main
         if (isset(self::$checkedIps[$cacheKey])) {
             return self::$checkedIps[$cacheKey];
         }
@@ -135,9 +147,24 @@ class IpUtils
             throw new \RuntimeException('Unable to check Ipv6. Check that PHP was not compiled with option "disable-ipv6".');
         }
 
+<<<<<<< HEAD
         if (str_contains($ip, '/')) {
             [$address, $netmask] = explode('/', $ip, 2);
 
+=======
+        // Check to see if we were given a IP4 $requestIp or $ip by mistake
+        if (!filter_var($requestIp, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6)) {
+            return self::$checkedIps[$cacheKey] = false;
+        }
+
+        if (str_contains($ip, '/')) {
+            [$address, $netmask] = explode('/', $ip, 2);
+
+            if (!filter_var($address, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6)) {
+                return self::$checkedIps[$cacheKey] = false;
+            }
+
+>>>>>>> main
             if ('0' === $netmask) {
                 return (bool) unpack('n*', @inet_pton($address));
             }
@@ -146,6 +173,13 @@ class IpUtils
                 return self::$checkedIps[$cacheKey] = false;
             }
         } else {
+<<<<<<< HEAD
+=======
+            if (!filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6)) {
+                return self::$checkedIps[$cacheKey] = false;
+            }
+
+>>>>>>> main
             $address = $ip;
             $netmask = 128;
         }

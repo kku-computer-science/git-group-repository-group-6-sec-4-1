@@ -77,11 +77,19 @@ class HtmlDumper extends CliDumper
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function __construct($output = null, string $charset = null, int $flags = 0)
     {
         AbstractDumper::__construct($output, $charset, $flags);
         $this->dumpId = 'sf-dump-'.mt_rand();
         $this->displayOptions['fileLinkFormat'] = ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
+=======
+    public function __construct($output = null, ?string $charset = null, int $flags = 0)
+    {
+        AbstractDumper::__construct($output, $charset, $flags);
+        $this->dumpId = 'sf-dump-'.mt_rand();
+        $this->displayOptions['fileLinkFormat'] = \ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
+>>>>>>> main
         $this->styles = static::$themes['dark'] ?? self::$themes['dark'];
     }
 
@@ -167,9 +175,15 @@ var refStyle = doc.createElement('style'),
     };
 
 refStyle.innerHTML = 'pre.sf-dump .sf-dump-compact, .sf-dump-str-collapse .sf-dump-str-collapse, .sf-dump-str-expand .sf-dump-str-expand { display: none; }';
+<<<<<<< HEAD
 (doc.documentElement.firstElementChild || doc.documentElement.children[0]).appendChild(refStyle);
 refStyle = doc.createElement('style');
 (doc.documentElement.firstElementChild || doc.documentElement.children[0]).appendChild(refStyle);
+=======
+doc.head.appendChild(refStyle);
+refStyle = doc.createElement('style');
+doc.head.appendChild(refStyle);
+>>>>>>> main
 
 if (!doc.addEventListener) {
     addEventListener = function (element, eventName, callback) {
@@ -369,7 +383,11 @@ return function (root, x) {
         if (/\bsf-dump-toggle\b/.test(a.className)) {
             e.preventDefault();
             if (!toggle(a, isCtrlKey(e))) {
+<<<<<<< HEAD
                 var r = doc.getElementById(a.getAttribute('href').substr(1)),
+=======
+                var r = doc.getElementById(a.getAttribute('href').slice(1)),
+>>>>>>> main
                     s = r.previousSibling,
                     f = r.parentNode,
                     t = a.parentNode;
@@ -430,7 +448,11 @@ return function (root, x) {
                 x += elt.parentNode.getAttribute('data-depth')/1;
             }
         } else if (/\bsf-dump-ref\b/.test(elt.className) && (a = elt.getAttribute('href'))) {
+<<<<<<< HEAD
             a = a.substr(1);
+=======
+            a = a.slice(1);
+>>>>>>> main
             elt.className += ' '+a;
 
             if (/[\[{]$/.test(elt.previousSibling.nodeValue)) {
@@ -864,7 +886,11 @@ EOHTML
         }
 
         if ('const' === $style && isset($attr['value'])) {
+<<<<<<< HEAD
             $style .= sprintf(' title="%s"', esc(is_scalar($attr['value']) ? $attr['value'] : json_encode($attr['value'])));
+=======
+            $style .= sprintf(' title="%s"', esc(\is_scalar($attr['value']) ? $attr['value'] : json_encode($attr['value'])));
+>>>>>>> main
         } elseif ('public' === $style) {
             $style .= sprintf(' title="%s"', empty($attr['dynamic']) ? 'Public property' : 'Runtime added dynamic property');
         } elseif ('str' === $style && 1 < $attr['length']) {
@@ -960,7 +986,11 @@ EOHTML
         }
         $this->lastDepth = $depth;
 
+<<<<<<< HEAD
         $this->line = mb_encode_numericentity($this->line, [0x80, 0xFFFF, 0, 0xFFFF], 'UTF-8');
+=======
+        $this->line = mb_encode_numericentity($this->line, [0x80, 0x10FFFF, 0, 0x1FFFFF], 'UTF-8');
+>>>>>>> main
 
         if (-1 === $depth) {
             AbstractDumper::dumpLine(0);

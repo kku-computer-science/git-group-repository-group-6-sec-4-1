@@ -20,7 +20,11 @@ final class EmailAttachmentCount extends Constraint
     private $expectedValue;
     private $transport;
 
+<<<<<<< HEAD
     public function __construct(int $expectedValue, string $transport = null)
+=======
+    public function __construct(int $expectedValue, ?string $transport = null)
+>>>>>>> main
     {
         $this->expectedValue = $expectedValue;
         $this->transport = $transport;

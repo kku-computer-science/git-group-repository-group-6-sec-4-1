@@ -28,7 +28,11 @@ class SurrogateListener implements EventSubscriberInterface
 {
     private $surrogate;
 
+<<<<<<< HEAD
     public function __construct(SurrogateInterface $surrogate = null)
+=======
+    public function __construct(?SurrogateInterface $surrogate = null)
+>>>>>>> main
     {
         $this->surrogate = $surrogate;
     }

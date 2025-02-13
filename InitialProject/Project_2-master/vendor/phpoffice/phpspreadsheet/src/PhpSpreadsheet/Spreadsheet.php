@@ -2,13 +2,26 @@
 
 namespace PhpOffice\PhpSpreadsheet;
 
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
+=======
+use JsonSerializable;
+use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx as XlsxReader;
+use PhpOffice\PhpSpreadsheet\Shared\File;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Shared\StringHelper;
 use PhpOffice\PhpSpreadsheet\Style\Style;
 use PhpOffice\PhpSpreadsheet\Worksheet\Iterator;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+<<<<<<< HEAD
 
 class Spreadsheet
+=======
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx as XlsxWriter;
+
+class Spreadsheet implements JsonSerializable
+>>>>>>> main
 {
     // Allowable values for workbook window visilbity
     const VISIBILITY_VISIBLE = 'visible';
@@ -18,7 +31,11 @@ class Spreadsheet
     private const DEFINED_NAME_IS_RANGE = false;
     private const DEFINED_NAME_IS_FORMULA = true;
 
+<<<<<<< HEAD
     private static $workbookViewVisibilityValues = [
+=======
+    private const WORKBOOK_VIEW_VISIBILITY_VALUES = [
+>>>>>>> main
         self::VISIBILITY_VISIBLE,
         self::VISIBILITY_HIDDEN,
         self::VISIBILITY_VERY_HIDDEN,
@@ -199,6 +216,17 @@ class Spreadsheet
      */
     private $tabRatio = 600;
 
+<<<<<<< HEAD
+=======
+    /** @var Theme */
+    private $theme;
+
+    public function getTheme(): Theme
+    {
+        return $this->theme;
+    }
+
+>>>>>>> main
     /**
      * The workbook has macros ?
      *
@@ -373,7 +401,11 @@ class Spreadsheet
     {
         $extension = pathinfo($path, PATHINFO_EXTENSION);
 
+<<<<<<< HEAD
         return is_array($extension) ? '' : $extension;
+=======
+        return substr(/** @scrutinizer ignore-type */$extension, 0);
+>>>>>>> main
     }
 
     /**
@@ -390,8 +422,11 @@ class Spreadsheet
         switch ($what) {
             case 'all':
                 return $this->ribbonBinObjects;
+<<<<<<< HEAD
 
                 break;
+=======
+>>>>>>> main
             case 'names':
             case 'data':
                 if (is_array($this->ribbonBinObjects) && isset($this->ribbonBinObjects[$what])) {
@@ -474,6 +509,10 @@ class Spreadsheet
     {
         $this->uniqueID = uniqid('', true);
         $this->calculationEngine = new Calculation($this);
+<<<<<<< HEAD
+=======
+        $this->theme = new Theme();
+>>>>>>> main
 
         // Initialise worksheet collection and add one worksheet
         $this->workSheetCollection = [];
@@ -588,7 +627,11 @@ class Spreadsheet
     public function createSheet($sheetIndex = null)
     {
         $newSheet = new Worksheet($this);
+<<<<<<< HEAD
         $this->addSheet($newSheet, $sheetIndex);
+=======
+        $this->addSheet($newSheet, $sheetIndex, true);
+>>>>>>> main
 
         return $newSheet;
     }
@@ -610,11 +653,32 @@ class Spreadsheet
      *
      * @param Worksheet $worksheet The worksheet to add
      * @param null|int $sheetIndex Index where sheet should go (0,1,..., or null for last)
+<<<<<<< HEAD
      *
      * @return Worksheet
      */
     public function addSheet(Worksheet $worksheet, $sheetIndex = null)
     {
+=======
+     * @param bool $retitleIfNeeded add suffix if title exists in spreadsheet
+     *
+     * @return Worksheet
+     */
+    public function addSheet(Worksheet $worksheet, $sheetIndex = null, $retitleIfNeeded = false)
+    {
+        if ($retitleIfNeeded) {
+            $title = $worksheet->getTitle();
+            if ($this->sheetNameExists($title)) {
+                $i = 1;
+                $newTitle = "$title $i";
+                while ($this->sheetNameExists($newTitle)) {
+                    ++$i;
+                    $newTitle = "$title $i";
+                }
+                $worksheet->setTitle($newTitle);
+            }
+        }
+>>>>>>> main
         if ($this->sheetNameExists($worksheet->getTitle())) {
             throw new Exception(
                 "Workbook already contains a worksheet named '{$worksheet->getTitle()}'. Rename this worksheet first."
@@ -722,10 +786,27 @@ class Spreadsheet
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Get sheet by name, throwing exception if not found.
+     */
+    public function getSheetByNameOrThrow(string $worksheetName): Worksheet
+    {
+        $worksheet = $this->getSheetByName($worksheetName);
+        if ($worksheet === null) {
+            throw new Exception("Sheet $worksheetName does not exist.");
+        }
+
+        return $worksheet;
+    }
+
+    /**
+>>>>>>> main
      * Get index for sheet.
      *
      * @return int index
      */
+<<<<<<< HEAD
     public function getIndex(Worksheet $worksheet)
     {
         foreach ($this->workSheetCollection as $key => $value) {
@@ -733,6 +814,19 @@ class Spreadsheet
                 return $key;
             }
         }
+=======
+    public function getIndex(Worksheet $worksheet, bool $noThrow = false)
+    {
+        $wsHash = $worksheet->getHashInt();
+        foreach ($this->workSheetCollection as $key => $value) {
+            if ($value->getHashInt() === $wsHash) {
+                return $key;
+            }
+        }
+        if ($noThrow) {
+            return -1;
+        }
+>>>>>>> main
 
         throw new Exception('Sheet does not exist.');
     }
@@ -747,7 +841,11 @@ class Spreadsheet
      */
     public function setIndexByName($worksheetName, $newIndexPosition)
     {
+<<<<<<< HEAD
         $oldIndex = $this->getIndex($this->getSheetByName($worksheetName));
+=======
+        $oldIndex = $this->getIndex($this->getSheetByNameOrThrow($worksheetName));
+>>>>>>> main
         $worksheet = array_splice(
             $this->workSheetCollection,
             $oldIndex,
@@ -856,7 +954,11 @@ class Spreadsheet
         $countCellXfs = count($this->cellXfCollection);
 
         // copy all the shared cellXfs from the external workbook and append them to the current
+<<<<<<< HEAD
         foreach ($worksheet->getParent()->getCellXfCollection() as $cellXf) {
+=======
+        foreach ($worksheet->getParentOrThrow()->getCellXfCollection() as $cellXf) {
+>>>>>>> main
             $this->addCellXf(clone $cellXf);
         }
 
@@ -869,6 +971,22 @@ class Spreadsheet
             $cell->setXfIndex($cell->getXfIndex() + $countCellXfs);
         }
 
+<<<<<<< HEAD
+=======
+        // update the column dimensions Xfs
+        foreach ($worksheet->getColumnDimensions() as $columnDimension) {
+            $columnDimension->setXfIndex($columnDimension->getXfIndex() + $countCellXfs);
+        }
+
+        // update the row dimensions Xfs
+        foreach ($worksheet->getRowDimensions() as $rowDimension) {
+            $xfIndex = $rowDimension->getXfIndex();
+            if ($xfIndex !== null) {
+                $rowDimension->setXfIndex($xfIndex + $countCellXfs);
+            }
+        }
+
+>>>>>>> main
         return $this->addSheet($worksheet, $sheetIndex);
     }
 
@@ -1107,6 +1225,7 @@ class Spreadsheet
      */
     public function copy()
     {
+<<<<<<< HEAD
         $copied = clone $this;
 
         $worksheetCount = count($this->workSheetCollection);
@@ -1129,6 +1248,26 @@ class Spreadsheet
                 $this->{$key} = unserialize(serialize($val));
             }
         }
+=======
+        $filename = File::temporaryFilename();
+        $writer = new XlsxWriter($this);
+        $writer->setIncludeCharts(true);
+        $writer->save($filename);
+
+        $reader = new XlsxReader();
+        $reader->setIncludeCharts(true);
+        $reloadedSpreadsheet = $reader->load($filename);
+        unlink($filename);
+
+        return $reloadedSpreadsheet;
+    }
+
+    public function __clone()
+    {
+        throw new Exception(
+            'Do not use clone on spreadsheet. Use spreadsheet->copy() instead.'
+        );
+>>>>>>> main
     }
 
     /**
@@ -1549,7 +1688,11 @@ class Spreadsheet
      *       Workbook window is hidden and cannot be shown in the
      *       user interface.
      *
+<<<<<<< HEAD
      * @param string $visibility visibility status of the workbook
+=======
+     * @param null|string $visibility visibility status of the workbook
+>>>>>>> main
      */
     public function setVisibility($visibility): void
     {
@@ -1557,7 +1700,11 @@ class Spreadsheet
             $visibility = self::VISIBILITY_VISIBLE;
         }
 
+<<<<<<< HEAD
         if (in_array($visibility, self::$workbookViewVisibilityValues)) {
+=======
+        if (in_array($visibility, self::WORKBOOK_VIEW_VISIBILITY_VALUES)) {
+>>>>>>> main
             $this->visibility = $visibility;
         } else {
             throw new Exception('Invalid visibility value.');
@@ -1583,7 +1730,11 @@ class Spreadsheet
      */
     public function setTabRatio($tabRatio): void
     {
+<<<<<<< HEAD
         if ($tabRatio >= 0 || $tabRatio <= 1000) {
+=======
+        if ($tabRatio >= 0 && $tabRatio <= 1000) {
+>>>>>>> main
             $this->tabRatio = (int) $tabRatio;
         } else {
             throw new Exception('Tab ratio must be between 0 and 1000.');
@@ -1602,4 +1753,57 @@ class Spreadsheet
             }
         }
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * Silliness to mollify Scrutinizer.
+     *
+     * @codeCoverageIgnore
+     */
+    public function getSharedComponent(): Style
+    {
+        return new Style();
+    }
+
+    /**
+     * @throws Exception
+     *
+     * @return mixed
+     */
+    public function __serialize()
+    {
+        throw new Exception('Spreadsheet objects cannot be serialized');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function jsonSerialize(): mixed
+    {
+        throw new Exception('Spreadsheet objects cannot be json encoded');
+    }
+
+    public function resetThemeFonts(): void
+    {
+        $majorFontLatin = $this->theme->getMajorFontLatin();
+        $minorFontLatin = $this->theme->getMinorFontLatin();
+        foreach ($this->cellXfCollection as $cellStyleXf) {
+            $scheme = $cellStyleXf->getFont()->getScheme();
+            if ($scheme === 'major') {
+                $cellStyleXf->getFont()->setName($majorFontLatin)->setScheme($scheme);
+            } elseif ($scheme === 'minor') {
+                $cellStyleXf->getFont()->setName($minorFontLatin)->setScheme($scheme);
+            }
+        }
+        foreach ($this->cellStyleXfCollection as $cellStyleXf) {
+            $scheme = $cellStyleXf->getFont()->getScheme();
+            if ($scheme === 'major') {
+                $cellStyleXf->getFont()->setName($majorFontLatin)->setScheme($scheme);
+            } elseif ($scheme === 'minor') {
+                $cellStyleXf->getFont()->setName($minorFontLatin)->setScheme($scheme);
+            }
+        }
+    }
+>>>>>>> main
 }

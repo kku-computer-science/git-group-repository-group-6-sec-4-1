@@ -54,11 +54,17 @@ class Company extends \Faker\Provider\Company
      *
      * @see   http://egov.kz/wps/portal/Content?contentPath=%2Fegovcontent%2Fbus_business%2Ffor_businessmen%2Farticle%2Fbusiness_identification_number&lang=en
      *
+<<<<<<< HEAD
      * @param \DateTime $registrationDate
      *
      * @return string 12 digits, like 150140000019
      */
     public static function businessIdentificationNumber(\DateTime $registrationDate = null)
+=======
+     * @return string 12 digits, like 150140000019
+     */
+    public static function businessIdentificationNumber(?\DateTime $registrationDate = null)
+>>>>>>> main
     {
         if (!$registrationDate) {
             $registrationDate = \Faker\Provider\DateTime::dateTimeThisYear();

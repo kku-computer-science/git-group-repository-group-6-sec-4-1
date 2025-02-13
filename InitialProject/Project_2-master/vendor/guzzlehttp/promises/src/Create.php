@@ -1,5 +1,10 @@
 <?php
 
+<<<<<<< HEAD
+=======
+declare(strict_types=1);
+
+>>>>>>> main
 namespace GuzzleHttp\Promise;
 
 final class Create
@@ -8,10 +13,15 @@ final class Create
      * Creates a promise for a value if the value is not a promise.
      *
      * @param mixed $value Promise or value.
+<<<<<<< HEAD
      *
      * @return PromiseInterface
      */
     public static function promiseFor($value)
+=======
+     */
+    public static function promiseFor($value): PromiseInterface
+>>>>>>> main
     {
         if ($value instanceof PromiseInterface) {
             return $value;
@@ -23,6 +33,10 @@ final class Create
             $cfn = method_exists($value, 'cancel') ? [$value, 'cancel'] : null;
             $promise = new Promise($wfn, $cfn);
             $value->then([$promise, 'resolve'], [$promise, 'reject']);
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
             return $promise;
         }
 
@@ -34,10 +48,15 @@ final class Create
      * If the provided reason is a promise, then it is returned as-is.
      *
      * @param mixed $reason Promise or reason.
+<<<<<<< HEAD
      *
      * @return PromiseInterface
      */
     public static function rejectionFor($reason)
+=======
+     */
+    public static function rejectionFor($reason): PromiseInterface
+>>>>>>> main
     {
         if ($reason instanceof PromiseInterface) {
             return $reason;
@@ -50,12 +69,19 @@ final class Create
      * Create an exception for a rejected promise value.
      *
      * @param mixed $reason
+<<<<<<< HEAD
      *
      * @return \Exception|\Throwable
      */
     public static function exceptionFor($reason)
     {
         if ($reason instanceof \Exception || $reason instanceof \Throwable) {
+=======
+     */
+    public static function exceptionFor($reason): \Throwable
+    {
+        if ($reason instanceof \Throwable) {
+>>>>>>> main
             return $reason;
         }
 
@@ -66,10 +92,15 @@ final class Create
      * Returns an iterator for the given value.
      *
      * @param mixed $value
+<<<<<<< HEAD
      *
      * @return \Iterator
      */
     public static function iterFor($value)
+=======
+     */
+    public static function iterFor($value): \Iterator
+>>>>>>> main
     {
         if ($value instanceof \Iterator) {
             return $value;

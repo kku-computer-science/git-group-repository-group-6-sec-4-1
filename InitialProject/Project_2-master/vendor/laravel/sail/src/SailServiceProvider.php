@@ -4,6 +4,10 @@ namespace Laravel\Sail;
 
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
+<<<<<<< HEAD
+=======
+use Laravel\Sail\Console\AddCommand;
+>>>>>>> main
 use Laravel\Sail\Console\InstallCommand;
 use Laravel\Sail\Console\PublishCommand;
 
@@ -30,6 +34,10 @@ class SailServiceProvider extends ServiceProvider implements DeferrableProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 InstallCommand::class,
+<<<<<<< HEAD
+=======
+                AddCommand::class,
+>>>>>>> main
                 PublishCommand::class,
             ]);
         }
@@ -50,6 +58,13 @@ class SailServiceProvider extends ServiceProvider implements DeferrableProvider
             $this->publishes([
                 __DIR__ . '/../bin/sail' => $this->app->basePath('sail'),
             ], ['sail', 'sail-bin']);
+<<<<<<< HEAD
+=======
+
+            $this->publishes([
+                __DIR__ . '/../database' => $this->app->basePath('docker'),
+            ], ['sail', 'sail-database']);
+>>>>>>> main
         }
     }
 

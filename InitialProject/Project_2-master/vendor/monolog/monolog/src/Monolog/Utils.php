@@ -211,7 +211,11 @@ final class Utils
             $data = preg_replace_callback(
                 '/[\x80-\xFF]+/',
                 function ($m) {
+<<<<<<< HEAD
                     return utf8_encode($m[0]);
+=======
+                    return function_exists('mb_convert_encoding') ? mb_convert_encoding($m[0], 'UTF-8', 'ISO-8859-1') : utf8_encode($m[0]);
+>>>>>>> main
                 },
                 $data
             );
@@ -249,7 +253,11 @@ final class Utils
         }
 
         $val = (int) $match['val'];
+<<<<<<< HEAD
         switch (strtolower($match['unit'] ?? '')) {
+=======
+        switch (strtolower($match['unit'])) {
+>>>>>>> main
             case 'g':
                 $val *= 1024;
             case 'm':

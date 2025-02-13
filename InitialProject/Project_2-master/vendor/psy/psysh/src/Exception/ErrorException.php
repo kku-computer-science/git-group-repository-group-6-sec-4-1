@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,11 +20,16 @@ namespace Psy\Exception;
  */
 class ErrorException extends \ErrorException implements Exception
 {
+<<<<<<< HEAD
     private $rawMessage;
+=======
+    private string $rawMessage;
+>>>>>>> main
 
     /**
      * Construct a Psy ErrorException.
      *
+<<<<<<< HEAD
      * @param string         $message  (default: "")
      * @param int            $code     (default: 0)
      * @param int            $severity (default: 1)
@@ -29,6 +38,16 @@ class ErrorException extends \ErrorException implements Exception
      * @param Exception|null $previous (default: null)
      */
     public function __construct($message = '', $code = 0, $severity = 1, $filename = null, $lineno = null, $previous = null)
+=======
+     * @param string          $message  (default: "")
+     * @param int             $code     (default: 0)
+     * @param int             $severity (default: 1)
+     * @param string|null     $filename (default: null)
+     * @param int|null        $lineno   (default: null)
+     * @param \Throwable|null $previous (default: null)
+     */
+    public function __construct($message = '', $code = 0, $severity = 1, $filename = null, $lineno = null, ?\Throwable $previous = null)
+>>>>>>> main
     {
         $this->rawMessage = $message;
 
@@ -37,10 +56,13 @@ class ErrorException extends \ErrorException implements Exception
         }
 
         switch ($severity) {
+<<<<<<< HEAD
             case \E_STRICT:
                 $type = 'Strict error';
                 break;
 
+=======
+>>>>>>> main
             case \E_NOTICE:
             case \E_USER_NOTICE:
                 $type = 'Notice';
@@ -63,6 +85,13 @@ class ErrorException extends \ErrorException implements Exception
                 break;
 
             default:
+<<<<<<< HEAD
+=======
+                if (\PHP_VERSION_ID < 80400 && $severity === \E_STRICT) {
+                    $type = 'Strict error';
+                    break;
+                }
+>>>>>>> main
                 $type = 'Error';
                 break;
         }
@@ -73,8 +102,11 @@ class ErrorException extends \ErrorException implements Exception
 
     /**
      * Get the raw (unformatted) message for this error.
+<<<<<<< HEAD
      *
      * @return string
+=======
+>>>>>>> main
      */
     public function getRawMessage(): string
     {
@@ -103,6 +135,7 @@ class ErrorException extends \ErrorException implements Exception
     /**
      * Create an ErrorException from an Error.
      *
+<<<<<<< HEAD
      * @param \Error $e
      *
      * @return self
@@ -110,5 +143,14 @@ class ErrorException extends \ErrorException implements Exception
     public static function fromError(\Error $e): self
     {
         return new self($e->getMessage(), $e->getCode(), 1, $e->getFile(), $e->getLine(), $e);
+=======
+     * @deprecated PsySH no longer wraps Errors
+     *
+     * @param \Error $e
+     */
+    public static function fromError(\Error $e)
+    {
+        @\trigger_error('PsySH no longer wraps Errors', \E_USER_DEPRECATED);
+>>>>>>> main
     }
 }

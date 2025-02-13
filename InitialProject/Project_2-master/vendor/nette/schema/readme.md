@@ -21,7 +21,11 @@ Installation:
 composer require nette/schema
 ```
 
+<<<<<<< HEAD
 It requires PHP version 7.1 and supports PHP up to 8.1.
+=======
+It requires PHP version 8.1 and supports PHP up to 8.4.
+>>>>>>> main
 
 
 [Support Me](https://github.com/sponsors/dg)
@@ -39,7 +43,11 @@ Basic Usage
 
 In variable `$schema` we have a validation schema (what exactly this means and how to create it we will say later) and in variable `$data` we have a data structure that we want to validate and normalize. This can be, for example, data sent by the user through an API, configuration file, etc.
 
+<<<<<<< HEAD
 The task is handled by the [Nette\Schema\Processor](https://api.nette.org/3.0/Nette/Schema/Processor.html) class, which processes the input and either returns normalized data or throws an [Nette\Schema\ValidationException](https://api.nette.org/3.0/Nette/Schema/ValidationException.html) exception on error.
+=======
+The task is handled by the [Nette\Schema\Processor](https://api.nette.org/schema/master/Nette/Schema/Processor.html) class, which processes the input and either returns normalized data or throws an [Nette\Schema\ValidationException](https://api.nette.org/schema/master/Nette/Schema/ValidationException.html) exception on error.
+>>>>>>> main
 
 ```php
 $processor = new Nette\Schema\Processor;
@@ -51,20 +59,33 @@ try {
 }
 ```
 
+<<<<<<< HEAD
 Method `$e->getMessages()` returns array of all message strings and `$e->getMessageObjects()` return all messages as [Nette\Schema\Message](https://api.nette.org/3.1/Nette/Schema/Message.html) objects.
+=======
+Method `$e->getMessages()` returns array of all message strings and `$e->getMessageObjects()` return all messages as [Nette\Schema\Message](https://api.nette.org/schema/master/Nette/Schema/Message.html) objects.
+>>>>>>> main
 
 
 Defining Schema
 ---------------
 
+<<<<<<< HEAD
 And now let's create a schema. The class [Nette\Schema\Expect](https://api.nette.org/3.0/Nette/Schema/Expect.html) is used to define it, we actually define expectations of what the data should look like. Let's say that the input data must be a structure (e.g. an array) containing elements `processRefund` of type bool and `refundAmount` of type int.
+=======
+And now let's create a schema. The class [Nette\Schema\Expect](https://api.nette.org/schema/master/Nette/Schema/Expect.html) is used to define it, we actually define expectations of what the data should look like. Let's say that the input data must be a structure (e.g. an array) containing elements `processRefund` of type bool and `refundAmount` of type int.
+>>>>>>> main
 
 ```php
 use Nette\Schema\Expect;
 
 $schema = Expect::structure([
+<<<<<<< HEAD
     'processRefund' => Expect::bool(),
     'refundAmount' => Expect::int(),
+=======
+	'processRefund' => Expect::bool(),
+	'refundAmount' => Expect::int(),
+>>>>>>> main
 ]);
 ```
 
@@ -74,8 +95,13 @@ Lets send the following data for validation:
 
 ```php
 $data = [
+<<<<<<< HEAD
     'processRefund' => true,
     'refundAmount' => 17,
+=======
+	'processRefund' => true,
+	'refundAmount' => 17,
+>>>>>>> main
 ];
 
 $normalized = $processor->process($schema, $data); // OK, it passes
@@ -87,7 +113,11 @@ All elements of the structure are optional and have a default value `null`. Exam
 
 ```php
 $data = [
+<<<<<<< HEAD
     'refundAmount' => 17,
+=======
+	'refundAmount' => 17,
+>>>>>>> main
 ];
 
 $normalized = $processor->process($schema, $data); // OK, it passes
@@ -102,8 +132,13 @@ And what if we wanted to accept `1` and `0` besides booleans? Then we list the a
 
 ```php
 $schema = Expect::structure([
+<<<<<<< HEAD
     'processRefund' => Expect::anyOf(true, false, 1, 0)->castTo('bool'),
     'refundAmount' => Expect::int(),
+=======
+	'processRefund' => Expect::anyOf(true, false, 1, 0)->castTo('bool'),
+	'refundAmount' => Expect::int(),
+>>>>>>> main
 ]);
 
 $normalized = $processor->process($schema, $data);
@@ -113,7 +148,10 @@ is_bool($normalized->processRefund); // true
 Now you know the basics of how the schema is defined and how the individual elements of the structure behave. We will now show what all the other elements can be used in defining a schema.
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 Data Types: type()
 ------------------
 
@@ -152,6 +190,18 @@ $processor->process($schema, ['a' => 'hello', 'b' => 'world']); // OK
 $processor->process($schema, ['key' => 123]); // ERROR: 123 is not a string
 ```
 
+<<<<<<< HEAD
+=======
+The second parameter can be used to specify keys (since version 1.2):
+
+```php
+$schema = Expect::arrayOf('string', 'int');
+
+$processor->process($schema, ['hello', 'world']); // OK
+$processor->process($schema, ['a' => 'hello']); // ERROR: 'a' is not int
+```
+
+>>>>>>> main
 The list is an indexed array:
 
 ```php
@@ -169,7 +219,11 @@ The parameter can also be a schema, so we can write:
 Expect::arrayOf(Expect::bool())
 ```
 
+<<<<<<< HEAD
 The default value is an empty array. If you specify default value, it will be merged with the passed data. This can be disabled using `mergeDefaults(false)`.
+=======
+The default value is an empty array. If you specify a default value, it will be merged with the passed data. This can be disabled using `mergeDefaults(false)`.
+>>>>>>> main
 
 
 Enumeration: anyOf()
@@ -179,7 +233,11 @@ Enumeration: anyOf()
 
 ```php
 $schema = Expect::listOf(
+<<<<<<< HEAD
 	Expect::anyOf('a', true, null)
+=======
+	Expect::anyOf('a', true, null),
+>>>>>>> main
 );
 
 $processor->process($schema, ['a', true, null, 'a']); // OK
@@ -190,14 +248,29 @@ The enumeration elements can also be schemas:
 
 ```php
 $schema = Expect::listOf(
+<<<<<<< HEAD
 	Expect::anyOf(Expect::string(), true, null)
+=======
+	Expect::anyOf(Expect::string(), true, null),
+>>>>>>> main
 );
 
 $processor->process($schema, ['foo', true, null, 'bar']); // OK
 $processor->process($schema, [123]); // ERROR
 ```
 
+<<<<<<< HEAD
 The default value is `null`.
+=======
+The `anyOf()` method accepts variants as individual parameters, not as array. To pass it an array of values, use the unpacking operator `anyOf(...$variants)`.
+
+The default value is `null`. Use the `firstIsDefault()` method to make the first element the default:
+
+```php
+// default is 'hello'
+Expect::anyOf(Expect::string('hello'), true, null)->firstIsDefault();
+```
+>>>>>>> main
 
 
 Structures
@@ -216,12 +289,31 @@ $schema = Expect::structure([
 ]);
 
 $processor->process($schema, ['optional' => '']);
+<<<<<<< HEAD
 // ERROR: item 'required' is missing
+=======
+// ERROR: option 'required' is missing
+>>>>>>> main
 
 $processor->process($schema, ['required' => 'foo']);
 // OK, returns {'required' => 'foo', 'optional' => null}
 ```
 
+<<<<<<< HEAD
+=======
+If you do not want to output properties with only a default value, use `skipDefaults()`:
+
+```php
+$schema = Expect::structure([
+	'required' => Expect::string()->required(),
+	'optional' => Expect::string(),
+])->skipDefaults();
+
+$processor->process($schema, ['required' => 'foo']);
+// OK, returns {'required' => 'foo'}
+```
+
+>>>>>>> main
 Although `null` is the default value of the `optional` property, it is not allowed in the input data (the value must be a string). Properties accepting `null` are defined using `nullable()`:
 
 ```php
@@ -259,10 +351,18 @@ $processor->process($schema, ['additional' => 1]); // OK
 $processor->process($schema, ['additional' => true]); // ERROR
 ```
 
+<<<<<<< HEAD
 Deprecations
 ------------
 
 You can deprecate property using the `deprecated([string $message])` method. Deprecation notices are returned by `$processor->getWarnings()` (since v1.1):
+=======
+
+Deprecations
+------------
+
+You can deprecate property using the `deprecated([string $message])` method. Deprecation notices are returned by `$processor->getWarnings()`:
+>>>>>>> main
 
 ```php
 $schema = Expect::structure([
@@ -273,6 +373,10 @@ $processor->process($schema, ['old' => 1]); // OK
 $processor->getWarnings(); // ["The item 'old' is deprecated"]
 ```
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 Ranges: min() max()
 -------------------
 
@@ -322,7 +426,11 @@ Custom Assertions: assert()
 You can add any other restrictions using `assert(callable $fn)`.
 
 ```php
+<<<<<<< HEAD
 $countIsEven = function ($v) { return count($v) % 2 === 0; };
+=======
+$countIsEven = fn($v) => count($v) % 2 === 0;
+>>>>>>> main
 
 $schema = Expect::arrayOf('string')
 	->assert($countIsEven); // the count must be even
@@ -337,7 +445,11 @@ Or
 Expect::string()->assert('is_file'); // the file must exist
 ```
 
+<<<<<<< HEAD
 You can add your own description for each assertions. It will be part of the error message.
+=======
+You can add your own description for each assertion. It will be part of the error message.
+>>>>>>> main
 
 ```php
 $schema = Expect::arrayOf('string')
@@ -347,7 +459,110 @@ $processor->process($schema, ['a', 'b', 'c']);
 // Failed assertion "Even items in array" for item with value array.
 ```
 
+<<<<<<< HEAD
 The method can be called repeatedly to add more assertions.
+=======
+The method can be called repeatedly to add multiple constraints. It can be intermixed with calls to `transform()` and `castTo()`.
+
+
+Transformation: transform()
+---------------------------
+
+Successfully validated data can be modified using a custom function:
+
+```php
+// conversion to uppercase:
+Expect::string()->transform(fn(string $s) => strtoupper($s));
+```
+
+The method can be called repeatedly to add multiple transformations. It can be intermixed with calls to `assert()` and `castTo()`. The operations will be executed in the order in which they are declared:
+
+```php
+Expect::type('string|int')
+	->castTo('string')
+	->assert('ctype_lower', 'All characters must be lowercased')
+	->transform(fn(string $s) => strtoupper($s)); // conversion to uppercase
+```
+
+The `transform()` method can both transform and validate the value simultaneously. This is often simpler and less redundant than chaining `transform()` and `assert()`. For this purpose, the function receives a [Nette\Schema\Context](https://api.nette.org/schema/master/Nette/Schema/Context.html) object with an `addError()` method, which can be used to add information about validation issues:
+
+```php
+Expect::string()
+	->transform(function (string $s, Nette\Schema\Context $context) {
+		if (!ctype_lower($s)) {
+			$context->addError('All characters must be lowercased', 'my.case.error');
+			return null;
+		}
+
+		return strtoupper($s);
+	});
+```
+
+
+Casting: castTo()
+-----------------
+
+Successfully validated data can be cast:
+
+```php
+Expect::scalar()->castTo('string');
+```
+
+In addition to native PHP types, you can also cast to classes. It distinguishes whether it is a simple class without a constructor or a class with a constructor. If the class has no constructor, an instance of it is created and all elements of the structure are written to its properties:
+
+```php
+class Info
+{
+	public bool $processRefund;
+	public int $refundAmount;
+}
+
+Expect::structure([
+	'processRefund' => Expect::bool(),
+	'refundAmount' => Expect::int(),
+])->castTo(Info::class);
+
+// creates '$obj = new Info' and writes to $obj->processRefund and $obj->refundAmount
+```
+
+If the class has a constructor, the elements of the structure are passed as named parameters to the constructor:
+
+```php
+class Info
+{
+	public function __construct(
+		public bool $processRefund,
+		public int $refundAmount,
+	) {
+	}
+}
+
+// creates $obj = new Info(processRefund: ..., refundAmount: ...)
+```
+
+Casting combined with a scalar parameter creates an object and passes the value as the sole parameter to the constructor:
+
+```php
+Expect::string()->castTo(DateTime::class);
+// creates new DateTime(...)
+```
+
+
+Normalization: before()
+-----------------------
+
+Prior to the validation itself, the data can be normalized using the method `before()`. As an example, let's have an element that must be an array of strings (eg `['a', 'b', 'c']`), but receives input in the form of a string `a b c`:
+
+```php
+$explode = fn($v) => explode(' ', $v);
+
+$schema = Expect::arrayOf('string')
+	->before($explode);
+
+$normalized = $processor->process($schema, 'a b c');
+// OK, returns ['a', 'b', 'c']
+```
+>>>>>>> main
 
 
 Mapping to Objects: from()
@@ -407,6 +622,7 @@ $schema = Expect::from(new Config, [
 	'name' => Expect::string()->pattern('\w:.*'),
 ]);
 ```
+<<<<<<< HEAD
 
 
 Casting: castTo()
@@ -439,3 +655,5 @@ $schema = Expect::arrayOf('string')
 $normalized = $processor->process($schema, 'a b c');
 // OK, returns ['a', 'b', 'c']
 ```
+=======
+>>>>>>> main

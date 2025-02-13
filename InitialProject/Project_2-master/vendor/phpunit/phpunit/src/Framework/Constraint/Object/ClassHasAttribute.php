@@ -18,6 +18,11 @@ use ReflectionException;
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+<<<<<<< HEAD
+=======
+ *
+ * @deprecated https://github.com/sebastianbergmann/phpunit/issues/4601
+>>>>>>> main
  */
 class ClassHasAttribute extends Constraint
 {
@@ -38,7 +43,11 @@ class ClassHasAttribute extends Constraint
     {
         return sprintf(
             'has attribute "%s"',
+<<<<<<< HEAD
             $this->attributeName
+=======
+            $this->attributeName,
+>>>>>>> main
         );
     }
 
@@ -56,8 +65,13 @@ class ClassHasAttribute extends Constraint
         } catch (ReflectionException $e) {
             throw new Exception(
                 $e->getMessage(),
+<<<<<<< HEAD
                 (int) $e->getCode(),
                 $e
+=======
+                $e->getCode(),
+                $e,
+>>>>>>> main
             );
         }
         // @codeCoverageIgnoreEnd
@@ -77,7 +91,11 @@ class ClassHasAttribute extends Constraint
             '%sclass "%s" %s',
             is_object($other) ? 'object of ' : '',
             is_object($other) ? get_class($other) : $other,
+<<<<<<< HEAD
             $this->toString()
+=======
+            $this->toString(),
+>>>>>>> main
         );
     }
 

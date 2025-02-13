@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -32,7 +36,11 @@ class KeywordsMatcher extends AbstractMatcher
     /**
      * Get all (completable) PHP keywords.
      *
+<<<<<<< HEAD
      * @return array
+=======
+     * @return string[]
+>>>>>>> main
      */
     public function getKeywords(): array
     {
@@ -43,8 +51,11 @@ class KeywordsMatcher extends AbstractMatcher
      * Check whether $keyword is a (completable) PHP keyword.
      *
      * @param string $keyword
+<<<<<<< HEAD
      *
      * @return bool
+=======
+>>>>>>> main
      */
     public function isKeyword(string $keyword): bool
     {
@@ -75,7 +86,11 @@ class KeywordsMatcher extends AbstractMatcher
             case self::hasToken([self::T_OPEN_TAG, self::T_VARIABLE], $token):
 //            case is_string($token) && $token === '$':
             case self::hasToken([self::T_OPEN_TAG, self::T_VARIABLE], $prevToken) &&
+<<<<<<< HEAD
                 self::tokenIs($token, self::T_STRING):
+=======
+            self::tokenIs($token, self::T_STRING):
+>>>>>>> main
             case self::isOperator($token):
                 return true;
         }

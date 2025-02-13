@@ -575,7 +575,11 @@ EOF;
     {
         $value = Arr::wrap($value);
 
+<<<<<<< HEAD
         $values = $escape ? array_map('e', ($value)) : $value;
+=======
+        $values = $escape ? array_map('e', $value) : $value;
+>>>>>>> main
 
         foreach ($values as $value) {
             PHPUnit::assertStringContainsString((string) $value, $this->getContent());
@@ -593,7 +597,11 @@ EOF;
      */
     public function assertSeeInOrder(array $values, $escape = true)
     {
+<<<<<<< HEAD
         $values = $escape ? array_map('e', ($values)) : $values;
+=======
+        $values = $escape ? array_map('e', $values) : $values;
+>>>>>>> main
 
         PHPUnit::assertThat($values, new SeeInOrder($this->getContent()));
 
@@ -611,7 +619,11 @@ EOF;
     {
         $value = Arr::wrap($value);
 
+<<<<<<< HEAD
         $values = $escape ? array_map('e', ($value)) : $value;
+=======
+        $values = $escape ? array_map('e', $value) : $value;
+>>>>>>> main
 
         tap(strip_tags($this->getContent()), function ($content) use ($values) {
             foreach ($values as $value) {
@@ -631,7 +643,11 @@ EOF;
      */
     public function assertSeeTextInOrder(array $values, $escape = true)
     {
+<<<<<<< HEAD
         $values = $escape ? array_map('e', ($values)) : $values;
+=======
+        $values = $escape ? array_map('e', $values) : $values;
+>>>>>>> main
 
         PHPUnit::assertThat($values, new SeeInOrder(strip_tags($this->getContent())));
 
@@ -649,7 +665,11 @@ EOF;
     {
         $value = Arr::wrap($value);
 
+<<<<<<< HEAD
         $values = $escape ? array_map('e', ($value)) : $value;
+=======
+        $values = $escape ? array_map('e', $value) : $value;
+>>>>>>> main
 
         foreach ($values as $value) {
             PHPUnit::assertStringNotContainsString((string) $value, $this->getContent());
@@ -669,7 +689,11 @@ EOF;
     {
         $value = Arr::wrap($value);
 
+<<<<<<< HEAD
         $values = $escape ? array_map('e', ($value)) : $value;
+=======
+        $values = $escape ? array_map('e', $value) : $value;
+>>>>>>> main
 
         tap(strip_tags($this->getContent()), function ($content) use ($values) {
             foreach ($values as $value) {
@@ -1491,11 +1515,25 @@ EOF;
             PHPUnit::fail('The response is not a streamed response.');
         }
 
+<<<<<<< HEAD
         ob_start();
 
         $this->sendContent();
 
         return $this->streamedContent = ob_get_clean();
+=======
+        ob_start(function (string $buffer): string {
+            $this->streamedContent .= $buffer;
+
+            return '';
+        });
+
+        $this->sendContent();
+
+        ob_end_clean();
+
+        return $this->streamedContent;
+>>>>>>> main
     }
 
     /**

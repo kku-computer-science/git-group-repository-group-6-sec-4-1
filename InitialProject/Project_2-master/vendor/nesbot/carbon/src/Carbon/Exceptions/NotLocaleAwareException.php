@@ -11,8 +11,13 @@
 
 namespace Carbon\Exceptions;
 
+<<<<<<< HEAD
 use Exception;
 use InvalidArgumentException as BaseInvalidArgumentException;
+=======
+use InvalidArgumentException as BaseInvalidArgumentException;
+use Throwable;
+>>>>>>> main
 
 class NotLocaleAwareException extends BaseInvalidArgumentException implements InvalidArgumentException
 {
@@ -21,9 +26,15 @@ class NotLocaleAwareException extends BaseInvalidArgumentException implements In
      *
      * @param mixed          $object
      * @param int            $code
+<<<<<<< HEAD
      * @param Exception|null $previous
      */
     public function __construct($object, $code = 0, Exception $previous = null)
+=======
+     * @param Throwable|null $previous
+     */
+    public function __construct($object, $code = 0, Throwable $previous = null)
+>>>>>>> main
     {
         $dump = \is_object($object) ? \get_class($object) : \gettype($object);
 

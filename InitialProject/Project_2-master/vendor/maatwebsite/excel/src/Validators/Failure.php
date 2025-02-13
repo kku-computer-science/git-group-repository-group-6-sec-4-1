@@ -86,6 +86,10 @@ class Failure implements Arrayable, JsonSerializable
     /**
      * @return array
      */
+<<<<<<< HEAD
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> main
     public function jsonSerialize()
     {
         return [

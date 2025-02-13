@@ -2,13 +2,24 @@
 
 namespace PhpOffice\PhpSpreadsheet\Calculation\LookupRef;
 
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
+use PhpOffice\PhpSpreadsheet\Calculation\Exception;
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Shared\StringHelper;
 
 class HLookup extends LookupBase
 {
+<<<<<<< HEAD
+=======
+    use ArrayEnabled;
+
+>>>>>>> main
     /**
      * HLOOKUP
      * The HLOOKUP function searches for value in the top-most row of lookup_array and returns the value
@@ -24,12 +35,24 @@ class HLookup extends LookupBase
      */
     public static function lookup($lookupValue, $lookupArray, $indexNumber, $notExactMatch = true)
     {
+<<<<<<< HEAD
         $lookupValue = Functions::flattenSingleValue($lookupValue);
         $indexNumber = Functions::flattenSingleValue($indexNumber);
         $notExactMatch = ($notExactMatch === null) ? true : Functions::flattenSingleValue($notExactMatch);
         $lookupArray = self::convertLiteralArray($lookupArray);
 
         try {
+=======
+        if (is_array($lookupValue) || is_array($indexNumber)) {
+            return self::evaluateArrayArgumentsIgnore([self::class, __FUNCTION__], 1, $lookupValue, $lookupArray, $indexNumber, $notExactMatch);
+        }
+
+        $notExactMatch = (bool) ($notExactMatch ?? true);
+
+        try {
+            self::validateLookupArray($lookupArray);
+            $lookupArray = self::convertLiteralArray($lookupArray);
+>>>>>>> main
             $indexNumber = self::validateIndexLookup($lookupArray, $indexNumber);
         } catch (Exception $e) {
             return $e->getMessage();
@@ -38,12 +61,20 @@ class HLookup extends LookupBase
         $f = array_keys($lookupArray);
         $firstRow = reset($f);
         if ((!is_array($lookupArray[$firstRow])) || ($indexNumber > count($lookupArray))) {
+<<<<<<< HEAD
             return Functions::REF();
+=======
+            return ExcelError::REF();
+>>>>>>> main
         }
 
         $firstkey = $f[0] - 1;
         $returnColumn = $firstkey + $indexNumber;
+<<<<<<< HEAD
         $firstColumn = array_shift($f);
+=======
+        $firstColumn = array_shift($f) ?? 1;
+>>>>>>> main
         $rowNumber = self::hLookupSearch($lookupValue, $lookupArray, $firstColumn, $notExactMatch);
 
         if ($rowNumber !== null) {
@@ -51,24 +82,40 @@ class HLookup extends LookupBase
             return $lookupArray[$returnColumn][Coordinate::stringFromColumnIndex($rowNumber)];
         }
 
+<<<<<<< HEAD
         return Functions::NA();
+=======
+        return ExcelError::NA();
+>>>>>>> main
     }
 
     /**
      * @param mixed $lookupValue The value that you want to match in lookup_array
+<<<<<<< HEAD
      * @param mixed $column The column to look up
      * @param mixed $notExactMatch determines if you are looking for an exact match based on lookup_value
      */
     private static function hLookupSearch($lookupValue, array $lookupArray, $column, $notExactMatch): ?int
     {
         $lookupLower = StringHelper::strToLower($lookupValue);
+=======
+     * @param  int|string $column
+     */
+    private static function hLookupSearch($lookupValue, array $lookupArray, $column, bool $notExactMatch): ?int
+    {
+        $lookupLower = StringHelper::strToLower((string) $lookupValue);
+>>>>>>> main
 
         $rowNumber = null;
         foreach ($lookupArray[$column] as $rowKey => $rowData) {
             // break if we have passed possible keys
             $bothNumeric = is_numeric($lookupValue) && is_numeric($rowData);
             $bothNotNumeric = !is_numeric($lookupValue) && !is_numeric($rowData);
+<<<<<<< HEAD
             $cellDataLower = StringHelper::strToLower($rowData);
+=======
+            $cellDataLower = StringHelper::strToLower((string) $rowData);
+>>>>>>> main
 
             if (
                 $notExactMatch &&

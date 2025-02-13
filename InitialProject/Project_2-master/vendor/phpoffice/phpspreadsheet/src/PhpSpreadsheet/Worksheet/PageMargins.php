@@ -197,6 +197,7 @@ class PageMargins
         return $this;
     }
 
+<<<<<<< HEAD
     /**
      * Implement PHP __clone to create a deep clone, not just a shallow copy.
      */
@@ -212,6 +213,8 @@ class PageMargins
         }
     }
 
+=======
+>>>>>>> main
     public static function fromCentimeters(float $value): float
     {
         return $value / 2.54;

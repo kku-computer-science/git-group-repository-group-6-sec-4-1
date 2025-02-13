@@ -51,7 +51,11 @@ class Expression extends WizardAbstract implements WizardInterface
         $wizard = new self($cellRange);
         $wizard->style = $conditional->getStyle();
         $wizard->stopIfTrue = $conditional->getStopIfTrue();
+<<<<<<< HEAD
         $wizard->expression = self::reverseAdjustCellRef($conditional->getConditions()[0], $cellRange);
+=======
+        $wizard->expression = self::reverseAdjustCellRef((string) ($conditional->getConditions()[0]), $cellRange);
+>>>>>>> main
 
         return $wizard;
     }
@@ -66,7 +70,13 @@ class Expression extends WizardAbstract implements WizardInterface
             throw new Exception('Invalid Operation for Expression CF Rule Wizard');
         }
 
+<<<<<<< HEAD
         $this->expression(...$arguments);
+=======
+        // Scrutinizer ignores its own recommendation
+        //$this->expression(/** @scrutinizer ignore-type */ ...$arguments);
+        $this->expression($arguments[0]);
+>>>>>>> main
 
         return $this;
     }

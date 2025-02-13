@@ -6,9 +6,14 @@ namespace Brick\Math\Exception;
 
 /**
  * Base class for all math exceptions.
+<<<<<<< HEAD
  *
  * This class is abstract to ensure that only fine-grained exceptions are thrown throughout the code.
  */
 class MathException extends \RuntimeException
+=======
+ */
+class MathException extends \Exception
+>>>>>>> main
 {
 }

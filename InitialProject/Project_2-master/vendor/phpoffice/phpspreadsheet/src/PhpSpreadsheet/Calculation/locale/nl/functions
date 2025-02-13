@@ -244,6 +244,10 @@ ROWS = RIJEN
 RTD = RTG
 TRANSPOSE = TRANSPONEREN
 VLOOKUP = VERT.ZOEKEN
+<<<<<<< HEAD
+=======
+*RC = RK
+>>>>>>> main
 
 ##
 ## Wiskundige en trigonometrische functies (Math & Trig Functions)

@@ -12,7 +12,11 @@
                 $class = substr($exception['class'], $separator);
                 ?>
                 <?php if ('' === $class) { ?>
+<<<<<<< HEAD
                     </br>
+=======
+                    <br>
+>>>>>>> main
                 <?php } else { ?>
                     <h3 class="trace-class">
                         <?php if ('' !== $namespace) { ?>

@@ -90,7 +90,11 @@ return [
     'weekdays_min' => ['di', 'lu', 'ma', 'me', 'je', 've', 'sa'],
     'ordinal' => function ($number, $period) {
         switch ($period) {
+<<<<<<< HEAD
             // In french, only the first has be ordinal, other number remains cardinal
+=======
+            // In French, only the first has to be ordinal, other number remains cardinal
+>>>>>>> main
             // @link https://fr.wikihow.com/%C3%A9crire-la-date-en-fran%C3%A7ais
             case 'D':
                 return $number.($number === 1 ? 'er' : '');
@@ -111,4 +115,16 @@ return [
     'first_day_of_week' => 1,
     'day_of_first_week_of_year' => 4,
     'list' => [', ', ' et '],
+<<<<<<< HEAD
+=======
+    'ordinal_words' => [
+        'of' => 'de',
+        'first' => 'premier',
+        'second' => 'deuxième',
+        'third' => 'troisième',
+        'fourth' => 'quatrième',
+        'fifth' => 'cinquième',
+        'last' => 'dernier',
+    ],
+>>>>>>> main
 ];

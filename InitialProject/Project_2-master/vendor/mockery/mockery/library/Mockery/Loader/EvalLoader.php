@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 /**
  * Mockery
  *
@@ -16,21 +17,47 @@
  * @package    Mockery
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+=======
+
+/**
+ * Mockery (https://docs.mockery.io/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
+>>>>>>> main
  */
 
 namespace Mockery\Loader;
 
 use Mockery\Generator\MockDefinition;
+<<<<<<< HEAD
 use Mockery\Loader\Loader;
 
 class EvalLoader implements Loader
 {
+=======
+
+use function class_exists;
+
+class EvalLoader implements Loader
+{
+    /**
+     * Load the given mock definition
+     *
+     * @return void
+     */
+>>>>>>> main
     public function load(MockDefinition $definition)
     {
         if (class_exists($definition->getClassName(), false)) {
             return;
         }
 
+<<<<<<< HEAD
         eval("?>" . $definition->getCode());
+=======
+        eval('?>' . $definition->getCode());
+>>>>>>> main
     }
 }

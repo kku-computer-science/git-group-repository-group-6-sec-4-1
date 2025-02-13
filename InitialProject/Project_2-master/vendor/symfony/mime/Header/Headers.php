@@ -190,7 +190,11 @@ final class Headers
         return array_shift($values);
     }
 
+<<<<<<< HEAD
     public function all(string $name = null): iterable
+=======
+    public function all(?string $name = null): iterable
+>>>>>>> main
     {
         if (null === $name) {
             foreach ($this->headers as $name => $collection) {

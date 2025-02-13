@@ -11,11 +11,15 @@
 
 namespace Carbon\Exceptions;
 
+<<<<<<< HEAD
 use Exception;
+=======
+>>>>>>> main
 use RuntimeException as BaseRuntimeException;
 
 class UnreachableException extends BaseRuntimeException implements RuntimeException
 {
+<<<<<<< HEAD
     /**
      * Constructor.
      *
@@ -27,4 +31,7 @@ class UnreachableException extends BaseRuntimeException implements RuntimeExcept
     {
         parent::__construct($message, $code, $previous);
     }
+=======
+    //
+>>>>>>> main
 }

@@ -18,10 +18,16 @@ class Company extends \Faker\Provider\Company
      *
      * @see https://en.wikipedia.org/wiki/VAT_identification_number#VAT_numbers_by_country
      */
+<<<<<<< HEAD
     public static function vat(string $type = null): string
     {
         switch ($type) {
 
+=======
+    public static function vat(?string $type = null): string
+    {
+        switch ($type) {
+>>>>>>> main
             case static::VAT_TYPE_BRANCH:
                 return static::generateBranchTraderVatNumber();
 
@@ -33,7 +39,10 @@ class Company extends \Faker\Provider\Company
 
             default:
                 return static::generateStandardVatNumber();
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
         }
     }
 
@@ -55,7 +64,11 @@ class Company extends \Faker\Provider\Company
             static::VAT_PREFIX,
             $firstBlock,
             $secondBlock,
+<<<<<<< HEAD
             static::calculateModulus97($firstBlock . $secondBlock)
+=======
+            static::calculateModulus97($firstBlock . $secondBlock),
+>>>>>>> main
         );
     }
 
@@ -68,7 +81,11 @@ class Company extends \Faker\Provider\Company
         return sprintf(
             '%sHA%d',
             static::VAT_PREFIX,
+<<<<<<< HEAD
             static::numberBetween(500, 999)
+=======
+            static::numberBetween(500, 999),
+>>>>>>> main
         );
     }
 
@@ -81,7 +98,11 @@ class Company extends \Faker\Provider\Company
         return sprintf(
             '%s %d',
             static::generateStandardVatNumber(),
+<<<<<<< HEAD
             static::randomNumber(3, true)
+=======
+            static::randomNumber(3, true),
+>>>>>>> main
         );
     }
 
@@ -94,7 +115,11 @@ class Company extends \Faker\Provider\Company
         return sprintf(
             '%sGD%s',
             static::VAT_PREFIX,
+<<<<<<< HEAD
             str_pad((string) static::numberBetween(0, 499), 3, '0', STR_PAD_LEFT)
+=======
+            str_pad((string) static::numberBetween(0, 499), 3, '0', STR_PAD_LEFT),
+>>>>>>> main
         );
     }
 

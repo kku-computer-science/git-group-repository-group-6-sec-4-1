@@ -40,7 +40,11 @@ final class ArrayAdapter implements AdapterInterface
     /**
      * Read an environment variable, if it exists.
      *
+<<<<<<< HEAD
      * @param string $name
+=======
+     * @param non-empty-string $name
+>>>>>>> main
      *
      * @return \PhpOption\Option<string>
      */
@@ -52,8 +56,13 @@ final class ArrayAdapter implements AdapterInterface
     /**
      * Write to an environment variable, if possible.
      *
+<<<<<<< HEAD
      * @param string $name
      * @param string $value
+=======
+     * @param non-empty-string $name
+     * @param string           $value
+>>>>>>> main
      *
      * @return bool
      */
@@ -67,7 +76,11 @@ final class ArrayAdapter implements AdapterInterface
     /**
      * Delete an environment variable, if possible.
      *
+<<<<<<< HEAD
      * @param string $name
+=======
+     * @param non-empty-string $name
+>>>>>>> main
      *
      * @return bool
      */

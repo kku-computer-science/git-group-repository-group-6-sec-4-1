@@ -29,7 +29,11 @@ class CacheWarmerAggregate implements CacheWarmerInterface
     /**
      * @param iterable<mixed, CacheWarmerInterface> $warmers
      */
+<<<<<<< HEAD
     public function __construct(iterable $warmers = [], bool $debug = false, string $deprecationLogsFilepath = null)
+=======
+    public function __construct(iterable $warmers = [], bool $debug = false, ?string $deprecationLogsFilepath = null)
+>>>>>>> main
     {
         $this->warmers = $warmers;
         $this->debug = $debug;

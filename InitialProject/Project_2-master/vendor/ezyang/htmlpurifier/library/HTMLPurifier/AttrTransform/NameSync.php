@@ -8,6 +8,14 @@
 class HTMLPurifier_AttrTransform_NameSync extends HTMLPurifier_AttrTransform
 {
 
+<<<<<<< HEAD
+=======
+    /**
+     * @type HTMLPurifier_AttrDef_HTML_ID
+     */
+    public $idDef;
+
+>>>>>>> main
     public function __construct()
     {
         $this->idDef = new HTMLPurifier_AttrDef_HTML_ID();

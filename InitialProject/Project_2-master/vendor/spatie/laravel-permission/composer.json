@@ -1,6 +1,10 @@
 {
     "name": "spatie/laravel-permission",
     "description": "Permission handling for Laravel 6.0 and up",
+<<<<<<< HEAD
+=======
+    "license": "MIT",
+>>>>>>> main
     "keywords": [
         "spatie",
         "laravel",
@@ -11,8 +15,11 @@
         "rbac",
         "security"
     ],
+<<<<<<< HEAD
     "homepage": "https://github.com/spatie/laravel-permission",
     "license": "MIT",
+=======
+>>>>>>> main
     "authors": [
         {
             "name": "Freek Van der Herten",
@@ -21,6 +28,7 @@
             "role": "Developer"
         }
     ],
+<<<<<<< HEAD
     "require": {
         "php" : "^7.3|^8.0|^8.1",
         "illuminate/auth": "^7.0|^8.0|^9.0",
@@ -33,6 +41,23 @@
         "phpunit/phpunit": "^9.4",
         "predis/predis": "^1.1"
     },
+=======
+    "homepage": "https://github.com/spatie/laravel-permission",
+    "require": {
+        "php": "^7.3|^8.0",
+        "illuminate/auth": "^7.0|^8.0|^9.0|^10.0",
+        "illuminate/container": "^7.0|^8.0|^9.0|^10.0",
+        "illuminate/contracts": "^7.0|^8.0|^9.0|^10.0",
+        "illuminate/database": "^7.0|^8.0|^9.0|^10.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^5.0|^6.0|^7.0|^8.0",
+        "phpunit/phpunit": "^9.4",
+        "predis/predis": "^1.1"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+>>>>>>> main
     "autoload": {
         "psr-4": {
             "Spatie\\Permission\\": "src"
@@ -46,23 +71,41 @@
             "Spatie\\Permission\\Test\\": "tests"
         }
     },
+<<<<<<< HEAD
     "extra": {
+=======
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "5.x-dev",
+            "dev-master": "5.x-dev"
+        },
+>>>>>>> main
         "laravel": {
             "providers": [
                 "Spatie\\Permission\\PermissionServiceProvider"
             ]
+<<<<<<< HEAD
         },
         "branch-alias": {
             "dev-main": "5.x-dev",
             "dev-master": "5.x-dev"
+=======
+>>>>>>> main
         }
     },
     "scripts": {
         "test": "phpunit"
+<<<<<<< HEAD
     },
     "config": {
         "sort-packages": true
     },
     "minimum-stability": "dev",
     "prefer-stable": true
+=======
+    }
+>>>>>>> main
 }

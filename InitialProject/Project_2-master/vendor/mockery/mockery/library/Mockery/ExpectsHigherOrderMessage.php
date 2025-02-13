@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 /**
  * Mockery
  *
@@ -16,6 +17,15 @@
  * @package    Mockery
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+=======
+
+/**
+ * Mockery (https://docs.mockery.io/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
+>>>>>>> main
  */
 
 namespace Mockery;
@@ -24,10 +34,21 @@ class ExpectsHigherOrderMessage extends HigherOrderMessage
 {
     public function __construct(MockInterface $mock)
     {
+<<<<<<< HEAD
         parent::__construct($mock, "shouldReceive");
     }
     /**
      * @return \Mockery\Expectation
+=======
+        parent::__construct($mock, 'shouldReceive');
+    }
+
+    /**
+     * @param string $method
+     * @param array  $args
+     *
+     * @return Expectation|ExpectationInterface|HigherOrderMessage
+>>>>>>> main
      */
     public function __call($method, $args)
     {

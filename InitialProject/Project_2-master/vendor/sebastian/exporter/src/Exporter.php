@@ -16,6 +16,11 @@ use function get_class;
 use function get_resource_type;
 use function gettype;
 use function implode;
+<<<<<<< HEAD
+=======
+use function ini_get;
+use function ini_set;
+>>>>>>> main
 use function is_array;
 use function is_float;
 use function is_object;
@@ -75,7 +80,11 @@ class Exporter
      *
      * @return string
      */
+<<<<<<< HEAD
     public function shortenedRecursiveExport(&$data, Context $context = null)
+=======
+    public function shortenedRecursiveExport(&$data, ?Context $context = null)
+>>>>>>> main
     {
         $result   = [];
         $exporter = new self();
@@ -232,8 +241,27 @@ class Exporter
             return 'false';
         }
 
+<<<<<<< HEAD
         if (is_float($value) && (float) ((int) $value) === $value) {
             return "{$value}.0";
+=======
+        if (is_float($value)) {
+            $precisionBackup = ini_get('precision');
+
+            ini_set('precision', '-1');
+
+            try {
+                $valueStr = (string) $value;
+
+                if ((string) (int) $value === $valueStr) {
+                    return $valueStr . '.0';
+                }
+
+                return $valueStr;
+            } finally {
+                ini_set('precision', $precisionBackup);
+            }
+>>>>>>> main
         }
 
         if (gettype($value) === 'resource (closed)') {

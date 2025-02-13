@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,12 +20,20 @@ namespace Psy\Exception;
  */
 class BreakException extends \Exception implements Exception
 {
+<<<<<<< HEAD
     private $rawMessage;
+=======
+    private string $rawMessage;
+>>>>>>> main
 
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function __construct($message = '', $code = 0, \Exception $previous = null)
+=======
+    public function __construct($message = '', $code = 0, ?\Throwable $previous = null)
+>>>>>>> main
     {
         $this->rawMessage = $message;
         parent::__construct(\sprintf('Exit:  %s', $message), $code, $previous);
@@ -29,8 +41,11 @@ class BreakException extends \Exception implements Exception
 
     /**
      * Return a raw (unformatted) version of the error message.
+<<<<<<< HEAD
      *
      * @return string
+=======
+>>>>>>> main
      */
     public function getRawMessage(): string
     {

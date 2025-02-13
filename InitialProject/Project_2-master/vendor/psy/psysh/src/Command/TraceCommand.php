@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -68,8 +72,15 @@ HELP
 
     /**
      * {@inheritdoc}
+<<<<<<< HEAD
      */
     protected function execute(InputInterface $input, OutputInterface $output)
+=======
+     *
+     * @return int 0 if everything went fine, or an exit code
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): int
+>>>>>>> main
     {
         $this->filter->bind($input);
         $trace = $this->getBacktrace(new \Exception(), $input->getOption('num'), $input->getOption('include-psy'));
@@ -79,18 +90,30 @@ HELP
     }
 
     /**
+<<<<<<< HEAD
      * Get a backtrace for an exception.
+=======
+     * Get a backtrace for an exception or error.
+>>>>>>> main
      *
      * Optionally limit the number of rows to include with $count, and exclude
      * Psy from the trace.
      *
+<<<<<<< HEAD
      * @param \Exception $e          The exception with a backtrace
+=======
+     * @param \Throwable $e          The exception or error with a backtrace
+>>>>>>> main
      * @param int        $count      (default: PHP_INT_MAX)
      * @param bool       $includePsy (default: true)
      *
      * @return array Formatted stacktrace lines
      */
+<<<<<<< HEAD
     protected function getBacktrace(\Exception $e, int $count = null, bool $includePsy = true): array
+=======
+    protected function getBacktrace(\Throwable $e, ?int $count = null, bool $includePsy = true): array
+>>>>>>> main
     {
         return TraceFormatter::formatTrace($e, $this->filter, $count, $includePsy);
     }

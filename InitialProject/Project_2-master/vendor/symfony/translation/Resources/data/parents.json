@@ -35,6 +35,10 @@
     "en_GM": "en_001",
     "en_GY": "en_001",
     "en_HK": "en_001",
+<<<<<<< HEAD
+=======
+    "en_ID": "en_001",
+>>>>>>> main
     "en_IE": "en_001",
     "en_IL": "en_001",
     "en_IM": "en_001",
@@ -54,6 +58,10 @@
     "en_MS": "en_001",
     "en_MT": "en_001",
     "en_MU": "en_001",
+<<<<<<< HEAD
+=======
+    "en_MV": "en_001",
+>>>>>>> main
     "en_MW": "en_001",
     "en_MY": "en_001",
     "en_NA": "en_001",
@@ -116,6 +124,11 @@
     "es_UY": "es_419",
     "es_VE": "es_419",
     "ff_Adlm": "root",
+<<<<<<< HEAD
+=======
+    "hi_Latn": "en_IN",
+    "ks_Deva": "root",
+>>>>>>> main
     "nb": "no",
     "nn": "no",
     "pa_Arab": "root",

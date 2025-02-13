@@ -11,6 +11,10 @@ namespace PHPUnit\Framework\Constraint;
 
 use function is_array;
 use function sprintf;
+<<<<<<< HEAD
+=======
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+>>>>>>> main
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
@@ -30,7 +34,11 @@ abstract class TraversableContains extends Constraint
     /**
      * Returns a string representation of the constraint.
      *
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     public function toString(): string
     {
@@ -45,14 +53,22 @@ abstract class TraversableContains extends Constraint
      *
      * @param mixed $other evaluated value or object
      *
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     protected function failureDescription($other): string
     {
         return sprintf(
             '%s %s',
             is_array($other) ? 'an array' : 'a traversable',
+<<<<<<< HEAD
             $this->toString()
+=======
+            $this->toString(),
+>>>>>>> main
         );
     }
 

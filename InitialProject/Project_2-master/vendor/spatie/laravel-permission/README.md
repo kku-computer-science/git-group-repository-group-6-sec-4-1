@@ -13,7 +13,11 @@
 
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-permission.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-permission)
+<<<<<<< HEAD
 ![](https://github.com/spatie/laravel-permission/workflows/Run%20Tests/badge.svg?branch=master)
+=======
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/spatie/laravel-permission/run-tests-L8.yml?branch=main&label=Tests)](https://github.com/spatie/laravel-permission/actions?query=workflow%3ATests+branch%3Amain)
+>>>>>>> main
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-permission.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-permission)
 
 ## Documentation, Installation, and Usage Instructions
@@ -61,11 +65,19 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 ## Contributing
 
+<<<<<<< HEAD
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ### Security
 
 If you discover any security-related issues, please email [freek@spatie.be](mailto:freek@spatie.be) instead of using the issue tracker.
+=======
+Please see [CONTRIBUTING](https://github.com/spatie/.github/blob/main/CONTRIBUTING.md) for details.
+
+### Security
+
+If you discover any security-related issues, please email [security@spatie.be](mailto:security@spatie.be) instead of using the issue tracker.
+>>>>>>> main
 
 ## Postcardware
 

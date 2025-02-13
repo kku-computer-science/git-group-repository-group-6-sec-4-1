@@ -112,16 +112,28 @@ class PdoSessionHandler extends AbstractSessionHandler
     /**
      * Username when lazy-connect.
      *
+<<<<<<< HEAD
      * @var string
      */
     private $username = '';
+=======
+     * @var string|null
+     */
+    private $username = null;
+>>>>>>> main
 
     /**
      * Password when lazy-connect.
      *
+<<<<<<< HEAD
      * @var string
      */
     private $password = '';
+=======
+     * @var string|null
+     */
+    private $password = null;
+>>>>>>> main
 
     /**
      * Connection options when lazy-connect.
@@ -344,7 +356,11 @@ class PdoSessionHandler extends AbstractSessionHandler
      */
     protected function doWrite(string $sessionId, string $data)
     {
+<<<<<<< HEAD
         $maxlifetime = (int) ini_get('session.gc_maxlifetime');
+=======
+        $maxlifetime = (int) \ini_get('session.gc_maxlifetime');
+>>>>>>> main
 
         try {
             // We use a single MERGE SQL query when supported by the database.
@@ -391,14 +407,23 @@ class PdoSessionHandler extends AbstractSessionHandler
     #[\ReturnTypeWillChange]
     public function updateTimestamp($sessionId, $data)
     {
+<<<<<<< HEAD
         $expiry = time() + (int) ini_get('session.gc_maxlifetime');
+=======
+        $expiry = time() + (int) \ini_get('session.gc_maxlifetime');
+>>>>>>> main
 
         try {
             $updateStmt = $this->pdo->prepare(
                 "UPDATE $this->table SET $this->lifetimeCol = :expiry, $this->timeCol = :time WHERE $this->idCol = :id"
             );
+<<<<<<< HEAD
             $updateStmt->bindParam(':id', $sessionId, \PDO::PARAM_STR);
             $updateStmt->bindParam(':expiry', $expiry, \PDO::PARAM_INT);
+=======
+            $updateStmt->bindValue(':id', $sessionId, \PDO::PARAM_STR);
+            $updateStmt->bindValue(':expiry', $expiry, \PDO::PARAM_INT);
+>>>>>>> main
             $updateStmt->bindValue(':time', time(), \PDO::PARAM_INT);
             $updateStmt->execute();
         } catch (\PDOException $e) {
@@ -530,8 +555,13 @@ class PdoSessionHandler extends AbstractSessionHandler
                         return $dsn;
                     }
                 }
+<<<<<<< HEAD
             // If "unix_socket" is not in the query, we continue with the same process as pgsql
             // no break
+=======
+                // If "unix_socket" is not in the query, we continue with the same process as pgsql
+                // no break
+>>>>>>> main
             case 'pgsql':
                 $dsn ?? $dsn = 'pgsql:';
 
@@ -687,7 +717,11 @@ class PdoSessionHandler extends AbstractSessionHandler
                 throw new \RuntimeException('Failed to read session: INSERT reported a duplicate id but next SELECT did not return any data.');
             }
 
+<<<<<<< HEAD
             if (!filter_var(ini_get('session.use_strict_mode'), \FILTER_VALIDATE_BOOLEAN) && self::LOCK_TRANSACTIONAL === $this->lockMode && 'sqlite' !== $this->driver) {
+=======
+            if (!filter_var(\ini_get('session.use_strict_mode'), \FILTER_VALIDATE_BOOLEAN) && self::LOCK_TRANSACTIONAL === $this->lockMode && 'sqlite' !== $this->driver) {
+>>>>>>> main
                 // In strict mode, session fixation is not possible: new sessions always start with a unique
                 // random id, so that concurrency is not possible and this code path can be skipped.
                 // Exclusive-reading of non-existent rows does not block, so we need to do an insert to block
@@ -935,7 +969,11 @@ class PdoSessionHandler extends AbstractSessionHandler
     protected function getConnection()
     {
         if (null === $this->pdo) {
+<<<<<<< HEAD
             $this->connect($this->dsn ?: ini_get('session.save_path'));
+=======
+            $this->connect($this->dsn ?: \ini_get('session.save_path'));
+>>>>>>> main
         }
 
         return $this->pdo;

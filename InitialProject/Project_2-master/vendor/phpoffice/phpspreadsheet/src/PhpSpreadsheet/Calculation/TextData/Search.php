@@ -4,7 +4,11 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\TextData;
 
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception as CalcExp;
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Shared\StringHelper;
 
 class Search
@@ -50,7 +54,11 @@ class Search
             }
         }
 
+<<<<<<< HEAD
         return Functions::VALUE();
+=======
+        return ExcelError::VALUE();
+>>>>>>> main
     }
 
     /**
@@ -92,6 +100,10 @@ class Search
             }
         }
 
+<<<<<<< HEAD
         return Functions::VALUE();
+=======
+        return ExcelError::VALUE();
+>>>>>>> main
     }
 }

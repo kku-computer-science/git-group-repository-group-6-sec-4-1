@@ -1,5 +1,10 @@
 <?php
 
+<<<<<<< HEAD
+=======
+declare(strict_types=1);
+
+>>>>>>> main
 namespace GuzzleHttp\Promise;
 
 /**
@@ -7,7 +12,11 @@ namespace GuzzleHttp\Promise;
  */
 class AggregateException extends RejectionException
 {
+<<<<<<< HEAD
     public function __construct($msg, array $reasons)
+=======
+    public function __construct(string $msg, array $reasons)
+>>>>>>> main
     {
         parent::__construct(
             $reasons,

@@ -10,6 +10,37 @@ namespace PhpOffice\PhpSpreadsheet\Chart;
  */
 class Axis extends Properties
 {
+<<<<<<< HEAD
+=======
+    const AXIS_TYPE_CATEGORY = 'catAx';
+    const AXIS_TYPE_DATE = 'dateAx';
+    const AXIS_TYPE_VALUE = 'valAx';
+
+    const TIME_UNIT_DAYS = 'days';
+    const TIME_UNIT_MONTHS = 'months';
+    const TIME_UNIT_YEARS = 'years';
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->fillColor = new ChartColor();
+    }
+
+    /**
+     * Chart Major Gridlines as.
+     *
+     * @var ?GridLines
+     */
+    private $majorGridlines;
+
+    /**
+     * Chart Minor Gridlines as.
+     *
+     * @var ?GridLines
+     */
+    private $minorGridlines;
+
+>>>>>>> main
     /**
      * Axis Number.
      *
@@ -18,8 +49,20 @@ class Axis extends Properties
     private $axisNumber = [
         'format' => self::FORMAT_CODE_GENERAL,
         'source_linked' => 1,
+<<<<<<< HEAD
     ];
 
+=======
+        'numeric' => null,
+    ];
+
+    /** @var string */
+    private $axisType = '';
+
+    /** @var ?AxisText */
+    private $axisText;
+
+>>>>>>> main
     /**
      * Axis Options.
      *
@@ -36,11 +79,20 @@ class Axis extends Properties
         'axis_labels' => self::AXIS_LABELS_NEXT_TO,
         'horizontal_crosses' => self::HORIZONTAL_CROSSES_AUTOZERO,
         'horizontal_crosses_value' => null,
+<<<<<<< HEAD
+=======
+        'textRotation' => null,
+        'hidden' => null,
+        'majorTimeUnit' => self::TIME_UNIT_YEARS,
+        'minorTimeUnit' => self::TIME_UNIT_MONTHS,
+        'baseTimeUnit' => self::TIME_UNIT_DAYS,
+>>>>>>> main
     ];
 
     /**
      * Fill Properties.
      *
+<<<<<<< HEAD
      * @var mixed[]
      */
     private $fillProperties = [
@@ -130,16 +182,43 @@ class Axis extends Properties
     private $softEdges = [
         'size' => null,
     ];
+=======
+     * @var ChartColor
+     */
+    private $fillColor;
+
+    private const NUMERIC_FORMAT = [
+        Properties::FORMAT_CODE_NUMBER,
+        Properties::FORMAT_CODE_DATE,
+        Properties::FORMAT_CODE_DATE_ISO8601,
+    ];
+
+    /** @var bool */
+    private $noFill = false;
+>>>>>>> main
 
     /**
      * Get Series Data Type.
      *
      * @param mixed $format_code
      */
+<<<<<<< HEAD
     public function setAxisNumberProperties($format_code): void
     {
         $this->axisNumber['format'] = (string) $format_code;
         $this->axisNumber['source_linked'] = 0;
+=======
+    public function setAxisNumberProperties($format_code, ?bool $numeric = null, int $sourceLinked = 0): void
+    {
+        $format = (string) $format_code;
+        $this->axisNumber['format'] = $format;
+        $this->axisNumber['source_linked'] = $sourceLinked;
+        if (is_bool($numeric)) {
+            $this->axisNumber['numeric'] = $numeric;
+        } elseif (in_array($format, self::NUMERIC_FORMAT, true)) {
+            $this->axisNumber['numeric'] = true;
+        }
+>>>>>>> main
     }
 
     /**
@@ -162,6 +241,7 @@ class Axis extends Properties
         return (string) $this->axisNumber['source_linked'];
     }
 
+<<<<<<< HEAD
     /**
      * Set Axis Options Properties.
      *
@@ -189,6 +269,55 @@ class Axis extends Properties
         ($maximum !== null) ? $this->axisOptions['maximum'] = (string) $maximum : null;
         ($majorUnit !== null) ? $this->axisOptions['major_unit'] = (string) $majorUnit : null;
         ($minorUnit !== null) ? $this->axisOptions['minor_unit'] = (string) $minorUnit : null;
+=======
+    public function getAxisIsNumericFormat(): bool
+    {
+        return $this->axisType === self::AXIS_TYPE_DATE || (bool) $this->axisNumber['numeric'];
+    }
+
+    public function setAxisOption(string $key, ?string $value): void
+    {
+        if ($value !== null && $value !== '') {
+            $this->axisOptions[$key] = $value;
+        }
+    }
+
+    /**
+     * Set Axis Options Properties.
+     */
+    public function setAxisOptionsProperties(
+        string $axisLabels,
+        ?string $horizontalCrossesValue = null,
+        ?string $horizontalCrosses = null,
+        ?string $axisOrientation = null,
+        ?string $majorTmt = null,
+        ?string $minorTmt = null,
+        ?string $minimum = null,
+        ?string $maximum = null,
+        ?string $majorUnit = null,
+        ?string $minorUnit = null,
+        ?string $textRotation = null,
+        ?string $hidden = null,
+        ?string $baseTimeUnit = null,
+        ?string $majorTimeUnit = null,
+        ?string $minorTimeUnit = null
+    ): void {
+        $this->axisOptions['axis_labels'] = $axisLabels;
+        $this->setAxisOption('horizontal_crosses_value', $horizontalCrossesValue);
+        $this->setAxisOption('horizontal_crosses', $horizontalCrosses);
+        $this->setAxisOption('orientation', $axisOrientation);
+        $this->setAxisOption('major_tick_mark', $majorTmt);
+        $this->setAxisOption('minor_tick_mark', $minorTmt);
+        $this->setAxisOption('minimum', $minimum);
+        $this->setAxisOption('maximum', $maximum);
+        $this->setAxisOption('major_unit', $majorUnit);
+        $this->setAxisOption('minor_unit', $minorUnit);
+        $this->setAxisOption('textRotation', $textRotation);
+        $this->setAxisOption('hidden', $hidden);
+        $this->setAxisOption('baseTimeUnit', $baseTimeUnit);
+        $this->setAxisOption('majorTimeUnit', $majorTimeUnit);
+        $this->setAxisOption('minorTimeUnit', $minorTimeUnit);
+>>>>>>> main
     }
 
     /**
@@ -196,10 +325,25 @@ class Axis extends Properties
      *
      * @param string $property
      *
+<<<<<<< HEAD
      * @return string
      */
     public function getAxisOptionsProperty($property)
     {
+=======
+     * @return ?string
+     */
+    public function getAxisOptionsProperty($property)
+    {
+        if ($property === 'textRotation') {
+            if ($this->axisText !== null) {
+                if ($this->axisText->getRotation() !== null) {
+                    return (string) $this->axisText->getRotation();
+                }
+            }
+        }
+
+>>>>>>> main
         return $this->axisOptions[$property];
     }
 
@@ -213,6 +357,7 @@ class Axis extends Properties
         $this->axisOptions['orientation'] = (string) $orientation;
     }
 
+<<<<<<< HEAD
     /**
      * Set Fill Property.
      *
@@ -235,6 +380,34 @@ class Axis extends Properties
     public function setLineParameters($color, $alpha = 0, $alphaType = self::EXCEL_COLOR_TYPE_ARGB): void
     {
         $this->lineProperties = $this->setColorProperties($color, $alpha, $alphaType);
+=======
+    public function getAxisType(): string
+    {
+        return $this->axisType;
+    }
+
+    public function setAxisType(string $type): self
+    {
+        if ($type === self::AXIS_TYPE_CATEGORY || $type === self::AXIS_TYPE_VALUE || $type === self::AXIS_TYPE_DATE) {
+            $this->axisType = $type;
+        } else {
+            $this->axisType = '';
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set Fill Property.
+     *
+     * @param ?string $color
+     * @param ?int $alpha
+     * @param ?string $AlphaType
+     */
+    public function setFillParameters($color, $alpha = null, $AlphaType = ChartColor::EXCEL_COLOR_TYPE_RGB): void
+    {
+        $this->fillColor->setColorProperties($color, $alpha, $AlphaType);
+>>>>>>> main
     }
 
     /**
@@ -246,6 +419,7 @@ class Axis extends Properties
      */
     public function getFillProperty($property)
     {
+<<<<<<< HEAD
         return $this->fillProperties[$property];
     }
 
@@ -358,10 +532,43 @@ class Axis extends Properties
     {
         $this->shadowProperties['presets'] = $presets;
         $this->setShadowPropertiesMapValues($this->getShadowPresetsMap($presets));
+=======
+        return (string) $this->fillColor->getColorProperty($property);
+    }
+
+    public function getFillColorObject(): ChartColor
+    {
+        return $this->fillColor;
+    }
+
+    /**
+     * Get Line Color Property.
+     *
+     * @deprecated 1.24.0
+     *      Use the getLineColor property in the Properties class instead
+     * @see Properties::getLineColorProperty()
+     *
+     * @param string $propertyName
+     *
+     * @return null|int|string
+     */
+    public function getLineProperty($propertyName)
+    {
+        return $this->getLineColorProperty($propertyName);
+    }
+
+    /** @var string */
+    private $crossBetween = ''; // 'between' or 'midCat' might be better
+
+    public function setCrossBetween(string $crossBetween): self
+    {
+        $this->crossBetween = $crossBetween;
+>>>>>>> main
 
         return $this;
     }
 
+<<<<<<< HEAD
     /**
      * Set Shadow Properties from Mapped Values.
      *
@@ -388,10 +595,31 @@ class Axis extends Properties
                 }
             }
         }
+=======
+    public function getCrossBetween(): string
+    {
+        return $this->crossBetween;
+    }
+
+    public function getMajorGridlines(): ?GridLines
+    {
+        return $this->majorGridlines;
+    }
+
+    public function getMinorGridlines(): ?GridLines
+    {
+        return $this->minorGridlines;
+    }
+
+    public function setMajorGridlines(?GridLines $gridlines): self
+    {
+        $this->majorGridlines = $gridlines;
+>>>>>>> main
 
         return $this;
     }
 
+<<<<<<< HEAD
     /**
      * Set Shadow Color.
      *
@@ -404,10 +632,16 @@ class Axis extends Properties
     private function setShadowColor($color, $alpha, $alphaType)
     {
         $this->shadowProperties['color'] = $this->setColorProperties($color, $alpha, $alphaType);
+=======
+    public function setMinorGridlines(?GridLines $gridlines): self
+    {
+        $this->minorGridlines = $gridlines;
+>>>>>>> main
 
         return $this;
     }
 
+<<<<<<< HEAD
     /**
      * Set Shadow Blur.
      *
@@ -420,10 +654,21 @@ class Axis extends Properties
         if ($blur !== null) {
             $this->shadowProperties['blur'] = (string) $this->getExcelPointsWidth($blur);
         }
+=======
+    public function getAxisText(): ?AxisText
+    {
+        return $this->axisText;
+    }
+
+    public function setAxisText(?AxisText $axisText): self
+    {
+        $this->axisText = $axisText;
+>>>>>>> main
 
         return $this;
     }
 
+<<<<<<< HEAD
     /**
      * Set Shadow Angle.
      *
@@ -436,10 +681,16 @@ class Axis extends Properties
         if ($angle !== null) {
             $this->shadowProperties['direction'] = (string) $this->getExcelPointsAngle($angle);
         }
+=======
+    public function setNoFill(bool $noFill): self
+    {
+        $this->noFill = $noFill;
+>>>>>>> main
 
         return $this;
     }
 
+<<<<<<< HEAD
     /**
      * Set Shadow Distance.
      *
@@ -550,5 +801,10 @@ class Axis extends Properties
     public function getSoftEdgesSize()
     {
         return $this->softEdges['size'];
+=======
+    public function getNoFill(): bool
+    {
+        return $this->noFill;
+>>>>>>> main
     }
 }

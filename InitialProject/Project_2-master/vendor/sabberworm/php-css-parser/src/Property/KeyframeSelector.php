@@ -8,6 +8,11 @@ class KeyframeSelector extends Selector
      * regexp for specificity calculations
      *
      * @var string
+<<<<<<< HEAD
+=======
+     *
+     * @internal since 8.5.2
+>>>>>>> main
      */
     const SELECTOR_VALIDATION_RX = '/
     ^(

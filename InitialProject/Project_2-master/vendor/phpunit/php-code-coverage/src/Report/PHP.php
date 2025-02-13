@@ -12,7 +12,11 @@ namespace SebastianBergmann\CodeCoverage\Report;
 use function dirname;
 use function file_put_contents;
 use function serialize;
+<<<<<<< HEAD
 use function sprintf;
+=======
+use function strpos;
+>>>>>>> main
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Driver\WriteOperationFailedException;
 use SebastianBergmann\CodeCoverage\Util\Filesystem;
@@ -21,6 +25,7 @@ final class PHP
 {
     public function process(CodeCoverage $coverage, ?string $target = null): string
     {
+<<<<<<< HEAD
         $buffer = sprintf(
             "<?php
 return \unserialize(<<<'END_OF_COVERAGE_SERIALIZATION'%s%s%sEND_OF_COVERAGE_SERIALIZATION%s);",
@@ -32,6 +37,17 @@ return \unserialize(<<<'END_OF_COVERAGE_SERIALIZATION'%s%s%sEND_OF_COVERAGE_SERI
 
         if ($target !== null) {
             Filesystem::createDirectory(dirname($target));
+=======
+        $coverage->clearCache();
+
+        $buffer = "<?php
+return \unserialize(<<<'END_OF_COVERAGE_SERIALIZATION'" . PHP_EOL . serialize($coverage) . PHP_EOL . 'END_OF_COVERAGE_SERIALIZATION' . PHP_EOL . ');';
+
+        if ($target !== null) {
+            if (!strpos($target, '://') !== false) {
+                Filesystem::createDirectory(dirname($target));
+            }
+>>>>>>> main
 
             if (@file_put_contents($target, $buffer) === false) {
                 throw new WriteOperationFailedException($target);

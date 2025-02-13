@@ -21,11 +21,18 @@ namespace Symfony\Component\CssSelector\Node;
  *
  * @internal
  */
+<<<<<<< HEAD
 interface NodeInterface
+=======
+interface NodeInterface extends \Stringable
+>>>>>>> main
 {
     public function getNodeName(): string;
 
     public function getSpecificity(): Specificity;
+<<<<<<< HEAD
 
     public function __toString(): string;
+=======
+>>>>>>> main
 }

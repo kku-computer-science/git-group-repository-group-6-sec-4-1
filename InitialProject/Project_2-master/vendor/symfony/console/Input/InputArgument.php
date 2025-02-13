@@ -32,13 +32,21 @@ class InputArgument
 
     /**
      * @param string                           $name        The argument name
+<<<<<<< HEAD
      * @param int|null                         $mode        The argument mode: self::REQUIRED or self::OPTIONAL
+=======
+     * @param int|null                         $mode        The argument mode: a bit mask of self::REQUIRED, self::OPTIONAL and self::IS_ARRAY
+>>>>>>> main
      * @param string                           $description A description text
      * @param string|bool|int|float|array|null $default     The default value (for self::OPTIONAL mode only)
      *
      * @throws InvalidArgumentException When argument mode is not valid
      */
+<<<<<<< HEAD
     public function __construct(string $name, int $mode = null, string $description = '', $default = null)
+=======
+    public function __construct(string $name, ?int $mode = null, string $description = '', $default = null)
+>>>>>>> main
     {
         if (null === $mode) {
             $mode = self::OPTIONAL;
@@ -92,7 +100,11 @@ class InputArgument
      */
     public function setDefault($default = null)
     {
+<<<<<<< HEAD
         if (self::REQUIRED === $this->mode && null !== $default) {
+=======
+        if ($this->isRequired() && null !== $default) {
+>>>>>>> main
             throw new LogicException('Cannot set a default value except for InputArgument::OPTIONAL mode.');
         }
 

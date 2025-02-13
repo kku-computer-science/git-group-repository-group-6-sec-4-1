@@ -6,6 +6,14 @@ use PhpOffice\PhpSpreadsheet\Calculation\Functions;
 
 abstract class VarianceBase
 {
+<<<<<<< HEAD
+=======
+    /**
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+>>>>>>> main
     protected static function datatypeAdjustmentAllowStrings($value)
     {
         if (is_bool($value)) {
@@ -17,6 +25,14 @@ abstract class VarianceBase
         return $value;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+>>>>>>> main
     protected static function datatypeAdjustmentBooleans($value)
     {
         if (is_bool($value) && (Functions::getCompatibilityMode() == Functions::COMPATIBILITY_OPENOFFICE)) {

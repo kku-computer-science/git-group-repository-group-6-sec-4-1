@@ -10,6 +10,10 @@
 namespace PHPUnit\Runner;
 
 use function array_slice;
+<<<<<<< HEAD
+=======
+use function assert;
+>>>>>>> main
 use function dirname;
 use function explode;
 use function implode;
@@ -33,6 +37,11 @@ final class Version
 
     /**
      * Returns the current version of PHPUnit.
+<<<<<<< HEAD
+=======
+     *
+     * @psalm-return non-empty-string
+>>>>>>> main
      */
     public static function id(): string
     {
@@ -41,12 +50,24 @@ final class Version
         }
 
         if (self::$version === '') {
+<<<<<<< HEAD
             self::$version = (new VersionId('9.5.20', dirname(__DIR__, 2)))->getVersion();
+=======
+            self::$version = (new VersionId('9.6.22', dirname(__DIR__, 2)))->getVersion();
+
+            assert(!empty(self::$version));
+>>>>>>> main
         }
 
         return self::$version;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-return non-empty-string
+     */
+>>>>>>> main
     public static function series(): string
     {
         if (strpos(self::id(), '-')) {
@@ -58,8 +79,17 @@ final class Version
         return implode('.', array_slice(explode('.', $version), 0, 2));
     }
 
+<<<<<<< HEAD
     public static function getVersionString(): string
     {
         return 'PHPUnit ' . self::id() . ' #StandWithUkraine';
+=======
+    /**
+     * @psalm-return non-empty-string
+     */
+    public static function getVersionString(): string
+    {
+        return 'PHPUnit ' . self::id() . ' by Sebastian Bergmann and contributors.';
+>>>>>>> main
     }
 }

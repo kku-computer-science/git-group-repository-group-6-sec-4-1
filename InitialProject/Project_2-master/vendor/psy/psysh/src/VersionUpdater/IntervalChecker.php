@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,8 +17,13 @@ namespace Psy\VersionUpdater;
 
 class IntervalChecker extends GitHubChecker
 {
+<<<<<<< HEAD
     private $cacheFile;
     private $interval;
+=======
+    private string $cacheFile;
+    private string $interval;
+>>>>>>> main
 
     public function __construct($cacheFile, $interval)
     {
@@ -43,6 +52,12 @@ class IntervalChecker extends GitHubChecker
         return $release;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @throws \RuntimeException if interval passed to constructor is not supported
+     */
+>>>>>>> main
     private function getDateInterval(): \DateInterval
     {
         switch ($this->interval) {
@@ -53,6 +68,11 @@ class IntervalChecker extends GitHubChecker
             case Checker::MONTHLY:
                 return new \DateInterval('P1M');
         }
+<<<<<<< HEAD
+=======
+
+        throw new \RuntimeException('Invalid interval configured');
+>>>>>>> main
     }
 
     private function updateCache($release)

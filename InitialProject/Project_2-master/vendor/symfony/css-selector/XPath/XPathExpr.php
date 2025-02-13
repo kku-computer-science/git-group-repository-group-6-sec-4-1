@@ -23,6 +23,7 @@ namespace Symfony\Component\CssSelector\XPath;
  */
 class XPathExpr
 {
+<<<<<<< HEAD
     private $path;
     private $element;
     private $condition;
@@ -33,6 +34,14 @@ class XPathExpr
         $this->element = $element;
         $this->condition = $condition;
 
+=======
+    public function __construct(
+        private string $path = '',
+        private string $element = '*',
+        private string $condition = '',
+        bool $starPrefix = false,
+    ) {
+>>>>>>> main
         if ($starPrefix) {
             $this->addStarPrefix();
         }
@@ -46,9 +55,15 @@ class XPathExpr
     /**
      * @return $this
      */
+<<<<<<< HEAD
     public function addCondition(string $condition): self
     {
         $this->condition = $this->condition ? sprintf('(%s) and (%s)', $this->condition, $condition) : $condition;
+=======
+    public function addCondition(string $condition, string $operator = 'and'): static
+    {
+        $this->condition = $this->condition ? \sprintf('(%s) %s (%s)', $this->condition, $operator, $condition) : $condition;
+>>>>>>> main
 
         return $this;
     }
@@ -61,7 +76,11 @@ class XPathExpr
     /**
      * @return $this
      */
+<<<<<<< HEAD
     public function addNameTest(): self
+=======
+    public function addNameTest(): static
+>>>>>>> main
     {
         if ('*' !== $this->element) {
             $this->addCondition('name() = '.Translator::getXpathLiteral($this->element));
@@ -74,7 +93,11 @@ class XPathExpr
     /**
      * @return $this
      */
+<<<<<<< HEAD
     public function addStarPrefix(): self
+=======
+    public function addStarPrefix(): static
+>>>>>>> main
     {
         $this->path .= '*/';
 
@@ -86,7 +109,11 @@ class XPathExpr
      *
      * @return $this
      */
+<<<<<<< HEAD
     public function join(string $combiner, self $expr): self
+=======
+    public function join(string $combiner, self $expr): static
+>>>>>>> main
     {
         $path = $this->__toString().$combiner;
 
@@ -104,7 +131,11 @@ class XPathExpr
     public function __toString(): string
     {
         $path = $this->path.$this->element;
+<<<<<<< HEAD
         $condition = null === $this->condition || '' === $this->condition ? '' : '['.$this->condition.']';
+=======
+        $condition = '' === $this->condition ? '' : '['.$this->condition.']';
+>>>>>>> main
 
         return $path.$condition;
     }

@@ -8,6 +8,10 @@ use SimpleXMLElement;
 
 class Properties
 {
+<<<<<<< HEAD
+=======
+    /** @var Spreadsheet */
+>>>>>>> main
     private $spreadsheet;
 
     public function __construct(Spreadsheet $spreadsheet)
@@ -15,21 +19,39 @@ class Properties
         $this->spreadsheet = $spreadsheet;
     }
 
+<<<<<<< HEAD
     public function load(SimpleXMLElement $xml, $namespacesMeta): void
+=======
+    public function load(SimpleXMLElement $xml, array $namespacesMeta): void
+>>>>>>> main
     {
         $docProps = $this->spreadsheet->getProperties();
         $officeProperty = $xml->children($namespacesMeta['office']);
         foreach ($officeProperty as $officePropertyData) {
+<<<<<<< HEAD
             // @var \SimpleXMLElement $officePropertyData
             if (isset($namespacesMeta['dc'])) {
+=======
+            if (isset($namespacesMeta['dc'])) {
+                /** @scrutinizer ignore-call */
+>>>>>>> main
                 $officePropertiesDC = $officePropertyData->children($namespacesMeta['dc']);
                 $this->setCoreProperties($docProps, $officePropertiesDC);
             }
 
+<<<<<<< HEAD
             $officePropertyMeta = [];
             if (isset($namespacesMeta['dc'])) {
                 $officePropertyMeta = $officePropertyData->children($namespacesMeta['meta']);
             }
+=======
+            $officePropertyMeta = null;
+            if (isset($namespacesMeta['dc'])) {
+                /** @scrutinizer ignore-call */
+                $officePropertyMeta = $officePropertyData->children($namespacesMeta['meta']);
+            }
+            $officePropertyMeta = $officePropertyMeta ?? [];
+>>>>>>> main
             foreach ($officePropertyMeta as $propertyName => $propertyValue) {
                 $this->setMetaProperties($namespacesMeta, $propertyValue, $propertyName, $docProps);
             }
@@ -67,9 +89,15 @@ class Properties
     }
 
     private function setMetaProperties(
+<<<<<<< HEAD
         $namespacesMeta,
         SimpleXMLElement $propertyValue,
         $propertyName,
+=======
+        array $namespacesMeta,
+        SimpleXMLElement $propertyValue,
+        string $propertyName,
+>>>>>>> main
         DocumentProperties $docProps
     ): void {
         $propertyValueAttributes = $propertyValue->attributes($namespacesMeta['meta']);
@@ -94,6 +122,13 @@ class Properties
         }
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @param mixed $propertyValueAttributes
+     * @param mixed $propertyValue
+     */
+>>>>>>> main
     private function setUserDefinedProperty($propertyValueAttributes, $propertyValue, DocumentProperties $docProps): void
     {
         $propertyValueName = '';

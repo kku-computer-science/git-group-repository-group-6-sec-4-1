@@ -89,7 +89,11 @@ class RouteCollection implements \IteratorAggregate, \Countable
     /**
      * @param int $priority
      */
+<<<<<<< HEAD
     public function add(string $name, Route $route/*, int $priority = 0*/)
+=======
+    public function add(string $name, Route $route/* , int $priority = 0 */)
+>>>>>>> main
     {
         if (\func_num_args() < 3 && __CLASS__ !== static::class && __CLASS__ !== (new \ReflectionMethod($this, __FUNCTION__))->getDeclaringClass()->getName() && !$this instanceof \PHPUnit\Framework\MockObject\MockObject && !$this instanceof \Prophecy\Prophecy\ProphecySubjectInterface && !$this instanceof \Mockery\MockInterface) {
             trigger_deprecation('symfony/routing', '5.1', 'The "%s()" method will have a new "int $priority = 0" argument in version 6.0, not defining it is deprecated.', __METHOD__);
@@ -157,9 +161,30 @@ class RouteCollection implements \IteratorAggregate, \Countable
      */
     public function remove($name)
     {
+<<<<<<< HEAD
         foreach ((array) $name as $n) {
             unset($this->routes[$n], $this->priorities[$n], $this->aliases[$n]);
         }
+=======
+        $routes = [];
+        foreach ((array) $name as $n) {
+            if (isset($this->routes[$n])) {
+                $routes[] = $n;
+            }
+
+            unset($this->routes[$n], $this->priorities[$n], $this->aliases[$n]);
+        }
+
+        if (!$routes) {
+            return;
+        }
+
+        foreach ($this->aliases as $k => $alias) {
+            if (\in_array($alias->getId(), $routes, true)) {
+                unset($this->aliases[$k]);
+            }
+        }
+>>>>>>> main
     }
 
     /**
@@ -380,4 +405,12 @@ class RouteCollection implements \IteratorAggregate, \Countable
     {
         return $this->aliases[$name] ?? null;
     }
+<<<<<<< HEAD
+=======
+
+    public function getPriority(string $name): ?int
+    {
+        return $this->priorities[$name] ?? null;
+    }
+>>>>>>> main
 }

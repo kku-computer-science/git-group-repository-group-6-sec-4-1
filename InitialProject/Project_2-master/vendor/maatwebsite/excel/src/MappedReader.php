@@ -21,16 +21,28 @@ class MappedReader
      */
     public function map(WithMappedCells $import, Worksheet $worksheet)
     {
+<<<<<<< HEAD
         $mapped = [];
         foreach ($import->mapping() as $name => $coordinate) {
             $cell = Cell::make($worksheet, $coordinate);
 
             $mapped[$name] = $cell->getValue(
+=======
+        $mapped = $import->mapping();
+        array_walk_recursive($mapped, function (&$coordinate) use ($import, $worksheet) {
+            $cell = Cell::make($worksheet, $coordinate);
+
+            $coordinate = $cell->getValue(
+>>>>>>> main
                 null,
                 $import instanceof WithCalculatedFormulas,
                 $import instanceof WithFormatData
             );
+<<<<<<< HEAD
         }
+=======
+        });
+>>>>>>> main
 
         if ($import instanceof ToModel) {
             $model = $import->model($mapped);

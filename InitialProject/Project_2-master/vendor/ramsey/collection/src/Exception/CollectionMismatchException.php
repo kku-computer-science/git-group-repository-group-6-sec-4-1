@@ -14,9 +14,18 @@ declare(strict_types=1);
 
 namespace Ramsey\Collection\Exception;
 
+<<<<<<< HEAD
 /**
  * Thrown when attempting to operate on collections of differing types.
  */
 class CollectionMismatchException extends \RuntimeException
+=======
+use RuntimeException;
+
+/**
+ * Thrown when attempting to operate on collections of differing types.
+ */
+class CollectionMismatchException extends RuntimeException implements CollectionException
+>>>>>>> main
 {
 }

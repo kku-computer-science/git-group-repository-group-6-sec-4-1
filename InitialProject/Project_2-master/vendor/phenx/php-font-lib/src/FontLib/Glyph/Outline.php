@@ -1,7 +1,11 @@
 <?php
 /**
  * @package php-font-lib
+<<<<<<< HEAD
  * @link    https://github.com/PhenX/php-font-lib
+=======
+ * @link    https://github.com/dompdf/php-font-lib
+>>>>>>> main
  * @author  Fabien Ménager <fabien.menager@gmail.com>
  * @license http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
  * @version $Id: Font_Table_glyf.php 46 2012-04-02 20:22:38Z fabien.menager $
@@ -48,7 +52,11 @@ class Outline extends BinaryStream {
   static function init(glyf $table, $offset, $size, BinaryStream $font) {
     $font->seek($offset);
 
+<<<<<<< HEAD
     if ($font->readInt16() > -1) {
+=======
+    if ($size === 0 || $font->readInt16() > -1) {
+>>>>>>> main
       /** @var OutlineSimple $glyph */
       $glyph = new OutlineSimple($table, $offset, $size);
     }

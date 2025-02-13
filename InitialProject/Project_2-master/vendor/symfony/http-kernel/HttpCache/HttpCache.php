@@ -17,6 +17,10 @@
 
 namespace Symfony\Component\HttpKernel\HttpCache;
 
+<<<<<<< HEAD
+=======
+use Symfony\Component\HttpFoundation\Exception\SuspiciousOperationException;
+>>>>>>> main
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -29,6 +33,11 @@ use Symfony\Component\HttpKernel\TerminableInterface;
  */
 class HttpCache implements HttpKernelInterface, TerminableInterface
 {
+<<<<<<< HEAD
+=======
+    public const BODY_EVAL_BOUNDARY_LENGTH = 24;
+
+>>>>>>> main
     private $kernel;
     private $store;
     private $request;
@@ -79,7 +88,11 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *                            This setting is overridden by the stale-if-error HTTP Cache-Control extension
      *                            (see RFC 5861).
      */
+<<<<<<< HEAD
     public function __construct(HttpKernelInterface $kernel, StoreInterface $store, SurrogateInterface $surrogate = null, array $options = [])
+=======
+    public function __construct(HttpKernelInterface $kernel, StoreInterface $store, ?SurrogateInterface $surrogate = null, array $options = [])
+>>>>>>> main
     {
         $this->store = $store;
         $this->kernel = $kernel;
@@ -469,7 +482,11 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *
      * @return Response
      */
+<<<<<<< HEAD
     protected function forward(Request $request, bool $catch = false, Response $entry = null)
+=======
+    protected function forward(Request $request, bool $catch = false, ?Response $entry = null)
+>>>>>>> main
     {
         if ($this->surrogate) {
             $this->surrogate->addSurrogateCapability($request);
@@ -631,12 +648,31 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     private function restoreResponseBody(Request $request, Response $response)
     {
         if ($response->headers->has('X-Body-Eval')) {
+<<<<<<< HEAD
             ob_start();
 
             if ($response->headers->has('X-Body-File')) {
                 include $response->headers->get('X-Body-File');
             } else {
                 eval('; ?>'.$response->getContent().'<?php ;');
+=======
+            \assert(self::BODY_EVAL_BOUNDARY_LENGTH === 24);
+
+            ob_start();
+
+            $content = $response->getContent();
+            $boundary = substr($content, 0, 24);
+            $j = strpos($content, $boundary, 24);
+            echo substr($content, 24, $j - 24);
+            $i = $j + 24;
+
+            while (false !== $j = strpos($content, $boundary, $i)) {
+                [$uri, $alt, $ignoreErrors, $part] = explode("\n", substr($content, $i, $j - $i), 4);
+                $i = $j + 24;
+
+                echo $this->surrogate->handle($this, $uri, $alt, $ignoreErrors);
+                echo $part;
+>>>>>>> main
             }
 
             $response->setContent(ob_get_clean());
@@ -703,7 +739,15 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
             $path .= '?'.$qs;
         }
 
+<<<<<<< HEAD
         return $request->getMethod().' '.$path;
+=======
+        try {
+            return $request->getMethod().' '.$path;
+        } catch (SuspiciousOperationException $e) {
+            return '_BAD_METHOD_ '.$path;
+        }
+>>>>>>> main
     }
 
     /**
@@ -718,7 +762,15 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
             $timeout = $this->options['stale_while_revalidate'];
         }
 
+<<<<<<< HEAD
         return abs($entry->getTtl()) < $timeout;
+=======
+        $age = $entry->getAge();
+        $maxAge = $entry->getMaxAge() ?? 0;
+        $ttl = $maxAge - $age;
+
+        return abs($ttl) < $timeout;
+>>>>>>> main
     }
 
     /**

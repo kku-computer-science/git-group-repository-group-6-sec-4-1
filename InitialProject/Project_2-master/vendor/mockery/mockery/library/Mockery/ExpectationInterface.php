@@ -1,6 +1,7 @@
 <?php
 
 /**
+<<<<<<< HEAD
  * Mockery
  *
  * LICENSE
@@ -17,6 +18,13 @@
  * @package    Mockery
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+=======
+ * Mockery (https://docs.mockery.io/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
+>>>>>>> main
  */
 
 namespace Mockery;
@@ -24,6 +32,7 @@ namespace Mockery;
 interface ExpectationInterface
 {
     /**
+<<<<<<< HEAD
      * @return int
      */
     public function getOrderNumber();
@@ -35,6 +44,12 @@ interface ExpectationInterface
 
     /**
      * @param mixed $args
+=======
+     * @template TArgs
+     *
+     * @param TArgs ...$args
+     *
+>>>>>>> main
      * @return self
      */
     public function andReturn(...$args);
@@ -43,4 +58,17 @@ interface ExpectationInterface
      * @return self
      */
     public function andReturns();
+<<<<<<< HEAD
+=======
+
+    /**
+     * @return LegacyMockInterface|MockInterface
+     */
+    public function getMock();
+
+    /**
+     * @return int
+     */
+    public function getOrderNumber();
+>>>>>>> main
 }

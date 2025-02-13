@@ -7,6 +7,7 @@
 
 _sf_{{ COMMAND_NAME }}() {
     # Use newline as only separator to allow space in completion values
+<<<<<<< HEAD
     IFS=$'\n'
     local sf_cmd="${COMP_WORDS[0]}"
 
@@ -16,13 +17,31 @@ _sf_{{ COMMAND_NAME }}() {
     fi
 
     if [ ! -f "$sf_cmd" ]; then
+=======
+    local IFS=$'\n'
+    local sf_cmd="${COMP_WORDS[0]}"
+
+    # for an alias, get the real script behind it
+    sf_cmd_type=$(type -t $sf_cmd)
+    if [[ $sf_cmd_type == "alias" ]]; then
+        sf_cmd=$(alias $sf_cmd | sed -E "s/alias $sf_cmd='(.*)'/\1/")
+    elif [[ $sf_cmd_type == "file" ]]; then
+        sf_cmd=$(type -p $sf_cmd)
+    fi
+
+    if [[ $sf_cmd_type != "function" && ! -x $sf_cmd ]]; then
+>>>>>>> main
         return 1
     fi
 
     local cur prev words cword
     _get_comp_words_by_ref -n := cur prev words cword
 
+<<<<<<< HEAD
     local completecmd=("$sf_cmd" "_complete" "-sbash" "-c$cword" "-S{{ VERSION }}")
+=======
+    local completecmd=("$sf_cmd" "_complete" "--no-interaction" "-sbash" "-c$cword" "-S{{ VERSION }}")
+>>>>>>> main
     for w in ${words[@]}; do
         w=$(printf -- '%b' "$w")
         # remove quotes from typed values

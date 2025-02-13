@@ -245,6 +245,10 @@ ROWS = LINS
 RTD = RTD
 TRANSPOSE = TRANSPOR
 VLOOKUP = PROCV
+<<<<<<< HEAD
+=======
+*RC = LC
+>>>>>>> main
 
 ##
 ## Funções matemáticas e trigonométricas (Math & Trig Functions)

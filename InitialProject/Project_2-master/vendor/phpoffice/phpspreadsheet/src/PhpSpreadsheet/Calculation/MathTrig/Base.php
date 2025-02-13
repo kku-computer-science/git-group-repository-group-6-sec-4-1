@@ -4,7 +4,11 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\MathTrig;
 
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class Base
 {
@@ -52,7 +56,11 @@ class Base
     {
         if ($minLength === null || is_numeric($minLength)) {
             if ($number < 0 || $number >= 2 ** 53 || $radix < 2 || $radix > 36) {
+<<<<<<< HEAD
                 return Functions::NAN(); // Numeric range constraints
+=======
+                return ExcelError::NAN(); // Numeric range constraints
+>>>>>>> main
             }
 
             $outcome = strtoupper((string) base_convert("$number", 10, $radix));
@@ -63,6 +71,10 @@ class Base
             return $outcome;
         }
 
+<<<<<<< HEAD
         return Functions::VALUE();
+=======
+        return ExcelError::VALUE();
+>>>>>>> main
     }
 }

@@ -11,6 +11,10 @@
 
 namespace Symfony\Component\HttpFoundation;
 
+<<<<<<< HEAD
+=======
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+>>>>>>> main
 use Symfony\Component\HttpFoundation\Exception\ConflictingHeadersException;
 use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
@@ -191,7 +195,11 @@ class Request
     protected $session;
 
     /**
+<<<<<<< HEAD
      * @var string
+=======
+     * @var string|null
+>>>>>>> main
      */
     protected $locale;
 
@@ -246,6 +254,12 @@ class Request
         self::HEADER_X_FORWARDED_PREFIX => 'X_FORWARDED_PREFIX',
     ];
 
+<<<<<<< HEAD
+=======
+    /** @var bool */
+    private $isIisRewrite = false;
+
+>>>>>>> main
     /**
      * @param array                $query      The GET parameters
      * @param array                $request    The POST parameters
@@ -330,6 +344,11 @@ class Request
      * @param string|resource|null $content    The raw body data
      *
      * @return static
+<<<<<<< HEAD
+=======
+     *
+     * @throws BadRequestException When the URI is invalid
+>>>>>>> main
      */
     public static function create(string $uri, string $method = 'GET', array $parameters = [], array $cookies = [], array $files = [], array $server = [], $content = null)
     {
@@ -352,7 +371,24 @@ class Request
         $server['PATH_INFO'] = '';
         $server['REQUEST_METHOD'] = strtoupper($method);
 
+<<<<<<< HEAD
         $components = parse_url($uri);
+=======
+        if (false === $components = parse_url(\strlen($uri) !== strcspn($uri, '?#') ? $uri : $uri.'#')) {
+            throw new BadRequestException('Invalid URI.');
+        }
+
+        if (false !== ($i = strpos($uri, '\\')) && $i < strcspn($uri, '?#')) {
+            throw new BadRequestException('Invalid URI: A URI cannot contain a backslash.');
+        }
+        if (\strlen($uri) !== strcspn($uri, "\r\n\t")) {
+            throw new BadRequestException('Invalid URI: A URI cannot contain CR/LF/TAB characters.');
+        }
+        if ('' !== $uri && (\ord($uri[0]) <= 32 || \ord($uri[-1]) <= 32)) {
+            throw new BadRequestException('Invalid URI: A URI must not start nor end with ASCII control characters or spaces.');
+        }
+
+>>>>>>> main
         if (isset($components['host'])) {
             $server['SERVER_NAME'] = $components['host'];
             $server['HTTP_HOST'] = $components['host'];
@@ -439,6 +475,7 @@ class Request
     /**
      * Clones a request and overrides some of its parameters.
      *
+<<<<<<< HEAD
      * @param array $query      The GET parameters
      * @param array $request    The POST parameters
      * @param array $attributes The request attributes (parameters parsed from the PATH_INFO, ...)
@@ -449,6 +486,18 @@ class Request
      * @return static
      */
     public function duplicate(array $query = null, array $request = null, array $attributes = null, array $cookies = null, array $files = null, array $server = null)
+=======
+     * @param array|null $query      The GET parameters
+     * @param array|null $request    The POST parameters
+     * @param array|null $attributes The request attributes (parameters parsed from the PATH_INFO, ...)
+     * @param array|null $cookies    The COOKIE parameters
+     * @param array|null $files      The FILES parameters
+     * @param array|null $server     The SERVER parameters
+     *
+     * @return static
+     */
+    public function duplicate(?array $query = null, ?array $request = null, ?array $attributes = null, ?array $cookies = null, ?array $files = null, ?array $server = null)
+>>>>>>> main
     {
         $dup = clone $this;
         if (null !== $query) {
@@ -522,10 +571,17 @@ class Request
         $cookies = [];
 
         foreach ($this->cookies as $k => $v) {
+<<<<<<< HEAD
             $cookies[] = $k.'='.$v;
         }
 
         if (!empty($cookies)) {
+=======
+            $cookies[] = \is_array($v) ? http_build_query([$k => $v], '', '; ', \PHP_QUERY_RFC3986) : "$k=$v";
+        }
+
+        if ($cookies) {
+>>>>>>> main
             $cookieHeader = 'Cookie: '.implode('; ', $cookies)."\r\n";
         }
 
@@ -562,7 +618,11 @@ class Request
 
         $request = ['g' => $_GET, 'p' => $_POST, 'c' => $_COOKIE];
 
+<<<<<<< HEAD
         $requestOrder = ini_get('request_order') ?: ini_get('variables_order');
+=======
+        $requestOrder = \ini_get('request_order') ?: \ini_get('variables_order');
+>>>>>>> main
         $requestOrder = preg_replace('#[^cgp]#', '', strtolower($requestOrder)) ?: 'gp';
 
         $_REQUEST = [[]];
@@ -1287,7 +1347,11 @@ class Request
         }
 
         if (!preg_match('/^[A-Z]++$/D', $method)) {
+<<<<<<< HEAD
             throw new SuspiciousOperationException(sprintf('Invalid method override "%s".', $method));
+=======
+            throw new SuspiciousOperationException('Invalid HTTP method override.');
+>>>>>>> main
         }
 
         return $this->method = $method;
@@ -1452,7 +1516,11 @@ class Request
      */
     public function getLocale()
     {
+<<<<<<< HEAD
         return null === $this->locale ? $this->defaultLocale : $this->locale;
+=======
+        return $this->locale ?? $this->defaultLocale;
+>>>>>>> main
     }
 
     /**
@@ -1573,9 +1641,15 @@ class Request
     /**
      * Gets the request body decoded as array, typically from a JSON payload.
      *
+<<<<<<< HEAD
      * @throws JsonException When the body cannot be decoded to an array
      *
      * @return array
+=======
+     * @return array
+     *
+     * @throws JsonException When the body cannot be decoded to an array
+>>>>>>> main
      */
     public function toArray()
     {
@@ -1648,7 +1722,11 @@ class Request
      *
      * @return string|null
      */
+<<<<<<< HEAD
     public function getPreferredLanguage(array $locales = null)
+=======
+    public function getPreferredLanguage(?array $locales = null)
+>>>>>>> main
     {
         $preferredLanguages = $this->getLanguages();
 
@@ -1689,7 +1767,12 @@ class Request
 
         $languages = AcceptHeader::fromString($this->headers->get('Accept-Language'))->all();
         $this->languages = [];
+<<<<<<< HEAD
         foreach ($languages as $lang => $acceptHeaderItem) {
+=======
+        foreach ($languages as $acceptHeaderItem) {
+            $lang = $acceptHeaderItem->getValue();
+>>>>>>> main
             if (str_contains($lang, '-')) {
                 $codes = explode('-', $lang);
                 if ('i' === $codes[0]) {
@@ -1727,7 +1810,11 @@ class Request
             return $this->charsets;
         }
 
+<<<<<<< HEAD
         return $this->charsets = array_keys(AcceptHeader::fromString($this->headers->get('Accept-Charset'))->all());
+=======
+        return $this->charsets = array_map('strval', array_keys(AcceptHeader::fromString($this->headers->get('Accept-Charset'))->all()));
+>>>>>>> main
     }
 
     /**
@@ -1741,7 +1828,11 @@ class Request
             return $this->encodings;
         }
 
+<<<<<<< HEAD
         return $this->encodings = array_keys(AcceptHeader::fromString($this->headers->get('Accept-Encoding'))->all());
+=======
+        return $this->encodings = array_map('strval', array_keys(AcceptHeader::fromString($this->headers->get('Accept-Encoding'))->all()));
+>>>>>>> main
     }
 
     /**
@@ -1755,7 +1846,11 @@ class Request
             return $this->acceptableContentTypes;
         }
 
+<<<<<<< HEAD
         return $this->acceptableContentTypes = array_keys(AcceptHeader::fromString($this->headers->get('Accept'))->all());
+=======
+        return $this->acceptableContentTypes = array_map('strval', array_keys(AcceptHeader::fromString($this->headers->get('Accept'))->all()));
+>>>>>>> main
     }
 
     /**
@@ -1804,11 +1899,18 @@ class Request
     {
         $requestUri = '';
 
+<<<<<<< HEAD
         if ('1' == $this->server->get('IIS_WasUrlRewritten') && '' != $this->server->get('UNENCODED_URL')) {
             // IIS7 with URL Rewrite: make sure we get the unencoded URL (double slash problem)
             $requestUri = $this->server->get('UNENCODED_URL');
             $this->server->remove('UNENCODED_URL');
             $this->server->remove('IIS_WasUrlRewritten');
+=======
+        if ($this->isIisRewrite() && '' != $this->server->get('UNENCODED_URL')) {
+            // IIS7 with URL Rewrite: make sure we get the unencoded URL (double slash problem)
+            $requestUri = $this->server->get('UNENCODED_URL');
+            $this->server->remove('UNENCODED_URL');
+>>>>>>> main
         } elseif ($this->server->has('REQUEST_URI')) {
             $requestUri = $this->server->get('REQUEST_URI');
 
@@ -2011,7 +2113,17 @@ class Request
      */
     private function getUrlencodedPrefix(string $string, string $prefix): ?string
     {
+<<<<<<< HEAD
         if (!str_starts_with(rawurldecode($string), $prefix)) {
+=======
+        if ($this->isIisRewrite()) {
+            // ISS with UrlRewriteModule might report SCRIPT_NAME/PHP_SELF with wrong case
+            // see https://github.com/php/php-src/issues/11981
+            if (0 !== stripos(rawurldecode($string), $prefix)) {
+                return null;
+            }
+        } elseif (!str_starts_with(rawurldecode($string), $prefix)) {
+>>>>>>> main
             return null;
         }
 
@@ -2052,7 +2164,11 @@ class Request
         return self::$trustedProxies && IpUtils::checkIp($this->server->get('REMOTE_ADDR', ''), self::$trustedProxies);
     }
 
+<<<<<<< HEAD
     private function getTrustedValues(int $type, string $ip = null): array
+=======
+    private function getTrustedValues(int $type, ?string $ip = null): array
+>>>>>>> main
     {
         $clientValues = [];
         $forwardedValues = [];
@@ -2144,4 +2260,23 @@ class Request
         // Now the IP chain contains only untrusted proxies and the client IP
         return $clientIps ? array_reverse($clientIps) : [$firstTrustedIp];
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * Is this IIS with UrlRewriteModule?
+     *
+     * This method consumes, caches and removed the IIS_WasUrlRewritten env var,
+     * so we don't inherit it to sub-requests.
+     */
+    private function isIisRewrite(): bool
+    {
+        if (1 === $this->server->getInt('IIS_WasUrlRewritten')) {
+            $this->isIisRewrite = true;
+            $this->server->remove('IIS_WasUrlRewritten');
+        }
+
+        return $this->isIisRewrite;
+    }
+>>>>>>> main
 }

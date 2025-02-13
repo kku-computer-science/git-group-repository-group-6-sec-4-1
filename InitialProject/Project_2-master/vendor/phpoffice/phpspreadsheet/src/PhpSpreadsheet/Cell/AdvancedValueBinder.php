@@ -3,6 +3,10 @@
 namespace PhpOffice\PhpSpreadsheet\Cell;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Engine\FormattedNumber;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\RichText\RichText;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Shared\StringHelper;
@@ -33,11 +37,19 @@ class AdvancedValueBinder extends DefaultValueBinder implements IValueBinder
         // Style logic - strings
         if ($dataType === DataType::TYPE_STRING && !$value instanceof RichText) {
             //    Test for booleans using locale-setting
+<<<<<<< HEAD
             if ($value == Calculation::getTRUE()) {
                 $cell->setValueExplicit(true, DataType::TYPE_BOOL);
 
                 return true;
             } elseif ($value == Calculation::getFALSE()) {
+=======
+            if (StringHelper::strToUpper($value) === Calculation::getTRUE()) {
+                $cell->setValueExplicit(true, DataType::TYPE_BOOL);
+
+                return true;
+            } elseif (StringHelper::strToUpper($value) === Calculation::getFALSE()) {
+>>>>>>> main
                 $cell->setValueExplicit(false, DataType::TYPE_BOOL);
 
                 return true;
@@ -50,6 +62,7 @@ class AdvancedValueBinder extends DefaultValueBinder implements IValueBinder
                 return $this->setImproperFraction($matches, $cell);
             }
 
+<<<<<<< HEAD
             // Check for percentage
             if (preg_match('/^\-?\d*\.?\d*\s?\%$/', $value)) {
                 return $this->setPercentage($value, $cell);
@@ -79,6 +92,25 @@ class AdvancedValueBinder extends DefaultValueBinder implements IValueBinder
                     ->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 
                 return true;
+=======
+            $decimalSeparatorNoPreg = StringHelper::getDecimalSeparator();
+            $decimalSeparator = preg_quote($decimalSeparatorNoPreg, '/');
+            $thousandsSeparator = preg_quote(StringHelper::getThousandsSeparator(), '/');
+
+            // Check for percentage
+            if (preg_match('/^\-?\d*' . $decimalSeparator . '?\d*\s?\%$/', preg_replace('/(\d)' . $thousandsSeparator . '(\d)/u', '$1$2', $value))) {
+                return $this->setPercentage(preg_replace('/(\d)' . $thousandsSeparator . '(\d)/u', '$1$2', $value), $cell);
+            }
+
+            // Check for currency
+            if (preg_match(FormattedNumber::currencyMatcherRegexp(), preg_replace('/(\d)' . $thousandsSeparator . '(\d)/u', '$1$2', $value), $matches, PREG_UNMATCHED_AS_NULL)) {
+                // Convert value to number
+                $sign = ($matches['PrefixedSign'] ?? $matches['PrefixedSign2'] ?? $matches['PostfixedSign']) ?? null;
+                $currencyCode = $matches['PrefixedCurrency'] ?? $matches['PostfixedCurrency'];
+                $value = (float) ($sign . trim(str_replace([$decimalSeparatorNoPreg, $currencyCode, ' ', '-'], ['.', '', '', ''], preg_replace('/(\d)' . $thousandsSeparator . '(\d)/u', '$1$2', $value)))); // @phpstan-ignore-line
+
+                return $this->setCurrency($value, $cell, $currencyCode); // @phpstan-ignore-line
+>>>>>>> main
             }
 
             // Check for time without seconds e.g. '9:45', '09:45'
@@ -175,10 +207,30 @@ class AdvancedValueBinder extends DefaultValueBinder implements IValueBinder
         return true;
     }
 
+<<<<<<< HEAD
+=======
+    protected function setCurrency(float $value, Cell $cell, string $currencyCode): bool
+    {
+        $cell->setValueExplicit($value, DataType::TYPE_NUMERIC);
+        // Set style
+        $cell->getWorksheet()->getStyle($cell->getCoordinate())
+            ->getNumberFormat()->setFormatCode(
+                str_replace('$', '[$' . $currencyCode . ']', NumberFormat::FORMAT_CURRENCY_USD)
+            );
+
+        return true;
+    }
+
+>>>>>>> main
     protected function setTimeHoursMinutes(string $value, Cell $cell): bool
     {
         // Convert value to number
         [$hours, $minutes] = explode(':', $value);
+<<<<<<< HEAD
+=======
+        $hours = (int) $hours;
+        $minutes = (int) $minutes;
+>>>>>>> main
         $days = ($hours / 24) + ($minutes / 1440);
         $cell->setValueExplicit($days, DataType::TYPE_NUMERIC);
 
@@ -193,6 +245,12 @@ class AdvancedValueBinder extends DefaultValueBinder implements IValueBinder
     {
         // Convert value to number
         [$hours, $minutes, $seconds] = explode(':', $value);
+<<<<<<< HEAD
+=======
+        $hours = (int) $hours;
+        $minutes = (int) $minutes;
+        $seconds = (int) $seconds;
+>>>>>>> main
         $days = ($hours / 24) + ($minutes / 1440) + ($seconds / 86400);
         $cell->setValueExplicit($days, DataType::TYPE_NUMERIC);
 

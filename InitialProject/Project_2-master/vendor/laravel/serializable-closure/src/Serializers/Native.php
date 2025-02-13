@@ -3,12 +3,20 @@
 namespace Laravel\SerializableClosure\Serializers;
 
 use Closure;
+<<<<<<< HEAD
+=======
+use DateTimeInterface;
+>>>>>>> main
 use Laravel\SerializableClosure\Contracts\Serializable;
 use Laravel\SerializableClosure\SerializableClosure;
 use Laravel\SerializableClosure\Support\ClosureScope;
 use Laravel\SerializableClosure\Support\ClosureStream;
 use Laravel\SerializableClosure\Support\ReflectionClosure;
 use Laravel\SerializableClosure\Support\SelfReference;
+<<<<<<< HEAD
+=======
+use Laravel\SerializableClosure\UnsignedSerializableClosure;
+>>>>>>> main
 use ReflectionObject;
 use UnitEnum;
 
@@ -242,7 +250,11 @@ class Native implements Serializable
             }
 
             unset($value);
+<<<<<<< HEAD
         } elseif (is_object($data) && ! $data instanceof static) {
+=======
+        } elseif (is_object($data) && ! $data instanceof static && ! $data instanceof UnitEnum) {
+>>>>>>> main
             if (isset($storage[$data])) {
                 $data = $storage[$data];
 
@@ -376,9 +388,19 @@ class Native implements Serializable
                         continue;
                     }
 
+<<<<<<< HEAD
                     $item = $property->getValue($data);
 
                     if ($item instanceof SerializableClosure || ($item instanceof SelfReference && $item->hash === $this->code['self'])) {
+=======
+                    if (PHP_VERSION >= 8.1 && $property->isReadOnly()) {
+                        continue;
+                    }
+
+                    $item = $property->getValue($data);
+
+                    if ($item instanceof SerializableClosure || $item instanceof UnsignedSerializableClosure || ($item instanceof SelfReference && $item->hash === $this->code['self'])) {
+>>>>>>> main
                         $this->code['objects'][] = [
                             'instance' => $data,
                             'property' => $property,
@@ -451,7 +473,11 @@ class Native implements Serializable
             }
 
             unset($value);
+<<<<<<< HEAD
         } elseif (is_object($data) && ! $data instanceof SerializableClosure) {
+=======
+        } elseif (is_object($data) && ! $data instanceof SerializableClosure && ! $data instanceof UnsignedSerializableClosure) {
+>>>>>>> main
             if (isset($this->scope[$data])) {
                 $data = $this->scope[$data];
 
@@ -460,6 +486,15 @@ class Native implements Serializable
 
             $instance = $data;
 
+<<<<<<< HEAD
+=======
+            if ($data instanceof DateTimeInterface) {
+                $this->scope[$instance] = $data;
+
+                return;
+            }
+
+>>>>>>> main
             if ($data instanceof UnitEnum) {
                 $this->scope[$instance] = $data;
 
@@ -492,6 +527,13 @@ class Native implements Serializable
                         continue;
                     }
 
+<<<<<<< HEAD
+=======
+                    if (PHP_VERSION >= 8.1 && $property->isReadOnly() && $property->class !== $reflection->name) {
+                        continue;
+                    }
+
+>>>>>>> main
                     $value = $property->getValue($instance);
 
                     if (is_array($value) || is_object($value)) {

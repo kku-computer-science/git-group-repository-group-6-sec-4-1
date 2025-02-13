@@ -20,46 +20,76 @@ interface InvocationStubber
     public function will(Stub $stub): Identity;
 
     /** @return self */
+<<<<<<< HEAD
     public function willReturn($value, ...$nextValues)/*: self */;
+=======
+    public function willReturn($value, ...$nextValues)/* : self */;
+>>>>>>> main
 
     /**
      * @param mixed $reference
      *
      * @return self
      */
+<<<<<<< HEAD
     public function willReturnReference(&$reference)/*: self */;
+=======
+    public function willReturnReference(&$reference)/* : self */;
+>>>>>>> main
 
     /**
      * @param array<int, array<int, mixed>> $valueMap
      *
      * @return self
      */
+<<<<<<< HEAD
     public function willReturnMap(array $valueMap)/*: self */;
+=======
+    public function willReturnMap(array $valueMap)/* : self */;
+>>>>>>> main
 
     /**
      * @param int $argumentIndex
      *
      * @return self
      */
+<<<<<<< HEAD
     public function willReturnArgument($argumentIndex)/*: self */;
+=======
+    public function willReturnArgument($argumentIndex)/* : self */;
+>>>>>>> main
 
     /**
      * @param callable $callback
      *
      * @return self
      */
+<<<<<<< HEAD
     public function willReturnCallback($callback)/*: self */;
 
     /** @return self */
     public function willReturnSelf()/*: self */;
+=======
+    public function willReturnCallback($callback)/* : self */;
+
+    /** @return self */
+    public function willReturnSelf()/* : self */;
+>>>>>>> main
 
     /**
      * @param mixed $values
      *
      * @return self
      */
+<<<<<<< HEAD
     public function willReturnOnConsecutiveCalls(...$values)/*: self */;
 
     /** @return self */
     public function willThrowException(Throwable $exception)/*: self */;
+=======
+    public function willReturnOnConsecutiveCalls(...$values)/* : self */;
+
+    /** @return self */
+    public function willThrowException(Throwable $exception)/* : self */;
+>>>>>>> main
 }

@@ -27,7 +27,11 @@ trait VarDumperTestTrait
         'flags' => null,
     ];
 
+<<<<<<< HEAD
     protected function setUpVarDumper(array $casters, int $flags = null): void
+=======
+    protected function setUpVarDumper(array $casters, ?int $flags = null): void
+>>>>>>> main
     {
         $this->varDumperConfig['casters'] = $casters;
         $this->varDumperConfig['flags'] = $flags;

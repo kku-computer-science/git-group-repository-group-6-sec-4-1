@@ -14,6 +14,7 @@ use PhpOffice\PhpSpreadsheet\Writer\IWriter;
  */
 abstract class IOFactory
 {
+<<<<<<< HEAD
     private static $readers = [
         'Xlsx' => Reader\Xlsx::class,
         'Xls' => Reader\Xls::class,
@@ -31,6 +32,43 @@ abstract class IOFactory
         'Ods' => Writer\Ods::class,
         'Csv' => Writer\Csv::class,
         'Html' => Writer\Html::class,
+=======
+    public const READER_XLSX = 'Xlsx';
+    public const READER_XLS = 'Xls';
+    public const READER_XML = 'Xml';
+    public const READER_ODS = 'Ods';
+    public const READER_SYLK = 'Slk';
+    public const READER_SLK = 'Slk';
+    public const READER_GNUMERIC = 'Gnumeric';
+    public const READER_HTML = 'Html';
+    public const READER_CSV = 'Csv';
+
+    public const WRITER_XLSX = 'Xlsx';
+    public const WRITER_XLS = 'Xls';
+    public const WRITER_ODS = 'Ods';
+    public const WRITER_CSV = 'Csv';
+    public const WRITER_HTML = 'Html';
+
+    /** @var string[] */
+    private static $readers = [
+        self::READER_XLSX => Reader\Xlsx::class,
+        self::READER_XLS => Reader\Xls::class,
+        self::READER_XML => Reader\Xml::class,
+        self::READER_ODS => Reader\Ods::class,
+        self::READER_SLK => Reader\Slk::class,
+        self::READER_GNUMERIC => Reader\Gnumeric::class,
+        self::READER_HTML => Reader\Html::class,
+        self::READER_CSV => Reader\Csv::class,
+    ];
+
+    /** @var string[] */
+    private static $writers = [
+        self::WRITER_XLS => Writer\Xls::class,
+        self::WRITER_XLSX => Writer\Xlsx::class,
+        self::WRITER_ODS => Writer\Ods::class,
+        self::WRITER_CSV => Writer\Csv::class,
+        self::WRITER_HTML => Writer\Html::class,
+>>>>>>> main
         'Tcpdf' => Writer\Pdf\Tcpdf::class,
         'Dompdf' => Writer\Pdf\Dompdf::class,
         'Mpdf' => Writer\Pdf\Mpdf::class,
@@ -46,6 +84,10 @@ abstract class IOFactory
         }
 
         // Instantiate writer
+<<<<<<< HEAD
+=======
+        /** @var IWriter */
+>>>>>>> main
         $className = self::$writers[$writerType];
 
         return new $className($spreadsheet);
@@ -61,6 +103,10 @@ abstract class IOFactory
         }
 
         // Instantiate reader
+<<<<<<< HEAD
+=======
+        /** @var IReader */
+>>>>>>> main
         $className = self::$readers[$readerType];
 
         return new $className();
@@ -70,10 +116,27 @@ abstract class IOFactory
      * Loads Spreadsheet from file using automatic Reader\IReader resolution.
      *
      * @param string $filename The name of the spreadsheet file
+<<<<<<< HEAD
      */
     public static function load(string $filename, int $flags = 0): Spreadsheet
     {
         $reader = self::createReaderForFile($filename);
+=======
+     * @param int $flags the optional second parameter flags may be used to identify specific elements
+     *                       that should be loaded, but which won't be loaded by default, using these values:
+     *                            IReader::LOAD_WITH_CHARTS - Include any charts that are defined in the loaded file.
+     *                            IReader::READ_DATA_ONLY - Read cell values only, not formatting or merge structure.
+     *                            IReader::IGNORE_EMPTY_CELLS - Don't load empty cells into the model.
+     * @param string[] $readers An array of Readers to use to identify the file type. By default, load() will try
+     *                             all possible Readers until it finds a match; but this allows you to pass in a
+     *                             list of Readers so it will only try the subset that you specify here.
+     *                          Values in this list can be any of the constant values defined in the set
+     *                                 IOFactory::READER_*.
+     */
+    public static function load(string $filename, int $flags = 0, ?array $readers = null): Spreadsheet
+    {
+        $reader = self::createReaderForFile($filename, $readers);
+>>>>>>> main
 
         return $reader->load($filename, $flags);
     }
@@ -81,9 +144,15 @@ abstract class IOFactory
     /**
      * Identify file type using automatic IReader resolution.
      */
+<<<<<<< HEAD
     public static function identify(string $filename): string
     {
         $reader = self::createReaderForFile($filename);
+=======
+    public static function identify(string $filename, ?array $readers = null): string
+    {
+        $reader = self::createReaderForFile($filename, $readers);
+>>>>>>> main
         $className = get_class($reader);
         $classType = explode('\\', $className);
         unset($reader);
@@ -93,6 +162,7 @@ abstract class IOFactory
 
     /**
      * Create Reader\IReader for file using automatic IReader resolution.
+<<<<<<< HEAD
      */
     public static function createReaderForFile(string $filename): IReader
     {
@@ -101,6 +171,34 @@ abstract class IOFactory
         // First, lucky guess by inspecting file extension
         $guessedReader = self::getReaderTypeFromExtension($filename);
         if ($guessedReader !== null) {
+=======
+     *
+     * @param string[] $readers An array of Readers to use to identify the file type. By default, load() will try
+     *                             all possible Readers until it finds a match; but this allows you to pass in a
+     *                             list of Readers so it will only try the subset that you specify here.
+     *                          Values in this list can be any of the constant values defined in the set
+     *                                 IOFactory::READER_*.
+     */
+    public static function createReaderForFile(string $filename, ?array $readers = null): IReader
+    {
+        File::assertFile($filename);
+
+        $testReaders = self::$readers;
+        if ($readers !== null) {
+            $readers = array_map('strtoupper', $readers);
+            $testReaders = array_filter(
+                self::$readers,
+                function (string $readerType) use ($readers) {
+                    return in_array(strtoupper($readerType), $readers, true);
+                },
+                ARRAY_FILTER_USE_KEY
+            );
+        }
+
+        // First, lucky guess by inspecting file extension
+        $guessedReader = self::getReaderTypeFromExtension($filename);
+        if (($guessedReader !== null) && array_key_exists($guessedReader, $testReaders)) {
+>>>>>>> main
             $reader = self::createReader($guessedReader);
 
             // Let's see if we are lucky
@@ -110,11 +208,19 @@ abstract class IOFactory
         }
 
         // If we reach here then "lucky guess" didn't give any result
+<<<<<<< HEAD
         // Try walking through all the options in self::$autoResolveClasses
         foreach (self::$readers as $type => $class) {
             //    Ignore our original guess, we know that won't work
             if ($type !== $guessedReader) {
                 $reader = self::createReader($type);
+=======
+        // Try walking through all the options in self::$readers (or the selected subset)
+        foreach ($testReaders as $readerType => $class) {
+            //    Ignore our original guess, we know that won't work
+            if ($readerType !== $guessedReader) {
+                $reader = self::createReader($readerType);
+>>>>>>> main
                 if ($reader->canRead($filename)) {
                     return $reader;
                 }

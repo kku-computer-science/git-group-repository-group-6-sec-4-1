@@ -28,7 +28,11 @@ trait Test
     /**
      * A test Carbon instance to be returned when now instances are created.
      *
+<<<<<<< HEAD
      * @var static
+=======
+     * @var Closure|static|null
+>>>>>>> main
      */
     protected static $testNow;
 
@@ -59,6 +63,7 @@ trait Test
      *
      * /!\ Use this method for unit tests only.
      *
+<<<<<<< HEAD
      * @param Closure|static|string|false|null $testNow real or mock Carbon instance
      */
     public static function setTestNow($testNow = null)
@@ -68,6 +73,15 @@ trait Test
         }
 
         static::$testNow = \is_string($testNow) ? static::parse($testNow) : $testNow;
+=======
+     * @param DateTimeInterface|Closure|static|string|false|null $testNow real or mock Carbon instance
+     */
+    public static function setTestNow($testNow = null)
+    {
+        static::$testNow = $testNow instanceof self || $testNow instanceof Closure
+            ? $testNow
+            : static::make($testNow);
+>>>>>>> main
     }
 
     /**
@@ -87,7 +101,11 @@ trait Test
      *
      * /!\ Use this method for unit tests only.
      *
+<<<<<<< HEAD
      * @param Closure|static|string|false|null $testNow real or mock Carbon instance
+=======
+     * @param DateTimeInterface|Closure|static|string|false|null $testNow real or mock Carbon instance
+>>>>>>> main
      */
     public static function setTestNowAndTimezone($testNow = null, $tz = null)
     {
@@ -121,6 +139,7 @@ trait Test
      *
      * /!\ Use this method for unit tests only.
      *
+<<<<<<< HEAD
      * @param Closure|static|string|false|null $testNow  real or mock Carbon instance
      * @param Closure|null                     $callback
      *
@@ -131,6 +150,24 @@ trait Test
         static::setTestNow($testNow);
         $result = $callback();
         static::setTestNow();
+=======
+     * @template T
+     *
+     * @param DateTimeInterface|Closure|static|string|false|null $testNow  real or mock Carbon instance
+     * @param Closure(): T                                       $callback
+     *
+     * @return T
+     */
+    public static function withTestNow($testNow, $callback)
+    {
+        static::setTestNow($testNow);
+
+        try {
+            $result = $callback();
+        } finally {
+            static::setTestNow();
+        }
+>>>>>>> main
 
         return $result;
     }

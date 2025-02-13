@@ -2,6 +2,12 @@
 
 namespace Faker\Provider\sv_SE;
 
+<<<<<<< HEAD
+=======
+/**
+ * @see https://www.pts.se/sv/bransch/telefoni/nummer-och-adressering/telefoninummerplanen/telefonnummers-struktur/
+ */
+>>>>>>> main
 class PhoneNumber extends \Faker\Provider\PhoneNumber
 {
     /**
@@ -34,4 +40,31 @@ class PhoneNumber extends \Faker\Provider\PhoneNumber
         '+46(0)%######',
         '+46%######',
     ];
+<<<<<<< HEAD
+=======
+
+    /**
+     * @var array<int, string> Swedish mobile number formats
+     */
+    protected static array $mobileFormats = [
+        '+467########',
+        '+46(0)7########',
+        '+46 (0)7## ## ## ##',
+        '+46 (0)7## ### ###',
+        '07## ## ## ##',
+        '07## ### ###',
+        '07##-## ## ##',
+        '07##-### ###',
+        '07# ### ## ##',
+        '07#-### ## ##',
+        '07#-#######',
+    ];
+
+    public function mobileNumber(): string
+    {
+        $format = static::randomElement(static::$mobileFormats);
+
+        return self::numerify($this->generator->parse($format));
+    }
+>>>>>>> main
 }

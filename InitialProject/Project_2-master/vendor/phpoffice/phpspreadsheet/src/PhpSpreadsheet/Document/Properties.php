@@ -107,6 +107,11 @@ class Properties
      */
     private $customProperties = [];
 
+<<<<<<< HEAD
+=======
+    private string $hyperlinkBase = '';
+
+>>>>>>> main
     /**
      * Create a new Document Properties instance.
      */
@@ -115,7 +120,11 @@ class Properties
         // Initialise values
         $this->lastModifiedBy = $this->creator;
         $this->created = self::intOrFloatTimestamp(null);
+<<<<<<< HEAD
         $this->modified = self::intOrFloatTimestamp(null);
+=======
+        $this->modified = $this->created;
+>>>>>>> main
     }
 
     /**
@@ -171,9 +180,15 @@ class Properties
             if (is_numeric($timestamp)) {
                 $timestamp = (float) $timestamp;
             } else {
+<<<<<<< HEAD
                 $timestamp = preg_replace('/[.][0-9]*$/', '', $timestamp) ?? '';
                 $timestamp = preg_replace('/^(\\d{4})- (\\d)/', '$1-0$2', $timestamp) ?? '';
                 $timestamp = preg_replace('/^(\\d{4}-\\d{2})- (\\d)/', '$1-0$2', $timestamp) ?? '';
+=======
+                $timestamp = (string) preg_replace('/[.][0-9]*$/', '', $timestamp);
+                $timestamp = (string) preg_replace('/^(\\d{4})- (\\d)/', '$1-0$2', $timestamp);
+                $timestamp = (string) preg_replace('/^(\\d{4}-\\d{2})- (\\d)/', '$1-0$2', $timestamp);
+>>>>>>> main
                 $timestamp = (float) (new DateTime($timestamp))->format('U');
             }
         }
@@ -434,7 +449,11 @@ class Properties
      *
      * @param mixed $propertyValue
      * @param string $propertyType
+<<<<<<< HEAD
      *      'i'    : Integer
+=======
+     *   'i' : Integer
+>>>>>>> main
      *   'f' : Floating Point
      *   's' : String
      *   'd' : Date/Time
@@ -534,4 +553,19 @@ class Properties
     {
         return self::PROPERTY_TYPE_ARRAY[$propertyType] ?? self::PROPERTY_TYPE_UNKNOWN;
     }
+<<<<<<< HEAD
+=======
+
+    public function getHyperlinkBase(): string
+    {
+        return $this->hyperlinkBase;
+    }
+
+    public function setHyperlinkBase(string $hyperlinkBase): self
+    {
+        $this->hyperlinkBase = $hyperlinkBase;
+
+        return $this;
+    }
+>>>>>>> main
 }

@@ -30,7 +30,11 @@ class StreamedResponse extends Response
     protected $streamed;
     private $headersSent;
 
+<<<<<<< HEAD
     public function __construct(callable $callback = null, int $status = 200, array $headers = [])
+=======
+    public function __construct(?callable $callback = null, int $status = 200, array $headers = [])
+>>>>>>> main
     {
         parent::__construct(null, $status, $headers);
 
@@ -114,9 +118,15 @@ class StreamedResponse extends Response
     /**
      * {@inheritdoc}
      *
+<<<<<<< HEAD
      * @throws \LogicException when the content is not null
      *
      * @return $this
+=======
+     * @return $this
+     *
+     * @throws \LogicException when the content is not null
+>>>>>>> main
      */
     public function setContent(?string $content)
     {

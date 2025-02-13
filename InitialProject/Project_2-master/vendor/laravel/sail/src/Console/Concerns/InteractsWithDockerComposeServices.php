@@ -16,12 +16,18 @@ trait InteractsWithDockerComposeServices
         'mysql',
         'pgsql',
         'mariadb',
+<<<<<<< HEAD
         'mongodb',
         'redis',
         'valkey',
         'memcached',
         'meilisearch',
         'typesense',
+=======
+        'redis',
+        'memcached',
+        'meilisearch',
+>>>>>>> main
         'minio',
         'mailpit',
         'selenium',
@@ -67,11 +73,14 @@ trait InteractsWithDockerComposeServices
             ? Yaml::parseFile($composePath)
             : Yaml::parse(file_get_contents(__DIR__ . '/../../../stubs/docker-compose.stub'));
 
+<<<<<<< HEAD
         // Prepare the installation of the "mariadb-client" package if the MariaDB service is used...
         if (in_array('mariadb', $services)) {
             $compose['services']['laravel.test']['build']['args']['MYSQL_CLIENT'] = 'mariadb-client';
         }
 
+=======
+>>>>>>> main
         // Adds the new services as dependencies of the laravel.test service...
         if (! array_key_exists('laravel.test', $compose['services'])) {
             $this->warn('Couldn\'t find the laravel.test service. Make sure you add ['.implode(',', $services).'] to the depends_on config.');
@@ -94,7 +103,11 @@ trait InteractsWithDockerComposeServices
         // Merge volumes...
         collect($services)
             ->filter(function ($service) {
+<<<<<<< HEAD
                 return in_array($service, ['mysql', 'pgsql', 'mariadb', 'mongodb', 'redis', 'valkey', 'meilisearch', 'typesense', 'minio']);
+=======
+                return in_array($service, ['mysql', 'pgsql', 'mariadb', 'redis', 'meilisearch', 'minio']);
+>>>>>>> main
             })->filter(function ($service) use ($compose) {
                 return ! array_key_exists($service, $compose['volumes'] ?? []);
             })->each(function ($service) use (&$compose) {
@@ -106,11 +119,20 @@ trait InteractsWithDockerComposeServices
             unset($compose['volumes']);
         }
 
+<<<<<<< HEAD
         $yaml = Yaml::dump($compose, Yaml::DUMP_OBJECT_AS_MAP);
 
         $yaml = str_replace('{{PHP_VERSION}}', $this->hasOption('php') ? $this->option('php') : '8.4', $yaml);
 
         file_put_contents($this->laravel->basePath('docker-compose.yml'), $yaml);
+=======
+        // Replace Selenium with ARM base container on Apple Silicon...
+        if (in_array('selenium', $services) && in_array(php_uname('m'), ['arm64', 'aarch64'])) {
+            $compose['services']['selenium']['image'] = 'seleniarm/standalone-chromium';
+        }
+
+        file_put_contents($this->laravel->basePath('docker-compose.yml'), Yaml::dump($compose, Yaml::DUMP_OBJECT_AS_MAP));
+>>>>>>> main
     }
 
     /**
@@ -123,6 +145,7 @@ trait InteractsWithDockerComposeServices
     {
         $environment = file_get_contents($this->laravel->basePath('.env'));
 
+<<<<<<< HEAD
         if (in_array('mysql', $services) ||
             in_array('mariadb', $services) ||
             in_array('pgsql', $services)) {
@@ -152,6 +175,16 @@ trait InteractsWithDockerComposeServices
             }
 
             $environment = str_replace('DB_HOST=127.0.0.1', "DB_HOST=mariadb", $environment);
+=======
+        if (in_array('pgsql', $services)) {
+            $environment = str_replace('DB_CONNECTION=mysql', "DB_CONNECTION=pgsql", $environment);
+            $environment = str_replace('DB_HOST=127.0.0.1', "DB_HOST=pgsql", $environment);
+            $environment = str_replace('DB_PORT=3306', "DB_PORT=5432", $environment);
+        } elseif (in_array('mariadb', $services)) {
+            $environment = str_replace('DB_HOST=127.0.0.1', "DB_HOST=mariadb", $environment);
+        } else {
+            $environment = str_replace('DB_HOST=127.0.0.1', "DB_HOST=mysql", $environment);
+>>>>>>> main
         }
 
         $environment = str_replace('DB_USERNAME=root', "DB_USERNAME=sail", $environment);
@@ -165,6 +198,7 @@ trait InteractsWithDockerComposeServices
             $environment = str_replace('REDIS_HOST=127.0.0.1', 'REDIS_HOST=redis', $environment);
         }
 
+<<<<<<< HEAD
         if (in_array('valkey',$services)){
             $environment = str_replace('REDIS_HOST=127.0.0.1', 'REDIS_HOST=valkey', $environment);
         }
@@ -174,12 +208,15 @@ trait InteractsWithDockerComposeServices
             $environment .= "\nMONGODB_DATABASE=laravel";
         }
 
+=======
+>>>>>>> main
         if (in_array('meilisearch', $services)) {
             $environment .= "\nSCOUT_DRIVER=meilisearch";
             $environment .= "\nMEILISEARCH_HOST=http://meilisearch:7700\n";
             $environment .= "\nMEILISEARCH_NO_ANALYTICS=false\n";
         }
 
+<<<<<<< HEAD
         if (in_array('typesense', $services)) {
             $environment .= "\nSCOUT_DRIVER=typesense";
             $environment .= "\nTYPESENSE_HOST=typesense";
@@ -188,6 +225,8 @@ trait InteractsWithDockerComposeServices
             $environment .= "\nTYPESENSE_API_KEY=xyz\n";
         }
 
+=======
+>>>>>>> main
         if (in_array('soketi', $services)) {
             $environment = preg_replace("/^BROADCAST_DRIVER=(.*)/m", "BROADCAST_DRIVER=pusher", $environment);
             $environment = preg_replace("/^PUSHER_APP_ID=(.*)/m", "PUSHER_APP_ID=app-id", $environment);
@@ -200,9 +239,13 @@ trait InteractsWithDockerComposeServices
         }
 
         if (in_array('mailpit', $services)) {
+<<<<<<< HEAD
             $environment = preg_replace("/^MAIL_MAILER=(.*)/m", "MAIL_MAILER=smtp", $environment);
             $environment = preg_replace("/^MAIL_HOST=(.*)/m", "MAIL_HOST=mailpit", $environment);
             $environment = preg_replace("/^MAIL_PORT=(.*)/m", "MAIL_PORT=1025", $environment);
+=======
+            $environment = preg_replace("/^MAIL_HOST=(.*)/m", "MAIL_HOST=mailpit", $environment);
+>>>>>>> main
         }
 
         file_put_contents($this->laravel->basePath('.env'), $environment);
@@ -217,10 +260,13 @@ trait InteractsWithDockerComposeServices
     {
         if (! file_exists($path = $this->laravel->basePath('phpunit.xml'))) {
             $path = $this->laravel->basePath('phpunit.xml.dist');
+<<<<<<< HEAD
 
             if (! file_exists($path)) {
                 return;
             }
+=======
+>>>>>>> main
         }
 
         $phpunit = file_get_contents($path);
@@ -269,6 +315,7 @@ trait InteractsWithDockerComposeServices
         }
 
         if (count($services) > 0) {
+<<<<<<< HEAD
             $this->runCommands([
                 './vendor/bin/sail pull '.implode(' ', $services),
             ]);
@@ -277,6 +324,24 @@ trait InteractsWithDockerComposeServices
         $this->runCommands([
             './vendor/bin/sail build',
         ]);
+=======
+            $status = $this->runCommands([
+                './vendor/bin/sail pull '.implode(' ', $services),
+            ]);
+
+            if ($status === 0) {
+                $this->info('Sail images installed successfully.');
+            }
+        }
+
+        $status = $this->runCommands([
+            './vendor/bin/sail build',
+        ]);
+
+        if ($status === 0) {
+            $this->info('Sail build successful.');
+        }
+>>>>>>> main
     }
 
     /**

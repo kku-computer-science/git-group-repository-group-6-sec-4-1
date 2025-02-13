@@ -35,7 +35,11 @@ class PhpFileLoader extends FileLoader
      *
      * @return RouteCollection
      */
+<<<<<<< HEAD
     public function load($file, string $type = null)
+=======
+    public function load($file, ?string $type = null)
+>>>>>>> main
     {
         $path = $this->locator->locate($file);
         $this->setCurrentDir(\dirname($path));
@@ -62,7 +66,11 @@ class PhpFileLoader extends FileLoader
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function supports($resource, string $type = null)
+=======
+    public function supports($resource, ?string $type = null)
+>>>>>>> main
     {
         return \is_string($resource) && 'php' === pathinfo($resource, \PATHINFO_EXTENSION) && (!$type || 'php' === $type);
     }

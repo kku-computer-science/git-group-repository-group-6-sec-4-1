@@ -22,7 +22,11 @@ final class ResponseCookieValueSame extends Constraint
     private $path;
     private $domain;
 
+<<<<<<< HEAD
     public function __construct(string $name, string $value, string $path = '/', string $domain = null)
+=======
+    public function __construct(string $name, string $value, string $path = '/', ?string $domain = null)
+>>>>>>> main
     {
         $this->name = $name;
         $this->value = $value;
@@ -59,7 +63,11 @@ final class ResponseCookieValueSame extends Constraint
             return false;
         }
 
+<<<<<<< HEAD
         return $this->value === $cookie->getValue();
+=======
+        return $this->value === (string) $cookie->getValue();
+>>>>>>> main
     }
 
     /**

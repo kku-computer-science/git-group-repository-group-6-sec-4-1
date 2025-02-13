@@ -510,7 +510,11 @@ class Arr
      * Get a value from the array, and remove it.
      *
      * @param  array  $array
+<<<<<<< HEAD
      * @param  string  $key
+=======
+     * @param  string|int  $key
+>>>>>>> main
      * @param  mixed  $default
      * @return mixed
      */

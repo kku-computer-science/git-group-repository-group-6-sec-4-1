@@ -99,7 +99,11 @@ class Conditional implements IComparable
     /**
      * Condition.
      *
+<<<<<<< HEAD
      * @var string[]
+=======
+     * @var (bool|float|int|string)[]
+>>>>>>> main
      */
     private $condition = [];
 
@@ -115,6 +119,12 @@ class Conditional implements IComparable
      */
     private $style;
 
+<<<<<<< HEAD
+=======
+    /** @var bool */
+    private $noFormatSet = false;
+
+>>>>>>> main
     /**
      * Create a new Conditional.
      */
@@ -124,6 +134,21 @@ class Conditional implements IComparable
         $this->style = new Style(false, true);
     }
 
+<<<<<<< HEAD
+=======
+    public function getNoFormatSet(): bool
+    {
+        return $this->noFormatSet;
+    }
+
+    public function setNoFormatSet(bool $noFormatSet): self
+    {
+        $this->noFormatSet = $noFormatSet;
+
+        return $this;
+    }
+
+>>>>>>> main
     /**
      * Get Condition type.
      *
@@ -223,7 +248,11 @@ class Conditional implements IComparable
     /**
      * Get Conditions.
      *
+<<<<<<< HEAD
      * @return string[]
+=======
+     * @return (bool|float|int|string)[]
+>>>>>>> main
      */
     public function getConditions()
     {
@@ -233,7 +262,11 @@ class Conditional implements IComparable
     /**
      * Set Conditions.
      *
+<<<<<<< HEAD
      * @param bool|float|int|string|string[] $conditions Condition
+=======
+     * @param (bool|float|int|string)[]|bool|float|int|string $conditions Condition
+>>>>>>> main
      *
      * @return $this
      */
@@ -250,7 +283,11 @@ class Conditional implements IComparable
     /**
      * Add Condition.
      *
+<<<<<<< HEAD
      * @param string $condition Condition
+=======
+     * @param bool|float|int|string $condition Condition
+>>>>>>> main
      *
      * @return $this
      */
@@ -276,7 +313,11 @@ class Conditional implements IComparable
      *
      * @return $this
      */
+<<<<<<< HEAD
     public function setStyle(?Style $style = null)
+=======
+    public function setStyle(Style $style)
+>>>>>>> main
     {
         $this->style = $style;
 

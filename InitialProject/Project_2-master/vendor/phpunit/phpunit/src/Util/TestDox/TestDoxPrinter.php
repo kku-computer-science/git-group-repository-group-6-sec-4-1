@@ -17,15 +17,28 @@ use function method_exists;
 use function preg_split;
 use function trim;
 use PHPUnit\Framework\AssertionFailedError;
+<<<<<<< HEAD
 use PHPUnit\Framework\Reorderable;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
+=======
+use PHPUnit\Framework\Exception;
+use PHPUnit\Framework\Reorderable;
+use PHPUnit\Framework\Test;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestFailure;
+>>>>>>> main
 use PHPUnit\Framework\TestResult;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\Warning;
 use PHPUnit\Runner\BaseTestRunner;
 use PHPUnit\Runner\PhptTestCase;
 use PHPUnit\TextUI\DefaultResultPrinter;
+<<<<<<< HEAD
+=======
+use PHPUnit\Util\Filter;
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+>>>>>>> main
 use Throwable;
 
 /**
@@ -82,7 +95,11 @@ class TestDoxPrinter extends DefaultResultPrinter
      * @param null|resource|string $out
      * @param int|string           $numberOfColumns
      *
+<<<<<<< HEAD
      * @throws \PHPUnit\Framework\Exception
+=======
+     * @throws Exception
+>>>>>>> main
      */
     public function __construct($out = null, bool $verbose = false, string $colors = self::COLOR_DEFAULT, bool $debug = false, $numberOfColumns = 80, bool $reverse = false)
     {
@@ -107,7 +124,11 @@ class TestDoxPrinter extends DefaultResultPrinter
     }
 
     /**
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     public function endTest(Test $test, float $time): void
     {
@@ -127,7 +148,11 @@ class TestDoxPrinter extends DefaultResultPrinter
     }
 
     /**
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     public function addError(Test $test, Throwable $t, float $time): void
     {
@@ -135,7 +160,11 @@ class TestDoxPrinter extends DefaultResultPrinter
     }
 
     /**
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     public function addWarning(Test $test, Warning $e, float $time): void
     {
@@ -143,7 +172,11 @@ class TestDoxPrinter extends DefaultResultPrinter
     }
 
     /**
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     public function addFailure(Test $test, AssertionFailedError $e, float $time): void
     {
@@ -151,7 +184,11 @@ class TestDoxPrinter extends DefaultResultPrinter
     }
 
     /**
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     public function addIncompleteTest(Test $test, Throwable $t, float $time): void
     {
@@ -159,7 +196,11 @@ class TestDoxPrinter extends DefaultResultPrinter
     }
 
     /**
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     public function addRiskyTest(Test $test, Throwable $t, float $time): void
     {
@@ -167,7 +208,11 @@ class TestDoxPrinter extends DefaultResultPrinter
     }
 
     /**
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     public function addSkippedTest(Test $test, Throwable $t, float $time): void
     {
@@ -185,7 +230,11 @@ class TestDoxPrinter extends DefaultResultPrinter
     }
 
     /**
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     protected function registerTestResult(Test $test, ?Throwable $t, int $status, float $time, bool $verbose): void
     {
@@ -339,7 +388,11 @@ class TestDoxPrinter extends DefaultResultPrinter
 
     protected function formatThrowable(Throwable $t, ?int $status = null): string
     {
+<<<<<<< HEAD
         $message = trim(\PHPUnit\Framework\TestFailure::exceptionToString($t));
+=======
+        $message = trim(TestFailure::exceptionToString($t));
+>>>>>>> main
 
         if ($message) {
             $message .= PHP_EOL . PHP_EOL . $this->formatStacktrace($t);
@@ -352,7 +405,11 @@ class TestDoxPrinter extends DefaultResultPrinter
 
     protected function formatStacktrace(Throwable $t): string
     {
+<<<<<<< HEAD
         return \PHPUnit\Util\Filter::getFilteredStacktrace($t);
+=======
+        return Filter::getFilteredStacktrace($t);
+>>>>>>> main
     }
 
     protected function formatTestResultMessage(Throwable $t, array $result, string $prefix = '│'): string
@@ -381,8 +438,13 @@ class TestDoxPrinter extends DefaultResultPrinter
                 {
                     return '   ' . $prefix . ($text ? ' ' . $text : '');
                 },
+<<<<<<< HEAD
                 preg_split('/\r\n|\r|\n/', $message)
             )
+=======
+                preg_split('/\r\n|\r|\n/', $message),
+            ),
+>>>>>>> main
         );
     }
 }

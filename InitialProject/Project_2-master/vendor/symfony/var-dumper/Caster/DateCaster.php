@@ -27,7 +27,11 @@ class DateCaster
     public static function castDateTime(\DateTimeInterface $d, array $a, Stub $stub, bool $isNested, int $filter)
     {
         $prefix = Caster::PREFIX_VIRTUAL;
+<<<<<<< HEAD
         $location = $d->getTimezone()->getLocation();
+=======
+        $location = $d->getTimezone() ? $d->getTimezone()->getLocation() : null;
+>>>>>>> main
         $fromNow = (new \DateTime())->diff($d);
 
         $title = $d->format('l, F j, Y')
@@ -103,11 +107,19 @@ class DateCaster
         }
 
         $period = sprintf(
+<<<<<<< HEAD
             'every %s, from %s (%s) %s',
             self::formatInterval($p->getDateInterval()),
             self::formatDateTime($p->getStartDate()),
             $p->include_start_date ? 'included' : 'excluded',
             ($end = $p->getEndDate()) ? 'to '.self::formatDateTime($end) : 'recurring '.$p->recurrences.' time/s'
+=======
+            'every %s, from %s%s %s',
+            self::formatInterval($p->getDateInterval()),
+            $p->include_start_date ? '[' : ']',
+            self::formatDateTime($p->getStartDate()),
+            ($end = $p->getEndDate()) ? 'to '.self::formatDateTime($end).(\PHP_VERSION_ID >= 80200 && $p->include_end_date ? ']' : '[') : 'recurring '.$p->recurrences.' time/s'
+>>>>>>> main
         );
 
         $p = [Caster::PREFIX_VIRTUAL.'period' => new ConstStub($period, implode("\n", $dates))];

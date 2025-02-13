@@ -4,7 +4,11 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel;
 
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Shared\Date as SharedDateHelper;
 
 class Days360
@@ -58,7 +62,11 @@ class Days360
         }
 
         if (!is_bool($method)) {
+<<<<<<< HEAD
             return Functions::VALUE();
+=======
+            return ExcelError::VALUE();
+>>>>>>> main
         }
 
         // Execute function

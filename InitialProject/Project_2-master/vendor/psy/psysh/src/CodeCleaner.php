@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -18,13 +22,20 @@ use Psy\CodeCleaner\AbstractClassPass;
 use Psy\CodeCleaner\AssignThisVariablePass;
 use Psy\CodeCleaner\CalledClassPass;
 use Psy\CodeCleaner\CallTimePassByReferencePass;
+<<<<<<< HEAD
+=======
+use Psy\CodeCleaner\CodeCleanerPass;
+>>>>>>> main
 use Psy\CodeCleaner\EmptyArrayDimFetchPass;
 use Psy\CodeCleaner\ExitPass;
 use Psy\CodeCleaner\FinalClassPass;
 use Psy\CodeCleaner\FunctionContextPass;
 use Psy\CodeCleaner\FunctionReturnInWriteContextPass;
 use Psy\CodeCleaner\ImplicitReturnPass;
+<<<<<<< HEAD
 use Psy\CodeCleaner\InstanceOfPass;
+=======
+>>>>>>> main
 use Psy\CodeCleaner\IssetPass;
 use Psy\CodeCleaner\LabelContextPass;
 use Psy\CodeCleaner\LeavePsyshAlonePass;
@@ -48,15 +59,26 @@ use Psy\Exception\ParseErrorException;
  */
 class CodeCleaner
 {
+<<<<<<< HEAD
     private $yolo = false;
     private $parser;
     private $printer;
     private $traverser;
     private $namespace;
+=======
+    private bool $yolo = false;
+    private bool $strictTypes = false;
+
+    private Parser $parser;
+    private Printer $printer;
+    private NodeTraverser $traverser;
+    private ?array $namespace = null;
+>>>>>>> main
 
     /**
      * CodeCleaner constructor.
      *
+<<<<<<< HEAD
      * @param Parser|null        $parser    A PhpParser Parser instance. One will be created if not explicitly supplied
      * @param Printer|null       $printer   A PhpParser Printer instance. One will be created if not explicitly supplied
      * @param NodeTraverser|null $traverser A PhpParser NodeTraverser instance. One will be created if not explicitly supplied
@@ -72,6 +94,20 @@ class CodeCleaner
         }
 
         $this->parser = $parser;
+=======
+     * @param Parser|null        $parser      A PhpParser Parser instance. One will be created if not explicitly supplied
+     * @param Printer|null       $printer     A PhpParser Printer instance. One will be created if not explicitly supplied
+     * @param NodeTraverser|null $traverser   A PhpParser NodeTraverser instance. One will be created if not explicitly supplied
+     * @param bool               $yolo        run without input validation
+     * @param bool               $strictTypes enforce strict types by default
+     */
+    public function __construct(?Parser $parser = null, ?Printer $printer = null, ?NodeTraverser $traverser = null, bool $yolo = false, bool $strictTypes = false)
+    {
+        $this->yolo = $yolo;
+        $this->strictTypes = $strictTypes;
+
+        $this->parser = $parser ?? (new ParserFactory())->createParser();
+>>>>>>> main
         $this->printer = $printer ?: new Printer();
         $this->traverser = $traverser ?: new NodeTraverser();
 
@@ -82,8 +118,11 @@ class CodeCleaner
 
     /**
      * Check whether this CodeCleaner is in YOLO mode.
+<<<<<<< HEAD
      *
      * @return bool
+=======
+>>>>>>> main
      */
     public function yolo(): bool
     {
@@ -93,6 +132,7 @@ class CodeCleaner
     /**
      * Get default CodeCleaner passes.
      *
+<<<<<<< HEAD
      * @return array
      */
     private function getDefaultPasses(): array
@@ -101,6 +141,12 @@ class CodeCleaner
             return $this->getYoloPasses();
         }
 
+=======
+     * @return CodeCleanerPass[]
+     */
+    private function getDefaultPasses(): array
+    {
+>>>>>>> main
         $useStatementPass = new UseStatementPass();
         $namespacePass = new NamespacePass($this);
 
@@ -108,6 +154,28 @@ class CodeCleaner
         // based on the file in which the `debug` call was made.
         $this->addImplicitDebugContext([$useStatementPass, $namespacePass]);
 
+<<<<<<< HEAD
+=======
+        // A set of code cleaner passes that don't try to do any validation, and
+        // only do minimal rewriting to make things work inside the REPL.
+        //
+        // When in --yolo mode, these are the only code cleaner passes used.
+        $rewritePasses = [
+            new LeavePsyshAlonePass(),
+            $useStatementPass,        // must run before the namespace pass
+            new ExitPass(),
+            new ImplicitReturnPass(),
+            new MagicConstantsPass(),
+            $namespacePass,           // must run after the implicit return pass
+            new RequirePass(),
+            new StrictTypesPass($this->strictTypes),
+        ];
+
+        if ($this->yolo) {
+            return $rewritePasses;
+        }
+
+>>>>>>> main
         return [
             // Validation passes
             new AbstractClassPass(),
@@ -117,10 +185,15 @@ class CodeCleaner
             new FinalClassPass(),
             new FunctionContextPass(),
             new FunctionReturnInWriteContextPass(),
+<<<<<<< HEAD
             new InstanceOfPass(),
             new IssetPass(),
             new LabelContextPass(),
             new LeavePsyshAlonePass(),
+=======
+            new IssetPass(),
+            new LabelContextPass(),
+>>>>>>> main
             new ListPass(),
             new LoopContextPass(),
             new PassableByReferencePass(),
@@ -129,6 +202,7 @@ class CodeCleaner
             new ValidConstructorPass(),
 
             // Rewriting shenanigans
+<<<<<<< HEAD
             $useStatementPass,        // must run before the namespace pass
             new ExitPass(),
             new ImplicitReturnPass(),
@@ -136,6 +210,9 @@ class CodeCleaner
             $namespacePass,           // must run after the implicit return pass
             new RequirePass(),
             new StrictTypesPass(),
+=======
+            ...$rewritePasses,
+>>>>>>> main
 
             // Namespace-aware validation (which depends on aforementioned shenanigans)
             new ValidClassNamePass(),
@@ -144,6 +221,7 @@ class CodeCleaner
     }
 
     /**
+<<<<<<< HEAD
      * A set of code cleaner passes that don't try to do any validation, and
      * only do minimal rewriting to make things work inside the REPL.
      *
@@ -174,6 +252,8 @@ class CodeCleaner
     }
 
     /**
+=======
+>>>>>>> main
      * "Warm up" code cleaner passes when we're coming from a debug call.
      *
      * This is useful, for example, for `UseStatementPass` and `NamespacePass`
@@ -201,6 +281,10 @@ class CodeCleaner
             }
 
             // Set up a clean traverser for just these code cleaner passes
+<<<<<<< HEAD
+=======
+            // @todo Pass visitors directly to once we drop support for PHP-Parser 4.x
+>>>>>>> main
             $traverser = new NodeTraverser();
             foreach ($passes as $pass) {
                 $traverser->addVisitor($pass);
@@ -240,8 +324,11 @@ class CodeCleaner
      * Check whether a given backtrace frame is a call to Psy\debug.
      *
      * @param array $stackFrame
+<<<<<<< HEAD
      *
      * @return bool
+=======
+>>>>>>> main
      */
     private static function isDebugCall(array $stackFrame): bool
     {
@@ -286,12 +373,17 @@ class CodeCleaner
 
     /**
      * Set the current local namespace.
+<<<<<<< HEAD
      *
      * @param array|null $namespace (default: null)
      *
      * @return array|null
      */
     public function setNamespace(array $namespace = null)
+=======
+     */
+    public function setNamespace(?array $namespace = null)
+>>>>>>> main
     {
         $this->namespace = $namespace;
     }
@@ -314,9 +406,12 @@ class CodeCleaner
      * @throws ParseErrorException for parse errors that can't be resolved by
      *                             waiting a line to see what comes next
      *
+<<<<<<< HEAD
      * @param string $code
      * @param bool   $requireSemicolons
      *
+=======
+>>>>>>> main
      * @return array|false A set of statements, or false if incomplete
      */
     protected function parse(string $code, bool $requireSemicolons = false)
@@ -366,11 +461,14 @@ class CodeCleaner
      * Unlike (all?) other unclosed statements, single quoted strings have
      * their own special beautiful snowflake syntax error just for
      * themselves.
+<<<<<<< HEAD
      *
      * @param \PhpParser\Error $e
      * @param string           $code
      *
      * @return bool
+=======
+>>>>>>> main
      */
     private function parseErrorIsUnclosedString(\PhpParser\Error $e, string $code): bool
     {
@@ -387,12 +485,20 @@ class CodeCleaner
         return true;
     }
 
+<<<<<<< HEAD
     private function parseErrorIsUnterminatedComment(\PhpParser\Error $e, $code): bool
+=======
+    private function parseErrorIsUnterminatedComment(\PhpParser\Error $e, string $code): bool
+>>>>>>> main
     {
         return $e->getRawMessage() === 'Unterminated comment';
     }
 
+<<<<<<< HEAD
     private function parseErrorIsTrailingComma(\PhpParser\Error $e, $code): bool
+=======
+    private function parseErrorIsTrailingComma(\PhpParser\Error $e, string $code): bool
+>>>>>>> main
     {
         return ($e->getRawMessage() === 'A trailing comma is not allowed here') && (\substr(\rtrim($code), -1) === ',');
     }

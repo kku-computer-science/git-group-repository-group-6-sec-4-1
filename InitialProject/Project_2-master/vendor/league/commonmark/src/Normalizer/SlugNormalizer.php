@@ -41,16 +41,27 @@ final class SlugNormalizer implements TextNormalizerInterface, ConfigurationAwar
         // Trim whitespace
         $slug = \trim($slug);
         // Convert to lowercase
+<<<<<<< HEAD
         $slug = \mb_strtolower($slug);
+=======
+        $slug = \mb_strtolower($slug, 'UTF-8');
+>>>>>>> main
         // Try replacing whitespace with a dash
         $slug = \preg_replace('/\s+/u', '-', $slug) ?? $slug;
         // Try removing characters other than letters, numbers, and marks.
         $slug = \preg_replace('/[^\p{L}\p{Nd}\p{Nl}\p{M}-]+/u', '', $slug) ?? $slug;
         // Trim to requested length if given
         if ($length = $context['length'] ?? $this->defaultMaxLength) {
+<<<<<<< HEAD
             $slug = \mb_substr($slug, 0, $length);
         }
 
+=======
+            $slug = \mb_substr($slug, 0, $length, 'UTF-8');
+        }
+
+        // @phpstan-ignore-next-line Because it thinks mb_substr() returns false on PHP 7.4
+>>>>>>> main
         return $slug;
     }
 }

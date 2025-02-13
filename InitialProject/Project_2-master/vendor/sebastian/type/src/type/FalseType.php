@@ -32,6 +32,12 @@ final class FalseType extends Type
         return false;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true FalseType $this
+     */
+>>>>>>> main
     public function isFalse(): bool
     {
         return true;

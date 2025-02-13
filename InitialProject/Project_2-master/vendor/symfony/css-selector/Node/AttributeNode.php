@@ -23,6 +23,7 @@ namespace Symfony\Component\CssSelector\Node;
  */
 class AttributeNode extends AbstractNode
 {
+<<<<<<< HEAD
     private $selector;
     private $namespace;
     private $attribute;
@@ -36,6 +37,15 @@ class AttributeNode extends AbstractNode
         $this->attribute = $attribute;
         $this->operator = $operator;
         $this->value = $value;
+=======
+    public function __construct(
+        private NodeInterface $selector,
+        private ?string $namespace,
+        private string $attribute,
+        private string $operator,
+        private ?string $value,
+    ) {
+>>>>>>> main
     }
 
     public function getSelector(): NodeInterface
@@ -63,9 +73,12 @@ class AttributeNode extends AbstractNode
         return $this->value;
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
+=======
+>>>>>>> main
     public function getSpecificity(): Specificity
     {
         return $this->selector->getSpecificity()->plus(new Specificity(0, 1, 0));
@@ -76,7 +89,12 @@ class AttributeNode extends AbstractNode
         $attribute = $this->namespace ? $this->namespace.'|'.$this->attribute : $this->attribute;
 
         return 'exists' === $this->operator
+<<<<<<< HEAD
             ? sprintf('%s[%s[%s]]', $this->getNodeName(), $this->selector, $attribute)
             : sprintf("%s[%s[%s %s '%s']]", $this->getNodeName(), $this->selector, $attribute, $this->operator, $this->value);
+=======
+            ? \sprintf('%s[%s[%s]]', $this->getNodeName(), $this->selector, $attribute)
+            : \sprintf("%s[%s[%s %s '%s']]", $this->getNodeName(), $this->selector, $attribute, $this->operator, $this->value);
+>>>>>>> main
     }
 }

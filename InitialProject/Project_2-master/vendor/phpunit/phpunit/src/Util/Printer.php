@@ -67,8 +67,13 @@ class Printer
                 throw new Exception(
                     sprintf(
                         '"%s" does not match "socket://hostname:port" format',
+<<<<<<< HEAD
                         $out
                     )
+=======
+                        $out,
+                    ),
+>>>>>>> main
                 );
             }
 
@@ -81,8 +86,13 @@ class Printer
             throw new Exception(
                 sprintf(
                     'Directory "%s" was not created',
+<<<<<<< HEAD
                     dirname($out)
                 )
+=======
+                    dirname($out),
+                ),
+>>>>>>> main
             );
         }
 

@@ -21,9 +21,15 @@ class TimeZone
      *
      * @return bool Success or failure
      */
+<<<<<<< HEAD
     private static function validateTimeZone($timezoneName)
     {
         return in_array($timezoneName, DateTimeZone::listIdentifiers(DateTimeZone::ALL_WITH_BC));
+=======
+    private static function validateTimeZone(string $timezoneName): bool
+    {
+        return in_array($timezoneName, DateTimeZone::listIdentifiers(DateTimeZone::ALL_WITH_BC), true);
+>>>>>>> main
     }
 
     /**
@@ -33,9 +39,15 @@ class TimeZone
      *
      * @return bool Success or failure
      */
+<<<<<<< HEAD
     public static function setTimeZone($timezoneName)
     {
         if (self::validateTimezone($timezoneName)) {
+=======
+    public static function setTimeZone(string $timezoneName): bool
+    {
+        if (self::validateTimeZone($timezoneName)) {
+>>>>>>> main
             self::$timezone = $timezoneName;
 
             return true;
@@ -49,7 +61,11 @@ class TimeZone
      *
      * @return string Timezone (e.g. 'Europe/London')
      */
+<<<<<<< HEAD
     public static function getTimeZone()
+=======
+    public static function getTimeZone(): string
+>>>>>>> main
     {
         return self::$timezone;
     }
@@ -63,11 +79,19 @@ class TimeZone
      *
      * @return int Number of seconds for timezone adjustment
      */
+<<<<<<< HEAD
     public static function getTimeZoneAdjustment($timezoneName, $timestamp)
     {
         $timezoneName = $timezoneName ?? self::$timezone;
         $dtobj = Date::dateTimeFromTimestamp("$timestamp");
         if (!self::validateTimezone($timezoneName)) {
+=======
+    public static function getTimeZoneAdjustment(?string $timezoneName, $timestamp): int
+    {
+        $timezoneName = $timezoneName ?? self::$timezone;
+        $dtobj = Date::dateTimeFromTimestamp("$timestamp");
+        if (!self::validateTimeZone($timezoneName)) {
+>>>>>>> main
             throw new PhpSpreadsheetException("Invalid timezone $timezoneName");
         }
         $dtobj->setTimeZone(new DateTimeZone($timezoneName));

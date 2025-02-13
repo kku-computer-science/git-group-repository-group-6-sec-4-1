@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,12 +15,17 @@
 
 namespace Psy\ExecutionLoop;
 
+<<<<<<< HEAD
+=======
+use PhpParser\Parser;
+>>>>>>> main
 use Psy\Exception\ParseErrorException;
 use Psy\ParserFactory;
 use Psy\Shell;
 
 /**
  * A runkit-based code reloader, which is pretty much magic.
+<<<<<<< HEAD
  */
 class RunkitReloader extends AbstractListener
 {
@@ -27,6 +36,18 @@ class RunkitReloader extends AbstractListener
      * Only enabled if Runkit is installed.
      *
      * @return bool
+=======
+ *
+ * @todo Remove RunkitReloader once we drop support for PHP 7.x :(
+ */
+class RunkitReloader extends AbstractListener
+{
+    private Parser $parser;
+    private array $timestamps = [];
+
+    /**
+     * Only enabled if Runkit is installed.
+>>>>>>> main
      */
     public static function isSupported(): bool
     {
@@ -36,6 +57,7 @@ class RunkitReloader extends AbstractListener
 
     /**
      * Construct a Runkit Reloader.
+<<<<<<< HEAD
      *
      * @todo Pass in Parser Factory instance for dependency injection?
      */
@@ -43,6 +65,12 @@ class RunkitReloader extends AbstractListener
     {
         $parserFactory = new ParserFactory();
         $this->parser = $parserFactory->createParser();
+=======
+     */
+    public function __construct()
+    {
+        $this->parser = (new ParserFactory())->createParser();
+>>>>>>> main
     }
 
     /**
@@ -127,8 +155,11 @@ class RunkitReloader extends AbstractListener
      * Use PHP-Parser to ensure that the file is valid PHP.
      *
      * @param string $file
+<<<<<<< HEAD
      *
      * @return bool
+=======
+>>>>>>> main
      */
     private function lintFile(string $file): bool
     {

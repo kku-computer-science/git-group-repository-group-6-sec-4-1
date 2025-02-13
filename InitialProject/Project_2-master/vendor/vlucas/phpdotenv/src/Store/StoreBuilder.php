@@ -51,7 +51,11 @@ final class StoreBuilder
      *
      * @return void
      */
+<<<<<<< HEAD
     private function __construct(array $paths = [], array $names = [], bool $shortCircuit = false, string $fileEncoding = null)
+=======
+    private function __construct(array $paths = [], array $names = [], bool $shortCircuit = false, ?string $fileEncoding = null)
+>>>>>>> main
     {
         $this->paths = $paths;
         $this->names = $names;
@@ -120,7 +124,11 @@ final class StoreBuilder
      *
      * @return \Dotenv\Store\StoreBuilder
      */
+<<<<<<< HEAD
     public function fileEncoding(string $fileEncoding = null)
+=======
+    public function fileEncoding(?string $fileEncoding = null)
+>>>>>>> main
     {
         return new self($this->paths, $this->names, $this->shortCircuit, $fileEncoding);
     }

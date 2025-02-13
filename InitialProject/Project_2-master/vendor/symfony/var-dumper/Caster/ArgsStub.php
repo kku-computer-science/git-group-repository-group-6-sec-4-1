@@ -28,7 +28,11 @@ class ArgsStub extends EnumStub
 
         $values = [];
         foreach ($args as $k => $v) {
+<<<<<<< HEAD
             $values[$k] = !is_scalar($v) && !$v instanceof Stub ? new CutStub($v) : $v;
+=======
+            $values[$k] = !\is_scalar($v) && !$v instanceof Stub ? new CutStub($v) : $v;
+>>>>>>> main
         }
         if (null === $params) {
             parent::__construct($values, false);

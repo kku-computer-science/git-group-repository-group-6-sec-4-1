@@ -4,6 +4,15 @@ namespace Sabberworm\CSS\Value;
 
 use Sabberworm\CSS\OutputFormat;
 
+<<<<<<< HEAD
+=======
+/**
+ * A `ValueList` represents a lists of `Value`s, separated by some separation character
+ * (mostly `,`, whitespace, or `/`).
+ *
+ * There are two types of `ValueList`s: `RuleValueList` and `CSSFunction`
+ */
+>>>>>>> main
 abstract class ValueList extends Value
 {
     /**
@@ -87,9 +96,17 @@ abstract class ValueList extends Value
     }
 
     /**
+<<<<<<< HEAD
      * @return string
      */
     public function render(OutputFormat $oOutputFormat)
+=======
+     * @param OutputFormat|null $oOutputFormat
+     *
+     * @return string
+     */
+    public function render($oOutputFormat)
+>>>>>>> main
     {
         return $oOutputFormat->implode(
             $oOutputFormat->spaceBeforeListArgumentSeparator($this->sSeparator) . $this->sSeparator

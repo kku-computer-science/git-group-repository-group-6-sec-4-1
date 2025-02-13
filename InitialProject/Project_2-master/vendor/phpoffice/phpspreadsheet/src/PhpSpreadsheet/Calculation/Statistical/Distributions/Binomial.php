@@ -5,6 +5,10 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\Statistical\Distributions;
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Combinations;
 
 class Binomial
@@ -49,14 +53,25 @@ class Binomial
         }
 
         if (($value < 0) || ($value > $trials)) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         if ($cumulative) {
             return self::calculateCumulativeBinomial($value, $trials, $probability);
         }
+<<<<<<< HEAD
 
         return Combinations::withoutRepetition($trials, $value) * $probability ** $value
+=======
+        /** @var float */
+        $comb = Combinations::withoutRepetition($trials, $value);
+
+        return $comb * $probability ** $value
+>>>>>>> main
             * (1 - $probability) ** ($trials - $value);
     }
 
@@ -98,15 +113,28 @@ class Binomial
         }
 
         if (($successes < 0) || ($successes > $trials)) {
+<<<<<<< HEAD
             return Functions::NAN();
         }
         if (($limit < 0) || ($limit > $trials) || $limit < $successes) {
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+        }
+        if (($limit < 0) || ($limit > $trials) || $limit < $successes) {
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         $summer = 0;
         for ($i = $successes; $i <= $limit; ++$i) {
+<<<<<<< HEAD
             $summer += Combinations::withoutRepetition($trials, $i) * $probability ** $i
+=======
+            /** @var float */
+            $comb = Combinations::withoutRepetition($trials, $i);
+            $summer += $comb * $probability ** $i
+>>>>>>> main
                 * (1 - $probability) ** ($trials - $i);
         }
 
@@ -151,6 +179,7 @@ class Binomial
         }
 
         if (($failures < 0) || ($successes < 1)) {
+<<<<<<< HEAD
             return Functions::NAN();
         }
         if (Functions::getCompatibilityMode() == Functions::COMPATIBILITY_GNUMERIC) {
@@ -160,6 +189,19 @@ class Binomial
         }
 
         return (Combinations::withoutRepetition($failures + $successes - 1, $successes - 1))
+=======
+            return ExcelError::NAN();
+        }
+        if (Functions::getCompatibilityMode() == Functions::COMPATIBILITY_GNUMERIC) {
+            if (($failures + $successes - 1) <= 0) {
+                return ExcelError::NAN();
+            }
+        }
+        /** @var float */
+        $comb = Combinations::withoutRepetition($failures + $successes - 1, $successes - 1);
+
+        return $comb
+>>>>>>> main
             * ($probability ** $successes) * ((1 - $probability) ** $failures);
     }
 
@@ -195,9 +237,15 @@ class Binomial
         }
 
         if ($trials < 0) {
+<<<<<<< HEAD
             return Functions::NAN();
         } elseif (($alpha < 0.0) || ($alpha > 1.0)) {
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+        } elseif (($alpha < 0.0) || ($alpha > 1.0)) {
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         $successes = 0;
@@ -219,7 +267,13 @@ class Binomial
     {
         $summer = 0;
         for ($i = 0; $i <= $value; ++$i) {
+<<<<<<< HEAD
             $summer += Combinations::withoutRepetition($trials, $i) * $probability ** $i
+=======
+            /** @var float */
+            $comb = Combinations::withoutRepetition($trials, $i);
+            $summer += $comb * $probability ** $i
+>>>>>>> main
                 * (1 - $probability) ** ($trials - $i);
         }
 

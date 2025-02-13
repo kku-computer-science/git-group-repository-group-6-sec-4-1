@@ -4,12 +4,23 @@ namespace Maatwebsite\Excel\Imports;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+<<<<<<< HEAD
 use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\ToModel;
+=======
+use Maatwebsite\Excel\Concerns\PersistRelations;
+use Maatwebsite\Excel\Concerns\SkipsOnError;
+use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithSkipDuplicates;
+>>>>>>> main
 use Maatwebsite\Excel\Concerns\WithUpsertColumns;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Exceptions\RowSkippedException;
+<<<<<<< HEAD
+=======
+use Maatwebsite\Excel\Imports\Persistence\CascadePersistManager;
+>>>>>>> main
 use Maatwebsite\Excel\Validators\RowValidator;
 use Maatwebsite\Excel\Validators\ValidationException;
 use Throwable;
@@ -31,11 +42,25 @@ class ModelManager
     private $remembersRowNumber = false;
 
     /**
+<<<<<<< HEAD
      * @param  RowValidator  $validator
      */
     public function __construct(RowValidator $validator)
     {
         $this->validator = $validator;
+=======
+     * @var CascadePersistManager
+     */
+    private $cascade;
+
+    /**
+     * @param  RowValidator  $validator
+     */
+    public function __construct(RowValidator $validator, CascadePersistManager $cascade)
+    {
+        $this->validator = $validator;
+        $this->cascade   = $cascade;
+>>>>>>> main
     }
 
     /**
@@ -88,6 +113,7 @@ class ModelManager
             $import->rememberRowNumber($rowNumber);
         }
 
+<<<<<<< HEAD
         $model = $import->model($attributes);
 
         if (null !== $model) {
@@ -95,6 +121,9 @@ class ModelManager
         }
 
         return new Collection([]);
+=======
+        return Collection::wrap($import->model($attributes));
+>>>>>>> main
     }
 
     /**
@@ -119,6 +148,7 @@ class ModelManager
                              $import->uniqueBy(),
                              $import instanceof WithUpsertColumns ? $import->upsertColumns() : null
                          );
+<<<<<<< HEAD
                      } else {
                          $model::query()->insert($models->toArray());
                      }
@@ -128,6 +158,19 @@ class ModelManager
                      } else {
                          throw $e;
                      }
+=======
+
+                         return;
+                     } elseif ($import instanceof WithSkipDuplicates) {
+                         $model::query()->insertOrIgnore($models->toArray());
+
+                         return;
+                     }
+
+                     $model::query()->insert($models->toArray());
+                 } catch (Throwable $e) {
+                     $this->handleException($import, $e);
+>>>>>>> main
                  }
              });
     }
@@ -148,15 +191,32 @@ class ModelManager
                                 $import->uniqueBy(),
                                 $import instanceof WithUpsertColumns ? $import->upsertColumns() : null
                             );
+<<<<<<< HEAD
+=======
+
+                            return;
+                        } elseif ($import instanceof WithSkipDuplicates) {
+                            $model::query()->insertOrIgnore([$model->getAttributes()]);
+
+                            return;
+                        }
+
+                        if ($import instanceof PersistRelations) {
+                            $this->cascade->persist($model);
+>>>>>>> main
                         } else {
                             $model->saveOrFail();
                         }
                     } catch (Throwable $e) {
+<<<<<<< HEAD
                         if ($import instanceof SkipsOnError) {
                             $import->onError($e);
                         } else {
                             throw $e;
                         }
+=======
+                        $this->handleException($import, $e);
+>>>>>>> main
                     }
                 });
             });
@@ -212,4 +272,16 @@ class ModelManager
     {
         return new Collection($this->rows);
     }
+<<<<<<< HEAD
+=======
+
+    private function handleException(ToModel $import, Throwable $e): void
+    {
+        if (!$import instanceof SkipsOnError) {
+            throw $e;
+        }
+
+        $import->onError($e);
+    }
+>>>>>>> main
 }

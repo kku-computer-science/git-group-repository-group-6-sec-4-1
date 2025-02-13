@@ -19,7 +19,11 @@
  */
 
 /*
+<<<<<<< HEAD
     HTML Purifier 4.14.0 - Standards Compliant HTML Filtering
+=======
+    HTML Purifier 4.18.0 - Standards Compliant HTML Filtering
+>>>>>>> main
     Copyright (C) 2006-2008 Edward Z. Yang
 
     This library is free software; you can redistribute it and/or
@@ -58,12 +62,20 @@ class HTMLPurifier
      * Version of HTML Purifier.
      * @type string
      */
+<<<<<<< HEAD
     public $version = '4.14.0';
+=======
+    public $version = '4.18.0';
+>>>>>>> main
 
     /**
      * Constant with version of HTML Purifier.
      */
+<<<<<<< HEAD
     const VERSION = '4.14.0';
+=======
+    const VERSION = '4.18.0';
+>>>>>>> main
 
     /**
      * Global configuration object.

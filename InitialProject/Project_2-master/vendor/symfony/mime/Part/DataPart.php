@@ -33,7 +33,11 @@ class DataPart extends TextPart
     /**
      * @param resource|string $body
      */
+<<<<<<< HEAD
     public function __construct($body, string $filename = null, string $contentType = null, string $encoding = null)
+=======
+    public function __construct($body, ?string $filename = null, ?string $contentType = null, ?string $encoding = null)
+>>>>>>> main
     {
         unset($this->_parent);
 
@@ -51,7 +55,11 @@ class DataPart extends TextPart
         $this->setDisposition('attachment');
     }
 
+<<<<<<< HEAD
     public static function fromPath(string $path, string $name = null, string $contentType = null): self
+=======
+    public static function fromPath(string $path, ?string $name = null, ?string $contentType = null): self
+>>>>>>> main
     {
         if (null === $contentType) {
             $ext = strtolower(substr($path, strrpos($path, '.') + 1));
@@ -61,13 +69,27 @@ class DataPart extends TextPart
             $contentType = self::$mimeTypes->getMimeTypes($ext)[0] ?? 'application/octet-stream';
         }
 
+<<<<<<< HEAD
         if (false === is_readable($path)) {
+=======
+        if ((is_file($path) && !is_readable($path)) || is_dir($path)) {
+>>>>>>> main
             throw new InvalidArgumentException(sprintf('Path "%s" is not readable.', $path));
         }
 
         if (false === $handle = @fopen($path, 'r', false)) {
             throw new InvalidArgumentException(sprintf('Unable to open path "%s".', $path));
         }
+<<<<<<< HEAD
+=======
+
+        if (!is_file($path)) {
+            $cache = fopen('php://temp', 'r+');
+            stream_copy_to_stream($handle, $cache);
+            $handle = $cache;
+        }
+
+>>>>>>> main
         $p = new self($handle, $name ?: basename($path), $contentType);
         $p->handle = $handle;
 

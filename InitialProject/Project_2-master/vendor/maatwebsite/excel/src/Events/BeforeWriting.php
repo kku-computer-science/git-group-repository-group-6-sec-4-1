@@ -23,7 +23,11 @@ class BeforeWriting extends Event
     public function __construct(Writer $writer, $exportable)
     {
         $this->writer     = $writer;
+<<<<<<< HEAD
         $this->exportable = $exportable;
+=======
+        parent::__construct($exportable);
+>>>>>>> main
     }
 
     /**
@@ -35,6 +39,7 @@ class BeforeWriting extends Event
     }
 
     /**
+<<<<<<< HEAD
      * @return object
      */
     public function getConcernable()
@@ -43,6 +48,8 @@ class BeforeWriting extends Event
     }
 
     /**
+=======
+>>>>>>> main
      * @return mixed
      */
     public function getDelegate()

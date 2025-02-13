@@ -26,6 +26,12 @@ final class VoidType extends Type
         return false;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true VoidType $this
+     */
+>>>>>>> main
     public function isVoid(): bool
     {
         return true;

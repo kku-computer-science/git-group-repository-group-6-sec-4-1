@@ -3,6 +3,10 @@
 namespace PhpOffice\PhpSpreadsheet\Calculation\Statistical;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class Variances extends VarianceBase
 {
@@ -20,7 +24,11 @@ class Variances extends VarianceBase
      */
     public static function VAR(...$args)
     {
+<<<<<<< HEAD
         $returnValue = Functions::DIV0();
+=======
+        $returnValue = ExcelError::DIV0();
+>>>>>>> main
 
         $summerA = $summerB = 0.0;
 
@@ -62,7 +70,11 @@ class Variances extends VarianceBase
      */
     public static function VARA(...$args)
     {
+<<<<<<< HEAD
         $returnValue = Functions::DIV0();
+=======
+        $returnValue = ExcelError::DIV0();
+>>>>>>> main
 
         $summerA = $summerB = 0.0;
 
@@ -71,11 +83,19 @@ class Variances extends VarianceBase
         $aCount = 0;
         foreach ($aArgs as $k => $arg) {
             if ((is_string($arg)) && (Functions::isValue($k))) {
+<<<<<<< HEAD
                 return Functions::VALUE();
             } elseif ((is_string($arg)) && (!Functions::isMatrixValue($k))) {
             } else {
                 // Is it a numeric value?
                 if ((is_numeric($arg)) || (is_bool($arg)) || ((is_string($arg) & ($arg != '')))) {
+=======
+                return ExcelError::VALUE();
+            } elseif ((is_string($arg)) && (!Functions::isMatrixValue($k))) {
+            } else {
+                // Is it a numeric value?
+                if ((is_numeric($arg)) || (is_bool($arg)) || ((is_string($arg) && ($arg != '')))) {
+>>>>>>> main
                     $arg = self::datatypeAdjustmentAllowStrings($arg);
                     $summerA += ($arg * $arg);
                     $summerB += $arg;
@@ -109,7 +129,11 @@ class Variances extends VarianceBase
     public static function VARP(...$args)
     {
         // Return value
+<<<<<<< HEAD
         $returnValue = Functions::DIV0();
+=======
+        $returnValue = ExcelError::DIV0();
+>>>>>>> main
 
         $summerA = $summerB = 0.0;
 
@@ -151,7 +175,11 @@ class Variances extends VarianceBase
      */
     public static function VARPA(...$args)
     {
+<<<<<<< HEAD
         $returnValue = Functions::DIV0();
+=======
+        $returnValue = ExcelError::DIV0();
+>>>>>>> main
 
         $summerA = $summerB = 0.0;
 
@@ -160,11 +188,19 @@ class Variances extends VarianceBase
         $aCount = 0;
         foreach ($aArgs as $k => $arg) {
             if ((is_string($arg)) && (Functions::isValue($k))) {
+<<<<<<< HEAD
                 return Functions::VALUE();
             } elseif ((is_string($arg)) && (!Functions::isMatrixValue($k))) {
             } else {
                 // Is it a numeric value?
                 if ((is_numeric($arg)) || (is_bool($arg)) || ((is_string($arg) & ($arg != '')))) {
+=======
+                return ExcelError::VALUE();
+            } elseif ((is_string($arg)) && (!Functions::isMatrixValue($k))) {
+            } else {
+                // Is it a numeric value?
+                if ((is_numeric($arg)) || (is_bool($arg)) || ((is_string($arg) && ($arg != '')))) {
+>>>>>>> main
                     $arg = self::datatypeAdjustmentAllowStrings($arg);
                     $summerA += ($arg * $arg);
                     $summerB += $arg;

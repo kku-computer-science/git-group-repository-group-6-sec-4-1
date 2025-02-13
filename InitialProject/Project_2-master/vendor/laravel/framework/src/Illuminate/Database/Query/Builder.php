@@ -846,8 +846,13 @@ class Builder
      */
     protected function invalidOperator($operator)
     {
+<<<<<<< HEAD
         return ! in_array(strtolower($operator), $this->operators, true) &&
                ! in_array(strtolower($operator), $this->grammar->getOperators(), true);
+=======
+        return ! is_string($operator) || (! in_array(strtolower($operator), $this->operators, true) &&
+               ! in_array(strtolower($operator), $this->grammar->getOperators(), true));
+>>>>>>> main
     }
 
     /**
@@ -2487,6 +2492,7 @@ class Builder
     {
         $this->enforceOrderBy();
 
+<<<<<<< HEAD
         if ($shouldReverse) {
             $this->orders = collect($this->orders)->map(function ($order) {
                 $order['direction'] = $order['direction'] === 'asc' ? 'desc' : 'asc';
@@ -2496,6 +2502,17 @@ class Builder
         }
 
         return collect($this->orders);
+=======
+        return collect($this->orders ?? $this->unionOrders ?? [])->filter(function ($order) {
+            return Arr::has($order, 'direction');
+        })->when($shouldReverse, function (Collection $orders) {
+            return $orders->map(function ($order) {
+                $order['direction'] = $order['direction'] === 'asc' ? 'desc' : 'asc';
+
+                return $order;
+            });
+        })->values();
+>>>>>>> main
     }
 
     /**

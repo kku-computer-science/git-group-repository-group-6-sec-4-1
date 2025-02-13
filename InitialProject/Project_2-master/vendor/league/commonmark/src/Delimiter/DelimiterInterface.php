@@ -24,8 +24,19 @@ interface DelimiterInterface
 
     public function canOpen(): bool;
 
+<<<<<<< HEAD
     public function isActive(): bool;
 
+=======
+    /**
+     * @deprecated This method is no longer used internally and will be removed in 3.0
+     */
+    public function isActive(): bool;
+
+    /**
+     * @deprecated This method is no longer used internally and will be removed in 3.0
+     */
+>>>>>>> main
     public function setActive(bool $active): void;
 
     public function getChar(): string;

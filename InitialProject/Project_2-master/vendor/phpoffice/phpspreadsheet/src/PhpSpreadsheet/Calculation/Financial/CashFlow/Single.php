@@ -4,6 +4,10 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\Financial\CashFlow;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class Single
 {
@@ -67,7 +71,11 @@ class Single
 
         // Validate parameters
         if ($rate <= 0.0 || $presentValue <= 0.0 || $futureValue <= 0.0) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         return (log($futureValue) - log($presentValue)) / log(1 + $rate);
@@ -100,7 +108,11 @@ class Single
 
         // Validate parameters
         if ($periods <= 0.0 || $presentValue <= 0.0 || $futureValue < 0.0) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         return ($futureValue / $presentValue) ** (1 / $periods) - 1;

@@ -15,21 +15,36 @@ use Nette;
 /**
  * Provides the base class for a generic list (items can be accessed by index).
  * @template T
+<<<<<<< HEAD
+=======
+ * @implements \IteratorAggregate<int, T>
+ * @implements \ArrayAccess<int, T>
+>>>>>>> main
  */
 class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 {
 	use Nette\SmartObject;
 
+<<<<<<< HEAD
 	/** @var mixed[] */
 	private $list = [];
+=======
+	private array $list = [];
+>>>>>>> main
 
 
 	/**
 	 * Transforms array to ArrayList.
+<<<<<<< HEAD
 	 * @param  array<T>  $array
 	 * @return static
 	 */
 	public static function from(array $array)
+=======
+	 * @param  list<T>  $array
+	 */
+	public static function from(array $array): static
+>>>>>>> main
 	{
 		if (!Arrays::isList($array)) {
 			throw new Nette\InvalidArgumentException('Array is not valid list.');
@@ -43,11 +58,21 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 
 	/**
 	 * Returns an iterator over all items.
+<<<<<<< HEAD
 	 * @return \ArrayIterator<int, T>
 	 */
 	public function getIterator(): \ArrayIterator
 	{
 		return new \ArrayIterator($this->list);
+=======
+	 * @return \Iterator<int, T>
+	 */
+	public function &getIterator(): \Iterator
+	{
+		foreach ($this->list as &$item) {
+			yield $item;
+		}
+>>>>>>> main
 	}
 
 
@@ -86,8 +111,12 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 	 * @return T
 	 * @throws Nette\OutOfRangeException
 	 */
+<<<<<<< HEAD
 	#[\ReturnTypeWillChange]
 	public function offsetGet($index)
+=======
+	public function offsetGet($index): mixed
+>>>>>>> main
 	{
 		if (!is_int($index) || $index < 0 || $index >= count($this->list)) {
 			throw new Nette\OutOfRangeException('Offset invalid or out of range');
@@ -126,7 +155,11 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 	 * Prepends a item.
 	 * @param  T  $value
 	 */
+<<<<<<< HEAD
 	public function prepend($value): void
+=======
+	public function prepend(mixed $value): void
+>>>>>>> main
 	{
 		$first = array_slice($this->list, 0, 1);
 		$this->offsetSet(0, $value);

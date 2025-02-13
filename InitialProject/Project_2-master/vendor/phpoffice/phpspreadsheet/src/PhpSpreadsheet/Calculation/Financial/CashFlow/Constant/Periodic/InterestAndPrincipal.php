@@ -6,8 +6,15 @@ use PhpOffice\PhpSpreadsheet\Calculation\Financial\Constants as FinancialConstan
 
 class InterestAndPrincipal
 {
+<<<<<<< HEAD
     protected $interest;
 
+=======
+    /** @var float */
+    protected $interest;
+
+    /** @var float */
+>>>>>>> main
     protected $principal;
 
     public function __construct(
@@ -24,7 +31,11 @@ class InterestAndPrincipal
         $principal = 0.0;
         for ($i = 1; $i <= $period; ++$i) {
             $interest = ($type === FinancialConstants::PAYMENT_BEGINNING_OF_PERIOD && $i == 1) ? 0 : -$capital * $rate;
+<<<<<<< HEAD
             $principal = $payment - $interest;
+=======
+            $principal = (float) $payment - $interest;
+>>>>>>> main
             $capital += $principal;
         }
 

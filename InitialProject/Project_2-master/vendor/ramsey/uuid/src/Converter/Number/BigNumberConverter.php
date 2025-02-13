@@ -27,10 +27,14 @@ use Ramsey\Uuid\Math\BrickMathCalculator;
  */
 class BigNumberConverter implements NumberConverterInterface
 {
+<<<<<<< HEAD
     /**
      * @var NumberConverterInterface
      */
     private $converter;
+=======
+    private NumberConverterInterface $converter;
+>>>>>>> main
 
     public function __construct()
     {

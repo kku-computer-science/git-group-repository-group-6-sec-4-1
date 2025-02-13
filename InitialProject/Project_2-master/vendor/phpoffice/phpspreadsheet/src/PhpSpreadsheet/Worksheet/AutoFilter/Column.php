@@ -243,7 +243,11 @@ class Column
      * Set An AutoFilter Attribute.
      *
      * @param string $name Attribute Name
+<<<<<<< HEAD
      * @param string $value Attribute Value
+=======
+     * @param int|string $value Attribute Value
+>>>>>>> main
      *
      * @return $this
      */

@@ -7,6 +7,10 @@ use PhpOffice\PhpSpreadsheet\DefinedName;
 
 class Formula
 {
+<<<<<<< HEAD
+=======
+    /** @var array */
+>>>>>>> main
     private $definedNames = [];
 
     /**

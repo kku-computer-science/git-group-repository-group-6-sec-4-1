@@ -9,10 +9,20 @@ namespace Whoops;
 use InvalidArgumentException;
 use Throwable;
 use Whoops\Exception\ErrorException;
+<<<<<<< HEAD
 use Whoops\Exception\Inspector;
 use Whoops\Handler\CallbackHandler;
 use Whoops\Handler\Handler;
 use Whoops\Handler\HandlerInterface;
+=======
+use Whoops\Handler\CallbackHandler;
+use Whoops\Handler\Handler;
+use Whoops\Handler\HandlerInterface;
+use Whoops\Inspector\CallableInspectorFactory;
+use Whoops\Inspector\InspectorFactory;
+use Whoops\Inspector\InspectorFactoryInterface;
+use Whoops\Inspector\InspectorInterface;
+>>>>>>> main
 use Whoops\Util\Misc;
 use Whoops\Util\SystemFacade;
 
@@ -66,9 +76,28 @@ final class Run implements RunInterface
      */
     private $canThrowExceptions = true;
 
+<<<<<<< HEAD
     public function __construct(SystemFacade $system = null)
     {
         $this->system = $system ?: new SystemFacade;
+=======
+    /**
+     * The inspector factory to create inspectors.
+     *
+     * @var InspectorFactoryInterface
+     */
+    private $inspectorFactory;
+
+    /**
+     * @var array<callable>
+     */
+    private $frameFilters = [];
+
+    public function __construct(?SystemFacade $system = null)
+    {
+        $this->system = $system ?: new SystemFacade;
+        $this->inspectorFactory = new InspectorFactory();
+>>>>>>> main
     }
 
     /**
@@ -165,6 +194,20 @@ final class Run implements RunInterface
         return $this;
     }
 
+<<<<<<< HEAD
+=======
+    public function getFrameFilters()
+    {
+        return $this->frameFilters;
+    }
+
+    public function clearFrameFilters()
+    {
+        $this->frameFilters = [];
+        return $this;
+    }
+
+>>>>>>> main
     /**
      * Registers this instance as an error handler.
      *
@@ -179,6 +222,10 @@ final class Run implements RunInterface
             class_exists("\\Whoops\\Exception\\FrameCollection");
             class_exists("\\Whoops\\Exception\\Frame");
             class_exists("\\Whoops\\Exception\\Inspector");
+<<<<<<< HEAD
+=======
+            class_exists("\\Whoops\\Inspector\\InspectorFactory");
+>>>>>>> main
 
             $this->system->setErrorHandler([$this, self::ERROR_HANDLER]);
             $this->system->setExceptionHandler([$this, self::EXCEPTION_HANDLER]);
@@ -488,6 +535,7 @@ final class Run implements RunInterface
         }
     }
 
+<<<<<<< HEAD
     /**
      * @param Throwable $exception
      *
@@ -496,6 +544,40 @@ final class Run implements RunInterface
     private function getInspector($exception)
     {
         return new Inspector($exception);
+=======
+
+    /**
+     * @param InspectorFactoryInterface $factory
+     *
+     * @return void
+     */
+    public function setInspectorFactory(InspectorFactoryInterface $factory)
+    {
+        $this->inspectorFactory = $factory;
+    }
+
+    public function addFrameFilter($filterCallback)
+    {
+        if (!is_callable($filterCallback)) {
+            throw new \InvalidArgumentException(sprintf(
+                "A frame filter must be of type callable, %s type given.", 
+                gettype($filterCallback)
+            ));
+        }
+
+        $this->frameFilters[] = $filterCallback;
+        return $this;
+    }
+
+    /**
+     * @param Throwable $exception
+     *
+     * @return InspectorInterface
+     */
+    private function getInspector($exception)
+    {
+        return $this->inspectorFactory->create($exception);
+>>>>>>> main
     }
 
     /**

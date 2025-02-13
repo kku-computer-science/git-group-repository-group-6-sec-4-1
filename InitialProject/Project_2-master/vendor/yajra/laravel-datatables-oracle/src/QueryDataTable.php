@@ -140,9 +140,16 @@ class QueryDataTable extends DataTableAbstract
 
             if ($this->totalRecords) {
                 $this->filterRecords();
+<<<<<<< HEAD
                 $this->ordering();
                 $this->paginate();
             }
+=======
+            }
+
+            $this->ordering();
+            $this->paginate();
+>>>>>>> main
         }
 
         $this->prepared = true;
@@ -660,7 +667,11 @@ class QueryDataTable extends DataTableAbstract
     {
         collect($this->request->orderableColumns())
             ->map(function ($orderable) {
+<<<<<<< HEAD
                 $orderable['name'] = $this->getColumnName($orderable['column'], true);
+=======
+                $orderable['name'] = $this->getColumnName($orderable['column'], null, true);
+>>>>>>> main
 
                 return $orderable;
             })
@@ -674,8 +685,13 @@ class QueryDataTable extends DataTableAbstract
                     $this->applyOrderColumn($column, $orderable);
                 } else {
                     $nullsLastSql = $this->getNullsLastSql($column, $orderable['direction']);
+<<<<<<< HEAD
                     $normalSql = $this->wrap($column) . ' ' . $orderable['direction'];
                     $sql = $this->nullsLast ? $nullsLastSql : $normalSql;
+=======
+                    $normalSql    = $this->wrap($column) . ' ' . $orderable['direction'];
+                    $sql          = $this->nullsLast ? $nullsLastSql : $normalSql;
+>>>>>>> main
                     $this->query->orderByRaw($sql);
                 }
             });

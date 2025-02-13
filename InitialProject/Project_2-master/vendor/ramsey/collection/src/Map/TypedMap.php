@@ -14,13 +14,20 @@ declare(strict_types=1);
 
 namespace Ramsey\Collection\Map;
 
+<<<<<<< HEAD
 use Ramsey\Collection\Tool\TypeTrait;
 
+=======
+>>>>>>> main
 /**
  * A `TypedMap` represents a map of elements where key and value are typed.
  *
  * Each element is identified by a key with defined type and a value of defined
+<<<<<<< HEAD
  * type. The keys of the map must be unique. The values on the map can be=
+=======
+ * type. The keys of the map must be unique. The values on the map can be
+>>>>>>> main
  * repeated but each with its own different key.
  *
  * The most common case is to use a string type key, but it's not limited to
@@ -80,12 +87,17 @@ use Ramsey\Collection\Tool\TypeTrait;
  * }
  * ```
  *
+<<<<<<< HEAD
  * @template K
+=======
+ * @template K of array-key
+>>>>>>> main
  * @template T
  * @extends AbstractTypedMap<K, T>
  */
 class TypedMap extends AbstractTypedMap
 {
+<<<<<<< HEAD
     use TypeTrait;
 
     /**
@@ -108,6 +120,8 @@ class TypedMap extends AbstractTypedMap
      */
     private $valueType;
 
+=======
+>>>>>>> main
     /**
      * Constructs a map object of the specified key and value types,
      * optionally with the specified data.
@@ -116,12 +130,20 @@ class TypedMap extends AbstractTypedMap
      * @param string $valueType The data type of the map's values.
      * @param array<K, T> $data The initial data to set for this map.
      */
+<<<<<<< HEAD
     public function __construct(string $keyType, string $valueType, array $data = [])
     {
         $this->keyType = $keyType;
         $this->valueType = $valueType;
 
         /** @psalm-suppress MixedArgumentTypeCoercion */
+=======
+    public function __construct(
+        private readonly string $keyType,
+        private readonly string $valueType,
+        array $data = [],
+    ) {
+>>>>>>> main
         parent::__construct($data);
     }
 

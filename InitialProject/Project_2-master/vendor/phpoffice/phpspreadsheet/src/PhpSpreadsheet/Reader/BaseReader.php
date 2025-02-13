@@ -2,9 +2,17 @@
 
 namespace PhpOffice\PhpSpreadsheet\Reader;
 
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Reader\Exception as ReaderException;
 use PhpOffice\PhpSpreadsheet\Reader\Security\XmlScanner;
 use PhpOffice\PhpSpreadsheet\Shared\File;
+=======
+use PhpOffice\PhpSpreadsheet\Exception as PhpSpreadsheetException;
+use PhpOffice\PhpSpreadsheet\Reader\Exception as ReaderException;
+use PhpOffice\PhpSpreadsheet\Reader\Security\XmlScanner;
+use PhpOffice\PhpSpreadsheet\Shared\File;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+>>>>>>> main
 
 abstract class BaseReader implements IReader
 {
@@ -49,10 +57,18 @@ abstract class BaseReader implements IReader
      */
     protected $readFilter;
 
+<<<<<<< HEAD
     protected $fileHandle;
 
     /**
      * @var XmlScanner
+=======
+    /** @var resource */
+    protected $fileHandle;
+
+    /**
+     * @var ?XmlScanner
+>>>>>>> main
      */
     protected $securityScanner;
 
@@ -132,30 +148,86 @@ abstract class BaseReader implements IReader
         return $this;
     }
 
+<<<<<<< HEAD
     public function getSecurityScanner()
+=======
+    public function getSecurityScanner(): ?XmlScanner
+>>>>>>> main
     {
         return $this->securityScanner;
     }
 
+<<<<<<< HEAD
+=======
+    public function getSecurityScannerOrThrow(): XmlScanner
+    {
+        if ($this->securityScanner === null) {
+            throw new ReaderException('Security scanner is unexpectedly null');
+        }
+
+        return $this->securityScanner;
+    }
+
+>>>>>>> main
     protected function processFlags(int $flags): void
     {
         if (((bool) ($flags & self::LOAD_WITH_CHARTS)) === true) {
             $this->setIncludeCharts(true);
         }
+<<<<<<< HEAD
+=======
+        if (((bool) ($flags & self::READ_DATA_ONLY)) === true) {
+            $this->setReadDataOnly(true);
+        }
+        if (((bool) ($flags & self::SKIP_EMPTY_CELLS) || (bool) ($flags & self::IGNORE_EMPTY_CELLS)) === true) {
+            $this->setReadEmptyCells(false);
+        }
+    }
+
+    protected function loadSpreadsheetFromFile(string $filename): Spreadsheet
+    {
+        throw new PhpSpreadsheetException('Reader classes must implement their own loadSpreadsheetFromFile() method');
+    }
+
+    /**
+     * Loads Spreadsheet from file.
+     *
+     * @param int $flags the optional second parameter flags may be used to identify specific elements
+     *                       that should be loaded, but which won't be loaded by default, using these values:
+     *                            IReader::LOAD_WITH_CHARTS - Include any charts that are defined in the loaded file
+     */
+    public function load(string $filename, int $flags = 0): Spreadsheet
+    {
+        $this->processFlags($flags);
+
+        try {
+            return $this->loadSpreadsheetFromFile($filename);
+        } catch (ReaderException $e) {
+            throw $e;
+        }
+>>>>>>> main
     }
 
     /**
      * Open file for reading.
+<<<<<<< HEAD
      *
      * @param string $filename
      */
     protected function openFile($filename): void
     {
+=======
+     */
+    protected function openFile(string $filename): void
+    {
+        $fileHandle = false;
+>>>>>>> main
         if ($filename) {
             File::assertFile($filename);
 
             // Open file
             $fileHandle = fopen($filename, 'rb');
+<<<<<<< HEAD
         } else {
             $fileHandle = false;
         }
@@ -164,5 +236,13 @@ abstract class BaseReader implements IReader
         } else {
             throw new ReaderException('Could not open file ' . $filename . ' for reading.');
         }
+=======
+        }
+        if ($fileHandle === false) {
+            throw new ReaderException('Could not open file ' . $filename . ' for reading.');
+        }
+
+        $this->fileHandle = $fileHandle;
+>>>>>>> main
     }
 }

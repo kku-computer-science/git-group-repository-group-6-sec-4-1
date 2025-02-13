@@ -57,6 +57,14 @@ trait MapsCsvSettings
     protected static $outputEncoding = '';
 
     /**
+<<<<<<< HEAD
+=======
+     * @var bool
+     */
+    protected static $testAutoDetect = true;
+
+    /**
+>>>>>>> main
      * @param  array  $config
      */
     public static function applyCsvSettings(array $config)
@@ -71,5 +79,9 @@ trait MapsCsvSettings
         static::$contiguous           = Arr::get($config, 'contiguous', static::$contiguous);
         static::$inputEncoding        = Arr::get($config, 'input_encoding', static::$inputEncoding);
         static::$outputEncoding       = Arr::get($config, 'output_encoding', static::$outputEncoding);
+<<<<<<< HEAD
+=======
+        static::$testAutoDetect       = Arr::get($config, 'test_auto_detect', static::$testAutoDetect);
+>>>>>>> main
     }
 }

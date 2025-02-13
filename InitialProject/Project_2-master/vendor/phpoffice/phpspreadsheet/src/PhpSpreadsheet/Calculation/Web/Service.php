@@ -2,7 +2,11 @@
 
 namespace PhpOffice\PhpSpreadsheet\Calculation\Web;
 
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Settings;
 use Psr\Http\Client\ClientExceptionInterface;
 
@@ -22,11 +26,19 @@ class Service
     {
         $url = trim($url);
         if (strlen($url) > 2048) {
+<<<<<<< HEAD
             return Functions::VALUE(); // Invalid URL length
         }
 
         if (!preg_match('/^http[s]?:\/\//', $url)) {
             return Functions::VALUE(); // Invalid protocol
+=======
+            return ExcelError::VALUE(); // Invalid URL length
+        }
+
+        if (!preg_match('/^http[s]?:\/\//', $url)) {
+            return ExcelError::VALUE(); // Invalid protocol
+>>>>>>> main
         }
 
         // Get results from the the webservice
@@ -37,16 +49,28 @@ class Service
         try {
             $response = $client->sendRequest($request);
         } catch (ClientExceptionInterface $e) {
+<<<<<<< HEAD
             return Functions::VALUE(); // cURL error
         }
 
         if ($response->getStatusCode() != 200) {
             return Functions::VALUE(); // cURL error
+=======
+            return ExcelError::VALUE(); // cURL error
+        }
+
+        if ($response->getStatusCode() != 200) {
+            return ExcelError::VALUE(); // cURL error
+>>>>>>> main
         }
 
         $output = $response->getBody()->getContents();
         if (strlen($output) > 32767) {
+<<<<<<< HEAD
             return Functions::VALUE(); // Output not a string or too long
+=======
+            return ExcelError::VALUE(); // Output not a string or too long
+>>>>>>> main
         }
 
         return $output;
@@ -67,7 +91,11 @@ class Service
     public static function urlEncode($text)
     {
         if (!is_string($text)) {
+<<<<<<< HEAD
             return Functions::VALUE();
+=======
+            return ExcelError::VALUE();
+>>>>>>> main
         }
 
         return str_replace('+', '%20', urlencode($text));

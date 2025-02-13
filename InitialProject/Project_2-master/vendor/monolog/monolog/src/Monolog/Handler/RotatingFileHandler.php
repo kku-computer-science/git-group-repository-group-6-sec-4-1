@@ -112,17 +112,35 @@ class RotatingFileHandler extends StreamHandler
      */
     protected function write(array $record): void
     {
+<<<<<<< HEAD
         // on the first record written, if the log is new, we should rotate (once per day)
+=======
+        // on the first record written, if the log is new, we rotate (once per day) after the log has been written so that the new file exists
+>>>>>>> main
         if (null === $this->mustRotate) {
             $this->mustRotate = null === $this->url || !file_exists($this->url);
         }
 
+<<<<<<< HEAD
         if ($this->nextRotation <= $record['datetime']) {
             $this->mustRotate = true;
             $this->close();
         }
 
         parent::write($record);
+=======
+        // if the next rotation is expired, then we rotate immediately
+        if ($this->nextRotation <= $record['datetime']) {
+            $this->mustRotate = true;
+            $this->close(); // triggers rotation
+        }
+
+        parent::write($record);
+
+        if ($this->mustRotate) {
+            $this->close(); // triggers rotation
+        }
+>>>>>>> main
     }
 
     /**
@@ -134,6 +152,11 @@ class RotatingFileHandler extends StreamHandler
         $this->url = $this->getTimedFilename();
         $this->nextRotation = new \DateTimeImmutable('tomorrow');
 
+<<<<<<< HEAD
+=======
+        $this->mustRotate = false;
+
+>>>>>>> main
         // skip GC of old logs if files are unlimited
         if (0 === $this->maxFiles) {
             return;
@@ -166,8 +189,11 @@ class RotatingFileHandler extends StreamHandler
                 restore_error_handler();
             }
         }
+<<<<<<< HEAD
 
         $this->mustRotate = false;
+=======
+>>>>>>> main
     }
 
     protected function getTimedFilename(): string
@@ -191,7 +217,15 @@ class RotatingFileHandler extends StreamHandler
         $fileInfo = pathinfo($this->filename);
         $glob = str_replace(
             ['{filename}', '{date}'],
+<<<<<<< HEAD
             [$fileInfo['filename'], '[0-9][0-9][0-9][0-9]*'],
+=======
+            [$fileInfo['filename'], str_replace(
+                ['Y', 'y', 'm', 'd'],
+                ['[0-9][0-9][0-9][0-9]', '[0-9][0-9]', '[0-9][0-9]', '[0-9][0-9]'],
+                $this->dateFormat)
+            ],
+>>>>>>> main
             $fileInfo['dirname'] . '/' . $this->filenameFormat
         );
         if (isset($fileInfo['extension'])) {

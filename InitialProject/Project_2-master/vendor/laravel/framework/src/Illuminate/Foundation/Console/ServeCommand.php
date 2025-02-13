@@ -141,7 +141,11 @@ class ServeCommand extends Command
      */
     protected function host()
     {
+<<<<<<< HEAD
         [$host, ] = $this->getHostAndPort();
+=======
+        [$host] = $this->getHostAndPort();
+>>>>>>> main
 
         return $host;
     }

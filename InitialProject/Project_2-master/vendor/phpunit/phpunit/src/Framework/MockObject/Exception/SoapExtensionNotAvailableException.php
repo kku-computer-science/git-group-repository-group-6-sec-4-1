@@ -17,7 +17,11 @@ final class SoapExtensionNotAvailableException extends \PHPUnit\Framework\Except
     public function __construct()
     {
         parent::__construct(
+<<<<<<< HEAD
             'The SOAP extension is required to generate a test double from WSDL'
+=======
+            'The SOAP extension is required to generate a test double from WSDL',
+>>>>>>> main
         );
     }
 }

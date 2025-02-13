@@ -11,12 +11,18 @@
 
 namespace Carbon\Exceptions;
 
+<<<<<<< HEAD
 use Exception;
 use InvalidArgumentException as BaseInvalidArgumentException;
+=======
+use InvalidArgumentException as BaseInvalidArgumentException;
+use Throwable;
+>>>>>>> main
 
 class UnknownGetterException extends BaseInvalidArgumentException implements InvalidArgumentException
 {
     /**
+<<<<<<< HEAD
      * Constructor.
      *
      * @param string         $name     getter name
@@ -26,5 +32,35 @@ class UnknownGetterException extends BaseInvalidArgumentException implements Inv
     public function __construct($name, $code = 0, Exception $previous = null)
     {
         parent::__construct("Unknown getter '$name'", $code, $previous);
+=======
+     * The getter.
+     *
+     * @var string
+     */
+    protected $getter;
+
+    /**
+     * Constructor.
+     *
+     * @param string         $getter   getter name
+     * @param int            $code
+     * @param Throwable|null $previous
+     */
+    public function __construct($getter, $code = 0, Throwable $previous = null)
+    {
+        $this->getter = $getter;
+
+        parent::__construct("Unknown getter '$getter'", $code, $previous);
+    }
+
+    /**
+     * Get the getter.
+     *
+     * @return string
+     */
+    public function getGetter(): string
+    {
+        return $this->getter;
+>>>>>>> main
     }
 }

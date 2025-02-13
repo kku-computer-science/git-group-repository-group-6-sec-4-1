@@ -17,7 +17,11 @@ use Symfony\Component\Translation\Catalogue\TargetOperation;
 final class TranslatorBag implements TranslatorBagInterface
 {
     /** @var MessageCatalogue[] */
+<<<<<<< HEAD
     private $catalogues = [];
+=======
+    private array $catalogues = [];
+>>>>>>> main
 
     public function addCatalogue(MessageCatalogue $catalogue): void
     {
@@ -35,10 +39,14 @@ final class TranslatorBag implements TranslatorBagInterface
         }
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
     public function getCatalogue(string $locale = null): MessageCatalogueInterface
+=======
+    public function getCatalogue(?string $locale = null): MessageCatalogueInterface
+>>>>>>> main
     {
         if (null === $locale || !isset($this->catalogues[$locale])) {
             $this->catalogues[$locale] = new MessageCatalogue($locale);
@@ -47,9 +55,12 @@ final class TranslatorBag implements TranslatorBagInterface
         return $this->catalogues[$locale];
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
+=======
+>>>>>>> main
     public function getCatalogues(): array
     {
         return array_values($this->catalogues);
@@ -70,7 +81,11 @@ final class TranslatorBag implements TranslatorBagInterface
             $operation->moveMessagesToIntlDomainsIfPossible(AbstractOperation::NEW_BATCH);
             $newCatalogue = new MessageCatalogue($locale);
 
+<<<<<<< HEAD
             foreach ($operation->getDomains() as $domain) {
+=======
+            foreach ($catalogue->getDomains() as $domain) {
+>>>>>>> main
                 $newCatalogue->add($operation->getNewMessages($domain), $domain);
             }
 

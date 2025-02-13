@@ -11,11 +11,15 @@
 
 namespace Carbon\Exceptions;
 
+<<<<<<< HEAD
 use Exception;
+=======
+>>>>>>> main
 use InvalidArgumentException as BaseInvalidArgumentException;
 
 class InvalidPeriodDateException extends BaseInvalidArgumentException implements InvalidArgumentException
 {
+<<<<<<< HEAD
     /**
      * Constructor.
      *
@@ -27,4 +31,7 @@ class InvalidPeriodDateException extends BaseInvalidArgumentException implements
     {
         parent::__construct($message, $code, $previous);
     }
+=======
+    //
+>>>>>>> main
 }

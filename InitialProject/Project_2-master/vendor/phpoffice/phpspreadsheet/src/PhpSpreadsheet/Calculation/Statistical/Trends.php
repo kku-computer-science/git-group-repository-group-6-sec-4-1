@@ -5,6 +5,10 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\Statistical;
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Shared\Trend\Trend;
 
 class Trends
@@ -20,6 +24,13 @@ class Trends
         }
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @param mixed $array1 should be array, but scalar is made into one
+     * @param mixed $array2 should be array, but scalar is made into one
+     */
+>>>>>>> main
     private static function checkTrendArrays(&$array1, &$array2): void
     {
         if (!is_array($array1)) {
@@ -46,9 +57,15 @@ class Trends
         $xValueCount = count($xValues);
 
         if (($yValueCount === 0) || ($yValueCount !== $xValueCount)) {
+<<<<<<< HEAD
             throw new Exception(Functions::NA());
         } elseif ($yValueCount === 1) {
             throw new Exception(Functions::DIV0());
+=======
+            throw new Exception(ExcelError::NA());
+        } elseif ($yValueCount === 1) {
+            throw new Exception(ExcelError::DIV0());
+>>>>>>> main
         }
     }
 
@@ -65,7 +82,11 @@ class Trends
     public static function CORREL($yValues, $xValues = null)
     {
         if (($xValues === null) || (!is_array($yValues)) || (!is_array($xValues))) {
+<<<<<<< HEAD
             return Functions::VALUE();
+=======
+            return ExcelError::VALUE();
+>>>>>>> main
         }
 
         try {
@@ -167,7 +188,11 @@ class Trends
             $returnArray[0][] = [$bestFitExponential->getValueOfYForX($xValue)];
         }
 
+<<<<<<< HEAD
         return $returnArray;
+=======
+        return $returnArray; //* @phpstan-ignore-line
+>>>>>>> main
     }
 
     /**
@@ -232,7 +257,11 @@ class Trends
                 ],
                 [
                     $bestFitLinear->getSlopeSE(),
+<<<<<<< HEAD
                     ($const === false) ? Functions::NA() : $bestFitLinear->getIntersectSE(),
+=======
+                    ($const === false) ? ExcelError::NA() : $bestFitLinear->getIntersectSE(),
+>>>>>>> main
                 ],
                 [
                     $bestFitLinear->getGoodnessOfFit(),
@@ -285,7 +314,11 @@ class Trends
 
         foreach ($yValues as $value) {
             if ($value < 0.0) {
+<<<<<<< HEAD
                 return Functions::NAN();
+=======
+                return ExcelError::NAN();
+>>>>>>> main
             }
         }
 
@@ -299,7 +332,11 @@ class Trends
                 ],
                 [
                     $bestFitExponential->getSlopeSE(),
+<<<<<<< HEAD
                     ($const === false) ? Functions::NA() : $bestFitExponential->getIntersectSE(),
+=======
+                    ($const === false) ? ExcelError::NA() : $bestFitExponential->getIntersectSE(),
+>>>>>>> main
                 ],
                 [
                     $bestFitExponential->getGoodnessOfFit(),
@@ -424,6 +461,10 @@ class Trends
             $returnArray[0][] = [$bestFitLinear->getValueOfYForX($xValue)];
         }
 
+<<<<<<< HEAD
         return $returnArray;
+=======
+        return $returnArray; //* @phpstan-ignore-line
+>>>>>>> main
     }
 }

@@ -31,9 +31,12 @@ class Frame implements Serializable
      */
     protected $application;
 
+<<<<<<< HEAD
     /**
      * @param array[]
      */
+=======
+>>>>>>> main
     public function __construct(array $frame)
     {
         $this->frame = $frame;

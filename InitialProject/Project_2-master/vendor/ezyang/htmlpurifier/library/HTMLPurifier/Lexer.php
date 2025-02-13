@@ -48,6 +48,14 @@ class HTMLPurifier_Lexer
      */
     public $tracksLineNumbers = false;
 
+<<<<<<< HEAD
+=======
+    /**
+     * @type HTMLPurifier_EntityParser
+     */
+    private $_entity_parser;
+
+>>>>>>> main
     // -- STATIC ----------------------------------------------------------
 
     /**
@@ -96,7 +104,11 @@ class HTMLPurifier_Lexer
                         break;
                     }
 
+<<<<<<< HEAD
                     if (class_exists('DOMDocument', false) &&
+=======
+                    if (class_exists('DOMDocument') &&
+>>>>>>> main
                         method_exists('DOMDocument', 'loadHTML') &&
                         !extension_loaded('domxml')
                     ) {
@@ -265,6 +277,7 @@ class HTMLPurifier_Lexer
     }
 
     /**
+<<<<<<< HEAD
      * Special Internet Explorer conditional comments should be removed.
      * @param string $string HTML string to process.
      * @return string HTML with conditional comments removed.
@@ -279,6 +292,8 @@ class HTMLPurifier_Lexer
     }
 
     /**
+=======
+>>>>>>> main
      * Callback function for escapeCDATA() that does the work.
      *
      * @warning Though this is public in order to let the callback happen,
@@ -306,8 +321,13 @@ class HTMLPurifier_Lexer
     {
         // normalize newlines to \n
         if ($config->get('Core.NormalizeNewlines')) {
+<<<<<<< HEAD
             $html = str_replace("\r\n", "\n", $html);
             $html = str_replace("\r", "\n", $html);
+=======
+            $html = str_replace("\r\n", "\n", (string)$html);
+            $html = str_replace("\r", "\n", (string)$html);
+>>>>>>> main
         }
 
         if ($config->get('HTML.Trusted')) {
@@ -318,8 +338,11 @@ class HTMLPurifier_Lexer
         // escape CDATA
         $html = $this->escapeCDATA($html);
 
+<<<<<<< HEAD
         $html = $this->removeIEConditional($html);
 
+=======
+>>>>>>> main
         // extract body from document if applicable
         if ($config->get('Core.ConvertDocumentToFragment')) {
             $e = false;

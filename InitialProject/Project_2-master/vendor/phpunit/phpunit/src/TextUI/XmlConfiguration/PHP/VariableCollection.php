@@ -15,7 +15,14 @@ use IteratorAggregate;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
+<<<<<<< HEAD
  * @psalm-immutable
+=======
+ *
+ * @psalm-immutable
+ *
+ * @template-implements IteratorAggregate<int, Variable>
+>>>>>>> main
  */
 final class VariableCollection implements Countable, IteratorAggregate
 {

@@ -23,6 +23,7 @@ namespace Symfony\Component\CssSelector\Node;
  */
 class ClassNode extends AbstractNode
 {
+<<<<<<< HEAD
     private $selector;
     private $name;
 
@@ -30,6 +31,12 @@ class ClassNode extends AbstractNode
     {
         $this->selector = $selector;
         $this->name = $name;
+=======
+    public function __construct(
+        private NodeInterface $selector,
+        private string $name,
+    ) {
+>>>>>>> main
     }
 
     public function getSelector(): NodeInterface
@@ -42,9 +49,12 @@ class ClassNode extends AbstractNode
         return $this->name;
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
+=======
+>>>>>>> main
     public function getSpecificity(): Specificity
     {
         return $this->selector->getSpecificity()->plus(new Specificity(0, 1, 0));
@@ -52,6 +62,10 @@ class ClassNode extends AbstractNode
 
     public function __toString(): string
     {
+<<<<<<< HEAD
         return sprintf('%s[%s.%s]', $this->getNodeName(), $this->selector, $this->name);
+=======
+        return \sprintf('%s[%s.%s]', $this->getNodeName(), $this->selector, $this->name);
+>>>>>>> main
     }
 }

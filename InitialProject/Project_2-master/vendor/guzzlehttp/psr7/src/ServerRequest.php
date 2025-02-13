@@ -59,7 +59,11 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * @param string                               $method       HTTP method
      * @param string|UriInterface                  $uri          URI
+<<<<<<< HEAD
      * @param array<string, string|string[]>       $headers      Request headers
+=======
+     * @param (string|string[])[]                  $headers      Request headers
+>>>>>>> main
      * @param string|resource|StreamInterface|null $body         Request body
      * @param string                               $version      Protocol version
      * @param array                                $serverParams Typically the $_SERVER superglobal
@@ -144,10 +148,17 @@ class ServerRequest extends Request implements ServerRequestInterface
         foreach (array_keys($files['tmp_name']) as $key) {
             $spec = [
                 'tmp_name' => $files['tmp_name'][$key],
+<<<<<<< HEAD
                 'size'     => $files['size'][$key],
                 'error'    => $files['error'][$key],
                 'name'     => $files['name'][$key],
                 'type'     => $files['type'][$key],
+=======
+                'size' => $files['size'][$key] ?? null,
+                'error' => $files['error'][$key] ?? null,
+                'name' => $files['name'][$key] ?? null,
+                'type' => $files['type'][$key] ?? null,
+>>>>>>> main
             ];
             $normalizedFiles[$key] = self::createUploadedFileFromSpec($spec);
         }
@@ -182,7 +193,11 @@ class ServerRequest extends Request implements ServerRequestInterface
 
     private static function extractHostAndPortFromAuthority(string $authority): array
     {
+<<<<<<< HEAD
         $uri = 'http://' . $authority;
+=======
+        $uri = 'http://'.$authority;
+>>>>>>> main
         $parts = parse_url($uri);
         if (false === $parts) {
             return [null, null];
@@ -286,8 +301,11 @@ class ServerRequest extends Request implements ServerRequestInterface
     }
 
     /**
+<<<<<<< HEAD
      * {@inheritdoc}
      *
+=======
+>>>>>>> main
      * @return array|object|null
      */
     public function getParsedBody()
@@ -309,8 +327,11 @@ class ServerRequest extends Request implements ServerRequestInterface
     }
 
     /**
+<<<<<<< HEAD
      * {@inheritdoc}
      *
+=======
+>>>>>>> main
      * @return mixed
      */
     public function getAttribute($attribute, $default = null)

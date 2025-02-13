@@ -53,7 +53,11 @@ final class CompletionInput extends ArgvInput
      * Create an input based on an COMP_WORDS token list.
      *
      * @param string[] $tokens       the set of split tokens (e.g. COMP_WORDS or argv)
+<<<<<<< HEAD
      * @param          $currentIndex the index of the cursor (e.g. COMP_CWORD)
+=======
+     * @param int      $currentIndex the index of the cursor (e.g. COMP_CWORD)
+>>>>>>> main
      */
     public static function fromTokens(array $tokens, int $currentIndex): self
     {

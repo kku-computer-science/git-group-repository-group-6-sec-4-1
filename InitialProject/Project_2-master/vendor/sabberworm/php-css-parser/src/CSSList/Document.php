@@ -11,8 +11,13 @@ use Sabberworm\CSS\RuleSet\RuleSet;
 use Sabberworm\CSS\Value\Value;
 
 /**
+<<<<<<< HEAD
  * The root `CSSList` of a parsed file. Contains all top-level CSS contents, mostly declaration blocks,
  * but also any at-rules encountered.
+=======
+ * This class represents the root of a parsed CSS file. It contains all top-level CSS contents: mostly declaration
+ * blocks, but also any at-rules encountered (`Import` and `Charset`).
+>>>>>>> main
  */
 class Document extends CSSBlockList
 {
@@ -37,7 +42,12 @@ class Document extends CSSBlockList
     }
 
     /**
+<<<<<<< HEAD
      * Gets all `DeclarationBlock` objects recursively.
+=======
+     * Gets all `DeclarationBlock` objects recursively, no matter how deeply nested the selectors are.
+     * Aliased as `getAllSelectors()`.
+>>>>>>> main
      *
      * @return array<int, DeclarationBlock>
      */
@@ -62,7 +72,11 @@ class Document extends CSSBlockList
     }
 
     /**
+<<<<<<< HEAD
      * Returns all `RuleSet` objects found recursively in the tree.
+=======
+     * Returns all `RuleSet` objects recursively found in the tree, no matter how deeply nested the rule sets are.
+>>>>>>> main
      *
      * @return array<int, RuleSet>
      */
@@ -75,7 +89,11 @@ class Document extends CSSBlockList
     }
 
     /**
+<<<<<<< HEAD
      * Returns all `Value` objects found recursively in the tree.
+=======
+     * Returns all `Value` objects found recursively in `Rule`s in the tree.
+>>>>>>> main
      *
      * @param CSSList|RuleSet|string $mElement
      *        the `CSSList` or `RuleSet` to start the search from (defaults to the whole document).
@@ -102,7 +120,11 @@ class Document extends CSSBlockList
     }
 
     /**
+<<<<<<< HEAD
      * Returns all `Selector` objects found recursively in the tree.
+=======
+     * Returns all `Selector` objects with the requested specificity found recursively in the tree.
+>>>>>>> main
      *
      * Note that this does not yield the full `DeclarationBlock` that the selector belongs to
      * (and, currently, there is no way to get to that).
@@ -127,6 +149,11 @@ class Document extends CSSBlockList
      * Expands all shorthand properties to their long value.
      *
      * @return void
+<<<<<<< HEAD
+=======
+     *
+     * @deprecated since 8.7.0, will be removed without substitution in version 9.0 in #511
+>>>>>>> main
      */
     public function expandShorthands()
     {
@@ -139,6 +166,11 @@ class Document extends CSSBlockList
      * Create shorthands properties whenever possible.
      *
      * @return void
+<<<<<<< HEAD
+=======
+     *
+     * @deprecated since 8.7.0, will be removed without substitution in version 9.0 in #511
+>>>>>>> main
      */
     public function createShorthands()
     {
@@ -154,12 +186,20 @@ class Document extends CSSBlockList
      *
      * @return string
      */
+<<<<<<< HEAD
     public function render(OutputFormat $oOutputFormat = null)
+=======
+    public function render($oOutputFormat = null)
+>>>>>>> main
     {
         if ($oOutputFormat === null) {
             $oOutputFormat = new OutputFormat();
         }
+<<<<<<< HEAD
         return parent::render($oOutputFormat);
+=======
+        return $oOutputFormat->comments($this) . $this->renderListContents($oOutputFormat);
+>>>>>>> main
     }
 
     /**

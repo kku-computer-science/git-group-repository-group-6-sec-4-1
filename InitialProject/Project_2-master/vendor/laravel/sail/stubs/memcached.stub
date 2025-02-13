@@ -1,6 +1,15 @@
+<<<<<<< HEAD
     memcached:
         image: 'memcached:alpine'
         ports:
             - '11211:11211'
         networks:
             - sail
+=======
+memcached:
+    image: 'memcached:alpine'
+    ports:
+        - '${FORWARD_MEMCACHED_PORT:-11211}:11211'
+    networks:
+        - sail
+>>>>>>> main

@@ -16,6 +16,7 @@
         }
     ],
     "require": {
+<<<<<<< HEAD
         "php": ">=7.2.5"
     },
     "suggest": {
@@ -23,11 +24,24 @@
     },
     "autoload": {
         "psr-4": { "Symfony\\Contracts\\Translation\\": "" }
+=======
+        "php": ">=8.1"
+    },
+    "autoload": {
+        "psr-4": { "Symfony\\Contracts\\Translation\\": "" },
+        "exclude-from-classmap": [
+            "/Test/"
+        ]
+>>>>>>> main
     },
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
+<<<<<<< HEAD
             "dev-main": "2.5-dev"
+=======
+            "dev-main": "3.5-dev"
+>>>>>>> main
         },
         "thanks": {
             "name": "symfony/contracts",

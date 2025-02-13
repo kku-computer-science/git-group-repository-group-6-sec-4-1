@@ -23,6 +23,7 @@ namespace Symfony\Component\CssSelector\Parser\Tokenizer;
  */
 class TokenizerPatterns
 {
+<<<<<<< HEAD
     private $unicodeEscapePattern;
     private $simpleEscapePattern;
     private $newLineEscapePattern;
@@ -35,6 +36,20 @@ class TokenizerPatterns
     private $hashPattern;
     private $numberPattern;
     private $quotedStringPattern;
+=======
+    private string $unicodeEscapePattern;
+    private string $simpleEscapePattern;
+    private string $newLineEscapePattern;
+    private string $escapePattern;
+    private string $stringEscapePattern;
+    private string $nonAsciiPattern;
+    private string $nmCharPattern;
+    private string $nmStartPattern;
+    private string $identifierPattern;
+    private string $hashPattern;
+    private string $numberPattern;
+    private string $quotedStringPattern;
+>>>>>>> main
 
     public function __construct()
     {
@@ -49,22 +64,38 @@ class TokenizerPatterns
         $this->identifierPattern = '-?(?:'.$this->nmStartPattern.')(?:'.$this->nmCharPattern.')*';
         $this->hashPattern = '#((?:'.$this->nmCharPattern.')+)';
         $this->numberPattern = '[+-]?(?:[0-9]*\.[0-9]+|[0-9]+)';
+<<<<<<< HEAD
         $this->quotedStringPattern = '([^\n\r\f%s]|'.$this->stringEscapePattern.')*';
+=======
+        $this->quotedStringPattern = '([^\n\r\f\\\\%s]|'.$this->stringEscapePattern.')*';
+>>>>>>> main
     }
 
     public function getNewLineEscapePattern(): string
     {
+<<<<<<< HEAD
         return '~^'.$this->newLineEscapePattern.'~';
+=======
+        return '~'.$this->newLineEscapePattern.'~';
+>>>>>>> main
     }
 
     public function getSimpleEscapePattern(): string
     {
+<<<<<<< HEAD
         return '~^'.$this->simpleEscapePattern.'~';
+=======
+        return '~'.$this->simpleEscapePattern.'~';
+>>>>>>> main
     }
 
     public function getUnicodeEscapePattern(): string
     {
+<<<<<<< HEAD
         return '~^'.$this->unicodeEscapePattern.'~i';
+=======
+        return '~'.$this->unicodeEscapePattern.'~i';
+>>>>>>> main
     }
 
     public function getIdentifierPattern(): string
@@ -84,6 +115,10 @@ class TokenizerPatterns
 
     public function getQuotedStringPattern(string $quote): string
     {
+<<<<<<< HEAD
         return '~^'.sprintf($this->quotedStringPattern, $quote).'~i';
+=======
+        return '~^'.\sprintf($this->quotedStringPattern, $quote).'~i';
+>>>>>>> main
     }
 }

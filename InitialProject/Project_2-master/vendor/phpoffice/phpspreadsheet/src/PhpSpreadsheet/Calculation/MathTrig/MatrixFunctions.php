@@ -7,7 +7,11 @@ use Matrix\Div0Exception as MatrixDiv0Exception;
 use Matrix\Exception as MatrixException;
 use Matrix\Matrix;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class MatrixFunctions
 {
@@ -31,7 +35,11 @@ class MatrixFunctions
             $column = 0;
             foreach ($matrixRow as $matrixCell) {
                 if ((is_string($matrixCell)) || ($matrixCell === null)) {
+<<<<<<< HEAD
                     throw new Exception(Functions::VALUE());
+=======
+                    throw new Exception(ExcelError::VALUE());
+>>>>>>> main
                 }
                 $matrixData[$row][$column] = $matrixCell;
                 ++$column;
@@ -102,7 +110,11 @@ class MatrixFunctions
 
             return $matrix->determinant();
         } catch (MatrixException $ex) {
+<<<<<<< HEAD
             return Functions::VALUE();
+=======
+            return ExcelError::VALUE();
+>>>>>>> main
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -127,9 +139,15 @@ class MatrixFunctions
 
             return $matrix->inverse()->toArray();
         } catch (MatrixDiv0Exception $e) {
+<<<<<<< HEAD
             return Functions::NAN();
         } catch (MatrixException $e) {
             return Functions::VALUE();
+=======
+            return ExcelError::NAN();
+        } catch (MatrixException $e) {
+            return ExcelError::VALUE();
+>>>>>>> main
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -151,7 +169,11 @@ class MatrixFunctions
 
             return $matrixA->multiply($matrixB)->toArray();
         } catch (MatrixException $ex) {
+<<<<<<< HEAD
             return Functions::VALUE();
+=======
+            return ExcelError::VALUE();
+>>>>>>> main
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -168,7 +190,11 @@ class MatrixFunctions
     {
         try {
             $dimension = (int) Helpers::validateNumericNullBool($dimension);
+<<<<<<< HEAD
             Helpers::validatePositive($dimension, Functions::VALUE());
+=======
+            Helpers::validatePositive($dimension, ExcelError::VALUE());
+>>>>>>> main
             $matrix = Builder::createIdentityMatrix($dimension, 0)->toArray();
 
             return $matrix;

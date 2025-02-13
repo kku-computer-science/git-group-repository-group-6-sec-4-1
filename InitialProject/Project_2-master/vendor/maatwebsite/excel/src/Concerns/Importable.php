@@ -28,7 +28,11 @@ trait Importable
      *
      * @throws NoFilePathGivenException
      */
+<<<<<<< HEAD
     public function import($filePath = null, string $disk = null, string $readerType = null)
+=======
+    public function import($filePath = null, ?string $disk = null, ?string $readerType = null)
+>>>>>>> main
     {
         $filePath = $this->getFilePath($filePath);
 
@@ -48,7 +52,11 @@ trait Importable
      *
      * @throws NoFilePathGivenException
      */
+<<<<<<< HEAD
     public function toArray($filePath = null, string $disk = null, string $readerType = null): array
+=======
+    public function toArray($filePath = null, ?string $disk = null, ?string $readerType = null): array
+>>>>>>> main
     {
         $filePath = $this->getFilePath($filePath);
 
@@ -68,7 +76,11 @@ trait Importable
      *
      * @throws NoFilePathGivenException
      */
+<<<<<<< HEAD
     public function toCollection($filePath = null, string $disk = null, string $readerType = null): Collection
+=======
+    public function toCollection($filePath = null, ?string $disk = null, ?string $readerType = null): Collection
+>>>>>>> main
     {
         $filePath = $this->getFilePath($filePath);
 
@@ -89,7 +101,11 @@ trait Importable
      * @throws NoFilePathGivenException
      * @throws InvalidArgumentException
      */
+<<<<<<< HEAD
     public function queue($filePath = null, string $disk = null, string $readerType = null)
+=======
+    public function queue($filePath = null, ?string $disk = null, ?string $readerType = null)
+>>>>>>> main
     {
         if (!$this instanceof ShouldQueue) {
             throw new InvalidArgumentException('Importable should implement ShouldQueue to be queued.');

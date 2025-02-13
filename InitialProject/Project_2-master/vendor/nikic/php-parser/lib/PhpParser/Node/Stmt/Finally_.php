@@ -4,27 +4,46 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
+<<<<<<< HEAD
 class Finally_ extends Node\Stmt
 {
     /** @var Node\Stmt[] Statements */
     public $stmts;
+=======
+class Finally_ extends Node\Stmt {
+    /** @var Node\Stmt[] Statements */
+    public array $stmts;
+>>>>>>> main
 
     /**
      * Constructs a finally node.
      *
+<<<<<<< HEAD
      * @param Node\Stmt[] $stmts      Statements
      * @param array       $attributes Additional attributes
+=======
+     * @param Node\Stmt[] $stmts Statements
+     * @param array<string, mixed> $attributes Additional attributes
+>>>>>>> main
      */
     public function __construct(array $stmts = [], array $attributes = []) {
         $this->attributes = $attributes;
         $this->stmts = $stmts;
     }
 
+<<<<<<< HEAD
     public function getSubNodeNames() : array {
         return ['stmts'];
     }
     
     public function getType() : string {
+=======
+    public function getSubNodeNames(): array {
+        return ['stmts'];
+    }
+
+    public function getType(): string {
+>>>>>>> main
         return 'Stmt_Finally';
     }
 }

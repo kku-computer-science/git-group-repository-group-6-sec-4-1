@@ -20,6 +20,7 @@ use Symfony\Component\Translation\Exception\MissingRequiredOptionException;
  */
 final class Dsn
 {
+<<<<<<< HEAD
     private $scheme;
     private $host;
     private $user;
@@ -52,6 +53,40 @@ final class Dsn
         $this->port = $parsedDsn['port'] ?? null;
         $this->path = $parsedDsn['path'] ?? null;
         parse_str($parsedDsn['query'] ?? '', $this->options);
+=======
+    private ?string $scheme;
+    private ?string $host;
+    private ?string $user;
+    private ?string $password;
+    private ?int $port;
+    private ?string $path;
+    private array $options = [];
+    private string $originalDsn;
+
+    public function __construct(#[\SensitiveParameter] string $dsn)
+    {
+        $this->originalDsn = $dsn;
+
+        if (false === $params = parse_url($dsn)) {
+            throw new InvalidArgumentException('The translation provider DSN is invalid.');
+        }
+
+        if (!isset($params['scheme'])) {
+            throw new InvalidArgumentException('The translation provider DSN must contain a scheme.');
+        }
+        $this->scheme = $params['scheme'];
+
+        if (!isset($params['host'])) {
+            throw new InvalidArgumentException('The translation provider DSN must contain a host (use "default" by default).');
+        }
+        $this->host = $params['host'];
+
+        $this->user = '' !== ($params['user'] ?? '') ? rawurldecode($params['user']) : null;
+        $this->password = '' !== ($params['pass'] ?? '') ? rawurldecode($params['pass']) : null;
+        $this->port = $params['port'] ?? null;
+        $this->path = $params['path'] ?? null;
+        parse_str($params['query'] ?? '', $this->options);
+>>>>>>> main
     }
 
     public function getScheme(): string
@@ -74,17 +109,29 @@ final class Dsn
         return $this->password;
     }
 
+<<<<<<< HEAD
     public function getPort(int $default = null): ?int
+=======
+    public function getPort(?int $default = null): ?int
+>>>>>>> main
     {
         return $this->port ?? $default;
     }
 
+<<<<<<< HEAD
     public function getOption(string $key, $default = null)
+=======
+    public function getOption(string $key, mixed $default = null): mixed
+>>>>>>> main
     {
         return $this->options[$key] ?? $default;
     }
 
+<<<<<<< HEAD
     public function getRequiredOption(string $key)
+=======
+    public function getRequiredOption(string $key): mixed
+>>>>>>> main
     {
         if (!\array_key_exists($key, $this->options) || '' === trim($this->options[$key])) {
             throw new MissingRequiredOptionException($key);

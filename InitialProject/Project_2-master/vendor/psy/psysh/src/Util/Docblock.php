@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -74,7 +78,14 @@ class Docblock
     public function __construct(\Reflector $reflector)
     {
         $this->reflector = $reflector;
+<<<<<<< HEAD
         $this->setComment($reflector->getDocComment());
+=======
+
+        if ($reflector instanceof \ReflectionClass || $reflector instanceof \ReflectionClassConstant || $reflector instanceof \ReflectionFunctionAbstract || $reflector instanceof \ReflectionProperty) {
+            $this->setComment($reflector->getDocComment());
+        }
+>>>>>>> main
     }
 
     /**
@@ -198,8 +209,11 @@ class Docblock
      * Whether or not a docblock contains a given @tag.
      *
      * @param string $tag The name of the @tag to check for
+<<<<<<< HEAD
      *
      * @return bool
+=======
+>>>>>>> main
      */
     public function hasTag(string $tag): bool
     {
@@ -211,9 +225,15 @@ class Docblock
      *
      * @param string $tag
      *
+<<<<<<< HEAD
      * @return array
      */
     public function tag(string $tag): array
+=======
+     * @return array|null
+     */
+    public function tag(string $tag): ?array
+>>>>>>> main
     {
         return $this->hasTag($tag) ? $this->tags[$tag] : null;
     }
@@ -222,8 +242,11 @@ class Docblock
      * Whether or not a string begins with a @tag.
      *
      * @param string $str
+<<<<<<< HEAD
      *
      * @return bool
+=======
+>>>>>>> main
      */
     public static function isTagged(string $str): bool
     {

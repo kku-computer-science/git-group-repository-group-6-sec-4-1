@@ -13,6 +13,12 @@ final class NoSeekStream implements StreamInterface
 {
     use StreamDecoratorTrait;
 
+<<<<<<< HEAD
+=======
+    /** @var StreamInterface */
+    private $stream;
+
+>>>>>>> main
     public function seek($offset, $whence = SEEK_SET): void
     {
         throw new \RuntimeException('Cannot seek a NoSeekStream');

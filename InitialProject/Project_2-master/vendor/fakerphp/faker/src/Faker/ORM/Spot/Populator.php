@@ -17,7 +17,11 @@ class Populator
     /**
      * Populator constructor.
      */
+<<<<<<< HEAD
     public function __construct(\Faker\Generator $generator, Locator $locator = null)
+=======
+    public function __construct(\Faker\Generator $generator, ?Locator $locator = null)
+>>>>>>> main
     {
         $this->generator = $generator;
         $this->locator = $locator;
@@ -79,7 +83,11 @@ class Populator
         foreach ($this->quantities as $entityName => $number) {
             for ($i = 0; $i < $number; ++$i) {
                 $insertedEntities[$entityName][] = $this->entities[$entityName]->execute(
+<<<<<<< HEAD
                     $insertedEntities
+=======
+                    $insertedEntities,
+>>>>>>> main
                 );
             }
         }

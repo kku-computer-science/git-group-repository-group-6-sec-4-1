@@ -6,7 +6,11 @@ use DateInterval;
 use DateTime;
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Shared\Date as SharedDateHelper;
 
 class Difference
@@ -47,12 +51,20 @@ class Difference
         // Execute function
         $PHPStartDateObject = SharedDateHelper::excelToDateTimeObject($startDate);
         $startDays = (int) $PHPStartDateObject->format('j');
+<<<<<<< HEAD
         $startMonths = (int) $PHPStartDateObject->format('n');
+=======
+        //$startMonths = (int) $PHPStartDateObject->format('n');
+>>>>>>> main
         $startYears = (int) $PHPStartDateObject->format('Y');
 
         $PHPEndDateObject = SharedDateHelper::excelToDateTimeObject($endDate);
         $endDays = (int) $PHPEndDateObject->format('j');
+<<<<<<< HEAD
         $endMonths = (int) $PHPEndDateObject->format('n');
+=======
+        //$endMonths = (int) $PHPEndDateObject->format('n');
+>>>>>>> main
         $endYears = (int) $PHPEndDateObject->format('Y');
 
         $PHPDiffDateObject = $PHPEndDateObject->diff($PHPStartDateObject);
@@ -65,14 +77,22 @@ class Difference
         $retVal = self::replaceRetValue($retVal, $unit, 'YD') ?? self::datedifYD($difference, $startYears, $endYears, $PHPStartDateObject, $PHPEndDateObject);
         $retVal = self::replaceRetValue($retVal, $unit, 'YM') ?? self::datedifYM($PHPDiffDateObject);
 
+<<<<<<< HEAD
         return is_bool($retVal) ? Functions::VALUE() : $retVal;
+=======
+        return is_bool($retVal) ? ExcelError::VALUE() : $retVal;
+>>>>>>> main
     }
 
     private static function initialDiff(float $startDate, float $endDate): float
     {
         // Validate parameters
         if ($startDate > $endDate) {
+<<<<<<< HEAD
             throw new Exception(Functions::NAN());
+=======
+            throw new Exception(ExcelError::NAN());
+>>>>>>> main
         }
 
         return $endDate - $startDate;
@@ -133,12 +153,20 @@ class Difference
             // Adjust end year to be as close as possible as start year
             while ($PHPEndDateObject >= $PHPStartDateObject) {
                 $PHPEndDateObject->modify('-1 year');
+<<<<<<< HEAD
                 $endYears = $PHPEndDateObject->format('Y');
+=======
+                //$endYears = $PHPEndDateObject->format('Y');
+>>>>>>> main
             }
             $PHPEndDateObject->modify('+1 year');
 
             // Get the result
+<<<<<<< HEAD
             $retVal = $PHPEndDateObject->diff($PHPStartDateObject)->days;
+=======
+            $retVal = (int) $PHPEndDateObject->diff($PHPStartDateObject)->days;
+>>>>>>> main
 
             // Adjust for leap years cases
             $isLeapEndYear = $PHPEndDateObject->format('L');

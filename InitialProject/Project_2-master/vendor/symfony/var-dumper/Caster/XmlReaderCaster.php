@@ -1,4 +1,8 @@
 <?php
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 /*
  * This file is part of the Symfony package.
  *

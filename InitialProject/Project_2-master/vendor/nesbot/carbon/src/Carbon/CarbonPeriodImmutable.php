@@ -1,7 +1,10 @@
 <?php
 
+<<<<<<< HEAD
 declare(strict_types=1);
 
+=======
+>>>>>>> main
 /**
  * This file is part of the Carbon package.
  *
@@ -24,14 +27,28 @@ class CarbonPeriodImmutable extends CarbonPeriod
 
     /**
      * Date class of iteration items.
+<<<<<<< HEAD
      */
     protected string $dateClass = CarbonImmutable::class;
+=======
+     *
+     * @var string
+     */
+    protected $dateClass = CarbonImmutable::class;
+>>>>>>> main
 
     /**
      * Prepare the instance to be set (self if mutable to be mutated,
      * copy if immutable to generate a new instance).
+<<<<<<< HEAD
      */
     protected function copyIfImmutable(): static
+=======
+     *
+     * @return static
+     */
+    protected function copyIfImmutable()
+>>>>>>> main
     {
         return $this->constructed ? clone $this : $this;
     }

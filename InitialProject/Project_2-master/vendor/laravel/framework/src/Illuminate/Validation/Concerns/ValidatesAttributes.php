@@ -272,7 +272,11 @@ trait ValidatesAttributes
             $secondDate = $this->getDateTimeWithOptionalFormat($format, $second);
         }
 
+<<<<<<< HEAD
         return ($firstDate && $secondDate) && ($this->compare($firstDate, $secondDate, $operator));
+=======
+        return ($firstDate && $secondDate) && $this->compare($firstDate, $secondDate, $operator);
+>>>>>>> main
     }
 
     /**
@@ -582,7 +586,11 @@ trait ValidatesAttributes
 
         $length = strlen((string) $value);
 
+<<<<<<< HEAD
         return ! preg_match('/[^0-9.]/', $value)
+=======
+        return ! preg_match('/[^0-9]/', $value)
+>>>>>>> main
                     && $length >= $parameters[0] && $length <= $parameters[1];
     }
 

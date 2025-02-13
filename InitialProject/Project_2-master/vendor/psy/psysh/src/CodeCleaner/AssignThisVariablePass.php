@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -29,11 +33,20 @@ class AssignThisVariablePass extends CodeCleanerPass
      * @throws FatalErrorException if the user assign the `$this` variable
      *
      * @param Node $node
+<<<<<<< HEAD
+=======
+     *
+     * @return int|Node|null Replacement node (or special return value)
+>>>>>>> main
      */
     public function enterNode(Node $node)
     {
         if ($node instanceof Assign && $node->var instanceof Variable && $node->var->name === 'this') {
+<<<<<<< HEAD
             throw new FatalErrorException('Cannot re-assign $this', 0, \E_ERROR, null, $node->getLine());
+=======
+            throw new FatalErrorException('Cannot re-assign $this', 0, \E_ERROR, null, $node->getStartLine());
+>>>>>>> main
         }
     }
 }

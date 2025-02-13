@@ -14,9 +14,18 @@ declare(strict_types=1);
 
 namespace Ramsey\Collection\Exception;
 
+<<<<<<< HEAD
 /**
  * Thrown when attempting to access an element out of the range of the collection.
  */
 class OutOfBoundsException extends \OutOfBoundsException
+=======
+use OutOfBoundsException as PhpOutOfBoundsException;
+
+/**
+ * Thrown when attempting to access an element out of the range of the collection.
+ */
+class OutOfBoundsException extends PhpOutOfBoundsException implements CollectionException
+>>>>>>> main
 {
 }

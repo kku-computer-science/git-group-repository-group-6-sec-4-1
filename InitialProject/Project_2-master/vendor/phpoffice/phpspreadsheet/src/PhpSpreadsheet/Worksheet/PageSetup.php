@@ -259,10 +259,18 @@ class PageSetup
     /**
      * First page number.
      *
+<<<<<<< HEAD
      * @var int
      */
     private $firstPageNumber;
 
+=======
+     * @var ?int
+     */
+    private $firstPageNumber;
+
+    /** @var string */
+>>>>>>> main
     private $pageOrder = self::PAGEORDER_DOWN_THEN_OVER;
 
     /**
@@ -375,7 +383,11 @@ class PageSetup
     {
         // Microsoft Office Excel 2007 only allows setting a scale between 10 and 400 via the user interface,
         // but it is apparently still able to handle any scale >= 0, where 0 results in 100
+<<<<<<< HEAD
         if (($scale >= 0) || $scale === null) {
+=======
+        if ($scale === null || $scale >= 0) {
+>>>>>>> main
             $this->scale = $scale;
             if ($update) {
                 $this->fitToPage = false;
@@ -474,7 +486,11 @@ class PageSetup
      */
     public function isColumnsToRepeatAtLeftSet()
     {
+<<<<<<< HEAD
         if (is_array($this->columnsToRepeatAtLeft)) {
+=======
+        if (!empty($this->columnsToRepeatAtLeft)) {
+>>>>>>> main
             if ($this->columnsToRepeatAtLeft[0] != '' && $this->columnsToRepeatAtLeft[1] != '') {
                 return true;
             }
@@ -529,7 +545,11 @@ class PageSetup
      */
     public function isRowsToRepeatAtTopSet()
     {
+<<<<<<< HEAD
         if (is_array($this->rowsToRepeatAtTop)) {
+=======
+        if (!empty($this->rowsToRepeatAtTop)) {
+>>>>>>> main
             if ($this->rowsToRepeatAtTop[0] != 0 && $this->rowsToRepeatAtTop[1] != 0) {
                 return true;
             }
@@ -638,9 +658,15 @@ class PageSetup
     public function getPrintArea($index = 0)
     {
         if ($index == 0) {
+<<<<<<< HEAD
             return $this->printArea;
         }
         $printAreas = explode(',', $this->printArea);
+=======
+            return (string) $this->printArea;
+        }
+        $printAreas = explode(',', (string) $this->printArea);
+>>>>>>> main
         if (isset($printAreas[$index - 1])) {
             return $printAreas[$index - 1];
         }
@@ -663,7 +689,11 @@ class PageSetup
         if ($index == 0) {
             return $this->printArea !== null;
         }
+<<<<<<< HEAD
         $printAreas = explode(',', $this->printArea);
+=======
+        $printAreas = explode(',', (string) $this->printArea);
+>>>>>>> main
 
         return isset($printAreas[$index - 1]);
     }
@@ -683,7 +713,11 @@ class PageSetup
         if ($index == 0) {
             $this->printArea = null;
         } else {
+<<<<<<< HEAD
             $printAreas = explode(',', $this->printArea);
+=======
+            $printAreas = explode(',', (string) $this->printArea);
+>>>>>>> main
             if (isset($printAreas[$index - 1])) {
                 unset($printAreas[$index - 1]);
                 $this->printArea = implode(',', $printAreas);
@@ -731,7 +765,11 @@ class PageSetup
             if ($index == 0) {
                 $this->printArea = $value;
             } else {
+<<<<<<< HEAD
                 $printAreas = explode(',', $this->printArea);
+=======
+                $printAreas = explode(',', (string) $this->printArea);
+>>>>>>> main
                 if ($index < 0) {
                     $index = count($printAreas) - abs($index) + 1;
                 }
@@ -745,9 +783,15 @@ class PageSetup
             if ($index == 0) {
                 $this->printArea = $this->printArea ? ($this->printArea . ',' . $value) : $value;
             } else {
+<<<<<<< HEAD
                 $printAreas = explode(',', $this->printArea);
                 if ($index < 0) {
                     $index = abs($index) - 1;
+=======
+                $printAreas = explode(',', (string) $this->printArea);
+                if ($index < 0) {
+                    $index = (int) abs($index) - 1;
+>>>>>>> main
                 }
                 if ($index > count($printAreas)) {
                     throw new PhpSpreadsheetException('Invalid index for setting print range.');
@@ -840,7 +884,11 @@ class PageSetup
     /**
      * Get first page number.
      *
+<<<<<<< HEAD
      * @return int
+=======
+     * @return ?int
+>>>>>>> main
      */
     public function getFirstPageNumber()
     {
@@ -850,7 +898,11 @@ class PageSetup
     /**
      * Set first page number.
      *
+<<<<<<< HEAD
      * @param int $value
+=======
+     * @param ?int $value
+>>>>>>> main
      *
      * @return $this
      */
@@ -884,6 +936,7 @@ class PageSetup
 
         return $this;
     }
+<<<<<<< HEAD
 
     /**
      * Implement PHP __clone to create a deep clone, not just a shallow copy.
@@ -899,4 +952,6 @@ class PageSetup
             }
         }
     }
+=======
+>>>>>>> main
 }

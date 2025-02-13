@@ -11,6 +11,7 @@ use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt;
 use PhpParser\NodeVisitorAbstract;
 
+<<<<<<< HEAD
 class NameResolver extends NodeVisitorAbstract
 {
     /** @var NameContext Naming context */
@@ -21,6 +22,17 @@ class NameResolver extends NodeVisitorAbstract
 
     /** @var bool Whether to replace resolved nodes in place, or to add resolvedNode attributes */
     protected $replaceNodes;
+=======
+class NameResolver extends NodeVisitorAbstract {
+    /** @var NameContext Naming context */
+    protected NameContext $nameContext;
+
+    /** @var bool Whether to preserve original names */
+    protected bool $preserveOriginalNames;
+
+    /** @var bool Whether to replace resolved nodes in place, or to add resolvedNode attributes */
+    protected bool $replaceNodes;
+>>>>>>> main
 
     /**
      * Constructs a name resolution visitor.
@@ -33,16 +45,24 @@ class NameResolver extends NodeVisitorAbstract
      *    namespacedName attribute, as usual.)
      *
      * @param ErrorHandler|null $errorHandler Error handler
+<<<<<<< HEAD
      * @param array $options Options
      */
     public function __construct(ErrorHandler $errorHandler = null, array $options = []) {
         $this->nameContext = new NameContext($errorHandler ?? new ErrorHandler\Throwing);
+=======
+     * @param array{preserveOriginalNames?: bool, replaceNodes?: bool} $options Options
+     */
+    public function __construct(?ErrorHandler $errorHandler = null, array $options = []) {
+        $this->nameContext = new NameContext($errorHandler ?? new ErrorHandler\Throwing());
+>>>>>>> main
         $this->preserveOriginalNames = $options['preserveOriginalNames'] ?? false;
         $this->replaceNodes = $options['replaceNodes'] ?? true;
     }
 
     /**
      * Get name resolution context.
+<<<<<<< HEAD
      *
      * @return NameContext
      */
@@ -51,6 +71,14 @@ class NameResolver extends NodeVisitorAbstract
     }
 
     public function beforeTraverse(array $nodes) {
+=======
+     */
+    public function getNameContext(): NameContext {
+        return $this->nameContext;
+    }
+
+    public function beforeTraverse(array $nodes): ?array {
+>>>>>>> main
         $this->nameContext->startNamespace();
         return null;
     }
@@ -78,6 +106,11 @@ class NameResolver extends NodeVisitorAbstract
             $this->resolveAttrGroups($node);
             if (null !== $node->name) {
                 $this->addNamespacedName($node);
+<<<<<<< HEAD
+=======
+            } else {
+                $node->namespacedName = null;
+>>>>>>> main
             }
         } elseif ($node instanceof Stmt\Interface_) {
             foreach ($node->extends as &$interface) {
@@ -86,15 +119,23 @@ class NameResolver extends NodeVisitorAbstract
 
             $this->resolveAttrGroups($node);
             $this->addNamespacedName($node);
+<<<<<<< HEAD
          } elseif ($node instanceof Stmt\Enum_) {
+=======
+        } elseif ($node instanceof Stmt\Enum_) {
+>>>>>>> main
             foreach ($node->implements as &$interface) {
                 $interface = $this->resolveClassName($interface);
             }
 
             $this->resolveAttrGroups($node);
+<<<<<<< HEAD
             if (null !== $node->name) {
                 $this->addNamespacedName($node);
             }
+=======
+            $this->addNamespacedName($node);
+>>>>>>> main
         } elseif ($node instanceof Stmt\Trait_) {
             $this->resolveAttrGroups($node);
             $this->addNamespacedName($node);
@@ -113,13 +154,31 @@ class NameResolver extends NodeVisitorAbstract
                 $node->type = $this->resolveType($node->type);
             }
             $this->resolveAttrGroups($node);
+<<<<<<< HEAD
+=======
+        } elseif ($node instanceof Node\PropertyHook) {
+            foreach ($node->params as $param) {
+                $param->type = $this->resolveType($param->type);
+                $this->resolveAttrGroups($param);
+            }
+            $this->resolveAttrGroups($node);
+>>>>>>> main
         } elseif ($node instanceof Stmt\Const_) {
             foreach ($node->consts as $const) {
                 $this->addNamespacedName($const);
             }
+<<<<<<< HEAD
         } else if ($node instanceof Stmt\ClassConst) {
             $this->resolveAttrGroups($node);
         } else if ($node instanceof Stmt\EnumCase) {
+=======
+        } elseif ($node instanceof Stmt\ClassConst) {
+            if (null !== $node->type) {
+                $node->type = $this->resolveType($node->type);
+            }
+            $this->resolveAttrGroups($node);
+        } elseif ($node instanceof Stmt\EnumCase) {
+>>>>>>> main
             $this->resolveAttrGroups($node);
         } elseif ($node instanceof Expr\StaticCall
                   || $node instanceof Expr\StaticPropertyFetch
@@ -161,7 +220,12 @@ class NameResolver extends NodeVisitorAbstract
         return null;
     }
 
+<<<<<<< HEAD
     private function addAlias(Stmt\UseUse $use, $type, Name $prefix = null) {
+=======
+    /** @param Stmt\Use_::TYPE_* $type */
+    private function addAlias(Node\UseItem $use, int $type, ?Name $prefix = null): void {
+>>>>>>> main
         // Add prefix for group uses
         $name = $prefix ? Name::concat($prefix, $use->name) : $use->name;
         // Type is determined either by individual element or whole use declaration
@@ -172,8 +236,13 @@ class NameResolver extends NodeVisitorAbstract
         );
     }
 
+<<<<<<< HEAD
     /** @param Stmt\Function_|Stmt\ClassMethod|Expr\Closure $node */
     private function resolveSignature($node) {
+=======
+    /** @param Stmt\Function_|Stmt\ClassMethod|Expr\Closure|Expr\ArrowFunction $node */
+    private function resolveSignature($node): void {
+>>>>>>> main
         foreach ($node->params as $param) {
             $param->type = $this->resolveType($param->type);
             $this->resolveAttrGroups($param);
@@ -181,7 +250,16 @@ class NameResolver extends NodeVisitorAbstract
         $node->returnType = $this->resolveType($node->returnType);
     }
 
+<<<<<<< HEAD
     private function resolveType($node) {
+=======
+    /**
+     * @template T of Node\Identifier|Name|Node\ComplexType|null
+     * @param T $node
+     * @return T
+     */
+    private function resolveType(?Node $node): ?Node {
+>>>>>>> main
         if ($node instanceof Name) {
             return $this->resolveClassName($node);
         }
@@ -202,11 +280,19 @@ class NameResolver extends NodeVisitorAbstract
      * Resolve name, according to name resolver options.
      *
      * @param Name $name Function or constant name to resolve
+<<<<<<< HEAD
      * @param int  $type One of Stmt\Use_::TYPE_*
      *
      * @return Name Resolved name, or original name with attribute
      */
     protected function resolveName(Name $name, int $type) : Name {
+=======
+     * @param Stmt\Use_::TYPE_* $type One of Stmt\Use_::TYPE_*
+     *
+     * @return Name Resolved name, or original name with attribute
+     */
+    protected function resolveName(Name $name, int $type): Name {
+>>>>>>> main
         if (!$this->replaceNodes) {
             $resolvedName = $this->nameContext->getResolvedName($name, $type);
             if (null !== $resolvedName) {
@@ -237,17 +323,29 @@ class NameResolver extends NodeVisitorAbstract
         return $name;
     }
 
+<<<<<<< HEAD
     protected function resolveClassName(Name $name) {
         return $this->resolveName($name, Stmt\Use_::TYPE_NORMAL);
     }
 
     protected function addNamespacedName(Node $node) {
+=======
+    protected function resolveClassName(Name $name): Name {
+        return $this->resolveName($name, Stmt\Use_::TYPE_NORMAL);
+    }
+
+    protected function addNamespacedName(Node $node): void {
+>>>>>>> main
         $node->namespacedName = Name::concat(
             $this->nameContext->getNamespace(), (string) $node->name);
     }
 
+<<<<<<< HEAD
     protected function resolveAttrGroups(Node $node)
     {
+=======
+    protected function resolveAttrGroups(Node $node): void {
+>>>>>>> main
         foreach ($node->attrGroups as $attrGroup) {
             foreach ($attrGroup->attrs as $attr) {
                 $attr->name = $this->resolveClassName($attr->name);

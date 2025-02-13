@@ -14,12 +14,20 @@ final class Blood implements Extension\BloodExtension
     /**
      * @var string[]
      */
+<<<<<<< HEAD
     private $bloodTypes = ['A', 'AB', 'B', 'O'];
+=======
+    private array $bloodTypes = ['A', 'AB', 'B', 'O'];
+>>>>>>> main
 
     /**
      * @var string[]
      */
+<<<<<<< HEAD
     private $bloodRhFactors = ['+', '-'];
+=======
+    private array $bloodRhFactors = ['+', '-'];
+>>>>>>> main
 
     public function bloodType(): string
     {
@@ -36,7 +44,11 @@ final class Blood implements Extension\BloodExtension
         return sprintf(
             '%s%s',
             $this->bloodType(),
+<<<<<<< HEAD
             $this->bloodRh()
+=======
+            $this->bloodRh(),
+>>>>>>> main
         );
     }
 }

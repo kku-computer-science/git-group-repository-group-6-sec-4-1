@@ -49,7 +49,11 @@ class DebugHandlersListener implements EventSubscriberInterface
      * @param bool           $scream           Enables/disables screaming mode, where even silenced errors are logged
      * @param bool           $scope            Enables/disables scoping mode
      */
+<<<<<<< HEAD
     public function __construct(callable $exceptionHandler = null, LoggerInterface $logger = null, $levels = \E_ALL, ?int $throwAt = \E_ALL, bool $scream = true, $scope = true, $deprecationLogger = null, $fileLinkFormat = null)
+=======
+    public function __construct(?callable $exceptionHandler = null, ?LoggerInterface $logger = null, $levels = \E_ALL, ?int $throwAt = \E_ALL, bool $scream = true, $scope = true, $deprecationLogger = null, $fileLinkFormat = null)
+>>>>>>> main
     {
         if (!\is_bool($scope)) {
             trigger_deprecation('symfony/http-kernel', '5.4', 'Passing a $fileLinkFormat is deprecated.');
@@ -73,7 +77,11 @@ class DebugHandlersListener implements EventSubscriberInterface
     /**
      * Configures the error handler.
      */
+<<<<<<< HEAD
     public function configure(object $event = null)
+=======
+    public function configure(?object $event = null)
+>>>>>>> main
     {
         if ($event instanceof ConsoleEvent && !\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true)) {
             return;
@@ -82,6 +90,10 @@ class DebugHandlersListener implements EventSubscriberInterface
             return;
         }
         $this->firstCall = $this->hasTerminatedWithException = false;
+<<<<<<< HEAD
+=======
+        $hasRun = null;
+>>>>>>> main
 
         $handler = set_exception_handler('var_dump');
         $handler = \is_array($handler) ? $handler[0] : null;
@@ -144,6 +156,22 @@ class DebugHandlersListener implements EventSubscriberInterface
         if ($this->exceptionHandler) {
             if ($handler instanceof ErrorHandler) {
                 $handler->setExceptionHandler($this->exceptionHandler);
+<<<<<<< HEAD
+=======
+                if (null !== $hasRun) {
+                    $throwAt = $handler->throwAt(0) | \E_ERROR | \E_CORE_ERROR | \E_COMPILE_ERROR | \E_USER_ERROR | \E_RECOVERABLE_ERROR | \E_PARSE;
+                    $loggers = [];
+
+                    foreach ($handler->setLoggers([]) as $type => $log) {
+                        if ($type & $throwAt) {
+                            $loggers[$type] = [null, $log[1]];
+                        }
+                    }
+
+                    // Assume $kernel->terminateWithException() will log uncaught exceptions appropriately
+                    $handler->setLoggers($loggers);
+                }
+>>>>>>> main
             }
             $this->exceptionHandler = null;
         }

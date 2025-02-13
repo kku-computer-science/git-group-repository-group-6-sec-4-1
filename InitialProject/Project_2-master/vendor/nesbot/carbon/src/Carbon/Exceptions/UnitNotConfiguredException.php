@@ -11,19 +11,54 @@
 
 namespace Carbon\Exceptions;
 
+<<<<<<< HEAD
 use Exception;
+=======
+use Throwable;
+>>>>>>> main
 
 class UnitNotConfiguredException extends UnitException
 {
     /**
+<<<<<<< HEAD
+=======
+     * The unit.
+     *
+     * @var string
+     */
+    protected $unit;
+
+    /**
+>>>>>>> main
      * Constructor.
      *
      * @param string         $unit
      * @param int            $code
+<<<<<<< HEAD
      * @param Exception|null $previous
      */
     public function __construct($unit, $code = 0, Exception $previous = null)
     {
         parent::__construct("Unit $unit have no configuration to get total from other units.", $code, $previous);
     }
+=======
+     * @param Throwable|null $previous
+     */
+    public function __construct($unit, $code = 0, Throwable $previous = null)
+    {
+        $this->unit = $unit;
+
+        parent::__construct("Unit $unit have no configuration to get total from other units.", $code, $previous);
+    }
+
+    /**
+     * Get the unit.
+     *
+     * @return string
+     */
+    public function getUnit(): string
+    {
+        return $this->unit;
+    }
+>>>>>>> main
 }

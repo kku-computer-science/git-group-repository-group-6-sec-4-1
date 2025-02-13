@@ -2,7 +2,10 @@
 
 namespace Illuminate\Support;
 
+<<<<<<< HEAD
 use Doctrine\Inflector\Inflector;
+=======
+>>>>>>> main
 use Doctrine\Inflector\InflectorFactory;
 
 class Pluralizer

@@ -60,7 +60,11 @@ return [
     'ordinal' => function ($number) {
         return $number.(
             $number > 20
+<<<<<<< HEAD
                 ? (\in_array($number, [40, 50, 60, 80, 100]) ? 'fed' : 'ain')
+=======
+                ? (\in_array((int) $number, [40, 50, 60, 80, 100], true) ? 'fed' : 'ain')
+>>>>>>> main
                 : ([
                     '', 'af', 'il', 'ydd', 'ydd', 'ed', 'ed', 'ed', 'fed', 'fed', 'fed', // 1af to 10fed
                     'eg', 'fed', 'eg', 'eg', 'fed', 'eg', 'eg', 'fed', 'eg', 'fed', // 11eg to 20fed

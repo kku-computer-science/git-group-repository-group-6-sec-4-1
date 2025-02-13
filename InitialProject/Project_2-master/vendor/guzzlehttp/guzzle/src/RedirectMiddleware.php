@@ -27,10 +27,17 @@ class RedirectMiddleware
      * @var array
      */
     public static $defaultSettings = [
+<<<<<<< HEAD
         'max'             => 5,
         'protocols'       => ['http', 'https'],
         'strict'          => false,
         'referer'         => false,
+=======
+        'max' => 5,
+        'protocols' => ['http', 'https'],
+        'strict' => false,
+        'referer' => false,
+>>>>>>> main
         'track_redirects' => false,
     ];
 
@@ -88,10 +95,15 @@ class RedirectMiddleware
         $this->guardMax($request, $response, $options);
         $nextRequest = $this->modifyRequest($request, $options, $response);
 
+<<<<<<< HEAD
         // If authorization is handled by curl, unset it if host is different.
         if ($request->getUri()->getHost() !== $nextRequest->getUri()->getHost()
             && defined('\CURLOPT_HTTPAUTH')
         ) {
+=======
+        // If authorization is handled by curl, unset it if URI is cross-origin.
+        if (Psr7\UriComparator::isCrossOrigin($request->getUri(), $nextRequest->getUri()) && defined('\CURLOPT_HTTPAUTH')) {
+>>>>>>> main
             unset(
                 $options['curl'][\CURLOPT_HTTPAUTH],
                 $options['curl'][\CURLOPT_USERPWD]
@@ -142,7 +154,11 @@ class RedirectMiddleware
     }
 
     /**
+<<<<<<< HEAD
      * Check for too many redirects
+=======
+     * Check for too many redirects.
+>>>>>>> main
      *
      * @throws TooManyRedirectsException Too many redirects.
      */
@@ -168,8 +184,13 @@ class RedirectMiddleware
         // not forcing RFC compliance, but rather emulating what all browsers
         // would do.
         $statusCode = $response->getStatusCode();
+<<<<<<< HEAD
         if ($statusCode == 303 ||
             ($statusCode <= 302 && !$options['allow_redirects']['strict'])
+=======
+        if ($statusCode == 303
+            || ($statusCode <= 302 && !$options['allow_redirects']['strict'])
+>>>>>>> main
         ) {
             $safeMethods = ['GET', 'HEAD', 'OPTIONS'];
             $requestMethod = $request->getMethod();
@@ -178,7 +199,11 @@ class RedirectMiddleware
             $modify['body'] = '';
         }
 
+<<<<<<< HEAD
         $uri = $this->redirectUri($request, $response, $protocols);
+=======
+        $uri = self::redirectUri($request, $response, $protocols);
+>>>>>>> main
         if (isset($options['idn_conversion']) && ($options['idn_conversion'] !== false)) {
             $idnOptions = ($options['idn_conversion'] === true) ? \IDNA_DEFAULT : $options['idn_conversion'];
             $uri = Utils::idnUriConvert($uri, $idnOptions);
@@ -198,19 +223,36 @@ class RedirectMiddleware
             $modify['remove_headers'][] = 'Referer';
         }
 
+<<<<<<< HEAD
         // Remove Authorization header if host is different.
         if ($request->getUri()->getHost() !== $modify['uri']->getHost()) {
             $modify['remove_headers'][] = 'Authorization';
+=======
+        // Remove Authorization and Cookie headers if URI is cross-origin.
+        if (Psr7\UriComparator::isCrossOrigin($request->getUri(), $modify['uri'])) {
+            $modify['remove_headers'][] = 'Authorization';
+            $modify['remove_headers'][] = 'Cookie';
+>>>>>>> main
         }
 
         return Psr7\Utils::modifyRequest($request, $modify);
     }
 
     /**
+<<<<<<< HEAD
      * Set the appropriate URL on the request based on the location header
      */
     private function redirectUri(RequestInterface $request, ResponseInterface $response, array $protocols): UriInterface
     {
+=======
+     * Set the appropriate URL on the request based on the location header.
+     */
+    private static function redirectUri(
+        RequestInterface $request,
+        ResponseInterface $response,
+        array $protocols
+    ): UriInterface {
+>>>>>>> main
         $location = Psr7\UriResolver::resolve(
             $request->getUri(),
             new Psr7\Uri($response->getHeaderLine('Location'))

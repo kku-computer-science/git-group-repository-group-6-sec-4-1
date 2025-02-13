@@ -165,6 +165,13 @@ class Inline extends AbstractFrameReflower
             }
         }
 
+<<<<<<< HEAD
+=======
+        if (!$frame->get_first_child()) {
+            return;
+        }
+
+>>>>>>> main
         // Assume the position of the first child
         [$x, $y] = $frame->get_first_child()->get_position();
         $frame->set_position($x, $y);

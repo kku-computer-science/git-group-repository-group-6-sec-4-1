@@ -46,7 +46,11 @@ class ClearCommand extends Command
         // connection being run for the queue operation currently being executed.
         $queueName = $this->getQueue($connection);
 
+<<<<<<< HEAD
         $queue = ($this->laravel['queue'])->connection($connection);
+=======
+        $queue = $this->laravel['queue']->connection($connection);
+>>>>>>> main
 
         if ($queue instanceof ClearableQueue) {
             $count = $queue->clear($queueName);

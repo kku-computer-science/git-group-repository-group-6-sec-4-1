@@ -19,7 +19,14 @@ use Sabberworm\CSS\Value\URL;
 use Sabberworm\CSS\Value\Value;
 
 /**
+<<<<<<< HEAD
  * Declaration blocks are the parts of a CSS file which denote the rules belonging to a selector.
+=======
+ * This class represents a `RuleSet` constrained by a `Selector`.
+ *
+ * It contains an array of selector objects (comma-separated in the CSS) as well as the rules to be applied to the
+ * matching elements.
+>>>>>>> main
  *
  * Declaration blocks usually appear directly inside a `Document` or another `CSSList` (mostly a `MediaQuery`).
  */
@@ -178,6 +185,11 @@ class DeclarationBlock extends RuleSet
      * Splits shorthand declarations (e.g. `margin` or `font`) into their constituent parts.
      *
      * @return void
+<<<<<<< HEAD
+=======
+     *
+     * @deprecated since 8.7.0, will be removed without substitution in version 9.0 in #511
+>>>>>>> main
      */
     public function expandShorthands()
     {
@@ -193,6 +205,11 @@ class DeclarationBlock extends RuleSet
      * Creates shorthand declarations (e.g. `margin` or `font`) whenever possible.
      *
      * @return void
+<<<<<<< HEAD
+=======
+     *
+     * @deprecated since 8.7.0, will be removed without substitution in version 9.0 in #511
+>>>>>>> main
      */
     public function createShorthands()
     {
@@ -212,6 +229,11 @@ class DeclarationBlock extends RuleSet
      * Multiple borders are not yet supported as of 3.
      *
      * @return void
+<<<<<<< HEAD
+=======
+     *
+     * @deprecated since 8.7.0, will be removed without substitution in version 9.0 in #511
+>>>>>>> main
      */
     public function expandBorderShorthand()
     {
@@ -273,6 +295,11 @@ class DeclarationBlock extends RuleSet
      * Handles `margin`, `padding`, `border-color`, `border-style` and `border-width`.
      *
      * @return void
+<<<<<<< HEAD
+=======
+     *
+     * @deprecated since 8.7.0, will be removed without substitution in version 9.0 in #511
+>>>>>>> main
      */
     public function expandDimensionsShorthand()
     {
@@ -333,6 +360,11 @@ class DeclarationBlock extends RuleSet
      * into their constituent parts.
      *
      * @return void
+<<<<<<< HEAD
+=======
+     *
+     * @deprecated since 8.7.0, will be removed without substitution in version 9.0 in #511
+>>>>>>> main
      */
     public function expandFontShorthand()
     {
@@ -403,6 +435,11 @@ class DeclarationBlock extends RuleSet
      * @see http://www.w3.org/TR/21/colors.html#propdef-background
      *
      * @return void
+<<<<<<< HEAD
+=======
+     *
+     * @deprecated since 8.7.0, will be removed without substitution in version 9.0 in #511
+>>>>>>> main
      */
     public function expandBackgroundShorthand()
     {
@@ -475,6 +512,11 @@ class DeclarationBlock extends RuleSet
 
     /**
      * @return void
+<<<<<<< HEAD
+=======
+     *
+     * @deprecated since 8.7.0, will be removed without substitution in version 9.0 in #511
+>>>>>>> main
      */
     public function expandListStyleShorthand()
     {
@@ -558,10 +600,19 @@ class DeclarationBlock extends RuleSet
      * @param string $sShorthand
      *
      * @return void
+<<<<<<< HEAD
+=======
+     *
+     * @deprecated since 8.7.0, will be removed without substitution in version 9.0 in #511
+>>>>>>> main
      */
     public function createShorthandProperties(array $aProperties, $sShorthand)
     {
         $aRules = $this->getRulesAssoc();
+<<<<<<< HEAD
+=======
+        $oRule = null;
+>>>>>>> main
         $aNewValues = [];
         foreach ($aProperties as $sProperty) {
             if (!isset($aRules[$sProperty])) {
@@ -582,7 +633,11 @@ class DeclarationBlock extends RuleSet
                 $this->removeRule($sProperty);
             }
         }
+<<<<<<< HEAD
         if (count($aNewValues)) {
+=======
+        if ($aNewValues !== [] && $oRule instanceof Rule) {
+>>>>>>> main
             $oNewRule = new Rule($sShorthand, $oRule->getLineNo(), $oRule->getColNo());
             foreach ($aNewValues as $mValue) {
                 $oNewRule->addValue($mValue);
@@ -593,6 +648,11 @@ class DeclarationBlock extends RuleSet
 
     /**
      * @return void
+<<<<<<< HEAD
+=======
+     *
+     * @deprecated since 8.7.0, will be removed without substitution in version 9.0 in #511
+>>>>>>> main
      */
     public function createBackgroundShorthand()
     {
@@ -608,6 +668,11 @@ class DeclarationBlock extends RuleSet
 
     /**
      * @return void
+<<<<<<< HEAD
+=======
+     *
+     * @deprecated since 8.7.0, will be removed without substitution in version 9.0 in #511
+>>>>>>> main
      */
     public function createListStyleShorthand()
     {
@@ -625,6 +690,11 @@ class DeclarationBlock extends RuleSet
      * Should be run after `create_dimensions_shorthand`!
      *
      * @return void
+<<<<<<< HEAD
+=======
+     *
+     * @deprecated since 8.7.0, will be removed without substitution in version 9.0 in #511
+>>>>>>> main
      */
     public function createBorderShorthand()
     {
@@ -642,6 +712,11 @@ class DeclarationBlock extends RuleSet
      * and converts them into shorthand CSS properties.
      *
      * @return void
+<<<<<<< HEAD
+=======
+     *
+     * @deprecated since 8.7.0, will be removed without substitution in version 9.0 in #511
+>>>>>>> main
      */
     public function createDimensionsShorthand()
     {
@@ -716,6 +791,11 @@ class DeclarationBlock extends RuleSet
      * At least `font-size` AND `font-family` must be present in order to create a shorthand declaration.
      *
      * @return void
+<<<<<<< HEAD
+=======
+     *
+     * @deprecated since 8.7.0, will be removed without substitution in version 9.0 in #511
+>>>>>>> main
      */
     public function createFontShorthand()
     {
@@ -806,24 +886,43 @@ class DeclarationBlock extends RuleSet
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * @param OutputFormat|null $oOutputFormat
+     *
+>>>>>>> main
      * @return string
      *
      * @throws OutputException
      */
+<<<<<<< HEAD
     public function render(OutputFormat $oOutputFormat)
     {
+=======
+    public function render($oOutputFormat)
+    {
+        $sResult = $oOutputFormat->comments($this);
+>>>>>>> main
         if (count($this->aSelectors) === 0) {
             // If all the selectors have been removed, this declaration block becomes invalid
             throw new OutputException("Attempt to print declaration block with missing selector", $this->iLineNo);
         }
+<<<<<<< HEAD
         $sResult = $oOutputFormat->sBeforeDeclarationBlock;
+=======
+        $sResult .= $oOutputFormat->sBeforeDeclarationBlock;
+>>>>>>> main
         $sResult .= $oOutputFormat->implode(
             $oOutputFormat->spaceBeforeSelectorSeparator() . ',' . $oOutputFormat->spaceAfterSelectorSeparator(),
             $this->aSelectors
         );
         $sResult .= $oOutputFormat->sAfterDeclarationBlockSelectors;
         $sResult .= $oOutputFormat->spaceBeforeOpeningBrace() . '{';
+<<<<<<< HEAD
         $sResult .= parent::render($oOutputFormat);
+=======
+        $sResult .= $this->renderRules($oOutputFormat);
+>>>>>>> main
         $sResult .= '}';
         $sResult .= $oOutputFormat->sAfterDeclarationBlock;
         return $sResult;

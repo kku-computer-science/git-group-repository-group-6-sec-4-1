@@ -90,7 +90,11 @@ class TableStyle
      *
      * @return $this
      */
+<<<<<<< HEAD
     public function setHorizontalBorderChars(string $outside, string $inside = null): self
+=======
+    public function setHorizontalBorderChars(string $outside, ?string $inside = null): self
+>>>>>>> main
     {
         $this->horizontalOutsideBorderChar = $outside;
         $this->horizontalInsideBorderChar = $inside ?? $outside;
@@ -115,7 +119,11 @@ class TableStyle
      *
      * @return $this
      */
+<<<<<<< HEAD
     public function setVerticalBorderChars(string $outside, string $inside = null): self
+=======
+    public function setVerticalBorderChars(string $outside, ?string $inside = null): self
+>>>>>>> main
     {
         $this->verticalOutsideBorderChar = $outside;
         $this->verticalInsideBorderChar = $inside ?? $outside;
@@ -169,7 +177,11 @@ class TableStyle
      *
      * @return $this
      */
+<<<<<<< HEAD
     public function setCrossingChars(string $cross, string $topLeft, string $topMid, string $topRight, string $midRight, string $bottomRight, string $bottomMid, string $bottomLeft, string $midLeft, string $topLeftBottom = null, string $topMidBottom = null, string $topRightBottom = null): self
+=======
+    public function setCrossingChars(string $cross, string $topLeft, string $topMid, string $topRight, string $midRight, string $bottomRight, string $bottomMid, string $bottomLeft, string $midLeft, ?string $topLeftBottom = null, ?string $topMidBottom = null, ?string $topRightBottom = null): self
+>>>>>>> main
     {
         $this->crossingChar = $cross;
         $this->crossingTopLeftChar = $topLeft;

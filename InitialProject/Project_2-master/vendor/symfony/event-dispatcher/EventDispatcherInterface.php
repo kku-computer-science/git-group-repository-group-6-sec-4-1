@@ -27,6 +27,11 @@ interface EventDispatcherInterface extends ContractsEventDispatcherInterface
      *
      * @param int $priority The higher this value, the earlier an event
      *                      listener will be triggered in the chain (defaults to 0)
+<<<<<<< HEAD
+=======
+     *
+     * @return void
+>>>>>>> main
      */
     public function addListener(string $eventName, callable $listener, int $priority = 0);
 
@@ -35,14 +40,30 @@ interface EventDispatcherInterface extends ContractsEventDispatcherInterface
      *
      * The subscriber is asked for all the events it is
      * interested in and added as a listener for these events.
+<<<<<<< HEAD
+=======
+     *
+     * @return void
+>>>>>>> main
      */
     public function addSubscriber(EventSubscriberInterface $subscriber);
 
     /**
      * Removes an event listener from the specified events.
+<<<<<<< HEAD
      */
     public function removeListener(string $eventName, callable $listener);
 
+=======
+     *
+     * @return void
+     */
+    public function removeListener(string $eventName, callable $listener);
+
+    /**
+     * @return void
+     */
+>>>>>>> main
     public function removeSubscriber(EventSubscriberInterface $subscriber);
 
     /**
@@ -50,12 +71,17 @@ interface EventDispatcherInterface extends ContractsEventDispatcherInterface
      *
      * @return array<callable[]|callable>
      */
+<<<<<<< HEAD
     public function getListeners(string $eventName = null);
+=======
+    public function getListeners(?string $eventName = null): array;
+>>>>>>> main
 
     /**
      * Gets the listener priority for a specific event.
      *
      * Returns null if the event or the listener does not exist.
+<<<<<<< HEAD
      *
      * @return int|null
      */
@@ -67,4 +93,13 @@ interface EventDispatcherInterface extends ContractsEventDispatcherInterface
      * @return bool
      */
     public function hasListeners(string $eventName = null);
+=======
+     */
+    public function getListenerPriority(string $eventName, callable $listener): ?int;
+
+    /**
+     * Checks whether an event has any registered listeners.
+     */
+    public function hasListeners(?string $eventName = null): bool;
+>>>>>>> main
 }

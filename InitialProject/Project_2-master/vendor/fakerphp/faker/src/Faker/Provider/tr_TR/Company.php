@@ -31,6 +31,10 @@ class Company extends \Faker\Provider\Company
 
     /**
      * @see https://tr.wikipedia.org/wiki/Meslekler_listesi
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> main
      * @note Randomly took 300 from this list
      */
     protected static $jobTitleFormat = [

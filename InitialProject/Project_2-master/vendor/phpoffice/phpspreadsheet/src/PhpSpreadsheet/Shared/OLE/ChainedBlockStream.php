@@ -6,6 +6,12 @@ use PhpOffice\PhpSpreadsheet\Shared\OLE;
 
 class ChainedBlockStream
 {
+<<<<<<< HEAD
+=======
+    /** @var mixed */
+    public $context;
+
+>>>>>>> main
     /**
      * The OLE container of the file that is being read.
      *
@@ -48,7 +54,11 @@ class ChainedBlockStream
      */
     public function stream_open($path, $mode, $options, &$openedPath) // @codingStandardsIgnoreLine
     {
+<<<<<<< HEAD
         if ($mode != 'r') {
+=======
+        if ($mode[0] !== 'r') {
+>>>>>>> main
             if ($options & STREAM_REPORT_ERRORS) {
                 trigger_error('Only reading is supported', E_USER_WARNING);
             }
@@ -119,7 +129,11 @@ class ChainedBlockStream
         if ($this->stream_eof()) {
             return false;
         }
+<<<<<<< HEAD
         $s = substr($this->data, $this->pos, $count);
+=======
+        $s = substr($this->data, (int) $this->pos, $count);
+>>>>>>> main
         $this->pos += $count;
 
         return $s;
@@ -160,7 +174,12 @@ class ChainedBlockStream
             $this->pos = $offset;
         } elseif ($whence == SEEK_CUR && -$offset <= $this->pos) {
             $this->pos += $offset;
+<<<<<<< HEAD
         } elseif ($whence == SEEK_END && -$offset <= count($this->data)) {
+=======
+            // @phpstan-ignore-next-line
+        } elseif ($whence == SEEK_END && -$offset <= count(/** @scrutinizer ignore-type */ $this->data)) {
+>>>>>>> main
             $this->pos = strlen($this->data) + $offset;
         } else {
             return false;

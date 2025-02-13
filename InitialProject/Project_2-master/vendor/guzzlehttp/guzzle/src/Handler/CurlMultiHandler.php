@@ -2,6 +2,10 @@
 
 namespace GuzzleHttp\Handler;
 
+<<<<<<< HEAD
+=======
+use Closure;
+>>>>>>> main
 use GuzzleHttp\Promise as P;
 use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
@@ -15,8 +19,11 @@ use Psr\Http\Message\RequestInterface;
  * associative array of curl option constants mapping to values in the
  * **curl** key of the provided request options.
  *
+<<<<<<< HEAD
  * @property resource|\CurlMultiHandle $_mh Internal use only. Lazy loaded multi-handle.
  *
+=======
+>>>>>>> main
  * @final
  */
 class CurlMultiHandler
@@ -55,6 +62,12 @@ class CurlMultiHandler
      */
     private $options = [];
 
+<<<<<<< HEAD
+=======
+    /** @var resource|\CurlMultiHandle */
+    private $_mh;
+
+>>>>>>> main
     /**
      * This handler accepts the following options:
      *
@@ -78,6 +91,13 @@ class CurlMultiHandler
         }
 
         $this->options = $options['options'] ?? [];
+<<<<<<< HEAD
+=======
+
+        // unsetting the property forces the first access to go through
+        // __get().
+        unset($this->_mh);
+>>>>>>> main
     }
 
     /**
@@ -154,6 +174,12 @@ class CurlMultiHandler
             }
         }
 
+<<<<<<< HEAD
+=======
+        // Run curl_multi_exec in the queue to enable other async tasks to run
+        P\Utils::queue()->add(Closure::fromCallable([$this, 'tickInQueue']));
+
+>>>>>>> main
         // Step through the task queue which may add additional requests.
         P\Utils::queue()->run();
 
@@ -163,12 +189,33 @@ class CurlMultiHandler
             \usleep(250);
         }
 
+<<<<<<< HEAD
         while (\curl_multi_exec($this->_mh, $this->active) === \CURLM_CALL_MULTI_PERFORM);
+=======
+        while (\curl_multi_exec($this->_mh, $this->active) === \CURLM_CALL_MULTI_PERFORM) {
+            // Prevent busy looping for slow HTTP requests.
+            \curl_multi_select($this->_mh, $this->selectTimeout);
+        }
+>>>>>>> main
 
         $this->processMessages();
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Runs \curl_multi_exec() inside the event loop, to prevent busy looping
+     */
+    private function tickInQueue(): void
+    {
+        if (\curl_multi_exec($this->_mh, $this->active) === \CURLM_CALL_MULTI_PERFORM) {
+            \curl_multi_select($this->_mh, 0);
+            P\Utils::queue()->add(Closure::fromCallable([$this, 'tickInQueue']));
+        }
+    }
+
+    /**
+>>>>>>> main
      * Runs until all outstanding connections have completed.
      */
     public function execute(): void

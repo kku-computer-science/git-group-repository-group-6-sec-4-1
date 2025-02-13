@@ -5,7 +5,11 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\Financial;
 use DateTimeInterface;
 use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel;
 use PhpOffice\PhpSpreadsheet\Calculation\Financial\Constants as FinancialConstants;
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class Helpers
 {
@@ -27,7 +31,11 @@ class Helpers
     public static function daysPerYear($year, $basis = 0)
     {
         if (!is_numeric($basis)) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         switch ($basis) {
@@ -41,7 +49,11 @@ class Helpers
                 return (DateTimeExcel\Helpers::isLeapYear($year)) ? 366 : 365;
         }
 
+<<<<<<< HEAD
         return Functions::NAN();
+=======
+        return ExcelError::NAN();
+>>>>>>> main
     }
 
     /**

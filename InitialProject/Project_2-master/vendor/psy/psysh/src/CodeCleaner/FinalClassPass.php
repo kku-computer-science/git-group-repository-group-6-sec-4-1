@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -20,10 +24,19 @@ use Psy\Exception\FatalErrorException;
  */
 class FinalClassPass extends CodeCleanerPass
 {
+<<<<<<< HEAD
     private $finalClasses;
 
     /**
      * @param array $nodes
+=======
+    private array $finalClasses = [];
+
+    /**
+     * @param array $nodes
+     *
+     * @return Node[]|null Array of nodes
+>>>>>>> main
      */
     public function beforeTraverse(array $nodes)
     {
@@ -34,6 +47,11 @@ class FinalClassPass extends CodeCleanerPass
      * @throws FatalErrorException if the node is a class that extends a final class
      *
      * @param Node $node
+<<<<<<< HEAD
+=======
+     *
+     * @return int|Node|null Replacement node (or special return value)
+>>>>>>> main
      */
     public function enterNode(Node $node)
     {
@@ -42,7 +60,11 @@ class FinalClassPass extends CodeCleanerPass
                 $extends = (string) $node->extends;
                 if ($this->isFinalClass($extends)) {
                     $msg = \sprintf('Class %s may not inherit from final class (%s)', $node->name, $extends);
+<<<<<<< HEAD
                     throw new FatalErrorException($msg, 0, \E_ERROR, null, $node->getLine());
+=======
+                    throw new FatalErrorException($msg, 0, \E_ERROR, null, $node->getStartLine());
+>>>>>>> main
                 }
             }
 
@@ -54,8 +76,11 @@ class FinalClassPass extends CodeCleanerPass
 
     /**
      * @param string $name Class name
+<<<<<<< HEAD
      *
      * @return bool
+=======
+>>>>>>> main
      */
     private function isFinalClass(string $name): bool
     {

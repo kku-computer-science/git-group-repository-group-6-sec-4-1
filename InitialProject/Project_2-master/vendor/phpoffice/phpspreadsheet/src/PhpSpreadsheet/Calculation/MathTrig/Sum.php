@@ -3,6 +3,12 @@
 namespace PhpOffice\PhpSpreadsheet\Calculation\MathTrig;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ErrorValue;
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+use PhpOffice\PhpSpreadsheet\Calculation\Information\Value;
+>>>>>>> main
 
 class Sum
 {
@@ -27,7 +33,11 @@ class Sum
             // Is it a numeric value?
             if (is_numeric($arg)) {
                 $returnValue += $arg;
+<<<<<<< HEAD
             } elseif (Functions::isError($arg)) {
+=======
+            } elseif (ErrorValue::isError($arg)) {
+>>>>>>> main
                 return $arg;
             }
         }
@@ -61,11 +71,19 @@ class Sum
                 $returnValue += $arg;
             } elseif (is_bool($arg)) {
                 $returnValue += (int) $arg;
+<<<<<<< HEAD
             } elseif (Functions::isError($arg)) {
                 return $arg;
             // ignore non-numerics from cell, but fail as literals (except null)
             } elseif ($arg !== null && !Functions::isCellValue($k)) {
                 return Functions::VALUE();
+=======
+            } elseif (ErrorValue::isError($arg)) {
+                return $arg;
+            } elseif ($arg !== null && !Functions::isCellValue($k)) {
+                // ignore non-numerics from cell, but fail as literals (except null)
+                return ExcelError::VALUE();
+>>>>>>> main
             }
         }
 
@@ -99,7 +117,11 @@ class Sum
             $array2 = Functions::flattenArray($matrixData);
             $count = count($array2);
             if ($wrkCellCount != $count) {
+<<<<<<< HEAD
                 return Functions::VALUE();
+=======
+                return ExcelError::VALUE();
+>>>>>>> main
             }
 
             foreach ($array2 as $i => $val) {

@@ -31,7 +31,11 @@ class ServerBag extends ParameterBag
         foreach ($this->parameters as $key => $value) {
             if (str_starts_with($key, 'HTTP_')) {
                 $headers[substr($key, 5)] = $value;
+<<<<<<< HEAD
             } elseif (\in_array($key, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'], true)) {
+=======
+            } elseif (\in_array($key, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'], true) && '' !== $value) {
+>>>>>>> main
                 $headers[$key] = $value;
             }
         }
@@ -51,7 +55,11 @@ class ServerBag extends ParameterBag
              * RewriteCond %{HTTP:Authorization} .+
              * RewriteRule ^ - [E=HTTP_AUTHORIZATION:%0]
              * RewriteCond %{REQUEST_FILENAME} !-f
+<<<<<<< HEAD
              * RewriteRule ^(.*)$ app.php [QSA,L]
+=======
+             * RewriteRule ^(.*)$ index.php [QSA,L]
+>>>>>>> main
              */
 
             $authorizationHeader = null;

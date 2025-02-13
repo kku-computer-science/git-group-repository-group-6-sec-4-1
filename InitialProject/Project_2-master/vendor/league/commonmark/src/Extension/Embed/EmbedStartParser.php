@@ -13,7 +13,10 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Extension\Embed;
 
+<<<<<<< HEAD
 use League\CommonMark\Node\Block\Document;
+=======
+>>>>>>> main
 use League\CommonMark\Parser\Block\BlockStart;
 use League\CommonMark\Parser\Block\BlockStartParserInterface;
 use League\CommonMark\Parser\Cursor;
@@ -24,7 +27,11 @@ class EmbedStartParser implements BlockStartParserInterface
 {
     public function tryStart(Cursor $cursor, MarkdownParserStateInterface $parserState): ?BlockStart
     {
+<<<<<<< HEAD
         if ($cursor->isIndented() || $parserState->getParagraphContent() !== null || ! ($parserState->getLastMatchedBlockParser()->getBlock() instanceof Document)) {
+=======
+        if ($cursor->isIndented() || $parserState->getParagraphContent() !== null || ! ($parserState->getActiveBlockParser()->isContainer())) {
+>>>>>>> main
             return BlockStart::none();
         }
 

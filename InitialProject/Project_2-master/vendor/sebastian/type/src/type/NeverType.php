@@ -26,6 +26,12 @@ final class NeverType extends Type
         return false;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true NeverType $this
+     */
+>>>>>>> main
     public function isNever(): bool
     {
         return true;

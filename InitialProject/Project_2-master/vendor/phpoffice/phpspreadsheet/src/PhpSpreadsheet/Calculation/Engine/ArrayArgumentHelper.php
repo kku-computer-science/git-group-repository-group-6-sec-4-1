@@ -7,6 +7,14 @@ use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 class ArrayArgumentHelper
 {
     /**
+<<<<<<< HEAD
+=======
+     * @var int
+     */
+    protected $indexStart = 0;
+
+    /**
+>>>>>>> main
      * @var array
      */
     protected $arguments;
@@ -28,6 +36,11 @@ class ArrayArgumentHelper
 
     public function initialise(array $arguments): void
     {
+<<<<<<< HEAD
+=======
+        $keys = array_keys($arguments);
+        $this->indexStart = (int) array_shift($keys);
+>>>>>>> main
         $this->rows = $this->rows($arguments);
         $this->columns = $this->columns($arguments);
 
@@ -57,7 +70,11 @@ class ArrayArgumentHelper
         $rowArrays = $this->filterArray($this->rows);
         $columnArrays = $this->filterArray($this->columns);
 
+<<<<<<< HEAD
         for ($index = 0; $index < $this->argumentCount; ++$index) {
+=======
+        for ($index = $this->indexStart; $index < $this->argumentCount; ++$index) {
+>>>>>>> main
             if (isset($rowArrays[$index]) || isset($columnArrays[$index])) {
                 return ++$index;
             }
@@ -76,7 +93,11 @@ class ArrayArgumentHelper
     private function getRowVectors(): array
     {
         $rowVectors = [];
+<<<<<<< HEAD
         for ($index = 0; $index < $this->argumentCount; ++$index) {
+=======
+        for ($index = $this->indexStart; $index < ($this->indexStart + $this->argumentCount); ++$index) {
+>>>>>>> main
             if ($this->rows[$index] === 1 && $this->columns[$index] > 1) {
                 $rowVectors[] = $index;
             }
@@ -95,7 +116,11 @@ class ArrayArgumentHelper
     private function getColumnVectors(): array
     {
         $columnVectors = [];
+<<<<<<< HEAD
         for ($index = 0; $index < $this->argumentCount; ++$index) {
+=======
+        for ($index = $this->indexStart; $index < ($this->indexStart + $this->argumentCount); ++$index) {
+>>>>>>> main
             if ($this->rows[$index] > 1 && $this->columns[$index] === 1) {
                 $columnVectors[] = $index;
             }
@@ -106,7 +131,11 @@ class ArrayArgumentHelper
 
     public function getMatrixPair(): array
     {
+<<<<<<< HEAD
         for ($i = 0; $i < ($this->argumentCount - 1); ++$i) {
+=======
+        for ($i = $this->indexStart; $i < ($this->indexStart + $this->argumentCount - 1); ++$i) {
+>>>>>>> main
             for ($j = $i + 1; $j < $this->argumentCount; ++$j) {
                 if (isset($this->rows[$i], $this->rows[$j])) {
                     return [$i, $j];

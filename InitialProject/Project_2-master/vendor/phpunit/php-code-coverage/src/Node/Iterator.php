@@ -74,8 +74,11 @@ final class Iterator implements RecursiveIterator
 
     /**
      * Returns the sub iterator for the current element.
+<<<<<<< HEAD
      *
      * @return Iterator
+=======
+>>>>>>> main
      */
     public function getChildren(): self
     {

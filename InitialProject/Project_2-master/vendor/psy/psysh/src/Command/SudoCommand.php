@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,7 +18,10 @@ namespace Psy\Command;
 use PhpParser\NodeTraverser;
 use PhpParser\PrettyPrinter\Standard as Printer;
 use Psy\Input\CodeArgument;
+<<<<<<< HEAD
 use Psy\ParserFactory;
+=======
+>>>>>>> main
 use Psy\Readline\Readline;
 use Psy\Sudo\SudoVisitor;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,19 +32,32 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class SudoCommand extends Command
 {
+<<<<<<< HEAD
     private $readline;
     private $parser;
     private $traverser;
     private $printer;
+=======
+    private Readline $readline;
+    private CodeArgumentParser $parser;
+    private NodeTraverser $traverser;
+    private Printer $printer;
+>>>>>>> main
 
     /**
      * {@inheritdoc}
      */
     public function __construct($name = null)
     {
+<<<<<<< HEAD
         $parserFactory = new ParserFactory();
         $this->parser = $parserFactory->createParser();
 
+=======
+        $this->parser = new CodeArgumentParser();
+
+        // @todo Pass visitor directly to once we drop support for PHP-Parser 4.x
+>>>>>>> main
         $this->traverser = new NodeTraverser();
         $this->traverser->addVisitor(new SudoVisitor());
 
@@ -95,8 +115,15 @@ HELP
 
     /**
      * {@inheritdoc}
+<<<<<<< HEAD
      */
     protected function execute(InputInterface $input, OutputInterface $output)
+=======
+     *
+     * @return int 0 if everything went fine, or an exit code
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): int
+>>>>>>> main
     {
         $code = $input->getArgument('code');
 
@@ -109,6 +136,7 @@ HELP
             $code = $history[\count($history) - 2];
         }
 
+<<<<<<< HEAD
         if (\strpos($code, '<?') === false) {
             $code = '<?php '.$code;
         }
@@ -117,10 +145,18 @@ HELP
 
         $sudoCode = $this->printer->prettyPrint($nodes);
         $shell = $this->getApplication();
+=======
+        $nodes = $this->traverser->traverse($this->parser->parse($code));
+
+        $sudoCode = $this->printer->prettyPrint($nodes);
+
+        $shell = $this->getShell();
+>>>>>>> main
         $shell->addCode($sudoCode, !$shell->hasCode());
 
         return 0;
     }
+<<<<<<< HEAD
 
     /**
      * Lex and parse a string of code into statements.
@@ -142,4 +178,6 @@ HELP
             return $this->parser->parse($code.';');
         }
     }
+=======
+>>>>>>> main
 }

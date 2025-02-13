@@ -1,4 +1,8 @@
 <?php
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 /*
  * This file is part of the Symfony package.
  *
@@ -26,7 +30,11 @@ final class NullOutputFormatterStyle implements OutputFormatterStyleInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function setBackground(string $color = null): void
+=======
+    public function setBackground(?string $color = null): void
+>>>>>>> main
     {
         // do nothing
     }
@@ -34,7 +42,11 @@ final class NullOutputFormatterStyle implements OutputFormatterStyleInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function setForeground(string $color = null): void
+=======
+    public function setForeground(?string $color = null): void
+>>>>>>> main
     {
         // do nothing
     }

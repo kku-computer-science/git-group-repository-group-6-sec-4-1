@@ -23,6 +23,16 @@ use League\CommonMark\Parser\MarkdownParserStateInterface;
 
 final class TableStartParser implements BlockStartParserInterface
 {
+<<<<<<< HEAD
+=======
+    private int $maxAutocompletedCells;
+
+    public function __construct(int $maxAutocompletedCells = TableParser::DEFAULT_MAX_AUTOCOMPLETED_CELLS)
+    {
+        $this->maxAutocompletedCells = $maxAutocompletedCells;
+    }
+
+>>>>>>> main
     public function tryStart(Cursor $cursor, MarkdownParserStateInterface $parserState): ?BlockStart
     {
         $paragraph = $parserState->getParagraphContent();
@@ -35,8 +45,13 @@ final class TableStartParser implements BlockStartParserInterface
             return BlockStart::none();
         }
 
+<<<<<<< HEAD
         $lines    = \explode("\n", $paragraph);
         $lastLine = \array_pop($lines);
+=======
+        $lastLineBreak = \strrpos($paragraph, "\n");
+        $lastLine      = $lastLineBreak === false ? $paragraph : \substr($paragraph, $lastLineBreak + 1);
+>>>>>>> main
 
         $headerCells = TableParser::split($lastLine);
         if (\count($headerCells) > \count($columns)) {
@@ -47,6 +62,7 @@ final class TableStartParser implements BlockStartParserInterface
 
         $parsers = [];
 
+<<<<<<< HEAD
         if (\count($lines) > 0) {
             $p = new ParagraphParser();
             $p->addLine(\implode("\n", $lines));
@@ -54,6 +70,15 @@ final class TableStartParser implements BlockStartParserInterface
         }
 
         $parsers[] = new TableParser($columns, $headerCells);
+=======
+        if ($lastLineBreak !== false) {
+            $p = new ParagraphParser();
+            $p->addLine(\substr($paragraph, 0, $lastLineBreak));
+            $parsers[] = $p;
+        }
+
+        $parsers[] = new TableParser($columns, $headerCells, $this->maxAutocompletedCells);
+>>>>>>> main
 
         return BlockStart::of(...$parsers)
             ->at($cursor)

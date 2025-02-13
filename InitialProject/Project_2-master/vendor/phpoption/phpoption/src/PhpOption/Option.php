@@ -62,13 +62,21 @@ abstract class Option implements IteratorAggregate
      * @template S
      *
      * @param array<string|int,S>|ArrayAccess<string|int,S>|null $array A potential array or \ArrayAccess value.
+<<<<<<< HEAD
      * @param string                                             $key   The key to check.
+=======
+     * @param string|int|null                                    $key   The key to check.
+>>>>>>> main
      *
      * @return Option<S>
      */
     public static function fromArraysValue($array, $key)
     {
+<<<<<<< HEAD
         if (!(is_array($array) || $array instanceof ArrayAccess) || !isset($array[$key])) {
+=======
+        if ($key === null || !(is_array($array) || $array instanceof ArrayAccess) || !isset($array[$key])) {
+>>>>>>> main
             return None::create();
         }
 

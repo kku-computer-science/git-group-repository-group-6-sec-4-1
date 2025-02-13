@@ -9,8 +9,11 @@
  */
 namespace PHPUnit\TextUI\XmlConfiguration;
 
+<<<<<<< HEAD
 use function array_key_exists;
 use function sprintf;
+=======
+>>>>>>> main
 use function version_compare;
 
 /**
@@ -28,7 +31,11 @@ final class MigrationBuilder
             IntroduceCoverageElement::class,
             MoveAttributesFromRootToCoverage::class,
             MoveAttributesFromFilterWhitelistToCoverage::class,
+<<<<<<< HEAD
             MoveWhitelistDirectoriesToCoverage::class,
+=======
+            MoveWhitelistIncludesToCoverage::class,
+>>>>>>> main
             MoveWhitelistExcludesToCoverage::class,
             RemoveEmptyFilter::class,
             CoverageCloverToReport::class,
@@ -47,6 +54,7 @@ final class MigrationBuilder
      */
     public function build(string $fromVersion): array
     {
+<<<<<<< HEAD
         if (!array_key_exists($fromVersion, self::AVAILABLE_MIGRATIONS)) {
             throw new MigrationBuilderException(
                 sprintf(
@@ -56,6 +64,8 @@ final class MigrationBuilder
             );
         }
 
+=======
+>>>>>>> main
         $stack = [];
 
         foreach (self::AVAILABLE_MIGRATIONS as $version => $migrations) {

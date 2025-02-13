@@ -1,6 +1,10 @@
 <?php declare(strict_types=1);
 /*
+<<<<<<< HEAD
  * This file is part of the Recursion Context package.
+=======
+ * This file is part of sebastian/recursion-context.
+>>>>>>> main
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>
  *

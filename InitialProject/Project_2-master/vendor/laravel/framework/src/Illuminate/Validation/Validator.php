@@ -867,6 +867,11 @@ class Validator implements ValidatorContract
             $this->passes();
         }
 
+<<<<<<< HEAD
+=======
+        $attributeWithPlaceholders = $attribute;
+
+>>>>>>> main
         $attribute = str_replace(
             [$this->dotPlaceholder, '__asterisk__'],
             ['.', '*'],
@@ -878,7 +883,11 @@ class Validator implements ValidatorContract
         }
 
         $this->messages->add($attribute, $this->makeReplacements(
+<<<<<<< HEAD
             $this->getMessage($attribute, $rule), $attribute, $rule, $parameters
+=======
+            $this->getMessage($attributeWithPlaceholders, $rule), $attribute, $rule, $parameters
+>>>>>>> main
         ));
 
         $this->failedRules[$attribute][$rule] = $parameters;

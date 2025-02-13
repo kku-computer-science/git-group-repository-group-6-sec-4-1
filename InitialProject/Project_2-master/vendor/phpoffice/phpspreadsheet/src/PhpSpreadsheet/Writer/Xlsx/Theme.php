@@ -2,12 +2,20 @@
 
 namespace PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Shared\XMLWriter;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+=======
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx\Namespaces;
+use PhpOffice\PhpSpreadsheet\Shared\XMLWriter;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Theme as SpreadsheetTheme;
+>>>>>>> main
 
 class Theme extends WriterPart
 {
     /**
+<<<<<<< HEAD
      * Map of Major fonts to write.
      *
      * @var string[]
@@ -102,6 +110,8 @@ class Theme extends WriterPart
     ];
 
     /**
+=======
+>>>>>>> main
      * Write theme to XML format.
      *
      * @return string XML Output
@@ -115,13 +125,21 @@ class Theme extends WriterPart
         } else {
             $objWriter = new XMLWriter(XMLWriter::STORAGE_MEMORY);
         }
+<<<<<<< HEAD
+=======
+        $theme = $spreadsheet->getTheme();
+>>>>>>> main
 
         // XML header
         $objWriter->startDocument('1.0', 'UTF-8', 'yes');
 
         // a:theme
         $objWriter->startElement('a:theme');
+<<<<<<< HEAD
         $objWriter->writeAttribute('xmlns:a', 'http://schemas.openxmlformats.org/drawingml/2006/main');
+=======
+        $objWriter->writeAttribute('xmlns:a', Namespaces::DRAWINGML);
+>>>>>>> main
         $objWriter->writeAttribute('name', 'Office Theme');
 
         // a:themeElements
@@ -129,6 +147,7 @@ class Theme extends WriterPart
 
         // a:clrScheme
         $objWriter->startElement('a:clrScheme');
+<<<<<<< HEAD
         $objWriter->writeAttribute('name', 'Office');
 
         // a:dk1
@@ -155,11 +174,17 @@ class Theme extends WriterPart
 
         // a:dk2
         $this->writeColourScheme($objWriter);
+=======
+        $objWriter->writeAttribute('name', $theme->getThemeColorName());
+
+        $this->writeColourScheme($objWriter, $theme);
+>>>>>>> main
 
         $objWriter->endElement();
 
         // a:fontScheme
         $objWriter->startElement('a:fontScheme');
+<<<<<<< HEAD
         $objWriter->writeAttribute('name', 'Office');
 
         // a:majorFont
@@ -173,6 +198,33 @@ class Theme extends WriterPart
         $objWriter->endElement();
 
         $objWriter->endElement();
+=======
+        $objWriter->writeAttribute('name', $theme->getThemeFontName());
+
+        // a:majorFont
+        $objWriter->startElement('a:majorFont');
+        $this->writeFonts(
+            $objWriter,
+            $theme->getMajorFontLatin(),
+            $theme->getMajorFontEastAsian(),
+            $theme->getMajorFontComplexScript(),
+            $theme->getMajorFontSubstitutions()
+        );
+        $objWriter->endElement(); // a:majorFont
+
+        // a:minorFont
+        $objWriter->startElement('a:minorFont');
+        $this->writeFonts(
+            $objWriter,
+            $theme->getMinorFontLatin(),
+            $theme->getMinorFontEastAsian(),
+            $theme->getMinorFontComplexScript(),
+            $theme->getMinorFontSubstitutions()
+        );
+        $objWriter->endElement(); // a:minorFont
+
+        $objWriter->endElement(); // a:fontScheme
+>>>>>>> main
 
         // a:fmtScheme
         $objWriter->startElement('a:fmtScheme');
@@ -786,7 +838,11 @@ class Theme extends WriterPart
      *
      * @param string[] $fontSet
      */
+<<<<<<< HEAD
     private function writeFonts(XMLWriter $objWriter, string $latinFont, array $fontSet): void
+=======
+    private function writeFonts(XMLWriter $objWriter, string $latinFont, string $eastAsianFont, string $complexScriptFont, array $fontSet): void
+>>>>>>> main
     {
         // a:latin
         $objWriter->startElement('a:latin');
@@ -795,12 +851,20 @@ class Theme extends WriterPart
 
         // a:ea
         $objWriter->startElement('a:ea');
+<<<<<<< HEAD
         $objWriter->writeAttribute('typeface', '');
+=======
+        $objWriter->writeAttribute('typeface', $eastAsianFont);
+>>>>>>> main
         $objWriter->endElement();
 
         // a:cs
         $objWriter->startElement('a:cs');
+<<<<<<< HEAD
         $objWriter->writeAttribute('typeface', '');
+=======
+        $objWriter->writeAttribute('typeface', $complexScriptFont);
+>>>>>>> main
         $objWriter->endElement();
 
         foreach ($fontSet as $fontScript => $typeface) {
@@ -814,6 +878,7 @@ class Theme extends WriterPart
     /**
      * Write colour scheme to XML format.
      */
+<<<<<<< HEAD
     private function writeColourScheme(XMLWriter $objWriter): void
     {
         foreach (self::$colourScheme as $colourName => $colourValue) {
@@ -824,6 +889,35 @@ class Theme extends WriterPart
             $objWriter->endElement();
 
             $objWriter->endElement();
+=======
+    private function writeColourScheme(XMLWriter $objWriter, SpreadsheetTheme $theme): void
+    {
+        $themeArray = $theme->getThemeColors();
+        // a:dk1
+        $objWriter->startElement('a:dk1');
+        $objWriter->startElement('a:sysClr');
+        $objWriter->writeAttribute('val', 'windowText');
+        $objWriter->writeAttribute('lastClr', $themeArray['dk1'] ?? '000000');
+        $objWriter->endElement(); // a:sysClr
+        $objWriter->endElement(); // a:dk1
+
+        // a:lt1
+        $objWriter->startElement('a:lt1');
+        $objWriter->startElement('a:sysClr');
+        $objWriter->writeAttribute('val', 'window');
+        $objWriter->writeAttribute('lastClr', $themeArray['lt1'] ?? 'FFFFFF');
+        $objWriter->endElement(); // a:sysClr
+        $objWriter->endElement(); // a:lt1
+
+        foreach ($themeArray as $colourName => $colourValue) {
+            if ($colourName !== 'dk1' && $colourName !== 'lt1') {
+                $objWriter->startElement('a:' . $colourName);
+                $objWriter->startElement('a:srgbClr');
+                $objWriter->writeAttribute('val', $colourValue);
+                $objWriter->endElement(); // a:srgbClr
+                $objWriter->endElement(); // a:$colourName
+            }
+>>>>>>> main
         }
     }
 }

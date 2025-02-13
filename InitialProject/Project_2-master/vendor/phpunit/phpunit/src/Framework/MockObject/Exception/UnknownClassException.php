@@ -21,8 +21,13 @@ final class UnknownClassException extends \PHPUnit\Framework\Exception implement
         parent::__construct(
             sprintf(
                 'Class "%s" does not exist',
+<<<<<<< HEAD
                 $className
             )
+=======
+                $className,
+            ),
+>>>>>>> main
         );
     }
 }

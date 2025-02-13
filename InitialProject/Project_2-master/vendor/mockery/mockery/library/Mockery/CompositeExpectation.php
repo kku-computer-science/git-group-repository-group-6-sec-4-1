@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 /**
  * Mockery
  *
@@ -16,23 +17,81 @@
  * @package    Mockery
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+=======
+
+/**
+ * Mockery (https://docs.mockery.io/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
+>>>>>>> main
  */
 
 namespace Mockery;
 
+<<<<<<< HEAD
+=======
+use function array_map;
+use function current;
+use function implode;
+use function reset;
+
+>>>>>>> main
 class CompositeExpectation implements ExpectationInterface
 {
     /**
      * Stores an array of all expectations for this composite
      *
+<<<<<<< HEAD
      * @var array
      */
     protected $_expectations = array();
+=======
+     * @var array<ExpectationInterface>
+     */
+    protected $_expectations = [];
+
+    /**
+     * Intercept any expectation calls and direct against all expectations
+     *
+     * @param string $method
+     *
+     * @return self
+     */
+    public function __call($method, array $args)
+    {
+        foreach ($this->_expectations as $expectation) {
+            $expectation->{$method}(...$args);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Return the string summary of this composite expectation
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        $parts = array_map(static function (ExpectationInterface $expectation): string {
+            return (string) $expectation;
+        }, $this->_expectations);
+
+        return '[' . implode(', ', $parts) . ']';
+    }
+>>>>>>> main
 
     /**
      * Add an expectation to the composite
      *
+<<<<<<< HEAD
      * @param \Mockery\Expectation|\Mockery\CompositeExpectation $expectation
+=======
+     * @param ExpectationInterface|HigherOrderMessage $expectation
+     *
+>>>>>>> main
      * @return void
      */
     public function add($expectation)
@@ -52,10 +111,15 @@ class CompositeExpectation implements ExpectationInterface
      * Set a return value, or sequential queue of return values
      *
      * @param mixed ...$args
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> main
      * @return self
      */
     public function andReturns(...$args)
     {
+<<<<<<< HEAD
         return call_user_func_array([$this, 'andReturn'], $args);
     }
 
@@ -72,6 +136,21 @@ class CompositeExpectation implements ExpectationInterface
             call_user_func_array(array($expectation, $method), $args);
         }
         return $this;
+=======
+        return $this->andReturn(...$args);
+    }
+
+    /**
+     * Return the parent mock of the first expectation
+     *
+     * @return LegacyMockInterface&MockInterface
+     */
+    public function getMock()
+    {
+        reset($this->_expectations);
+        $first = current($this->_expectations);
+        return $first->getMock();
+>>>>>>> main
     }
 
     /**
@@ -87,6 +166,7 @@ class CompositeExpectation implements ExpectationInterface
     }
 
     /**
+<<<<<<< HEAD
      * Return the parent mock of the first expectation
      *
      * @return \Mockery\MockInterface|\Mockery\LegacyMockInterface
@@ -102,6 +182,11 @@ class CompositeExpectation implements ExpectationInterface
      * Mockery API alias to getMock
      *
      * @return \Mockery\LegacyMockInterface|\Mockery\MockInterface
+=======
+     * Mockery API alias to getMock
+     *
+     * @return LegacyMockInterface&MockInterface
+>>>>>>> main
      */
     public function mock()
     {
@@ -109,6 +194,7 @@ class CompositeExpectation implements ExpectationInterface
     }
 
     /**
+<<<<<<< HEAD
      * Starts a new expectation addition on the first mock which is the primary
      * target outside of a demeter chain
      *
@@ -128,11 +214,19 @@ class CompositeExpectation implements ExpectationInterface
      *
      * @param mixed ...$args
      * @return \Mockery\Expectation
+=======
+     * Starts a new expectation addition on the first mock which is the primary target outside of a demeter chain
+     *
+     * @param mixed ...$args
+     *
+     * @return Expectation
+>>>>>>> main
      */
     public function shouldNotReceive(...$args)
     {
         reset($this->_expectations);
         $first = current($this->_expectations);
+<<<<<<< HEAD
         return call_user_func_array(array($first->getMock(), 'shouldNotReceive'), $args);
     }
 
@@ -150,5 +244,22 @@ class CompositeExpectation implements ExpectationInterface
         }
         $return .= implode(', ', $parts) . ']';
         return $return;
+=======
+        return $first->getMock()->shouldNotReceive(...$args);
+    }
+
+    /**
+     * Starts a new expectation addition on the first mock which is the primary target, outside of a demeter chain
+     *
+     * @param mixed ...$args
+     *
+     * @return Expectation
+     */
+    public function shouldReceive(...$args)
+    {
+        reset($this->_expectations);
+        $first = current($this->_expectations);
+        return $first->getMock()->shouldReceive(...$args);
+>>>>>>> main
     }
 }

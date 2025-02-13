@@ -13,7 +13,11 @@ class Font
     const AUTOSIZE_METHOD_APPROX = 'approx';
     const AUTOSIZE_METHOD_EXACT = 'exact';
 
+<<<<<<< HEAD
     private static $autoSizeMethods = [
+=======
+    private const AUTOSIZE_METHODS = [
+>>>>>>> main
         self::AUTOSIZE_METHOD_APPROX,
         self::AUTOSIZE_METHOD_EXACT,
     ];
@@ -101,6 +105,125 @@ class Font
     const VERDANA_ITALIC = 'verdanai.ttf';
     const VERDANA_BOLD_ITALIC = 'verdanaz.ttf';
 
+<<<<<<< HEAD
+=======
+    const FONT_FILE_NAMES = [
+        'Arial' => [
+            'x' => self::ARIAL,
+            'xb' => self::ARIAL_BOLD,
+            'xi' => self::ARIAL_ITALIC,
+            'xbi' => self::ARIAL_BOLD_ITALIC,
+        ],
+        'Calibri' => [
+            'x' => self::CALIBRI,
+            'xb' => self::CALIBRI_BOLD,
+            'xi' => self::CALIBRI_ITALIC,
+            'xbi' => self::CALIBRI_BOLD_ITALIC,
+        ],
+        'Comic Sans MS' => [
+            'x' => self::COMIC_SANS_MS,
+            'xb' => self::COMIC_SANS_MS_BOLD,
+            'xi' => self::COMIC_SANS_MS,
+            'xbi' => self::COMIC_SANS_MS_BOLD,
+        ],
+        'Courier New' => [
+            'x' => self::COURIER_NEW,
+            'xb' => self::COURIER_NEW_BOLD,
+            'xi' => self::COURIER_NEW_ITALIC,
+            'xbi' => self::COURIER_NEW_BOLD_ITALIC,
+        ],
+        'Georgia' => [
+            'x' => self::GEORGIA,
+            'xb' => self::GEORGIA_BOLD,
+            'xi' => self::GEORGIA_ITALIC,
+            'xbi' => self::GEORGIA_BOLD_ITALIC,
+        ],
+        'Impact' => [
+            'x' => self::IMPACT,
+            'xb' => self::IMPACT,
+            'xi' => self::IMPACT,
+            'xbi' => self::IMPACT,
+        ],
+        'Liberation Sans' => [
+            'x' => self::LIBERATION_SANS,
+            'xb' => self::LIBERATION_SANS_BOLD,
+            'xi' => self::LIBERATION_SANS_ITALIC,
+            'xbi' => self::LIBERATION_SANS_BOLD_ITALIC,
+        ],
+        'Lucida Console' => [
+            'x' => self::LUCIDA_CONSOLE,
+            'xb' => self::LUCIDA_CONSOLE,
+            'xi' => self::LUCIDA_CONSOLE,
+            'xbi' => self::LUCIDA_CONSOLE,
+        ],
+        'Lucida Sans Unicode' => [
+            'x' => self::LUCIDA_SANS_UNICODE,
+            'xb' => self::LUCIDA_SANS_UNICODE,
+            'xi' => self::LUCIDA_SANS_UNICODE,
+            'xbi' => self::LUCIDA_SANS_UNICODE,
+        ],
+        'Microsoft Sans Serif' => [
+            'x' => self::MICROSOFT_SANS_SERIF,
+            'xb' => self::MICROSOFT_SANS_SERIF,
+            'xi' => self::MICROSOFT_SANS_SERIF,
+            'xbi' => self::MICROSOFT_SANS_SERIF,
+        ],
+        'Palatino Linotype' => [
+            'x' => self::PALATINO_LINOTYPE,
+            'xb' => self::PALATINO_LINOTYPE_BOLD,
+            'xi' => self::PALATINO_LINOTYPE_ITALIC,
+            'xbi' => self::PALATINO_LINOTYPE_BOLD_ITALIC,
+        ],
+        'Symbol' => [
+            'x' => self::SYMBOL,
+            'xb' => self::SYMBOL,
+            'xi' => self::SYMBOL,
+            'xbi' => self::SYMBOL,
+        ],
+        'Tahoma' => [
+            'x' => self::TAHOMA,
+            'xb' => self::TAHOMA_BOLD,
+            'xi' => self::TAHOMA,
+            'xbi' => self::TAHOMA_BOLD,
+        ],
+        'Times New Roman' => [
+            'x' => self::TIMES_NEW_ROMAN,
+            'xb' => self::TIMES_NEW_ROMAN_BOLD,
+            'xi' => self::TIMES_NEW_ROMAN_ITALIC,
+            'xbi' => self::TIMES_NEW_ROMAN_BOLD_ITALIC,
+        ],
+        'Trebuchet MS' => [
+            'x' => self::TREBUCHET_MS,
+            'xb' => self::TREBUCHET_MS_BOLD,
+            'xi' => self::TREBUCHET_MS_ITALIC,
+            'xbi' => self::TREBUCHET_MS_BOLD_ITALIC,
+        ],
+        'Verdana' => [
+            'x' => self::VERDANA,
+            'xb' => self::VERDANA_BOLD,
+            'xi' => self::VERDANA_ITALIC,
+            'xbi' => self::VERDANA_BOLD_ITALIC,
+        ],
+    ];
+
+    /**
+     * Array that can be used to supplement FONT_FILE_NAMES for calculating exact width.
+     *
+     * @var array
+     */
+    private static $extraFontArray = [];
+
+    public static function setExtraFontArray(array $extraFontArray): void
+    {
+        self::$extraFontArray = $extraFontArray;
+    }
+
+    public static function getExtraFontArray(): array
+    {
+        return self::$extraFontArray;
+    }
+
+>>>>>>> main
     /**
      * AutoSize method.
      *
@@ -113,12 +236,17 @@ class Font
      *
      * @var string
      */
+<<<<<<< HEAD
     private static $trueTypeFontPath;
+=======
+    private static $trueTypeFontPath = '';
+>>>>>>> main
 
     /**
      * How wide is a default column for a given default font and size?
      * Empirical data found by inspecting real Excel files and reading off the pixel width
      * in Microsoft Office Excel 2007.
+<<<<<<< HEAD
      *
      * @var array
      */
@@ -161,6 +289,61 @@ class Font
             10 => ['px' => 72, 'width' => 9.00000000],
         ],
     ];
+=======
+     * Added height in points.
+     */
+    public const DEFAULT_COLUMN_WIDTHS = [
+        'Arial' => [
+            1 => ['px' => 24, 'width' => 12.00000000, 'height' => 5.25],
+            2 => ['px' => 24, 'width' => 12.00000000, 'height' => 5.25],
+            3 => ['px' => 32, 'width' => 10.66406250, 'height' => 6.0],
+
+            4 => ['px' => 32, 'width' => 10.66406250, 'height' => 6.75],
+            5 => ['px' => 40, 'width' => 10.00000000, 'height' => 8.25],
+            6 => ['px' => 48, 'width' => 9.59765625, 'height' => 8.25],
+            7 => ['px' => 48, 'width' => 9.59765625, 'height' => 9.0],
+            8 => ['px' => 56, 'width' => 9.33203125, 'height' => 11.25],
+            9 => ['px' => 64, 'width' => 9.14062500, 'height' => 12.0],
+            10 => ['px' => 64, 'width' => 9.14062500, 'height' => 12.75],
+        ],
+        'Calibri' => [
+            1 => ['px' => 24, 'width' => 12.00000000, 'height' => 5.25],
+            2 => ['px' => 24, 'width' => 12.00000000, 'height' => 5.25],
+            3 => ['px' => 32, 'width' => 10.66406250, 'height' => 6.00],
+            4 => ['px' => 32, 'width' => 10.66406250, 'height' => 6.75],
+            5 => ['px' => 40, 'width' => 10.00000000, 'height' => 8.25],
+            6 => ['px' => 48, 'width' => 9.59765625, 'height' => 8.25],
+            7 => ['px' => 48, 'width' => 9.59765625, 'height' => 9.0],
+            8 => ['px' => 56, 'width' => 9.33203125, 'height' => 11.25],
+            9 => ['px' => 56, 'width' => 9.33203125, 'height' => 12.0],
+            10 => ['px' => 64, 'width' => 9.14062500, 'height' => 12.75],
+            11 => ['px' => 64, 'width' => 9.14062500, 'height' => 15.0],
+        ],
+        'Verdana' => [
+            1 => ['px' => 24, 'width' => 12.00000000, 'height' => 5.25],
+            2 => ['px' => 24, 'width' => 12.00000000, 'height' => 5.25],
+            3 => ['px' => 32, 'width' => 10.66406250, 'height' => 6.0],
+            4 => ['px' => 32, 'width' => 10.66406250, 'height' => 6.75],
+            5 => ['px' => 40, 'width' => 10.00000000, 'height' => 8.25],
+            6 => ['px' => 48, 'width' => 9.59765625, 'height' => 8.25],
+            7 => ['px' => 48, 'width' => 9.59765625, 'height' => 9.0],
+            8 => ['px' => 64, 'width' => 9.14062500, 'height' => 10.5],
+            9 => ['px' => 72, 'width' => 9.00000000, 'height' => 11.25],
+            10 => ['px' => 72, 'width' => 9.00000000, 'height' => 12.75],
+        ],
+    ];
+
+    /**
+     * List of column widths. Replaced by constant;
+     * previously it was public and updateable, allowing
+     * user to make inappropriate alterations.
+     *
+     * @deprecated 1.25.0 Use DEFAULT_COLUMN_WIDTHS constant instead.
+     *
+     * @var array
+     */
+    public static $defaultColumnWidths = self::DEFAULT_COLUMN_WIDTHS;
+>>>>>>> main
 
     /**
      * Set autoSize method.
@@ -171,7 +354,11 @@ class Font
      */
     public static function setAutoSizeMethod($method)
     {
+<<<<<<< HEAD
         if (!in_array($method, self::$autoSizeMethods)) {
+=======
+        if (!in_array($method, self::AUTOSIZE_METHODS)) {
+>>>>>>> main
             return false;
         }
         self::$autoSizeMethod = $method;
@@ -219,6 +406,7 @@ class Font
      * Calculate an (approximate) OpenXML column width, based on font size and text contained.
      *
      * @param FontStyle $font Font object
+<<<<<<< HEAD
      * @param RichText|string $cellText Text to calculate width
      * @param int $rotation Rotation angle
      * @param null|FontStyle $defaultFont Font object
@@ -227,29 +415,68 @@ class Font
      */
     public static function calculateColumnWidth(FontStyle $font, $cellText = '', $rotation = 0, ?FontStyle $defaultFont = null)
     {
+=======
+     * @param null|RichText|string $cellText Text to calculate width
+     * @param int $rotation Rotation angle
+     * @param null|FontStyle $defaultFont Font object
+     * @param bool $filterAdjustment Add space for Autofilter or Table dropdown
+     */
+    public static function calculateColumnWidth(
+        FontStyle $font,
+        $cellText = '',
+        $rotation = 0,
+        ?FontStyle $defaultFont = null,
+        bool $filterAdjustment = false,
+        int $indentAdjustment = 0
+    ): float {
+>>>>>>> main
         // If it is rich text, use plain text
         if ($cellText instanceof RichText) {
             $cellText = $cellText->getPlainText();
         }
 
         // Special case if there are one or more newline characters ("\n")
+<<<<<<< HEAD
         if (strpos($cellText ?? '', "\n") !== false) {
             $lineTexts = explode("\n", $cellText);
             $lineWidths = [];
             foreach ($lineTexts as $lineText) {
                 $lineWidths[] = self::calculateColumnWidth($font, $lineText, $rotation = 0, $defaultFont);
+=======
+        $cellText = (string) $cellText;
+        if (strpos($cellText, "\n") !== false) {
+            $lineTexts = explode("\n", $cellText);
+            $lineWidths = [];
+            foreach ($lineTexts as $lineText) {
+                $lineWidths[] = self::calculateColumnWidth($font, $lineText, $rotation = 0, $defaultFont, $filterAdjustment);
+>>>>>>> main
             }
 
             return max($lineWidths); // width of longest line in cell
         }
 
         // Try to get the exact text width in pixels
+<<<<<<< HEAD
         $approximate = self::$autoSizeMethod == self::AUTOSIZE_METHOD_APPROX;
         $columnWidth = 0;
         if (!$approximate) {
             $columnWidthAdjust = ceil(self::getTextWidthPixelsExact('n', $font, 0) * 1.07);
 
             try {
+=======
+        $approximate = self::$autoSizeMethod === self::AUTOSIZE_METHOD_APPROX;
+        $columnWidth = 0;
+        if (!$approximate) {
+            try {
+                $columnWidthAdjust = ceil(
+                    self::getTextWidthPixelsExact(
+                        str_repeat('n', 1 * (($filterAdjustment ? 3 : 1) + ($indentAdjustment * 2))),
+                        $font,
+                        0
+                    ) * 1.07
+                );
+
+>>>>>>> main
                 // Width of text in pixels excl. padding
                 // and addition because Excel adds some padding, just use approx width of 'n' glyph
                 $columnWidth = self::getTextWidthPixelsExact($cellText, $font, $rotation) + $columnWidthAdjust;
@@ -259,22 +486,38 @@ class Font
         }
 
         if ($approximate) {
+<<<<<<< HEAD
             $columnWidthAdjust = self::getTextWidthPixelsApprox('n', $font, 0);
+=======
+            $columnWidthAdjust = self::getTextWidthPixelsApprox(
+                str_repeat('n', 1 * (($filterAdjustment ? 3 : 1) + ($indentAdjustment * 2))),
+                $font,
+                0
+            );
+>>>>>>> main
             // Width of text in pixels excl. padding, approximation
             // and addition because Excel adds some padding, just use approx width of 'n' glyph
             $columnWidth = self::getTextWidthPixelsApprox($cellText, $font, $rotation) + $columnWidthAdjust;
         }
 
         // Convert from pixel width to column width
+<<<<<<< HEAD
         $columnWidth = Drawing::pixelsToCellDimension((int) $columnWidth, $defaultFont);
 
         // Return
         return (int) round($columnWidth, 6);
+=======
+        $columnWidth = Drawing::pixelsToCellDimension((int) $columnWidth, $defaultFont ?? new FontStyle());
+
+        // Return
+        return round($columnWidth, 4);
+>>>>>>> main
     }
 
     /**
      * Get GD text width in pixels for a string of text in a certain font at a certain rotation angle.
      */
+<<<<<<< HEAD
     public static function getTextWidthPixelsExact(string $text, FontStyle $font, int $rotation = 0): int
     {
         if (!function_exists('imagettfbbox')) {
@@ -285,6 +528,19 @@ class Font
         // but since GD2 seems to assume 72dpi, pixels and points are the same
         $fontFile = self::getTrueTypeFontFileFromFont($font);
         $textBox = imagettfbbox($font->getSize(), $rotation, $fontFile, $text);
+=======
+    public static function getTextWidthPixelsExact(string $text, FontStyle $font, int $rotation = 0): float
+    {
+        // font size should really be supplied in pixels in GD2,
+        // but since GD2 seems to assume 72dpi, pixels and points are the same
+        $fontFile = self::getTrueTypeFontFileFromFont($font);
+        $textBox = imagettfbbox($font->getSize() ?? 10.0, $rotation, $fontFile, $text);
+        if ($textBox === false) {
+            // @codeCoverageIgnoreStart
+            throw new PhpSpreadsheetException('imagettfbbox failed');
+            // @codeCoverageIgnoreEnd
+        }
+>>>>>>> main
 
         // Get corners positions
         $lowerLeftCornerX = $textBox[0];
@@ -293,7 +549,11 @@ class Font
         $upperLeftCornerX = $textBox[6];
 
         // Consider the rotation when calculating the width
+<<<<<<< HEAD
         return max($lowerRightCornerX - $upperLeftCornerX, $upperRightCornerX - $lowerLeftCornerX);
+=======
+        return round(max($lowerRightCornerX - $upperLeftCornerX, $upperRightCornerX - $lowerLeftCornerX), 4);
+>>>>>>> main
     }
 
     /**
@@ -309,6 +569,7 @@ class Font
         $fontName = $font->getName();
         $fontSize = $font->getSize();
 
+<<<<<<< HEAD
         // Calculate column width in pixels. We assume fixed glyph width. Result varies with font name and size.
         switch ($fontName) {
             case 'Calibri':
@@ -320,18 +581,36 @@ class Font
             case 'Arial':
                 // value 8 was set because of experience in different exports at Arial 10 font.
                 $columnWidth = (int) (8 * StringHelper::countCharacters($columnText));
+=======
+        // Calculate column width in pixels.
+        // We assume fixed glyph width, but count double for "fullwidth" characters.
+        // Result varies with font name and size.
+        switch ($fontName) {
+            case 'Arial':
+                // value 8 was set because of experience in different exports at Arial 10 font.
+                $columnWidth = (int) (8 * StringHelper::countCharactersDbcs($columnText));
+>>>>>>> main
                 $columnWidth = $columnWidth * $fontSize / 10; // extrapolate from font size
 
                 break;
             case 'Verdana':
                 // value 8 was found via interpolation by inspecting real Excel files with Verdana 10 font.
+<<<<<<< HEAD
                 $columnWidth = (int) (8 * StringHelper::countCharacters($columnText));
+=======
+                $columnWidth = (int) (8 * StringHelper::countCharactersDbcs($columnText));
+>>>>>>> main
                 $columnWidth = $columnWidth * $fontSize / 10; // extrapolate from font size
 
                 break;
             default:
                 // just assume Calibri
+<<<<<<< HEAD
                 $columnWidth = (int) (8.26 * StringHelper::countCharacters($columnText));
+=======
+                // value 8.26 was found via interpolation by inspecting real Excel files with Calibri 11 font.
+                $columnWidth = (int) (8.26 * StringHelper::countCharactersDbcs($columnText));
+>>>>>>> main
                 $columnWidth = $columnWidth * $fontSize / 11; // extrapolate from font size
 
                 break;
@@ -394,13 +673,20 @@ class Font
      *
      * @return string Path to TrueType font file
      */
+<<<<<<< HEAD
     public static function getTrueTypeFontFileFromFont(FontStyle $font)
     {
         if (!file_exists(self::$trueTypeFontPath) || !is_dir(self::$trueTypeFontPath)) {
+=======
+    public static function getTrueTypeFontFileFromFont(FontStyle $font, bool $checkPath = true)
+    {
+        if ($checkPath && (!file_exists(self::$trueTypeFontPath) || !is_dir(self::$trueTypeFontPath))) {
+>>>>>>> main
             throw new PhpSpreadsheetException('Valid directory to TrueType Font files not specified');
         }
 
         $name = $font->getName();
+<<<<<<< HEAD
         $bold = $font->getBold();
         $italic = $font->getItalic();
 
@@ -512,11 +798,74 @@ class Font
         // Check if file actually exists
         if (!file_exists($fontFile)) {
             throw new PhpSpreadsheetException('TrueType Font file not found');
+=======
+        $fontArray = array_merge(self::FONT_FILE_NAMES, self::$extraFontArray);
+        if (!isset($fontArray[$name])) {
+            throw new PhpSpreadsheetException('Unknown font name "' . $name . '". Cannot map to TrueType font file');
+        }
+        $bold = $font->getBold();
+        $italic = $font->getItalic();
+        $index = 'x';
+        if ($bold) {
+            $index .= 'b';
+        }
+        if ($italic) {
+            $index .= 'i';
+        }
+        $fontFile = $fontArray[$name][$index];
+
+        $separator = '';
+        if (mb_strlen(self::$trueTypeFontPath) > 1 && mb_substr(self::$trueTypeFontPath, -1) !== '/' && mb_substr(self::$trueTypeFontPath, -1) !== '\\') {
+            $separator = DIRECTORY_SEPARATOR;
+        }
+        $fontFileAbsolute = preg_match('~^([A-Za-z]:)?[/\\\\]~', $fontFile) === 1;
+        if (!$fontFileAbsolute) {
+            $fontFile = self::$trueTypeFontPath . $separator . $fontFile;
+        }
+
+        // Check if file actually exists
+        if ($checkPath && !file_exists($fontFile) && !$fontFileAbsolute) {
+            $alternateName = $name;
+            if ($index !== 'x' && $fontArray[$name][$index] !== $fontArray[$name]['x']) {
+                // Bold but no italic:
+                //   Comic Sans
+                //   Tahoma
+                // Neither bold nor italic:
+                //   Impact
+                //   Lucida Console
+                //   Lucida Sans Unicode
+                //   Microsoft Sans Serif
+                //   Symbol
+                if ($index === 'xb') {
+                    $alternateName .= ' Bold';
+                } elseif ($index === 'xi') {
+                    $alternateName .= ' Italic';
+                } elseif ($fontArray[$name]['xb'] === $fontArray[$name]['xbi']) {
+                    $alternateName .= ' Bold';
+                } else {
+                    $alternateName .= ' Bold Italic';
+                }
+            }
+            $fontFile = self::$trueTypeFontPath . $separator . $alternateName . '.ttf';
+            if (!file_exists($fontFile)) {
+                throw new PhpSpreadsheetException('TrueType Font file not found');
+            }
+>>>>>>> main
         }
 
         return $fontFile;
     }
 
+<<<<<<< HEAD
+=======
+    public const CHARSET_FROM_FONT_NAME = [
+        'EucrosiaUPC' => self::CHARSET_ANSI_THAI,
+        'Wingdings' => self::CHARSET_SYMBOL,
+        'Wingdings 2' => self::CHARSET_SYMBOL,
+        'Wingdings 3' => self::CHARSET_SYMBOL,
+    ];
+
+>>>>>>> main
     /**
      * Returns the associated charset for the font name.
      *
@@ -526,6 +875,7 @@ class Font
      */
     public static function getCharsetFromFontName($fontName)
     {
+<<<<<<< HEAD
         switch ($fontName) {
             // Add more cases. Check FONT records in real Excel files.
             case 'EucrosiaUPC':
@@ -539,6 +889,9 @@ class Font
             default:
                 return self::CHARSET_ANSI_LATIN;
         }
+=======
+        return self::CHARSET_FROM_FONT_NAME[$fontName] ?? self::CHARSET_ANSI_LATIN;
+>>>>>>> main
     }
 
     /**
@@ -552,17 +905,30 @@ class Font
      */
     public static function getDefaultColumnWidthByFont(FontStyle $font, $returnAsPixels = false)
     {
+<<<<<<< HEAD
         if (isset(self::$defaultColumnWidths[$font->getName()][$font->getSize()])) {
             // Exact width can be determined
             $columnWidth = $returnAsPixels ?
                 self::$defaultColumnWidths[$font->getName()][$font->getSize()]['px']
                     : self::$defaultColumnWidths[$font->getName()][$font->getSize()]['width'];
+=======
+        if (isset(self::DEFAULT_COLUMN_WIDTHS[$font->getName()][$font->getSize()])) {
+            // Exact width can be determined
+            $columnWidth = $returnAsPixels ?
+                self::DEFAULT_COLUMN_WIDTHS[$font->getName()][$font->getSize()]['px']
+                    : self::DEFAULT_COLUMN_WIDTHS[$font->getName()][$font->getSize()]['width'];
+>>>>>>> main
         } else {
             // We don't have data for this particular font and size, use approximation by
             // extrapolating from Calibri 11
             $columnWidth = $returnAsPixels ?
+<<<<<<< HEAD
                 self::$defaultColumnWidths['Calibri'][11]['px']
                     : self::$defaultColumnWidths['Calibri'][11]['width'];
+=======
+                self::DEFAULT_COLUMN_WIDTHS['Calibri'][11]['px']
+                    : self::DEFAULT_COLUMN_WIDTHS['Calibri'][11]['width'];
+>>>>>>> main
             $columnWidth = $columnWidth * $font->getSize() / 11;
 
             // Round pixels to closest integer
@@ -584,6 +950,7 @@ class Font
      */
     public static function getDefaultRowHeightByFont(FontStyle $font)
     {
+<<<<<<< HEAD
         switch ($font->getName()) {
             case 'Arial':
                 switch ($font->getSize()) {
@@ -751,6 +1118,16 @@ class Font
                 $rowHeight = 15 * $font->getSize() / 11;
 
                 break;
+=======
+        $name = $font->getName();
+        $size = $font->getSize();
+        if (isset(self::DEFAULT_COLUMN_WIDTHS[$name][$size])) {
+            $rowHeight = self::DEFAULT_COLUMN_WIDTHS[$name][$size]['height'];
+        } elseif ($name === 'Arial' || $name === 'Verdana') {
+            $rowHeight = self::DEFAULT_COLUMN_WIDTHS[$name][10]['height'] * $size / 10.0;
+        } else {
+            $rowHeight = self::DEFAULT_COLUMN_WIDTHS['Calibri'][11]['height'] * $size / 11.0;
+>>>>>>> main
         }
 
         return $rowHeight;

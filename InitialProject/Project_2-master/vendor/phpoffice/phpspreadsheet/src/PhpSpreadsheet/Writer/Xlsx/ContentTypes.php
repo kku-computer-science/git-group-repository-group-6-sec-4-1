@@ -2,9 +2,17 @@
 
 namespace PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Shared\File;
 use PhpOffice\PhpSpreadsheet\Shared\XMLWriter;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+=======
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx\Namespaces;
+use PhpOffice\PhpSpreadsheet\Shared\File;
+use PhpOffice\PhpSpreadsheet\Shared\XMLWriter;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing as WorksheetDrawing;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
 use PhpOffice\PhpSpreadsheet\Writer\Exception as WriterException;
 
@@ -32,7 +40,11 @@ class ContentTypes extends WriterPart
 
         // Types
         $objWriter->startElement('Types');
+<<<<<<< HEAD
         $objWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/content-types');
+=======
+        $objWriter->writeAttribute('xmlns', Namespaces::CONTENT_TYPES);
+>>>>>>> main
 
         // Theme
         $this->writeOverrideContentType($objWriter, '/xl/theme/theme1.xml', 'application/vnd.openxmlformats-officedocument.theme+xml');
@@ -85,6 +97,19 @@ class ContentTypes extends WriterPart
         // Shared strings
         $this->writeOverrideContentType($objWriter, '/xl/sharedStrings.xml', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml');
 
+<<<<<<< HEAD
+=======
+        // Table
+        $table = 1;
+        for ($i = 0; $i < $sheetCount; ++$i) {
+            $tableCount = $spreadsheet->getSheet($i)->getTableCollection()->count();
+
+            for ($t = 1; $t <= $tableCount; ++$t) {
+                $this->writeOverrideContentType($objWriter, '/xl/tables/table' . $table++ . '.xml', 'application/vnd.openxmlformats-officedocument.spreadsheetml.table+xml');
+            }
+        }
+
+>>>>>>> main
         // Add worksheet relationship content types
         $unparsedLoadedData = $spreadsheet->getUnparsedLoadedData();
         $chart = 1;
@@ -121,6 +146,7 @@ class ContentTypes extends WriterPart
             $extension = '';
             $mimeType = '';
 
+<<<<<<< HEAD
             if ($this->getParentWriter()->getDrawingHashTable()->getByIndex($i) instanceof \PhpOffice\PhpSpreadsheet\Worksheet\Drawing) {
                 $extension = strtolower($this->getParentWriter()->getDrawingHashTable()->getByIndex($i)->getExtension());
                 $mimeType = $this->getImageMimeType($this->getParentWriter()->getDrawingHashTable()->getByIndex($i)->getPath());
@@ -133,6 +159,25 @@ class ContentTypes extends WriterPart
             }
 
             if (!isset($aMediaContentTypes[$extension])) {
+=======
+            $drawing = $this->getParentWriter()->getDrawingHashTable()->getByIndex($i);
+            if ($drawing instanceof WorksheetDrawing && $drawing->getPath() !== '') {
+                $extension = strtolower($drawing->getExtension());
+                if ($drawing->getIsUrl()) {
+                    $mimeType = image_type_to_mime_type($drawing->getType());
+                } else {
+                    $mimeType = $this->getImageMimeType($drawing->getPath());
+                }
+            } elseif ($drawing instanceof MemoryDrawing) {
+                $extension = strtolower($drawing->getMimeType());
+                $extension = explode('/', $extension);
+                $extension = $extension[1];
+
+                $mimeType = $drawing->getMimeType();
+            }
+
+            if ($mimeType !== '' && !isset($aMediaContentTypes[$extension])) {
+>>>>>>> main
                 $aMediaContentTypes[$extension] = $mimeType;
 
                 $this->writeDefaultContentType($objWriter, $extension, $mimeType);
@@ -151,7 +196,11 @@ class ContentTypes extends WriterPart
         for ($i = 0; $i < $sheetCount; ++$i) {
             if (count($spreadsheet->getSheet($i)->getHeaderFooter()->getImages()) > 0) {
                 foreach ($spreadsheet->getSheet($i)->getHeaderFooter()->getImages() as $image) {
+<<<<<<< HEAD
                     if (!isset($aMediaContentTypes[strtolower($image->getExtension())])) {
+=======
+                    if ($image->getPath() !== '' && !isset($aMediaContentTypes[strtolower($image->getExtension())])) {
+>>>>>>> main
                         $aMediaContentTypes[strtolower($image->getExtension())] = $this->getImageMimeType($image->getPath());
 
                         $this->writeDefaultContentType($objWriter, strtolower($image->getExtension()), $aMediaContentTypes[strtolower($image->getExtension())]);

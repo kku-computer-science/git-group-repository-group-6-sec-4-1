@@ -48,7 +48,11 @@ class Populator
      *
      * @param int $batchSize
      */
+<<<<<<< HEAD
     public function __construct(Generator $generator, ObjectManager $manager = null, $batchSize = 1000)
+=======
+    public function __construct(Generator $generator, ?ObjectManager $manager = null, $batchSize = 1000)
+>>>>>>> main
     {
         $this->generator = $generator;
         $this->manager = $manager;
@@ -111,7 +115,11 @@ class Populator
                 $insertedEntities[$class][] = $this->entities[$class]->execute(
                     $entityManager,
                     $insertedEntities,
+<<<<<<< HEAD
                     $generateId
+=======
+                    $generateId,
+>>>>>>> main
                 );
 
                 if (count($insertedEntities) % $this->batchSize === 0) {

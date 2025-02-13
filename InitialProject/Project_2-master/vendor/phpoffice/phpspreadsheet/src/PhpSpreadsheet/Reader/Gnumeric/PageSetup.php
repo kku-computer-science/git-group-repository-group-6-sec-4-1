@@ -22,6 +22,7 @@ class PageSetup
 
     public function printInformation(SimpleXMLElement $sheet): self
     {
+<<<<<<< HEAD
         if (isset($sheet->PrintInformation)) {
             $printInformation = $sheet->PrintInformation[0];
             if (!$printInformation) {
@@ -40,6 +41,34 @@ class PageSetup
                 ->setOrientation($orientation ?? WorksheetPageSetup::ORIENTATION_DEFAULT)
                 ->setHorizontalCentered((bool) $horizontalCentered)
                 ->setVerticalCentered((bool) $verticalCentered);
+=======
+        if (isset($sheet->PrintInformation, $sheet->PrintInformation[0])) {
+            $printInformation = $sheet->PrintInformation[0];
+            $setup = $this->spreadsheet->getActiveSheet()->getPageSetup();
+
+            $attributes = $printInformation->Scale->attributes();
+            if (isset($attributes['percentage'])) {
+                $setup->setScale((int) $attributes['percentage']);
+            }
+            $pageOrder = (string) $printInformation->order;
+            if ($pageOrder === 'r_then_d') {
+                $setup->setPageOrder(WorksheetPageSetup::PAGEORDER_OVER_THEN_DOWN);
+            } elseif ($pageOrder === 'd_then_r') {
+                $setup->setPageOrder(WorksheetPageSetup::PAGEORDER_DOWN_THEN_OVER);
+            }
+            $orientation = (string) $printInformation->orientation;
+            if ($orientation !== '') {
+                $setup->setOrientation($orientation);
+            }
+            $attributes = $printInformation->hcenter->attributes();
+            if (isset($attributes['value'])) {
+                $setup->setHorizontalCentered((bool) (string) $attributes['value']);
+            }
+            $attributes = $printInformation->vcenter->attributes();
+            if (isset($attributes['value'])) {
+                $setup->setVerticalCentered((bool) (string) $attributes['value']);
+            }
+>>>>>>> main
         }
 
         return $this;

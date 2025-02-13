@@ -1,5 +1,10 @@
 <?php
 
+<<<<<<< HEAD
+=======
+declare(strict_types=1);
+
+>>>>>>> main
 namespace Doctrine\Instantiator;
 
 use ArrayIterator;
@@ -20,30 +25,46 @@ use function sprintf;
 use function strlen;
 use function unserialize;
 
+<<<<<<< HEAD
 use const PHP_VERSION_ID;
 
+=======
+>>>>>>> main
 final class Instantiator implements InstantiatorInterface
 {
     /**
      * Markers used internally by PHP to define whether {@see \unserialize} should invoke
      * the method {@see \Serializable::unserialize()} when dealing with classes implementing
      * the {@see \Serializable} interface.
+<<<<<<< HEAD
      */
     public const SERIALIZATION_FORMAT_USE_UNSERIALIZER   = 'C';
     public const SERIALIZATION_FORMAT_AVOID_UNSERIALIZER = 'O';
+=======
+     *
+     * @deprecated This constant will be private in 2.0
+     */
+    private const SERIALIZATION_FORMAT_USE_UNSERIALIZER   = 'C';
+    private const SERIALIZATION_FORMAT_AVOID_UNSERIALIZER = 'O';
+>>>>>>> main
 
     /**
      * Used to instantiate specific classes, indexed by class name.
      *
      * @var callable[]
      */
+<<<<<<< HEAD
     private static $cachedInstantiators = [];
+=======
+    private static array $cachedInstantiators = [];
+>>>>>>> main
 
     /**
      * Array of objects that can directly be cloned, indexed by class name.
      *
      * @var object[]
      */
+<<<<<<< HEAD
     private static $cachedCloneables = [];
 
     /**
@@ -51,18 +72,32 @@ final class Instantiator implements InstantiatorInterface
      * @phpstan-param class-string<T> $className
      *
      * @return object
+=======
+    private static array $cachedCloneables = [];
+
+    /**
+     * @phpstan-param class-string<T> $className
+     *
+>>>>>>> main
      * @phpstan-return T
      *
      * @throws ExceptionInterface
      *
      * @template T of object
      */
+<<<<<<< HEAD
     public function instantiate($className)
     {
         if (isset(self::$cachedCloneables[$className])) {
             /**
              * @phpstan-var T
              */
+=======
+    public function instantiate(string $className): object
+    {
+        if (isset(self::$cachedCloneables[$className])) {
+            /** @phpstan-var T */
+>>>>>>> main
             $cachedCloneable = self::$cachedCloneables[$className];
 
             return clone $cachedCloneable;
@@ -82,12 +117,19 @@ final class Instantiator implements InstantiatorInterface
      *
      * @phpstan-param class-string<T> $className
      *
+<<<<<<< HEAD
      * @return object
+=======
+>>>>>>> main
      * @phpstan-return T
      *
      * @template T of object
      */
+<<<<<<< HEAD
     private function buildAndCacheFromFactory(string $className)
+=======
+    private function buildAndCacheFromFactory(string $className): object
+>>>>>>> main
     {
         $factory  = self::$cachedInstantiators[$className] = $this->buildFactory($className);
         $instance = $factory();
@@ -125,14 +167,22 @@ final class Instantiator implements InstantiatorInterface
             '%s:%d:"%s":0:{}',
             is_subclass_of($className, Serializable::class) ? self::SERIALIZATION_FORMAT_USE_UNSERIALIZER : self::SERIALIZATION_FORMAT_AVOID_UNSERIALIZER,
             strlen($className),
+<<<<<<< HEAD
             $className
+=======
+            $className,
+>>>>>>> main
         );
 
         $this->checkIfUnSerializationIsSupported($reflectionClass, $serializedString);
 
+<<<<<<< HEAD
         return static function () use ($serializedString) {
             return unserialize($serializedString);
         };
+=======
+        return static fn () => unserialize($serializedString);
+>>>>>>> main
     }
 
     /**
@@ -151,7 +201,11 @@ final class Instantiator implements InstantiatorInterface
             throw InvalidArgumentException::fromNonExistingClass($className);
         }
 
+<<<<<<< HEAD
         if (PHP_VERSION_ID >= 80100 && enum_exists($className, false)) {
+=======
+        if (enum_exists($className, false)) {
+>>>>>>> main
             throw InvalidArgumentException::fromEnum($className);
         }
 
@@ -179,7 +233,11 @@ final class Instantiator implements InstantiatorInterface
                 $message,
                 $code,
                 $file,
+<<<<<<< HEAD
                 $line
+=======
+                $line,
+>>>>>>> main
             );
 
             return true;

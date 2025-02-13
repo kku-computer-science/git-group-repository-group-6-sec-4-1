@@ -2,7 +2,11 @@
 
 namespace Faker;
 
+<<<<<<< HEAD
 use Psr\Container\ContainerInterface;
+=======
+use Faker\Container\ContainerInterface;
+>>>>>>> main
 
 /**
  * @property string $citySuffix
@@ -255,7 +259,11 @@ use Psr\Container\ContainerInterface;
  *
  * @property string $timezone
  *
+<<<<<<< HEAD
  * @method string timezone()
+=======
+ * @method string timezone($countryCode = null)
+>>>>>>> main
  *
  * @property void $setDefaultTimezone
  *
@@ -275,11 +283,19 @@ use Psr\Container\ContainerInterface;
  *
  * @property string $imageUrl
  *
+<<<<<<< HEAD
  * @method string imageUrl($width = 640, $height = 480, $category = null, $randomize = true, $word = null, $gray = false)
  *
  * @property string $image
  *
  * @method string image($dir = null, $width = 640, $height = 480, $category = null, $fullPath = true, $randomize = true, $word = null, $gray = false)
+=======
+ * @method string imageUrl($width = 640, $height = 480, $category = null, $randomize = true, $word = null, $gray = false, string $format = 'png')
+ *
+ * @property string $image
+ *
+ * @method string image($dir = null, $width = 640, $height = 480, $category = null, $fullPath = true, $randomize = true, $word = null, $gray = false, string $format = 'png')
+>>>>>>> main
  *
  * @property string $email
  *
@@ -463,7 +479,11 @@ use Psr\Container\ContainerInterface;
  *
  * @property string $lastName
  *
+<<<<<<< HEAD
  * @method string lastName()
+=======
+ * @method string lastName($gender = null)
+>>>>>>> main
  *
  * @property string $title
  *
@@ -513,6 +533,13 @@ use Psr\Container\ContainerInterface;
  *
  * @method string chrome()
  *
+<<<<<<< HEAD
+=======
+ * @property string $msedge
+ *
+ * @method string msedge()
+ *
+>>>>>>> main
  * @property string $firefox
  *
  * @method string firefox()
@@ -537,6 +564,13 @@ use Psr\Container\ContainerInterface;
  *
  * @method string macPlatformToken()
  *
+<<<<<<< HEAD
+=======
+ * @property string $iosMobileToken
+ *
+ * @method string iosMobileToken()
+ *
+>>>>>>> main
  * @property string $linuxPlatformToken
  *
  * @method string linuxPlatformToken()
@@ -557,9 +591,15 @@ class Generator
      */
     private $uniqueGenerator;
 
+<<<<<<< HEAD
     public function __construct(ContainerInterface $container = null)
     {
         $this->container = $container ?: Extension\ContainerBuilder::getDefault();
+=======
+    public function __construct(?ContainerInterface $container = null)
+    {
+        $this->container = $container ?: Container\ContainerBuilder::withDefaultExtensions()->build();
+>>>>>>> main
     }
 
     /**
@@ -576,7 +616,11 @@ class Generator
         if (!$this->container->has($id)) {
             throw new Extension\ExtensionNotFound(sprintf(
                 'No Faker extension with id "%s" was loaded.',
+<<<<<<< HEAD
                 $id
+=======
+                $id,
+>>>>>>> main
             ));
         }
 
@@ -679,10 +723,29 @@ class Generator
         if ($seed === null) {
             mt_srand();
         } else {
+<<<<<<< HEAD
             mt_srand((int) $seed, MT_RAND_PHP);
         }
     }
 
+=======
+            mt_srand((int) $seed, self::mode());
+        }
+    }
+
+    /**
+     * @see https://www.php.net/manual/en/migration83.deprecated.php#migration83.deprecated.random
+     */
+    private static function mode(): int
+    {
+        if (PHP_VERSION_ID < 80300) {
+            return MT_RAND_PHP;
+        }
+
+        return MT_RAND_MT19937;
+    }
+
+>>>>>>> main
     public function format($format, $arguments = [])
     {
         return call_user_func_array($this->getFormatter($format), $arguments);
@@ -885,7 +948,11 @@ class Generator
         return $this->ext(Extension\NumberExtension::class)->randomFloat(
             $nbMaxDecimals !== null ? (int) $nbMaxDecimals : null,
             (float) $min,
+<<<<<<< HEAD
             $max !== null ? (float) $max : null
+=======
+            $max !== null ? (float) $max : null,
+>>>>>>> main
         );
     }
 
@@ -903,7 +970,11 @@ class Generator
     {
         return $this->ext(Extension\NumberExtension::class)->randomNumber(
             $nbDigits !== null ? (int) $nbDigits : null,
+<<<<<<< HEAD
             (bool) $strict
+=======
+            (bool) $strict,
+>>>>>>> main
         );
     }
 

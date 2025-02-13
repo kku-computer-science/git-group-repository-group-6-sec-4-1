@@ -134,8 +134,11 @@ final class BufferStream implements StreamInterface
     }
 
     /**
+<<<<<<< HEAD
      * {@inheritdoc}
      *
+=======
+>>>>>>> main
      * @return mixed
      */
     public function getMetadata($key = null)

@@ -20,16 +20,28 @@ final class PseudoLocalizationTranslator implements TranslatorInterface
 {
     private const EXPANSION_CHARACTER = '~';
 
+<<<<<<< HEAD
     private $translator;
     private $accents;
     private $expansionFactor;
     private $brackets;
     private $parseHTML;
+=======
+    private TranslatorInterface $translator;
+    private bool $accents;
+    private float $expansionFactor;
+    private bool $brackets;
+    private bool $parseHTML;
+>>>>>>> main
 
     /**
      * @var string[]
      */
+<<<<<<< HEAD
     private $localizableHTMLAttributes;
+=======
+    private array $localizableHTMLAttributes;
+>>>>>>> main
 
     /**
      * Available options:
@@ -83,10 +95,14 @@ final class PseudoLocalizationTranslator implements TranslatorInterface
         $this->localizableHTMLAttributes = $options['localizable_html_attributes'] ?? [];
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
     public function trans(string $id, array $parameters = [], string $domain = null, string $locale = null): string
+=======
+    public function trans(string $id, array $parameters = [], ?string $domain = null, ?string $locale = null): string
+>>>>>>> main
     {
         $trans = '';
         $visibleText = '';
@@ -123,7 +139,11 @@ final class PseudoLocalizationTranslator implements TranslatorInterface
             return [[true, true, $originalTrans]];
         }
 
+<<<<<<< HEAD
         $html = mb_encode_numericentity($originalTrans, [0x80, 0xFFFF, 0, 0xFFFF], mb_detect_encoding($originalTrans, null, true) ?: 'UTF-8');
+=======
+        $html = mb_encode_numericentity($originalTrans, [0x80, 0x10FFFF, 0, 0x1FFFFF], mb_detect_encoding($originalTrans, null, true) ?: 'UTF-8');
+>>>>>>> main
 
         $useInternalErrors = libxml_use_internal_errors(true);
 
@@ -283,7 +303,11 @@ final class PseudoLocalizationTranslator implements TranslatorInterface
         }
 
         $visibleLength = $this->strlen($visibleText);
+<<<<<<< HEAD
         $missingLength = (int) (ceil($visibleLength * $this->expansionFactor)) - $visibleLength;
+=======
+        $missingLength = (int) ceil($visibleLength * $this->expansionFactor) - $visibleLength;
+>>>>>>> main
         if ($this->brackets) {
             $missingLength -= 2;
         }

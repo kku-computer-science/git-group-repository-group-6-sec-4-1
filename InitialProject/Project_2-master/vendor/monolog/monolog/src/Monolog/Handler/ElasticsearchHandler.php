@@ -11,6 +11,10 @@
 
 namespace Monolog\Handler;
 
+<<<<<<< HEAD
+=======
+use Elastic\Elasticsearch\Response\Elasticsearch;
+>>>>>>> main
 use Throwable;
 use RuntimeException;
 use Monolog\Logger;
@@ -19,6 +23,11 @@ use Monolog\Formatter\ElasticsearchFormatter;
 use InvalidArgumentException;
 use Elasticsearch\Common\Exceptions\RuntimeException as ElasticsearchRuntimeException;
 use Elasticsearch\Client;
+<<<<<<< HEAD
+=======
+use Elastic\Elasticsearch\Exception\InvalidArgumentException as ElasticInvalidArgumentException;
+use Elastic\Elasticsearch\Client as Client8;
+>>>>>>> main
 
 /**
  * Elasticsearch handler
@@ -44,7 +53,11 @@ use Elasticsearch\Client;
 class ElasticsearchHandler extends AbstractProcessingHandler
 {
     /**
+<<<<<<< HEAD
      * @var Client
+=======
+     * @var Client|Client8
+>>>>>>> main
      */
     protected $client;
 
@@ -54,11 +67,28 @@ class ElasticsearchHandler extends AbstractProcessingHandler
     protected $options = [];
 
     /**
+<<<<<<< HEAD
      * @param Client  $client  Elasticsearch Client object
      * @param mixed[] $options Handler configuration
      */
     public function __construct(Client $client, array $options = [], $level = Logger::DEBUG, bool $bubble = true)
     {
+=======
+     * @var bool
+     */
+    private $needsType;
+
+    /**
+     * @param Client|Client8 $client  Elasticsearch Client object
+     * @param mixed[]        $options Handler configuration
+     */
+    public function __construct($client, array $options = [], $level = Logger::DEBUG, bool $bubble = true)
+    {
+        if (!$client instanceof Client && !$client instanceof Client8) {
+            throw new \TypeError('Elasticsearch\Client or Elastic\Elasticsearch\Client instance required');
+        }
+
+>>>>>>> main
         parent::__construct($level, $bubble);
         $this->client = $client;
         $this->options = array_merge(
@@ -69,6 +99,17 @@ class ElasticsearchHandler extends AbstractProcessingHandler
             ],
             $options
         );
+<<<<<<< HEAD
+=======
+
+        if ($client instanceof Client8 || $client::VERSION[0] === '7') {
+            $this->needsType = false;
+            // force the type to _doc for ES8/ES7
+            $this->options['type'] = '_doc';
+        } else {
+            $this->needsType = true;
+        }
+>>>>>>> main
     }
 
     /**
@@ -133,9 +174,17 @@ class ElasticsearchHandler extends AbstractProcessingHandler
 
             foreach ($records as $record) {
                 $params['body'][] = [
+<<<<<<< HEAD
                     'index' => [
                         '_index' => $record['_index'],
                         '_type'  => $record['_type'],
+=======
+                    'index' => $this->needsType ? [
+                        '_index' => $record['_index'],
+                        '_type'  => $record['_type'],
+                    ] : [
+                        '_index' => $record['_index'],
+>>>>>>> main
                     ],
                 ];
                 unset($record['_index'], $record['_type']);
@@ -143,6 +192,10 @@ class ElasticsearchHandler extends AbstractProcessingHandler
                 $params['body'][] = $record;
             }
 
+<<<<<<< HEAD
+=======
+            /** @var Elasticsearch */
+>>>>>>> main
             $responses = $this->client->bulk($params);
 
             if ($responses['errors'] === true) {
@@ -160,16 +213,31 @@ class ElasticsearchHandler extends AbstractProcessingHandler
      *
      * Only the first error is converted into an exception.
      *
+<<<<<<< HEAD
      * @param mixed[] $responses returned by $this->client->bulk()
      */
     protected function createExceptionFromResponses(array $responses): ElasticsearchRuntimeException
     {
+=======
+     * @param mixed[]|Elasticsearch $responses returned by $this->client->bulk()
+     */
+    protected function createExceptionFromResponses($responses): Throwable
+    {
+        // @phpstan-ignore offsetAccess.nonOffsetAccessible
+>>>>>>> main
         foreach ($responses['items'] ?? [] as $item) {
             if (isset($item['index']['error'])) {
                 return $this->createExceptionFromError($item['index']['error']);
             }
         }
 
+<<<<<<< HEAD
+=======
+        if (class_exists(ElasticInvalidArgumentException::class)) {
+            return new ElasticInvalidArgumentException('Elasticsearch failed to index one or more records.');
+        }
+
+>>>>>>> main
         return new ElasticsearchRuntimeException('Elasticsearch failed to index one or more records.');
     }
 
@@ -178,10 +246,21 @@ class ElasticsearchHandler extends AbstractProcessingHandler
      *
      * @param mixed[] $error
      */
+<<<<<<< HEAD
     protected function createExceptionFromError(array $error): ElasticsearchRuntimeException
     {
         $previous = isset($error['caused_by']) ? $this->createExceptionFromError($error['caused_by']) : null;
 
+=======
+    protected function createExceptionFromError(array $error): Throwable
+    {
+        $previous = isset($error['caused_by']) ? $this->createExceptionFromError($error['caused_by']) : null;
+
+        if (class_exists(ElasticInvalidArgumentException::class)) {
+            return new ElasticInvalidArgumentException($error['type'] . ': ' . $error['reason'], 0, $previous);
+        }
+
+>>>>>>> main
         return new ElasticsearchRuntimeException($error['type'] . ': ' . $error['reason'], 0, $previous);
     }
 }

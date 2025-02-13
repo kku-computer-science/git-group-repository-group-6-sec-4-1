@@ -57,11 +57,17 @@ final class Helper
             }
         }
 
+<<<<<<< HEAD
         $string = self::replaceWildcard($string, '%', static function () {
             return mt_rand(1, 9);
         });
 
         return $string;
+=======
+        return self::replaceWildcard($string, '%', static function () {
+            return mt_rand(1, 9);
+        });
+>>>>>>> main
     }
 
     /**
@@ -85,10 +91,17 @@ final class Helper
     public static function bothify(string $string): string
     {
         $string = self::replaceWildcard($string, '*', static function () {
+<<<<<<< HEAD
             return mt_rand(0, 1) ? '#' : '?';
         });
 
         return static::lexify(static::numerify($string));
+=======
+            return mt_rand(0, 1) === 1 ? '#' : '?';
+        });
+
+        return self::lexify(self::numerify($string));
+>>>>>>> main
     }
 
     private static function replaceWildcard(string $string, string $wildcard, callable $callback): string

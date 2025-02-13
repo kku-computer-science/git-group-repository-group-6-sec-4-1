@@ -572,9 +572,15 @@ class Ftp extends AbstractFtpAdapter
 
     private function getRawExecResponseCode($command)
     {
+<<<<<<< HEAD
         $response = @ftp_raw($this->connection, trim($command));
 
         return (int) preg_replace('/\D/', '', implode(' ', $response));
+=======
+        $response = @ftp_raw($this->connection, trim($command)) ?: [];
+
+        return (int) preg_replace('/\D/', '', implode(' ', (array) $response));
+>>>>>>> main
     }
 
     private function hasFtpConnection(): bool

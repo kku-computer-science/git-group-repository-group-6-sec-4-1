@@ -5,6 +5,10 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\Engineering;
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class BesselK
 {
@@ -46,12 +50,20 @@ class BesselK
         }
 
         if (($ord < 0) || ($x <= 0.0)) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         $fBk = self::calculate($x, $ord);
 
+<<<<<<< HEAD
         return (is_nan($fBk)) ? Functions::NAN() : $fBk;
+=======
+        return (is_nan($fBk)) ? ExcelError::NAN() : $fBk;
+>>>>>>> main
     }
 
     private static function calculate(float $x, int $ord): float
@@ -67,13 +79,35 @@ class BesselK
         return self::besselK2($x, $ord);
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * Mollify Phpstan.
+     *
+     * @codeCoverageIgnore
+     */
+    private static function callBesselI(float $x, int $ord): float
+    {
+        $rslt = BesselI::BESSELI($x, $ord);
+        if (!is_float($rslt)) {
+            throw new Exception('Unexpected array or string');
+        }
+
+        return $rslt;
+    }
+
+>>>>>>> main
     private static function besselK0(float $x): float
     {
         if ($x <= 2) {
             $fNum2 = $x * 0.5;
             $y = ($fNum2 * $fNum2);
 
+<<<<<<< HEAD
             return -log($fNum2) * BesselI::BESSELI($x, 0) +
+=======
+            return -log($fNum2) * self::callBesselI($x, 0) +
+>>>>>>> main
                 (-0.57721566 + $y * (0.42278420 + $y * (0.23069756 + $y * (0.3488590e-1 + $y * (0.262698e-2 + $y *
                                     (0.10750e-3 + $y * 0.74e-5))))));
         }
@@ -91,7 +125,11 @@ class BesselK
             $fNum2 = $x * 0.5;
             $y = ($fNum2 * $fNum2);
 
+<<<<<<< HEAD
             return log($fNum2) * BesselI::BESSELI($x, 1) +
+=======
+            return log($fNum2) * self::callBesselI($x, 1) +
+>>>>>>> main
                 (1 + $y * (0.15443144 + $y * (-0.67278579 + $y * (-0.18156897 + $y * (-0.1919402e-1 + $y *
                                     (-0.110404e-2 + $y * (-0.4686e-4))))))) / $x;
         }
@@ -103,7 +141,11 @@ class BesselK
                                 (0.325614e-2 + $y * (-0.68245e-3)))))));
     }
 
+<<<<<<< HEAD
     private static function besselK2(float $x, int $ord)
+=======
+    private static function besselK2(float $x, int $ord): float
+>>>>>>> main
     {
         $fTox = 2 / $x;
         $fBkm = self::besselK0($x);

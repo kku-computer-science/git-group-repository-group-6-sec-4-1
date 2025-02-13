@@ -9,8 +9,15 @@ use SimpleXMLElement;
 
 class Hyperlinks
 {
+<<<<<<< HEAD
     private $worksheet;
 
+=======
+    /** @var Worksheet */
+    private $worksheet;
+
+    /** @var array */
+>>>>>>> main
     private $hyperlinks = [];
 
     public function __construct(Worksheet $workSheet)

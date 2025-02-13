@@ -13,8 +13,14 @@ use Sabberworm\CSS\Value\RuleValueList;
 use Sabberworm\CSS\Value\Value;
 
 /**
+<<<<<<< HEAD
  * RuleSets contains Rule objects which always have a key and a value.
  * In CSS, Rules are expressed as follows: “key: value[0][0] value[0][1], value[1][0] value[1][1];”
+=======
+ * `Rule`s just have a string key (the rule) and a 'Value'.
+ *
+ * In CSS, `Rule`s are expressed as follows: “key: value[0][0] value[0][1], value[1][0] value[1][1];”
+>>>>>>> main
  */
 class Rule implements Renderable, Commentable
 {
@@ -24,7 +30,11 @@ class Rule implements Renderable, Commentable
     private $sRule;
 
     /**
+<<<<<<< HEAD
      * @var RuleValueList|null
+=======
+     * @var RuleValueList|string|null
+>>>>>>> main
      */
     private $mValue;
 
@@ -106,6 +116,10 @@ class Rule implements Renderable, Commentable
         while ($oParserState->comes(';')) {
             $oParserState->consume(';');
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
         $oParserState->consumeWhiteSpace();
 
         return $oRule;
@@ -171,7 +185,11 @@ class Rule implements Renderable, Commentable
     }
 
     /**
+<<<<<<< HEAD
      * @return RuleValueList|null
+=======
+     * @return RuleValueList|string|null
+>>>>>>> main
      */
     public function getValue()
     {
@@ -179,7 +197,11 @@ class Rule implements Renderable, Commentable
     }
 
     /**
+<<<<<<< HEAD
      * @param RuleValueList|null $mValue
+=======
+     * @param RuleValueList|string|null $mValue
+>>>>>>> main
      *
      * @return void
      */
@@ -342,12 +364,23 @@ class Rule implements Renderable, Commentable
     }
 
     /**
+<<<<<<< HEAD
      * @return string
      */
     public function render(OutputFormat $oOutputFormat)
     {
         $sResult = "{$this->sRule}:{$oOutputFormat->spaceAfterRuleName()}";
         if ($this->mValue instanceof Value) { //Can also be a ValueList
+=======
+     * @param OutputFormat|null $oOutputFormat
+     *
+     * @return string
+     */
+    public function render($oOutputFormat)
+    {
+        $sResult = "{$oOutputFormat->comments($this)}{$this->sRule}:{$oOutputFormat->spaceAfterRuleName()}";
+        if ($this->mValue instanceof Value) { // Can also be a ValueList
+>>>>>>> main
             $sResult .= $this->mValue->render($oOutputFormat);
         } else {
             $sResult .= $this->mValue;

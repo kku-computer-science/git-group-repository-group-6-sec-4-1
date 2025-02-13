@@ -24,6 +24,12 @@ class BashCompletionOutput implements CompletionOutputInterface
         $values = $suggestions->getValueSuggestions();
         foreach ($suggestions->getOptionSuggestions() as $option) {
             $values[] = '--'.$option->getName();
+<<<<<<< HEAD
+=======
+            if ($option->isNegatable()) {
+                $values[] = '--no-'.$option->getName();
+            }
+>>>>>>> main
         }
         $output->writeln(implode("\n", $values));
     }

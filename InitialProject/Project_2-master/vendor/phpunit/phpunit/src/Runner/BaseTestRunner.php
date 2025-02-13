@@ -91,7 +91,11 @@ abstract class BaseTestRunner
             /** @var string[] $files */
             $files = (new FileIteratorFacade)->getFilesAsArray(
                 $suiteClassFile,
+<<<<<<< HEAD
                 $suffixes
+=======
+                $suffixes,
+>>>>>>> main
             );
 
             $suite = new TestSuite($suiteClassFile);
@@ -109,7 +113,11 @@ abstract class BaseTestRunner
 
         try {
             $testClass = $this->loadSuiteClass(
+<<<<<<< HEAD
                 $suiteClassFile
+=======
+                $suiteClassFile,
+>>>>>>> main
             );
         } catch (\PHPUnit\Exception $e) {
             $this->runFailed($e->getMessage());
@@ -122,7 +130,11 @@ abstract class BaseTestRunner
 
             if (!$suiteMethod->isStatic()) {
                 $this->runFailed(
+<<<<<<< HEAD
                     'suite() method must be static.'
+=======
+                    'suite() method must be static.',
+>>>>>>> main
                 );
 
                 return null;

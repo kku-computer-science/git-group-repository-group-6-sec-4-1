@@ -20,12 +20,18 @@ use Symfony\Component\Translation\Exception\LogicException;
  */
 class IntlFormatter implements IntlFormatterInterface
 {
+<<<<<<< HEAD
     private $hasMessageFormatter;
     private $cache = [];
 
     /**
      * {@inheritdoc}
      */
+=======
+    private bool $hasMessageFormatter;
+    private array $cache = [];
+
+>>>>>>> main
     public function formatIntl(string $message, string $locale, array $parameters = []): string
     {
         // MessageFormatter constructor throws an exception if the message is empty
@@ -34,7 +40,11 @@ class IntlFormatter implements IntlFormatterInterface
         }
 
         if (!$formatter = $this->cache[$locale][$message] ?? null) {
+<<<<<<< HEAD
             if (!($this->hasMessageFormatter ?? $this->hasMessageFormatter = class_exists(\MessageFormatter::class))) {
+=======
+            if (!$this->hasMessageFormatter ??= class_exists(\MessageFormatter::class)) {
+>>>>>>> main
                 throw new LogicException('Cannot parse message translation: please install the "intl" PHP extension or the "symfony/polyfill-intl-messageformatter" package.');
             }
             try {

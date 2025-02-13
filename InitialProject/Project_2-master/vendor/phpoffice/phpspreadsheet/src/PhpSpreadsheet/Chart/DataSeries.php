@@ -94,7 +94,11 @@ class DataSeries
     private $plotCategory = [];
 
     /**
+<<<<<<< HEAD
      * Smooth Line.
+=======
+     * Smooth Line. Must be specified for both DataSeries and DataSeriesValues.
+>>>>>>> main
      *
      * @var bool
      */
@@ -108,6 +112,16 @@ class DataSeries
     private $plotValues = [];
 
     /**
+<<<<<<< HEAD
+=======
+     * Plot Bubble Sizes.
+     *
+     * @var DataSeriesValues[]
+     */
+    private $plotBubbleSizes = [];
+
+    /**
+>>>>>>> main
      * Create a new DataSeries.
      *
      * @param null|mixed $plotType
@@ -127,12 +141,20 @@ class DataSeries
         $this->plotOrder = $plotOrder;
         $keys = array_keys($plotValues);
         $this->plotValues = $plotValues;
+<<<<<<< HEAD
         if ((count($plotLabel) == 0) || ($plotLabel[$keys[0]] === null)) {
+=======
+        if (!isset($plotLabel[$keys[0]])) {
+>>>>>>> main
             $plotLabel[$keys[0]] = new DataSeriesValues();
         }
         $this->plotLabel = $plotLabel;
 
+<<<<<<< HEAD
         if ((count($plotCategory) == 0) || ($plotCategory[$keys[0]] === null)) {
+=======
+        if (!isset($plotCategory[$keys[0]])) {
+>>>>>>> main
             $plotCategory[$keys[0]] = new DataSeriesValues();
         }
         $this->plotCategory = $plotCategory;
@@ -250,8 +272,11 @@ class DataSeries
         $keys = array_keys($this->plotLabel);
         if (in_array($index, $keys)) {
             return $this->plotLabel[$index];
+<<<<<<< HEAD
         } elseif (isset($keys[$index])) {
             return $this->plotLabel[$keys[$index]];
+=======
+>>>>>>> main
         }
 
         return false;
@@ -332,14 +357,42 @@ class DataSeries
         $keys = array_keys($this->plotValues);
         if (in_array($index, $keys)) {
             return $this->plotValues[$index];
+<<<<<<< HEAD
         } elseif (isset($keys[$index])) {
             return $this->plotValues[$keys[$index]];
+=======
+>>>>>>> main
         }
 
         return false;
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Get Plot Bubble Sizes.
+     *
+     * @return DataSeriesValues[]
+     */
+    public function getPlotBubbleSizes(): array
+    {
+        return $this->plotBubbleSizes;
+    }
+
+    /**
+     * Set Plot Bubble Sizes.
+     *
+     * @param DataSeriesValues[] $plotBubbleSizes
+     */
+    public function setPlotBubbleSizes(array $plotBubbleSizes): self
+    {
+        $this->plotBubbleSizes = $plotBubbleSizes;
+
+        return $this;
+    }
+
+    /**
+>>>>>>> main
      * Get Number of Plot Series.
      *
      * @return int

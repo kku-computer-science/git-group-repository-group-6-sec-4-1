@@ -10,6 +10,13 @@
  * file that was distributed with this source code.
  */
 
+<<<<<<< HEAD
+=======
+if ('cli' !== PHP_SAPI) {
+    throw new Exception('This script must be run from the command line.');
+}
+
+>>>>>>> main
 /**
  * Starts a dump server to collect and output dumps on a single place with multiple formats support.
  *

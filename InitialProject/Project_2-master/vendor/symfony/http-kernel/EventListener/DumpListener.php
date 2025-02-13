@@ -29,7 +29,11 @@ class DumpListener implements EventSubscriberInterface
     private $dumper;
     private $connection;
 
+<<<<<<< HEAD
     public function __construct(ClonerInterface $cloner, DataDumperInterface $dumper, Connection $connection = null)
+=======
+    public function __construct(ClonerInterface $cloner, DataDumperInterface $dumper, ?Connection $connection = null)
+>>>>>>> main
     {
         $this->cloner = $cloner;
         $this->dumper = $dumper;

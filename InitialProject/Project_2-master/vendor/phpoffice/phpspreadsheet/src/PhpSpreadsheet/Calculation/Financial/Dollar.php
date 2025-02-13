@@ -5,6 +5,10 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\Financial;
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Calculation\TextData\Format;
 
 class Dollar
@@ -67,10 +71,17 @@ class Dollar
 
         // Additional parameter validations
         if ($fraction < 0) {
+<<<<<<< HEAD
             return Functions::NAN();
         }
         if ($fraction == 0) {
             return Functions::DIV0();
+=======
+            return ExcelError::NAN();
+        }
+        if ($fraction == 0) {
+            return ExcelError::DIV0();
+>>>>>>> main
         }
 
         $dollars = ($fractionalDollar < 0) ? ceil($fractionalDollar) : floor($fractionalDollar);
@@ -115,10 +126,17 @@ class Dollar
 
         // Additional parameter validations
         if ($fraction < 0) {
+<<<<<<< HEAD
             return Functions::NAN();
         }
         if ($fraction == 0) {
             return Functions::DIV0();
+=======
+            return ExcelError::NAN();
+        }
+        if ($fraction == 0) {
+            return ExcelError::DIV0();
+>>>>>>> main
         }
 
         $dollars = ($decimalDollar < 0.0) ? ceil($decimalDollar) : floor($decimalDollar);

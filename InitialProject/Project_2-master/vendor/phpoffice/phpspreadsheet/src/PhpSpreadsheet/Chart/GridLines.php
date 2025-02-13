@@ -10,6 +10,7 @@ namespace PhpOffice\PhpSpreadsheet\Chart;
  */
 class GridLines extends Properties
 {
+<<<<<<< HEAD
     /**
      * Properties of Class:
      * Object State (State for Minor Tick Mark) @var bool
@@ -451,4 +452,6 @@ class GridLines extends Properties
     {
         return $this->softEdges['size'];
     }
+=======
+>>>>>>> main
 }

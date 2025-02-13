@@ -45,22 +45,38 @@ final class TestSuiteMapper
                 $testSuite      = new TestSuiteObject($testSuiteConfiguration->name());
                 $testSuiteEmpty = true;
 
+<<<<<<< HEAD
+=======
+                $exclude = [];
+
+                foreach ($testSuiteConfiguration->exclude()->asArray() as $file) {
+                    $exclude[] = $file->path();
+                }
+
+>>>>>>> main
                 foreach ($testSuiteConfiguration->directories() as $directory) {
                     if (!version_compare(PHP_VERSION, $directory->phpVersion(), $directory->phpVersionOperator()->asString())) {
                         continue;
                     }
 
+<<<<<<< HEAD
                     $exclude = [];
 
                     foreach ($testSuiteConfiguration->exclude()->asArray() as $file) {
                         $exclude[] = $file->path();
                     }
 
+=======
+>>>>>>> main
                     $files = (new Facade)->getFilesAsArray(
                         $directory->path(),
                         $directory->suffix(),
                         $directory->prefix(),
+<<<<<<< HEAD
                         $exclude
+=======
+                        $exclude,
+>>>>>>> main
                     );
 
                     if (!empty($files)) {
@@ -95,8 +111,13 @@ final class TestSuiteMapper
         } catch (FrameworkException $e) {
             throw new RuntimeException(
                 $e->getMessage(),
+<<<<<<< HEAD
                 (int) $e->getCode(),
                 $e
+=======
+                $e->getCode(),
+                $e,
+>>>>>>> main
             );
         }
     }

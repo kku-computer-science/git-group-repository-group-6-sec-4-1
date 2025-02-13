@@ -37,7 +37,11 @@ class TentativeTypes
         'DateTime' => [
             '__wakeup' => 'void',
             '__set_state' => 'DateTime',
+<<<<<<< HEAD
             'createFromImmutable' => 'DateTime',
+=======
+            'createFromImmutable' => 'static',
+>>>>>>> main
             'createFromFormat' => 'DateTime|false',
             'getLastErrors' => 'array|false',
             'format' => 'string',
@@ -72,7 +76,11 @@ class TentativeTypes
             'setDate' => 'DateTimeImmutable',
             'setISODate' => 'DateTimeImmutable',
             'setTimestamp' => 'DateTimeImmutable',
+<<<<<<< HEAD
             'createFromMutable' => 'DateTimeImmutable',
+=======
+            'createFromMutable' => 'static',
+>>>>>>> main
         ],
         'DateTimeZone' => [
             'getName' => 'string',
@@ -753,6 +761,10 @@ class TentativeTypes
             'isVariadic' => 'bool',
             'isStatic' => 'bool',
             'getClosureThis' => '?object',
+<<<<<<< HEAD
+=======
+            'getClosureCalledClass' => '?ReflectionClass',
+>>>>>>> main
             'getClosureScopeClass' => '?ReflectionClass',
             'getDocComment' => 'string|false',
             'getEndLine' => 'int|false',
@@ -1102,6 +1114,11 @@ class TentativeTypes
             'isDot' => 'bool',
             'rewind' => 'void',
             'valid' => 'bool',
+<<<<<<< HEAD
+=======
+            'key' => 'mixed',
+            'current' => 'mixed',
+>>>>>>> main
             'next' => 'void',
             'seek' => 'void',
         ],
@@ -1148,8 +1165,13 @@ class TentativeTypes
             'getFlags' => 'int',
             'setMaxLineLen' => 'void',
             'getMaxLineLen' => 'int',
+<<<<<<< HEAD
             'hasChildren' => 'bool',
             'getChildren' => '?RecursiveIterator',
+=======
+            'hasChildren' => 'false',
+            'getChildren' => 'null',
+>>>>>>> main
             'seek' => 'void',
             'getCurrentLine' => 'string',
         ],
@@ -1238,7 +1260,11 @@ class TentativeTypes
             'current' => 'never',
             'next' => 'void',
             'key' => 'never',
+<<<<<<< HEAD
             'valid' => 'bool',
+=======
+            'valid' => 'false',
+>>>>>>> main
             'rewind' => 'void',
         ],
         'CallbackFilterIterator' => [

@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 /**
  * Mockery
  *
@@ -16,11 +17,27 @@
  * @package    Mockery
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+=======
+
+/**
+ * Mockery (https://docs.mockery.io/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
+>>>>>>> main
  */
 
 namespace Mockery\Adapter\Phpunit;
 
 use Mockery;
+<<<<<<< HEAD
+=======
+use PHPUnit\Framework\Attributes\After;
+use PHPUnit\Framework\Attributes\Before;
+
+use function method_exists;
+>>>>>>> main
 
 /**
  * Integrates Mockery into PHPUnit. Ensures Mockery expectations are verified
@@ -32,6 +49,33 @@ trait MockeryPHPUnitIntegration
 
     protected $mockeryOpen;
 
+<<<<<<< HEAD
+=======
+    protected function addMockeryExpectationsToAssertionCount()
+    {
+        $this->addToAssertionCount(Mockery::getContainer()->mockery_getExpectationCount());
+    }
+
+    protected function checkMockeryExceptions()
+    {
+        if (! method_exists($this, 'markAsRisky')) {
+            return;
+        }
+
+        foreach (Mockery::getContainer()->mockery_thrownExceptions() as $e) {
+            if (! $e->dismissed()) {
+                $this->markAsRisky();
+            }
+        }
+    }
+
+    protected function closeMockery()
+    {
+        Mockery::close();
+        $this->mockeryOpen = false;
+    }
+
+>>>>>>> main
     /**
      * Performs assertions shared by all tests of a test case. This method is
      * called before execution of a test ends and before the tearDown method.
@@ -45,6 +89,7 @@ trait MockeryPHPUnitIntegration
         parent::assertPostConditions();
     }
 
+<<<<<<< HEAD
     protected function addMockeryExpectationsToAssertionCount()
     {
         $this->addToAssertionCount(Mockery::getContainer()->mockery_getExpectationCount());
@@ -80,6 +125,12 @@ trait MockeryPHPUnitIntegration
     /**
      * @after
      */
+=======
+    /**
+     * @after
+     */
+    #[After]
+>>>>>>> main
     protected function purgeMockeryContainer()
     {
         if ($this->mockeryOpen) {
@@ -87,4 +138,16 @@ trait MockeryPHPUnitIntegration
             Mockery::close();
         }
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * @before
+     */
+    #[Before]
+    protected function startMockery()
+    {
+        $this->mockeryOpen = true;
+    }
+>>>>>>> main
 }

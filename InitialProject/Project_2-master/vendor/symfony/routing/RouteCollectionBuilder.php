@@ -43,7 +43,11 @@ class RouteCollectionBuilder
     private $methods;
     private $resources = [];
 
+<<<<<<< HEAD
     public function __construct(LoaderInterface $loader = null)
+=======
+    public function __construct(?LoaderInterface $loader = null)
+>>>>>>> main
     {
         $this->loader = $loader;
     }
@@ -59,7 +63,11 @@ class RouteCollectionBuilder
      *
      * @throws LoaderLoadException
      */
+<<<<<<< HEAD
     public function import($resource, string $prefix = '/', string $type = null)
+=======
+    public function import($resource, string $prefix = '/', ?string $type = null)
+>>>>>>> main
     {
         /** @var RouteCollection[] $collections */
         $collections = $this->load($resource, $type);
@@ -92,7 +100,11 @@ class RouteCollectionBuilder
      *
      * @return Route
      */
+<<<<<<< HEAD
     public function add(string $path, string $controller, string $name = null)
+=======
+    public function add(string $path, string $controller, ?string $name = null)
+>>>>>>> main
     {
         $route = new Route($path);
         $route->setDefault('_controller', $controller);
@@ -125,7 +137,11 @@ class RouteCollectionBuilder
      *
      * @return $this
      */
+<<<<<<< HEAD
     public function addRoute(Route $route, string $name = null)
+=======
+    public function addRoute(Route $route, ?string $name = null)
+>>>>>>> main
     {
         if (null === $name) {
             // used as a flag to know which routes will need a name later
@@ -337,7 +353,11 @@ class RouteCollectionBuilder
      *
      * @throws LoaderLoadException If no loader is found
      */
+<<<<<<< HEAD
     private function load($resource, string $type = null): array
+=======
+    private function load($resource, ?string $type = null): array
+>>>>>>> main
     {
         if (null === $this->loader) {
             throw new \BadMethodCallException('Cannot import other routing resources: you must pass a LoaderInterface when constructing RouteCollectionBuilder.');

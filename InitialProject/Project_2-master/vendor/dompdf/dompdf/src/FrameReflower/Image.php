@@ -69,7 +69,13 @@ class Image extends AbstractFrameReflower
         [$width] = $this->calculate_size(null, null);
         $min_width = $this->resolve_min_width(null);
         $percent_width = Helpers::is_percent($style->width)
+<<<<<<< HEAD
             || Helpers::is_percent($style->max_width);
+=======
+            || Helpers::is_percent($style->max_width)
+            || ($style->width === "auto"
+                && (Helpers::is_percent($style->height) || Helpers::is_percent($style->max_height)));
+>>>>>>> main
 
         // Use the specified min width as minimum when width or max width depend
         // on the containing block and cannot be resolved yet. This mimics

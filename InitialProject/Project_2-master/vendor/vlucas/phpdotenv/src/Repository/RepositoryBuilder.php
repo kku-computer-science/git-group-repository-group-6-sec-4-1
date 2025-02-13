@@ -65,7 +65,11 @@ final class RepositoryBuilder
      *
      * @return void
      */
+<<<<<<< HEAD
     private function __construct(array $readers = [], array $writers = [], bool $immutable = false, array $allowList = null)
+=======
+    private function __construct(array $readers = [], array $writers = [], bool $immutable = false, ?array $allowList = null)
+>>>>>>> main
     {
         $this->readers = $readers;
         $this->writers = $writers;
@@ -111,7 +115,11 @@ final class RepositoryBuilder
     }
 
     /**
+<<<<<<< HEAD
      * Determine if the given name if of an adapaterclass.
+=======
+     * Determine if the given name if of an adapterclass.
+>>>>>>> main
      *
      * @param string $name
      *
@@ -244,7 +252,11 @@ final class RepositoryBuilder
      *
      * @return \Dotenv\Repository\RepositoryBuilder
      */
+<<<<<<< HEAD
     public function allowList(array $allowList = null)
+=======
+    public function allowList(?array $allowList = null)
+>>>>>>> main
     {
         return new self($this->readers, $this->writers, $this->immutable, $allowList);
     }

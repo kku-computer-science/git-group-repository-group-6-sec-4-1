@@ -6,7 +6,11 @@ use Complex\Complex as ComplexObject;
 use Complex\Exception as ComplexException;
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class Complex
 {
@@ -49,13 +53,21 @@ class Complex
             return $e->getMessage();
         }
 
+<<<<<<< HEAD
         if (($suffix == 'i') || ($suffix == 'j') || ($suffix == '')) {
+=======
+        if (($suffix === 'i') || ($suffix === 'j') || ($suffix === '')) {
+>>>>>>> main
             $complex = new ComplexObject($realNumber, $imaginary, $suffix);
 
             return (string) $complex;
         }
 
+<<<<<<< HEAD
         return Functions::VALUE();
+=======
+        return ExcelError::VALUE();
+>>>>>>> main
     }
 
     /**
@@ -83,7 +95,11 @@ class Complex
         try {
             $complex = new ComplexObject($complexNumber);
         } catch (ComplexException $e) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         return $complex->getImaginary();
@@ -113,7 +129,11 @@ class Complex
         try {
             $complex = new ComplexObject($complexNumber);
         } catch (ComplexException $e) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         return $complex->getReal();

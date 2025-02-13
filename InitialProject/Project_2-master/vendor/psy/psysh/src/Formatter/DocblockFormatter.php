@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -19,7 +23,11 @@ use Symfony\Component\Console\Formatter\OutputFormatter;
  */
 class DocblockFormatter implements ReflectorFormatter
 {
+<<<<<<< HEAD
     private static $vectorParamTemplates = [
+=======
+    private const VECTOR_PARAM_TEMPLATES = [
+>>>>>>> main
         'type' => 'info',
         'var'  => 'strong',
     ];
@@ -68,8 +76,11 @@ class DocblockFormatter implements ReflectorFormatter
      *
      * @param array $vector
      * @param array $lines
+<<<<<<< HEAD
      *
      * @return string
+=======
+>>>>>>> main
      */
     private static function formatVector(array $vector, array $lines): string
     {
@@ -133,6 +144,7 @@ class DocblockFormatter implements ReflectorFormatter
      *
      * @param string $type Vector type
      * @param int    $max  Pad width
+<<<<<<< HEAD
      *
      * @return string
      */
@@ -143,6 +155,16 @@ class DocblockFormatter implements ReflectorFormatter
         }
 
         return \sprintf('<%s>%%-%ds</%s>', self::$vectorParamTemplates[$type], $max, self::$vectorParamTemplates[$type]);
+=======
+     */
+    private static function getVectorParamTemplate(string $type, int $max): string
+    {
+        if (!isset(self::VECTOR_PARAM_TEMPLATES[$type])) {
+            return \sprintf('%%-%ds', $max);
+        }
+
+        return \sprintf('<%s>%%-%ds</%s>', self::VECTOR_PARAM_TEMPLATES[$type], $max, self::VECTOR_PARAM_TEMPLATES[$type]);
+>>>>>>> main
     }
 
     /**
@@ -150,8 +172,11 @@ class DocblockFormatter implements ReflectorFormatter
      *
      * @param string $text   String to indent
      * @param string $indent (default: '  ')
+<<<<<<< HEAD
      *
      * @return string
+=======
+>>>>>>> main
      */
     private static function indent(string $text, string $indent = '  '): string
     {
@@ -162,8 +187,11 @@ class DocblockFormatter implements ReflectorFormatter
      * Convert underscored or whitespace separated words into sentence case.
      *
      * @param string $text
+<<<<<<< HEAD
      *
      * @return string
+=======
+>>>>>>> main
      */
     private static function inflect(string $text): string
     {

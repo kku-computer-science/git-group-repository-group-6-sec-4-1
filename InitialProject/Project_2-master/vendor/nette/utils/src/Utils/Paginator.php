@@ -18,6 +18,7 @@ use Nette;
  * @property   int $page
  * @property-read int $firstPage
  * @property-read int|null $lastPage
+<<<<<<< HEAD
  * @property-read int $firstItemOnPage
  * @property-read int $lastItemOnPage
  * @property   int $base
@@ -29,11 +30,25 @@ use Nette;
  * @property-read int $offset
  * @property-read int|null $countdownOffset
  * @property-read int $length
+=======
+ * @property-read int<0,max> $firstItemOnPage
+ * @property-read int<0,max> $lastItemOnPage
+ * @property   int $base
+ * @property-read bool $first
+ * @property-read bool $last
+ * @property-read int<0,max>|null $pageCount
+ * @property   positive-int $itemsPerPage
+ * @property   int<0,max>|null $itemCount
+ * @property-read int<0,max> $offset
+ * @property-read int<0,max>|null $countdownOffset
+ * @property-read int<0,max> $length
+>>>>>>> main
  */
 class Paginator
 {
 	use Nette\SmartObject;
 
+<<<<<<< HEAD
 	/** @var int */
 	private $base = 1;
 
@@ -45,13 +60,29 @@ class Paginator
 
 	/** @var int|null */
 	private $itemCount;
+=======
+	private int $base = 1;
+
+	/** @var positive-int */
+	private int $itemsPerPage = 1;
+
+	private int $page = 1;
+
+	/** @var int<0, max>|null */
+	private ?int $itemCount = null;
+>>>>>>> main
 
 
 	/**
 	 * Sets current page number.
+<<<<<<< HEAD
 	 * @return static
 	 */
 	public function setPage(int $page)
+=======
+	 */
+	public function setPage(int $page): static
+>>>>>>> main
 	{
 		$this->page = $page;
 		return $this;
@@ -89,6 +120,10 @@ class Paginator
 
 	/**
 	 * Returns the sequence number of the first element on the page
+<<<<<<< HEAD
+=======
+	 * @return int<0, max>
+>>>>>>> main
 	 */
 	public function getFirstItemOnPage(): int
 	{
@@ -100,6 +135,10 @@ class Paginator
 
 	/**
 	 * Returns the sequence number of the last element on the page
+<<<<<<< HEAD
+=======
+	 * @return int<0, max>
+>>>>>>> main
 	 */
 	public function getLastItemOnPage(): int
 	{
@@ -109,9 +148,14 @@ class Paginator
 
 	/**
 	 * Sets first page (base) number.
+<<<<<<< HEAD
 	 * @return static
 	 */
 	public function setBase(int $base)
+=======
+	 */
+	public function setBase(int $base): static
+>>>>>>> main
 	{
 		$this->base = $base;
 		return $this;
@@ -129,6 +173,10 @@ class Paginator
 
 	/**
 	 * Returns zero-based page number.
+<<<<<<< HEAD
+=======
+	 * @return int<0, max>
+>>>>>>> main
 	 */
 	protected function getPageIndex(): int
 	{
@@ -161,6 +209,10 @@ class Paginator
 
 	/**
 	 * Returns the total number of pages.
+<<<<<<< HEAD
+=======
+	 * @return int<0, max>|null
+>>>>>>> main
 	 */
 	public function getPageCount(): ?int
 	{
@@ -172,9 +224,14 @@ class Paginator
 
 	/**
 	 * Sets the number of items to display on a single page.
+<<<<<<< HEAD
 	 * @return static
 	 */
 	public function setItemsPerPage(int $itemsPerPage)
+=======
+	 */
+	public function setItemsPerPage(int $itemsPerPage): static
+>>>>>>> main
 	{
 		$this->itemsPerPage = max(1, $itemsPerPage);
 		return $this;
@@ -183,6 +240,10 @@ class Paginator
 
 	/**
 	 * Returns the number of items to display on a single page.
+<<<<<<< HEAD
+=======
+	 * @return positive-int
+>>>>>>> main
 	 */
 	public function getItemsPerPage(): int
 	{
@@ -192,9 +253,14 @@ class Paginator
 
 	/**
 	 * Sets the total number of items.
+<<<<<<< HEAD
 	 * @return static
 	 */
 	public function setItemCount(?int $itemCount = null)
+=======
+	 */
+	public function setItemCount(?int $itemCount = null): static
+>>>>>>> main
 	{
 		$this->itemCount = $itemCount === null ? null : max(0, $itemCount);
 		return $this;
@@ -203,6 +269,10 @@ class Paginator
 
 	/**
 	 * Returns the total number of items.
+<<<<<<< HEAD
+=======
+	 * @return int<0, max>|null
+>>>>>>> main
 	 */
 	public function getItemCount(): ?int
 	{
@@ -212,6 +282,10 @@ class Paginator
 
 	/**
 	 * Returns the absolute index of the first item on current page.
+<<<<<<< HEAD
+=======
+	 * @return int<0, max>
+>>>>>>> main
 	 */
 	public function getOffset(): int
 	{
@@ -221,6 +295,10 @@ class Paginator
 
 	/**
 	 * Returns the absolute index of the first item on current page in countdown paging.
+<<<<<<< HEAD
+=======
+	 * @return int<0, max>|null
+>>>>>>> main
 	 */
 	public function getCountdownOffset(): ?int
 	{
@@ -232,6 +310,10 @@ class Paginator
 
 	/**
 	 * Returns the number of items on current page.
+<<<<<<< HEAD
+=======
+	 * @return int<0, max>
+>>>>>>> main
 	 */
 	public function getLength(): int
 	{

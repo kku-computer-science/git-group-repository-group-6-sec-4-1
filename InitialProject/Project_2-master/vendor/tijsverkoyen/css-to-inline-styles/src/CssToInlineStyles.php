@@ -2,22 +2,39 @@
 
 namespace TijsVerkoyen\CssToInlineStyles;
 
+<<<<<<< HEAD
 use Symfony\Component\CssSelector\CssSelector;
+=======
+>>>>>>> main
 use Symfony\Component\CssSelector\CssSelectorConverter;
 use Symfony\Component\CssSelector\Exception\ExceptionInterface;
 use TijsVerkoyen\CssToInlineStyles\Css\Processor;
 use TijsVerkoyen\CssToInlineStyles\Css\Property\Processor as PropertyProcessor;
+<<<<<<< HEAD
+=======
+use TijsVerkoyen\CssToInlineStyles\Css\Property\Property;
+>>>>>>> main
 use TijsVerkoyen\CssToInlineStyles\Css\Rule\Processor as RuleProcessor;
 
 class CssToInlineStyles
 {
+<<<<<<< HEAD
+=======
+    /**
+     * @var CssSelectorConverter
+     */
+>>>>>>> main
     private $cssConverter;
 
     public function __construct()
     {
+<<<<<<< HEAD
         if (class_exists('Symfony\Component\CssSelector\CssSelectorConverter')) {
             $this->cssConverter = new CssSelectorConverter();
         }
+=======
+        $this->cssConverter = new CssSelectorConverter();
+>>>>>>> main
     }
 
     /**
@@ -51,10 +68,17 @@ class CssToInlineStyles
     }
 
     /**
+<<<<<<< HEAD
      * Inline the given properties on an given DOMElement
      *
      * @param \DOMElement             $element
      * @param Css\Property\Property[] $properties
+=======
+     * Inline the given properties on a given DOMElement
+     *
+     * @param \DOMElement             $element
+     * @param Property[] $properties
+>>>>>>> main
      *
      * @return \DOMElement
      */
@@ -91,7 +115,11 @@ class CssToInlineStyles
      *
      * @param \DOMElement $element
      *
+<<<<<<< HEAD
      * @return Css\Property\Property[]
+=======
+     * @return Property[]
+>>>>>>> main
      */
     public function getInlineStyles(\DOMElement $element)
     {
@@ -113,7 +141,11 @@ class CssToInlineStyles
     {
         $document = new \DOMDocument('1.0', 'UTF-8');
         $internalErrors = libxml_use_internal_errors(true);
+<<<<<<< HEAD
         $document->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+=======
+        $document->loadHTML(mb_encode_numericentity($html, [0x80, 0x10FFFF, 0, 0x1FFFFF], 'UTF-8'));
+>>>>>>> main
         libxml_use_internal_errors($internalErrors);
         $document->formatOutput = true;
 
@@ -130,12 +162,32 @@ class CssToInlineStyles
         // retrieve the document element
         // we do it this way to preserve the utf-8 encoding
         $htmlElement = $document->documentElement;
+<<<<<<< HEAD
         $html = $document->saveHTML($htmlElement);
+=======
+
+        if ($htmlElement === null) {
+            throw new \RuntimeException('Failed to get HTML from empty document.');
+        }
+
+        $html = $document->saveHTML($htmlElement);
+
+        if ($html === false) {
+            throw new \RuntimeException('Failed to get HTML from document.');
+        }
+
+>>>>>>> main
         $html = trim($html);
 
         // retrieve the doctype
         $document->removeChild($htmlElement);
         $doctype = $document->saveHTML();
+<<<<<<< HEAD
+=======
+        if ($doctype === false) {
+            $doctype = '';
+        }
+>>>>>>> main
         $doctype = trim($doctype);
 
         // if it is the html5 doctype convert it to lowercase
@@ -158,6 +210,10 @@ class CssToInlineStyles
             return $document;
         }
 
+<<<<<<< HEAD
+=======
+        /** @var \SplObjectStorage<\DOMElement, array<string, Property>> $propertyStorage */
+>>>>>>> main
         $propertyStorage = new \SplObjectStorage();
 
         $xPath = new \DOMXPath($document);
@@ -166,12 +222,16 @@ class CssToInlineStyles
 
         foreach ($rules as $rule) {
             try {
+<<<<<<< HEAD
                 if (null !== $this->cssConverter) {
                     $expression = $this->cssConverter->toXPath($rule->getSelector());
                 } else {
                     // Compatibility layer for Symfony 2.7 and older
                     $expression = CssSelector::toXPath($rule->getSelector());
                 }
+=======
+                $expression = $this->cssConverter->toXPath($rule->getSelector());
+>>>>>>> main
             } catch (ExceptionInterface $e) {
                 continue;
             }
@@ -183,6 +243,10 @@ class CssToInlineStyles
             }
 
             foreach ($elements as $element) {
+<<<<<<< HEAD
+=======
+                \assert($element instanceof \DOMElement);
+>>>>>>> main
                 $propertyStorage[$element] = $this->calculatePropertiesToBeApplied(
                     $rule->getProperties(),
                     $propertyStorage->contains($element) ? $propertyStorage[$element] : array()
@@ -200,12 +264,21 @@ class CssToInlineStyles
     /**
      * Merge the CSS rules to determine the applied properties.
      *
+<<<<<<< HEAD
      * @param Css\Property\Property[] $properties
      * @param Css\Property\Property[] $cssProperties existing applied properties indexed by name
      *
      * @return Css\Property\Property[] updated properties, indexed by name
      */
     private function calculatePropertiesToBeApplied(array $properties, array $cssProperties)
+=======
+     * @param Property[] $properties
+     * @param array<string, Property> $cssProperties existing applied properties indexed by name
+     *
+     * @return array<string, Property> updated properties, indexed by name
+     */
+    private function calculatePropertiesToBeApplied(array $properties, array $cssProperties): array
+>>>>>>> main
     {
         if (empty($properties)) {
             return $cssProperties;
@@ -223,6 +296,11 @@ class CssToInlineStyles
                 //overrule if current property is important and existing is not, else check specificity
                 $overrule = !$existingProperty->isImportant() && $property->isImportant();
                 if (!$overrule) {
+<<<<<<< HEAD
+=======
+                    \assert($existingProperty->getOriginalSpecificity() !== null, 'Properties created for parsed CSS always have their associated specificity.');
+                    \assert($property->getOriginalSpecificity() !== null, 'Properties created for parsed CSS always have their associated specificity.');
+>>>>>>> main
                     $overrule = $existingProperty->getOriginalSpecificity()->compareTo($property->getOriginalSpecificity()) <= 0;
                 }
 

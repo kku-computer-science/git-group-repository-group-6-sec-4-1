@@ -22,10 +22,17 @@ use Ramsey\Collection\Tool\ValueToStringTrait;
  * This class provides a basic implementation of `TypedMapInterface`, to
  * minimize the effort required to implement this interface.
  *
+<<<<<<< HEAD
  * @template K
  * @template T
  * @extends AbstractMap<T>
  * @implements TypedMapInterface<T>
+=======
+ * @template K of array-key
+ * @template T
+ * @extends AbstractMap<K, T>
+ * @implements TypedMapInterface<K, T>
+>>>>>>> main
  */
 abstract class AbstractTypedMap extends AbstractMap implements TypedMapInterface
 {
@@ -33,6 +40,7 @@ abstract class AbstractTypedMap extends AbstractMap implements TypedMapInterface
     use ValueToStringTrait;
 
     /**
+<<<<<<< HEAD
      * @param K|null $offset
      * @param T $value
      *
@@ -53,17 +61,38 @@ abstract class AbstractTypedMap extends AbstractMap implements TypedMapInterface
             throw new InvalidArgumentException(
                 'Key must be of type ' . $this->getKeyType() . '; key is '
                 . $this->toolValueToString($offset)
+=======
+     * @param K $offset
+     * @param T $value
+     *
+     * @inheritDoc
+     * @psalm-suppress MoreSpecificImplementedParamType
+     */
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        if ($this->checkType($this->getKeyType(), $offset) === false) {
+            throw new InvalidArgumentException(
+                'Key must be of type ' . $this->getKeyType() . '; key is '
+                . $this->toolValueToString($offset),
+>>>>>>> main
             );
         }
 
         if ($this->checkType($this->getValueType(), $value) === false) {
             throw new InvalidArgumentException(
                 'Value must be of type ' . $this->getValueType() . '; value is '
+<<<<<<< HEAD
                 . $this->toolValueToString($value)
             );
         }
 
         /** @psalm-suppress MixedArgumentTypeCoercion */
+=======
+                . $this->toolValueToString($value),
+            );
+        }
+
+>>>>>>> main
         parent::offsetSet($offset, $value);
     }
 }

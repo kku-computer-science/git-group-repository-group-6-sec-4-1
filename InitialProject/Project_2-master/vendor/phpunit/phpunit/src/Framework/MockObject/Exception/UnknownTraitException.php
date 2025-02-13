@@ -21,8 +21,13 @@ final class UnknownTraitException extends \PHPUnit\Framework\Exception implement
         parent::__construct(
             sprintf(
                 'Trait "%s" does not exist',
+<<<<<<< HEAD
                 $traitName
             )
+=======
+                $traitName,
+            ),
+>>>>>>> main
         );
     }
 }

@@ -77,7 +77,11 @@ class Tcpdf extends Pdf
         $pdf->SetCreator($this->spreadsheet->getProperties()->getCreator());
 
         //  Write to file
+<<<<<<< HEAD
         fwrite($fileHandle, $pdf->output($filename, 'S'));
+=======
+        fwrite($fileHandle, $pdf->output('', 'S'));
+>>>>>>> main
 
         parent::restoreStateAfterSave();
     }

@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -29,6 +33,7 @@ use Symfony\Component\VarDumper\Caster\Caster;
  */
 class ParseCommand extends Command implements ContextAware, PresenterAware
 {
+<<<<<<< HEAD
     /**
      * Context instance (for ContextAware interface).
      *
@@ -39,14 +44,23 @@ class ParseCommand extends Command implements ContextAware, PresenterAware
     private $presenter;
     private $parserFactory;
     private $parsers;
+=======
+    protected Context $context;
+    private Presenter $presenter;
+    private Parser $parser;
+>>>>>>> main
 
     /**
      * {@inheritdoc}
      */
     public function __construct($name = null)
     {
+<<<<<<< HEAD
         $this->parserFactory = new ParserFactory();
         $this->parsers = [];
+=======
+        $this->parser = (new ParserFactory())->createParser();
+>>>>>>> main
 
         parent::__construct($name);
     }
@@ -90,6 +104,7 @@ class ParseCommand extends Command implements ContextAware, PresenterAware
      */
     protected function configure()
     {
+<<<<<<< HEAD
         $kindMsg = 'One of PhpParser\\ParserFactory constants: '
             .\implode(', ', ParserFactory::getPossibleKinds())
             ." (default is based on current interpreter's version).";
@@ -101,6 +116,14 @@ class ParseCommand extends Command implements ContextAware, PresenterAware
             new InputOption('depth', '', InputOption::VALUE_REQUIRED, 'Depth to parse.', 10),
             new InputOption('kind', '', InputOption::VALUE_REQUIRED, $kindMsg, $this->parserFactory->getDefaultKind()),
         ])
+=======
+        $this
+            ->setName('parse')
+            ->setDefinition([
+                new CodeArgument('code', CodeArgument::REQUIRED, 'PHP code to parse.'),
+                new InputOption('depth', '', InputOption::VALUE_REQUIRED, 'Depth to parse.', 10),
+            ])
+>>>>>>> main
             ->setDescription('Parse PHP code and show the abstract syntax tree.')
             ->setHelp(
                 <<<'HELP'
@@ -119,6 +142,7 @@ HELP
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $code = $input->getArgument('code');
@@ -129,12 +153,21 @@ HELP
         $parserKind = $input->getOption('kind');
         $depth = $input->getOption('depth');
         $nodes = $this->parse($this->getParser($parserKind), $code);
+=======
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $code = $input->getArgument('code');
+        $depth = $input->getOption('depth');
+
+        $nodes = $this->parser->parse($code);
+>>>>>>> main
         $output->page($this->presenter->present($nodes, $depth));
 
         $this->context->setReturnValue($nodes);
 
         return 0;
     }
+<<<<<<< HEAD
 
     /**
      * Lex and parse a string of code into statements.
@@ -173,4 +206,6 @@ HELP
 
         return $this->parsers[$kind];
     }
+=======
+>>>>>>> main
 }

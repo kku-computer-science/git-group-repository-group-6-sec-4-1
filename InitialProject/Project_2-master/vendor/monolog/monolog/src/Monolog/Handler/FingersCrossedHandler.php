@@ -210,7 +210,11 @@ class FingersCrossedHandler extends Handler implements ProcessableHandlerInterfa
      *
      * @phpstan-param Record $record
      */
+<<<<<<< HEAD
     public function getHandler(array $record = null)
+=======
+    public function getHandler(?array $record = null)
+>>>>>>> main
     {
         if (!$this->handler instanceof HandlerInterface) {
             $this->handler = ($this->handler)($record, $this);

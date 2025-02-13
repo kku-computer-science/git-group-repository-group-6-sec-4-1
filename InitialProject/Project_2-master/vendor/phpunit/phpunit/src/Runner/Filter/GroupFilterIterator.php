@@ -35,7 +35,11 @@ abstract class GroupFilterIterator extends RecursiveFilterIterator
             if (in_array((string) $group, $groups, true)) {
                 $testHashes = array_map(
                     'spl_object_hash',
+<<<<<<< HEAD
                     $tests
+=======
+                    $tests,
+>>>>>>> main
                 );
 
                 $this->groupTests = array_merge($this->groupTests, $testHashes);

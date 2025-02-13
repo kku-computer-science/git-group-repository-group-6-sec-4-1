@@ -13,6 +13,11 @@ use function array_map;
 use function explode;
 use function get_class;
 use function implode;
+<<<<<<< HEAD
+=======
+use function in_array;
+use function interface_exists;
+>>>>>>> main
 use function is_object;
 use function sprintf;
 use function strpos;
@@ -20,7 +25,11 @@ use function strtolower;
 use function substr;
 use Doctrine\Instantiator\Instantiator;
 use PHPUnit\Framework\SelfDescribing;
+<<<<<<< HEAD
 use PHPUnit\Util\Type;
+=======
+use PHPUnit\Util\Cloner;
+>>>>>>> main
 use SebastianBergmann\Exporter\Exporter;
 use stdClass;
 use Throwable;
@@ -90,7 +99,11 @@ final class Invocation implements SelfDescribing
 
         foreach ($this->parameters as $key => $value) {
             if (is_object($value)) {
+<<<<<<< HEAD
                 $this->parameters[$key] = $this->cloneObject($value);
+=======
+                $this->parameters[$key] = Cloner::clone($value);
+>>>>>>> main
             }
         }
     }
@@ -121,12 +134,25 @@ final class Invocation implements SelfDescribing
             return null;
         }
 
+<<<<<<< HEAD
         $intersection = false;
         $union        = false;
+=======
+        $intersection               = false;
+        $union                      = false;
+        $unionContainsIntersections = false;
+>>>>>>> main
 
         if (strpos($this->returnType, '|') !== false) {
             $types = explode('|', $this->returnType);
             $union = true;
+<<<<<<< HEAD
+=======
+
+            if (strpos($this->returnType, '(') !== false) {
+                $unionContainsIntersections = true;
+            }
+>>>>>>> main
         } elseif (strpos($this->returnType, '&') !== false) {
             $types        = explode('&', $this->returnType);
             $intersection = true;
@@ -136,7 +162,11 @@ final class Invocation implements SelfDescribing
 
         $types = array_map('strtolower', $types);
 
+<<<<<<< HEAD
         if (!$intersection) {
+=======
+        if (!$intersection && !$unionContainsIntersections) {
+>>>>>>> main
             if (in_array('', $types, true) ||
                 in_array('null', $types, true) ||
                 in_array('mixed', $types, true) ||
@@ -144,6 +174,13 @@ final class Invocation implements SelfDescribing
                 return null;
             }
 
+<<<<<<< HEAD
+=======
+            if (in_array('true', $types, true)) {
+                return true;
+            }
+
+>>>>>>> main
             if (in_array('false', $types, true) ||
                 in_array('bool', $types, true)) {
                 return false;
@@ -172,7 +209,11 @@ final class Invocation implements SelfDescribing
                     throw new RuntimeException(
                         $t->getMessage(),
                         (int) $t->getCode(),
+<<<<<<< HEAD
                         $t
+=======
+                        $t,
+>>>>>>> main
                     );
                 }
             }
@@ -210,18 +251,42 @@ final class Invocation implements SelfDescribing
                     throw new RuntimeException(
                         $t->getMessage(),
                         (int) $t->getCode(),
+<<<<<<< HEAD
                         $t
+=======
+                        $t,
+>>>>>>> main
                     );
                 }
             }
         }
 
+<<<<<<< HEAD
+=======
+        if ($intersection && $this->onlyInterfaces($types)) {
+            try {
+                return (new Generator)->getMockForInterfaces($types);
+            } catch (Throwable $t) {
+                throw new RuntimeException(
+                    sprintf(
+                        'Return value for %s::%s() cannot be generated: %s',
+                        $this->className,
+                        $this->methodName,
+                        $t->getMessage(),
+                    ),
+                    (int) $t->getCode(),
+                );
+            }
+        }
+
+>>>>>>> main
         $reason = '';
 
         if ($union) {
             $reason = ' because the declared return type is a union';
         } elseif ($intersection) {
             $reason = ' because the declared return type is an intersection';
+<<<<<<< HEAD
 
             $onlyInterfaces = true;
 
@@ -248,6 +313,8 @@ final class Invocation implements SelfDescribing
                     );
                 }
             }
+=======
+>>>>>>> main
         }
 
         throw new RuntimeException(
@@ -255,8 +322,13 @@ final class Invocation implements SelfDescribing
                 'Return value for %s::%s() cannot be generated%s, please configure a return value for this method',
                 $this->className,
                 $this->methodName,
+<<<<<<< HEAD
                 $reason
             )
+=======
+                $reason,
+            ),
+>>>>>>> main
         );
     }
 
@@ -272,10 +344,17 @@ final class Invocation implements SelfDescribing
                 ', ',
                 array_map(
                     [$exporter, 'shortenedExport'],
+<<<<<<< HEAD
                     $this->parameters
                 )
             ),
             $this->returnType ? sprintf(': %s', $this->returnType) : ''
+=======
+                    $this->parameters,
+                ),
+            ),
+            $this->returnType ? sprintf(': %s', $this->returnType) : '',
+>>>>>>> main
         );
     }
 
@@ -284,6 +363,7 @@ final class Invocation implements SelfDescribing
         return $this->object;
     }
 
+<<<<<<< HEAD
     private function cloneObject(object $original): object
     {
         if (Type::isCloneable($original)) {
@@ -291,5 +371,19 @@ final class Invocation implements SelfDescribing
         }
 
         return $original;
+=======
+    /**
+     * @psalm-param non-empty-list<string> $types
+     */
+    private function onlyInterfaces(array $types): bool
+    {
+        foreach ($types as $type) {
+            if (!interface_exists($type)) {
+                return false;
+            }
+        }
+
+        return true;
+>>>>>>> main
     }
 }

@@ -18,6 +18,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class TranslatorPass implements CompilerPassInterface
 {
+<<<<<<< HEAD
     private $translatorServiceId;
     private $readerServiceId;
     private $loaderTag;
@@ -40,12 +41,24 @@ class TranslatorPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition($this->translatorServiceId)) {
+=======
+    /**
+     * @return void
+     */
+    public function process(ContainerBuilder $container)
+    {
+        if (!$container->hasDefinition('translator.default')) {
+>>>>>>> main
             return;
         }
 
         $loaders = [];
         $loaderRefs = [];
+<<<<<<< HEAD
         foreach ($container->findTaggedServiceIds($this->loaderTag, true) as $id => $attributes) {
+=======
+        foreach ($container->findTaggedServiceIds('translation.loader', true) as $id => $attributes) {
+>>>>>>> main
             $loaderRefs[$id] = new Reference($id);
             $loaders[$id][] = $attributes[0]['alias'];
             if (isset($attributes[0]['legacy-alias'])) {
@@ -53,8 +66,13 @@ class TranslatorPass implements CompilerPassInterface
             }
         }
 
+<<<<<<< HEAD
         if ($container->hasDefinition($this->readerServiceId)) {
             $definition = $container->getDefinition($this->readerServiceId);
+=======
+        if ($container->hasDefinition('translation.reader')) {
+            $definition = $container->getDefinition('translation.reader');
+>>>>>>> main
             foreach ($loaders as $id => $formats) {
                 foreach ($formats as $format) {
                     $definition->addMethodCall('addLoader', [$format, $loaderRefs[$id]]);
@@ -63,26 +81,60 @@ class TranslatorPass implements CompilerPassInterface
         }
 
         $container
+<<<<<<< HEAD
             ->findDefinition($this->translatorServiceId)
+=======
+            ->findDefinition('translator.default')
+>>>>>>> main
             ->replaceArgument(0, ServiceLocatorTagPass::register($container, $loaderRefs))
             ->replaceArgument(3, $loaders)
         ;
 
+<<<<<<< HEAD
+=======
+        if ($container->hasDefinition('validator') && $container->hasDefinition('translation.extractor.visitor.constraint')) {
+            $constraintVisitorDefinition = $container->getDefinition('translation.extractor.visitor.constraint');
+            $constraintClassNames = [];
+
+            foreach ($container->getDefinitions() as $definition) {
+                if (!$definition->hasTag('validator.constraint_validator')) {
+                    continue;
+                }
+                // Resolve constraint validator FQCN even if defined as %foo.validator.class% parameter
+                $className = $container->getParameterBag()->resolveValue($definition->getClass());
+                // Extraction of the constraint class name from the Constraint Validator FQCN
+                $constraintClassNames[] = str_replace('Validator', '', substr(strrchr($className, '\\'), 1));
+            }
+
+            $constraintVisitorDefinition->setArgument(0, $constraintClassNames);
+        }
+
+>>>>>>> main
         if (!$container->hasParameter('twig.default_path')) {
             return;
         }
 
         $paths = array_keys($container->getDefinition('twig.template_iterator')->getArgument(1));
+<<<<<<< HEAD
         if ($container->hasDefinition($this->debugCommandServiceId)) {
             $definition = $container->getDefinition($this->debugCommandServiceId);
+=======
+        if ($container->hasDefinition('console.command.translation_debug')) {
+            $definition = $container->getDefinition('console.command.translation_debug');
+>>>>>>> main
             $definition->replaceArgument(4, $container->getParameter('twig.default_path'));
 
             if (\count($definition->getArguments()) > 6) {
                 $definition->replaceArgument(6, $paths);
             }
         }
+<<<<<<< HEAD
         if ($container->hasDefinition($this->updateCommandServiceId)) {
             $definition = $container->getDefinition($this->updateCommandServiceId);
+=======
+        if ($container->hasDefinition('console.command.translation_extract')) {
+            $definition = $container->getDefinition('console.command.translation_extract');
+>>>>>>> main
             $definition->replaceArgument(5, $container->getParameter('twig.default_path'));
 
             if (\count($definition->getArguments()) > 7) {

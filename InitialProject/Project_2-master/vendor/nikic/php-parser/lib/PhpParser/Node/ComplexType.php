@@ -9,6 +9,10 @@ use PhpParser\NodeAbstract;
  *
  * It does not provide any shared behavior and exists only for type-checking purposes.
  */
+<<<<<<< HEAD
 abstract class ComplexType extends NodeAbstract
 {
+=======
+abstract class ComplexType extends NodeAbstract {
+>>>>>>> main
 }

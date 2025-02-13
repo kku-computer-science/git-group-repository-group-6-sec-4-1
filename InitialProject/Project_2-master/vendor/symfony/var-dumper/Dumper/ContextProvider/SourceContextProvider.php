@@ -30,7 +30,11 @@ final class SourceContextProvider implements ContextProviderInterface
     private $projectDir;
     private $fileLinkFormatter;
 
+<<<<<<< HEAD
     public function __construct(string $charset = null, string $projectDir = null, FileLinkFormatter $fileLinkFormatter = null, int $limit = 9)
+=======
+    public function __construct(?string $charset = null, ?string $projectDir = null, ?FileLinkFormatter $fileLinkFormatter = null, int $limit = 9)
+>>>>>>> main
     {
         $this->charset = $charset;
         $this->projectDir = $projectDir;
@@ -44,7 +48,11 @@ final class SourceContextProvider implements ContextProviderInterface
 
         $file = $trace[1]['file'];
         $line = $trace[1]['line'];
+<<<<<<< HEAD
         $name = false;
+=======
+        $name = '-' === $file || 'Standard input code' === $file ? 'Standard input code' : false;
+>>>>>>> main
         $fileExcerpt = false;
 
         for ($i = 2; $i < $this->limit; ++$i) {

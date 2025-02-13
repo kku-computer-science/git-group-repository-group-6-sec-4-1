@@ -8,8 +8,15 @@ use SimpleXMLElement;
 
 class PageSetup extends BaseParserClass
 {
+<<<<<<< HEAD
     private $worksheet;
 
+=======
+    /** @var Worksheet */
+    private $worksheet;
+
+    /** @var ?SimpleXMLElement */
+>>>>>>> main
     private $worksheetXml;
 
     public function __construct(Worksheet $workSheet, ?SimpleXMLElement $worksheetXml = null)
@@ -18,6 +25,7 @@ class PageSetup extends BaseParserClass
         $this->worksheetXml = $worksheetXml;
     }
 
+<<<<<<< HEAD
     public function load(array $unparsedLoadedData)
     {
         if (!$this->worksheetXml) {
@@ -28,6 +36,19 @@ class PageSetup extends BaseParserClass
         $unparsedLoadedData = $this->pageSetup($this->worksheetXml, $this->worksheet, $unparsedLoadedData);
         $this->headerFooter($this->worksheetXml, $this->worksheet);
         $this->pageBreaks($this->worksheetXml, $this->worksheet);
+=======
+    public function load(array $unparsedLoadedData): array
+    {
+        $worksheetXml = $this->worksheetXml;
+        if ($worksheetXml === null) {
+            return $unparsedLoadedData;
+        }
+
+        $this->margins($worksheetXml, $this->worksheet);
+        $unparsedLoadedData = $this->pageSetup($worksheetXml, $this->worksheet, $unparsedLoadedData);
+        $this->headerFooter($worksheetXml, $this->worksheet);
+        $this->pageBreaks($worksheetXml, $this->worksheet);
+>>>>>>> main
 
         return $unparsedLoadedData;
     }
@@ -45,7 +66,11 @@ class PageSetup extends BaseParserClass
         }
     }
 
+<<<<<<< HEAD
     private function pageSetup(SimpleXMLElement $xmlSheet, Worksheet $worksheet, array $unparsedLoadedData)
+=======
+    private function pageSetup(SimpleXMLElement $xmlSheet, Worksheet $worksheet, array $unparsedLoadedData): array
+>>>>>>> main
     {
         if ($xmlSheet->pageSetup) {
             $docPageSetup = $worksheet->getPageSetup();
@@ -77,7 +102,15 @@ class PageSetup extends BaseParserClass
 
             $relAttributes = $xmlSheet->pageSetup->attributes(Namespaces::SCHEMA_OFFICE_DOCUMENT);
             if (isset($relAttributes['id'])) {
+<<<<<<< HEAD
                 $unparsedLoadedData['sheets'][$worksheet->getCodeName()]['pageSetupRelId'] = (string) $relAttributes['id'];
+=======
+                $relid = (string) $relAttributes['id'];
+                if (substr($relid, -2) !== 'ps') {
+                    $relid .= 'ps';
+                }
+                $unparsedLoadedData['sheets'][$worksheet->getCodeName()]['pageSetupRelId'] = $relid;
+>>>>>>> main
             }
         }
 
@@ -144,8 +177,14 @@ class PageSetup extends BaseParserClass
     private function rowBreaks(SimpleXMLElement $xmlSheet, Worksheet $worksheet): void
     {
         foreach ($xmlSheet->rowBreaks->brk as $brk) {
+<<<<<<< HEAD
             if ($brk['man']) {
                 $worksheet->setBreak("A{$brk['id']}", Worksheet::BREAK_ROW);
+=======
+            $rowBreakMax = isset($brk['max']) ? ((int) $brk['max']) : -1;
+            if ($brk['man']) {
+                $worksheet->setBreak("A{$brk['id']}", Worksheet::BREAK_ROW, $rowBreakMax);
+>>>>>>> main
             }
         }
     }

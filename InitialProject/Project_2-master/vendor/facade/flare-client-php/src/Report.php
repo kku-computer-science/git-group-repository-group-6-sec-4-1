@@ -322,7 +322,10 @@ class Report
     {
         // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
         $data = $data ?? random_bytes(16);
+<<<<<<< HEAD
         assert(strlen($data) == 16);
+=======
+>>>>>>> main
 
         // Set version to 0100
         $data[6] = chr(ord($data[6]) & 0x0f | 0x40);

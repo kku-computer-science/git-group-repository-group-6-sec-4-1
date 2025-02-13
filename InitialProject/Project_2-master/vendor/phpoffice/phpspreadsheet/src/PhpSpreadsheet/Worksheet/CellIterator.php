@@ -2,6 +2,7 @@
 
 namespace PhpOffice\PhpSpreadsheet\Worksheet;
 
+<<<<<<< HEAD
 use Iterator;
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 
@@ -11,6 +12,27 @@ use PhpOffice\PhpSpreadsheet\Cell\Cell;
  */
 abstract class CellIterator implements Iterator
 {
+=======
+use Iterator as NativeIterator;
+use PhpOffice\PhpSpreadsheet\Cell\Cell;
+use PhpOffice\PhpSpreadsheet\Collection\Cells;
+
+/**
+ * @template TKey
+ *
+ * @implements NativeIterator<TKey, Cell>
+ */
+abstract class CellIterator implements NativeIterator
+{
+    public const TREAT_NULL_VALUE_AS_EMPTY_CELL = 1;
+
+    public const TREAT_EMPTY_STRING_AS_EMPTY_CELL = 2;
+
+    public const IF_NOT_EXISTS_RETURN_NULL = false;
+
+    public const IF_NOT_EXISTS_CREATE_NEW = true;
+
+>>>>>>> main
     /**
      * Worksheet to iterate.
      *
@@ -19,6 +41,16 @@ abstract class CellIterator implements Iterator
     protected $worksheet;
 
     /**
+<<<<<<< HEAD
+=======
+     * Cell Collection to iterate.
+     *
+     * @var Cells
+     */
+    protected $cellCollection;
+
+    /**
+>>>>>>> main
      * Iterate only existing cells.
      *
      * @var bool
@@ -26,12 +58,37 @@ abstract class CellIterator implements Iterator
     protected $onlyExistingCells = false;
 
     /**
+<<<<<<< HEAD
+=======
+     * If iterating all cells, and a cell doesn't exist, identifies whether a new cell should be created,
+     *    or if the iterator should return a null value.
+     *
+     * @var bool
+     */
+    protected $ifNotExists = self::IF_NOT_EXISTS_CREATE_NEW;
+
+    /**
+>>>>>>> main
      * Destructor.
      */
     public function __destruct()
     {
         // @phpstan-ignore-next-line
+<<<<<<< HEAD
         $this->worksheet = null;
+=======
+        $this->worksheet = $this->cellCollection = null;
+    }
+
+    public function getIfNotExists(): bool
+    {
+        return $this->ifNotExists;
+    }
+
+    public function setIfNotExists(bool $ifNotExists = self::IF_NOT_EXISTS_CREATE_NEW): void
+    {
+        $this->ifNotExists = $ifNotExists;
+>>>>>>> main
     }
 
     /**
@@ -43,9 +100,15 @@ abstract class CellIterator implements Iterator
     }
 
     /**
+<<<<<<< HEAD
      * Validate start/end values for "IterateOnlyExistingCells" mode, and adjust if necessary.
      */
     abstract protected function adjustForExistingOnlyRange();
+=======
+     * Validate start/end values for 'IterateOnlyExistingCells' mode, and adjust if necessary.
+     */
+    abstract protected function adjustForExistingOnlyRange(): void;
+>>>>>>> main
 
     /**
      * Set the iterator to loop only existing cells.

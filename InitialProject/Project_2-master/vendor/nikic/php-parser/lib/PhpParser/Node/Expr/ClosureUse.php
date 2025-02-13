@@ -2,6 +2,7 @@
 
 namespace PhpParser\Node\Expr;
 
+<<<<<<< HEAD
 use PhpParser\Node\Expr;
 
 class ClosureUse extends Expr
@@ -30,5 +31,12 @@ class ClosureUse extends Expr
     
     public function getType() : string {
         return 'Expr_ClosureUse';
+=======
+require __DIR__ . '/../ClosureUse.php';
+
+if (false) {
+    // For classmap-authoritative support.
+    class ClosureUse extends \PhpParser\Node\ClosureUse {
+>>>>>>> main
     }
 }

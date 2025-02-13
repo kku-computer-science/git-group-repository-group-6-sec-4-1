@@ -83,9 +83,15 @@ trait Difference
      *
      * @return CarbonInterval
      */
+<<<<<<< HEAD
     protected static function fixDiffInterval(DateInterval $diff, $absolute)
     {
         $diff = CarbonInterval::instance($diff);
+=======
+    protected static function fixDiffInterval(DateInterval $diff, $absolute, array $skip = [])
+    {
+        $diff = CarbonInterval::instance($diff, $skip);
+>>>>>>> main
 
         // Work-around for https://bugs.php.net/bug.php?id=77145
         // @codeCoverageIgnoreStart
@@ -148,9 +154,15 @@ trait Difference
      *
      * @return CarbonInterval
      */
+<<<<<<< HEAD
     public function diffAsCarbonInterval($date = null, $absolute = true)
     {
         return static::fixDiffInterval($this->diff($this->resolveCarbon($date), $absolute), $absolute);
+=======
+    public function diffAsCarbonInterval($date = null, $absolute = true, array $skip = [])
+    {
+        return static::fixDiffInterval($this->diff($this->resolveCarbon($date), $absolute), $absolute, $skip);
+>>>>>>> main
     }
 
     /**
@@ -189,9 +201,27 @@ trait Difference
      */
     public function diffInMonths($date = null, $absolute = true)
     {
+<<<<<<< HEAD
         $date = $this->resolveCarbon($date);
 
         return $this->diffInYears($date, $absolute) * static::MONTHS_PER_YEAR + (int) $this->diff($date, $absolute)->format('%r%m');
+=======
+        $date = $this->resolveCarbon($date)->avoidMutation()->tz($this->tz);
+
+        [$yearStart, $monthStart, $dayStart] = explode('-', $this->format('Y-m-dHisu'));
+        [$yearEnd, $monthEnd, $dayEnd] = explode('-', $date->format('Y-m-dHisu'));
+
+        $diff = (((int) $yearEnd) - ((int) $yearStart)) * static::MONTHS_PER_YEAR +
+            ((int) $monthEnd) - ((int) $monthStart);
+
+        if ($diff > 0) {
+            $diff -= ($dayStart > $dayEnd ? 1 : 0);
+        } elseif ($diff < 0) {
+            $diff += ($dayStart < $dayEnd ? 1 : 0);
+        }
+
+        return $absolute ? abs($diff) : $diff;
+>>>>>>> main
     }
 
     /**
@@ -286,9 +316,15 @@ trait Difference
      */
     public function diffInWeekdays($date = null, $absolute = true)
     {
+<<<<<<< HEAD
         return $this->diffInDaysFiltered(function (CarbonInterface $date) {
             return $date->isWeekday();
         }, $date, $absolute);
+=======
+        return $this->diffInDaysFiltered(static function (CarbonInterface $date) {
+            return $date->isWeekday();
+        }, $this->resolveCarbon($date)->avoidMutation()->modify($this->format('H:i:s.u')), $absolute);
+>>>>>>> main
     }
 
     /**
@@ -301,9 +337,15 @@ trait Difference
      */
     public function diffInWeekendDays($date = null, $absolute = true)
     {
+<<<<<<< HEAD
         return $this->diffInDaysFiltered(function (CarbonInterface $date) {
             return $date->isWeekend();
         }, $date, $absolute);
+=======
+        return $this->diffInDaysFiltered(static function (CarbonInterface $date) {
+            return $date->isWeekend();
+        }, $this->resolveCarbon($date)->avoidMutation()->modify($this->format('H:i:s.u')), $absolute);
+>>>>>>> main
     }
 
     /**
@@ -472,7 +514,11 @@ trait Difference
      */
     public function floatDiffInSeconds($date = null, $absolute = true)
     {
+<<<<<<< HEAD
         return $this->diffInMicroseconds($date, $absolute) / static::MICROSECONDS_PER_SECOND;
+=======
+        return (float) ($this->diffInMicroseconds($date, $absolute) / static::MICROSECONDS_PER_SECOND);
+>>>>>>> main
     }
 
     /**
@@ -830,8 +876,14 @@ trait Difference
         $intSyntax = $intSyntax === static::DIFF_RELATIVE_AUTO && $other === null ? static::DIFF_RELATIVE_TO_NOW : $intSyntax;
 
         $parts = min(7, max(1, (int) $parts));
+<<<<<<< HEAD
 
         return $this->diffAsCarbonInterval($other, false)
+=======
+        $skip = \is_array($syntax) ? ($syntax['skip'] ?? []) : [];
+
+        return $this->diffAsCarbonInterval($other, false, (array) $skip)
+>>>>>>> main
             ->setLocalTranslator($this->getLocalTranslator())
             ->forHumans($syntax, (bool) $short, $parts, $options ?? $this->localHumanDiffOptions ?? static::getHumanDiffOptions());
     }
@@ -1161,7 +1213,11 @@ trait Difference
             version_compare(PHP_VERSION, '8.1.0-dev', '<') &&
             abs($interval->d - $daysDiff) === 1
         ) {
+<<<<<<< HEAD
             $daysDiff = abs($interval->d);
+=======
+            $daysDiff = abs($interval->d); // @codeCoverageIgnore
+>>>>>>> main
         }
 
         return $daysDiff * $sign;

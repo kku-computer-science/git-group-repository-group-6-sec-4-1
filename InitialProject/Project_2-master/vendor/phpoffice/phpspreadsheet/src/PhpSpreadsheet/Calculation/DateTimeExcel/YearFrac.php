@@ -5,6 +5,10 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel;
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Shared\Date as SharedDateHelper;
 
 class YearFrac
@@ -73,7 +77,11 @@ class YearFrac
                 return Functions::scalar(Days360::between($startDate, $endDate, true)) / 360;
         }
 
+<<<<<<< HEAD
         return Functions::NAN();
+=======
+        return ExcelError::NAN();
+>>>>>>> main
     }
 
     /**

@@ -34,7 +34,11 @@ final class InvokedAtLeastOnce extends InvocationOrder
 
         if ($count < 1) {
             throw new ExpectationFailedException(
+<<<<<<< HEAD
                 'Expected invocation at least once but it never occurred.'
+=======
+                'Expected invocation at least once but it never occurred.',
+>>>>>>> main
             );
         }
     }

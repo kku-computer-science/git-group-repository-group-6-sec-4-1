@@ -44,6 +44,10 @@ class Payment extends \Faker\Provider\Payment
         $checksum = 97 - fmod($firstSeven, 97);
 
         // '0' + 7 numbers + checksum
+<<<<<<< HEAD
         return sprintf('%s0%s%s', $prefix, $firstSeven, $checksum);
+=======
+        return sprintf('%s0%s%02d', $prefix, $firstSeven, $checksum);
+>>>>>>> main
     }
 }

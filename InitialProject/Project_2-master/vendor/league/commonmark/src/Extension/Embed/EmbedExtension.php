@@ -42,7 +42,11 @@ final class EmbedExtension implements ConfigurableExtensionInterface
 
         $environment
             ->addBlockStartParser(new EmbedStartParser(), 300)
+<<<<<<< HEAD
             ->addEventListener(DocumentParsedEvent::class, new EmbedProcessor($adapter, $environment->getConfiguration()->get('embed.fallback')))
+=======
+            ->addEventListener(DocumentParsedEvent::class, new EmbedProcessor($adapter, $environment->getConfiguration()->get('embed.fallback')), 1010)
+>>>>>>> main
             ->addRenderer(Embed::class, new EmbedRenderer());
     }
 }

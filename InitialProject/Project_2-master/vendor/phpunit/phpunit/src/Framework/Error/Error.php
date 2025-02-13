@@ -16,7 +16,11 @@ use PHPUnit\Framework\Exception;
  */
 class Error extends Exception
 {
+<<<<<<< HEAD
     public function __construct(string $message, int $code, string $file, int $line, \Exception $previous = null)
+=======
+    public function __construct(string $message, int $code, string $file, int $line, ?\Exception $previous = null)
+>>>>>>> main
     {
         parent::__construct($message, $code, $previous);
 

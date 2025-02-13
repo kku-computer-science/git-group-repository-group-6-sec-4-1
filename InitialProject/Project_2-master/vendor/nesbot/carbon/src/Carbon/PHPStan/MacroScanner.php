@@ -12,35 +12,79 @@
 namespace Carbon\PHPStan;
 
 use Carbon\CarbonInterface;
+<<<<<<< HEAD
+=======
+use PHPStan\Reflection\ReflectionProvider;
+>>>>>>> main
 use ReflectionClass;
 use ReflectionException;
 
 final class MacroScanner
 {
     /**
+<<<<<<< HEAD
      * Return true if the given pair class-method is a Carbon macro.
      *
      * @param string $className
      * @phpstan-param class-string $className
      *
      * @param string $methodName
+=======
+     * @var \PHPStan\Reflection\ReflectionProvider
+     */
+    private $reflectionProvider;
+
+    /**
+     * MacroScanner constructor.
+     *
+     * @param \PHPStan\Reflection\ReflectionProvider $reflectionProvider
+     */
+    public function __construct(ReflectionProvider $reflectionProvider)
+    {
+        $this->reflectionProvider = $reflectionProvider;
+    }
+
+    /**
+     * Return true if the given pair class-method is a Carbon macro.
+     *
+     * @param class-string $className
+     * @param string       $methodName
+>>>>>>> main
      *
      * @return bool
      */
     public function hasMethod(string $className, string $methodName): bool
     {
+<<<<<<< HEAD
         return is_a($className, CarbonInterface::class, true) &&
             \is_callable([$className, 'hasMacro']) &&
+=======
+        $classReflection = $this->reflectionProvider->getClass($className);
+
+        if (
+            $classReflection->getName() !== CarbonInterface::class &&
+            !$classReflection->isSubclassOf(CarbonInterface::class)
+        ) {
+            return false;
+        }
+
+        return \is_callable([$className, 'hasMacro']) &&
+>>>>>>> main
             $className::hasMacro($methodName);
     }
 
     /**
      * Return the Macro for a given pair class-method.
      *
+<<<<<<< HEAD
      * @param string $className
      * @phpstan-param class-string $className
      *
      * @param string $methodName
+=======
+     * @param class-string $className
+     * @param string       $methodName
+>>>>>>> main
      *
      * @throws ReflectionException
      *

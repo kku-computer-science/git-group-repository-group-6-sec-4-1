@@ -25,6 +25,11 @@ use const ENT_SUBSTITUTE;
 
 /**
  * Context specific methods for use in secure output escaping
+<<<<<<< HEAD
+=======
+ *
+ * @final
+>>>>>>> main
  */
 class Escaper
 {
@@ -49,7 +54,11 @@ class Escaper
      * Current encoding for escaping. If not UTF-8, we convert strings from this encoding
      * pre-escaping and back to this encoding post-escaping.
      *
+<<<<<<< HEAD
      * @var string
+=======
+     * @var non-empty-string
+>>>>>>> main
      */
     protected $encoding = 'utf-8';
 
@@ -88,7 +97,11 @@ class Escaper
     /**
      * List of all encoding supported by this class
      *
+<<<<<<< HEAD
      * @var array
+=======
+     * @var list<non-empty-string>
+>>>>>>> main
      */
     protected $supportedEncodings = [
         'iso-8859-1',
@@ -131,6 +144,10 @@ class Escaper
      * Constructor: Single parameter allows setting of global encoding for use by
      * the current object.
      *
+<<<<<<< HEAD
+=======
+     * @param non-empty-string|null $encoding
+>>>>>>> main
      * @throws Exception\InvalidArgumentException
      */
     public function __construct(?string $encoding = null)
@@ -157,15 +174,31 @@ class Escaper
         $this->htmlSpecialCharsFlags = ENT_QUOTES | ENT_SUBSTITUTE;
 
         // set matcher callbacks
+<<<<<<< HEAD
         $this->htmlAttrMatcher = [$this, 'htmlAttrMatcher'];
         $this->jsMatcher       = [$this, 'jsMatcher'];
         $this->cssMatcher      = [$this, 'cssMatcher'];
+=======
+        $this->htmlAttrMatcher =
+            /** @param array<array-key, string> $matches */
+            fn(array $matches): string => $this->htmlAttrMatcher($matches);
+        $this->jsMatcher       =
+            /** @param array<array-key, string> $matches */
+            fn(array $matches): string => $this->jsMatcher($matches);
+        $this->cssMatcher      =
+            /** @param array<array-key, string> $matches */
+            fn(array $matches): string => $this->cssMatcher($matches);
+>>>>>>> main
     }
 
     /**
      * Return the encoding that all output/input is expected to be encoded in.
      *
+<<<<<<< HEAD
      * @return string
+=======
+     * @return non-empty-string
+>>>>>>> main
      */
     public function getEncoding()
     {
@@ -176,7 +209,11 @@ class Escaper
      * Escape a string for the HTML Body context where there are very few characters
      * of special meaning. Internally this will use htmlspecialchars().
      *
+<<<<<<< HEAD
      * @return string
+=======
+     * @return ($string is non-empty-string ? non-empty-string : string)
+>>>>>>> main
      */
     public function escapeHtml(string $string)
     {
@@ -188,7 +225,11 @@ class Escaper
      * to escape that are not covered by htmlspecialchars() to cover cases where an attribute
      * might be unquoted or quoted illegally (e.g. backticks are valid quotes for IE).
      *
+<<<<<<< HEAD
      * @return string
+=======
+     * @return ($string is non-empty-string ? non-empty-string : string)
+>>>>>>> main
      */
     public function escapeHtmlAttr(string $string)
     {
@@ -210,7 +251,11 @@ class Escaper
      * Backslash escaping is not used as it still leaves the escaped character as-is and so
      * is not useful in a HTML context.
      *
+<<<<<<< HEAD
      * @return string
+=======
+     * @return ($string is non-empty-string ? non-empty-string : string)
+>>>>>>> main
      */
     public function escapeJs(string $string)
     {
@@ -228,7 +273,11 @@ class Escaper
      * an entire URI - only a subcomponent being inserted. The function is a simple proxy
      * to rawurlencode() which now implements RFC 3986 since PHP 5.3 completely.
      *
+<<<<<<< HEAD
      * @return string
+=======
+     * @return ($string is non-empty-string ? non-empty-string : string)
+>>>>>>> main
      */
     public function escapeUrl(string $string)
     {
@@ -239,7 +288,11 @@ class Escaper
      * Escape a string for the CSS context. CSS escaping can be applied to any string being
      * inserted into CSS and escapes everything except alphanumerics.
      *
+<<<<<<< HEAD
      * @return string
+=======
+     * @return ($string is non-empty-string ? non-empty-string : string)
+>>>>>>> main
      */
     public function escapeCss(string $string)
     {

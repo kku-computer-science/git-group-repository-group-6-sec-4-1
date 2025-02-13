@@ -49,7 +49,11 @@ class VarDumper
     /**
      * @return callable|null
      */
+<<<<<<< HEAD
     public static function setHandler(callable $callable = null)
+=======
+    public static function setHandler(?callable $callable = null)
+>>>>>>> main
     {
         $prevHandler = self::$handler;
 
@@ -99,7 +103,11 @@ class VarDumper
     {
         $contextProviders = [];
 
+<<<<<<< HEAD
         if (!\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) && (class_exists(Request::class))) {
+=======
+        if (!\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) && class_exists(Request::class)) {
+>>>>>>> main
             $requestStack = new RequestStack();
             $requestStack->push(Request::createFromGlobals());
             $contextProviders['request'] = new RequestContextProvider($requestStack);

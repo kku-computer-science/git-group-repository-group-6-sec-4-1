@@ -110,7 +110,11 @@ class ConsoleLogger extends AbstractLogger
 
         $replacements = [];
         foreach ($context as $key => $val) {
+<<<<<<< HEAD
             if (null === $val || is_scalar($val) || (\is_object($val) && method_exists($val, '__toString'))) {
+=======
+            if (null === $val || \is_scalar($val) || (\is_object($val) && method_exists($val, '__toString'))) {
+>>>>>>> main
                 $replacements["{{$key}}"] = $val;
             } elseif ($val instanceof \DateTimeInterface) {
                 $replacements["{{$key}}"] = $val->format(\DateTime::RFC3339);

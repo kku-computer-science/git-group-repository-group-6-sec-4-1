@@ -9,6 +9,10 @@
  */
 namespace PHPUnit\TextUI\XmlConfiguration;
 
+<<<<<<< HEAD
+=======
+use function assert;
+>>>>>>> main
 use DOMDocument;
 use DOMElement;
 use PHPUnit\Util\Xml\SnapshotNodeList;
@@ -27,6 +31,11 @@ final class RemoveLogTypes implements Migration
         }
 
         foreach (SnapshotNodeList::fromNodeList($logging->getElementsByTagName('log')) as $logNode) {
+<<<<<<< HEAD
+=======
+            assert($logNode instanceof DOMElement);
+
+>>>>>>> main
             switch ($logNode->getAttribute('type')) {
                 case 'json':
                 case 'tap':

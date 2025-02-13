@@ -10,6 +10,11 @@ class ConditionalFormattingRuleExtension
     const CONDITION_EXTENSION_DATABAR = 'dataBar';
 
     /** <conditionalFormatting> attributes */
+<<<<<<< HEAD
+=======
+
+    /** @var string */
+>>>>>>> main
     private $id;
 
     /** @var string Conditional Formatting Rule */
@@ -26,7 +31,11 @@ class ConditionalFormattingRuleExtension
     /**
      * ConditionalFormattingRuleExtension constructor.
      */
+<<<<<<< HEAD
     public function __construct($id = null, string $cfRule = self::CONDITION_EXTENSION_DATABAR)
+=======
+    public function __construct(?string $id = null, string $cfRule = self::CONDITION_EXTENSION_DATABAR)
+>>>>>>> main
     {
         if (null === $id) {
             $this->id = '{' . $this->generateUuid() . '}';
@@ -36,7 +45,11 @@ class ConditionalFormattingRuleExtension
         $this->cfRule = $cfRule;
     }
 
+<<<<<<< HEAD
     private function generateUuid()
+=======
+    private function generateUuid(): string
+>>>>>>> main
     {
         $chars = str_split('xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx');
 
@@ -48,10 +61,17 @@ class ConditionalFormattingRuleExtension
             }
         }
 
+<<<<<<< HEAD
         return implode('', $chars);
     }
 
     public static function parseExtLstXml($extLstXml)
+=======
+        return implode('', /** @scrutinizer ignore-type */ $chars);
+    }
+
+    public static function parseExtLstXml(?SimpleXMLElement $extLstXml): array
+>>>>>>> main
     {
         $conditionalFormattingRuleExtensions = [];
         $conditionalFormattingRuleExtensionXml = null;
@@ -96,6 +116,12 @@ class ConditionalFormattingRuleExtension
         SimpleXMLElement $dataBarXml
     ): void {
         $dataBarAttribute = $dataBarXml->attributes();
+<<<<<<< HEAD
+=======
+        if ($dataBarAttribute === null) {
+            return;
+        }
+>>>>>>> main
         if ($dataBarAttribute->minLength) {
             $extDataBarObj->setMinLength((int) $dataBarAttribute->minLength);
         }
@@ -119,6 +145,7 @@ class ConditionalFormattingRuleExtension
         }
     }
 
+<<<<<<< HEAD
     private static function parseExtDataBarElementChildrenFromXml(ConditionalDataBarExtension $extDataBarObj, SimpleXMLElement $dataBarXml, $ns): void
     {
         if ($dataBarXml->borderColor) {
@@ -137,6 +164,39 @@ class ConditionalFormattingRuleExtension
         $cfvoIndex = 0;
         foreach ($dataBarXml->cfvo as $cfvo) {
             $f = (string) $cfvo->children($ns['xm'])->f;
+=======
+    /** @param array|SimpleXMLElement $ns */
+    private static function parseExtDataBarElementChildrenFromXml(ConditionalDataBarExtension $extDataBarObj, SimpleXMLElement $dataBarXml, $ns): void
+    {
+        if ($dataBarXml->borderColor) {
+            $attributes = $dataBarXml->borderColor->attributes();
+            if ($attributes !== null) {
+                $extDataBarObj->setBorderColor((string) $attributes['rgb']);
+            }
+        }
+        if ($dataBarXml->negativeFillColor) {
+            $attributes = $dataBarXml->negativeFillColor->attributes();
+            if ($attributes !== null) {
+                $extDataBarObj->setNegativeFillColor((string) $attributes['rgb']);
+            }
+        }
+        if ($dataBarXml->negativeBorderColor) {
+            $attributes = $dataBarXml->negativeBorderColor->attributes();
+            if ($attributes !== null) {
+                $extDataBarObj->setNegativeBorderColor((string) $attributes['rgb']);
+            }
+        }
+        if ($dataBarXml->axisColor) {
+            $axisColorAttr = $dataBarXml->axisColor->attributes();
+            if ($axisColorAttr !== null) {
+                $extDataBarObj->setAxisColor((string) $axisColorAttr['rgb'], (string) $axisColorAttr['theme'], (string) $axisColorAttr['tint']);
+            }
+        }
+        $cfvoIndex = 0;
+        foreach ($dataBarXml->cfvo as $cfvo) {
+            $f = (string) $cfvo->/** @scrutinizer ignore-call */ children($ns['xm'])->f;
+            /** @scrutinizer ignore-call */
+>>>>>>> main
             $attributes = $cfvo->attributes();
             if (!($attributes)) {
                 continue;

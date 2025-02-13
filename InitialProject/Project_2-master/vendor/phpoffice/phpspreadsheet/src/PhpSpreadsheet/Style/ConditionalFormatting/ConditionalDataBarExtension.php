@@ -51,7 +51,11 @@ class ConditionalDataBarExtension
         'tint' => null,
     ];
 
+<<<<<<< HEAD
     public function getXmlAttributes()
+=======
+    public function getXmlAttributes(): array
+>>>>>>> main
     {
         $ret = [];
         foreach (['minLength', 'maxLength', 'direction', 'axisPosition'] as $attrKey) {
@@ -68,7 +72,11 @@ class ConditionalDataBarExtension
         return $ret;
     }
 
+<<<<<<< HEAD
     public function getXmlElements()
+=======
+    public function getXmlElements(): array
+>>>>>>> main
     {
         $ret = [];
         $elms = ['borderColor', 'negativeFillColor', 'negativeBorderColor'];
@@ -200,7 +208,11 @@ class ConditionalDataBarExtension
         return $this->maximumConditionalFormatValueObject;
     }
 
+<<<<<<< HEAD
     public function setMaximumConditionalFormatValueObject(ConditionalFormatValueObject $maximumConditionalFormatValueObject)
+=======
+    public function setMaximumConditionalFormatValueObject(ConditionalFormatValueObject $maximumConditionalFormatValueObject): self
+>>>>>>> main
     {
         $this->maximumConditionalFormatValueObject = $maximumConditionalFormatValueObject;
 
@@ -215,7 +227,11 @@ class ConditionalDataBarExtension
         return $this->minimumConditionalFormatValueObject;
     }
 
+<<<<<<< HEAD
     public function setMinimumConditionalFormatValueObject(ConditionalFormatValueObject $minimumConditionalFormatValueObject)
+=======
+    public function setMinimumConditionalFormatValueObject(ConditionalFormatValueObject $minimumConditionalFormatValueObject): self
+>>>>>>> main
     {
         $this->minimumConditionalFormatValueObject = $minimumConditionalFormatValueObject;
 

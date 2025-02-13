@@ -19,6 +19,12 @@ final class LimitStream implements StreamInterface
     /** @var int Limit the number of bytes that can be read */
     private $limit;
 
+<<<<<<< HEAD
+=======
+    /** @var StreamInterface */
+    private $stream;
+
+>>>>>>> main
     /**
      * @param StreamInterface $stream Stream to wrap
      * @param int             $limit  Total number of bytes to allow to be read

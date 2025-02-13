@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -27,7 +31,11 @@ use Psy\Exception\FatalErrorException;
  */
 class ValidFunctionNamePass extends NamespaceAwarePass
 {
+<<<<<<< HEAD
     private $conditionalScopes = 0;
+=======
+    private int $conditionalScopes = 0;
+>>>>>>> main
 
     /**
      * Store newly defined function names on the way in, to allow recursion.
@@ -35,6 +43,11 @@ class ValidFunctionNamePass extends NamespaceAwarePass
      * @throws FatalErrorException if a function is redefined in a non-conditional scope
      *
      * @param Node $node
+<<<<<<< HEAD
+=======
+     *
+     * @return int|Node|null Replacement node (or special return value)
+>>>>>>> main
      */
     public function enterNode(Node $node)
     {
@@ -51,7 +64,11 @@ class ValidFunctionNamePass extends NamespaceAwarePass
                 if (\function_exists($name) ||
                     isset($this->currentScope[\strtolower($name)])) {
                     $msg = \sprintf('Cannot redeclare %s()', $name);
+<<<<<<< HEAD
                     throw new FatalErrorException($msg, 0, \E_ERROR, null, $node->getLine());
+=======
+                    throw new FatalErrorException($msg, 0, \E_ERROR, null, $node->getStartLine());
+>>>>>>> main
                 }
             }
 
@@ -61,6 +78,11 @@ class ValidFunctionNamePass extends NamespaceAwarePass
 
     /**
      * @param Node $node
+<<<<<<< HEAD
+=======
+     *
+     * @return int|Node|Node[]|null Replacement node (or special return value)
+>>>>>>> main
      */
     public function leaveNode(Node $node)
     {

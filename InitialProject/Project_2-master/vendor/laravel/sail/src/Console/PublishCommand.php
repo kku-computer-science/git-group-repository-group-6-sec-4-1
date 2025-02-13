@@ -28,11 +28,16 @@ class PublishCommand extends Command
     public function handle()
     {
         $this->call('vendor:publish', ['--tag' => 'sail-docker']);
+<<<<<<< HEAD
+=======
+        $this->call('vendor:publish', ['--tag' => 'sail-database']);
+>>>>>>> main
 
         file_put_contents(
             $this->laravel->basePath('docker-compose.yml'),
             str_replace(
                 [
+<<<<<<< HEAD
                     './vendor/laravel/sail/runtimes/8.1',
                     './vendor/laravel/sail/runtimes/8.0',
                     './vendor/laravel/sail/runtimes/7.4',
@@ -41,6 +46,22 @@ class PublishCommand extends Command
                     './docker/8.1',
                     './docker/8.0',
                     './docker/7.4',
+=======
+                    './vendor/laravel/sail/runtimes/8.3',
+                    './vendor/laravel/sail/runtimes/8.2',
+                    './vendor/laravel/sail/runtimes/8.1',
+                    './vendor/laravel/sail/runtimes/8.0',
+                    './vendor/laravel/sail/database/mysql',
+                    './vendor/laravel/sail/database/pgsql'
+                ],
+                [
+                    './docker/8.3',
+                    './docker/8.2',
+                    './docker/8.1',
+                    './docker/8.0',
+                    './docker/mysql',
+                    './docker/pgsql'
+>>>>>>> main
                 ],
                 file_get_contents($this->laravel->basePath('docker-compose.yml'))
             )

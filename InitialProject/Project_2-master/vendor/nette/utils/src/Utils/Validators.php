@@ -19,6 +19,15 @@ class Validators
 {
 	use Nette\StaticClass;
 
+<<<<<<< HEAD
+=======
+	private const BuiltinTypes = [
+		'string' => 1, 'int' => 1, 'float' => 1, 'bool' => 1, 'array' => 1, 'object' => 1,
+		'callable' => 1, 'iterable' => 1, 'void' => 1, 'null' => 1, 'mixed' => 1, 'false' => 1,
+		'never' => 1, 'true' => 1,
+	];
+
+>>>>>>> main
 	/** @var array<string,?callable> */
 	protected static $validators = [
 		// PHP types
@@ -87,6 +96,7 @@ class Validators
 
 	/**
 	 * Verifies that the value is of expected types separated by pipe.
+<<<<<<< HEAD
 	 * @param  mixed  $value
 	 * @throws AssertionException
 	 */
@@ -100,6 +110,20 @@ class Validators
 				$type .= ' ' . var_export($value, true);
 			} elseif (is_object($value)) {
 				$type .= ' ' . get_class($value);
+=======
+	 * @throws AssertionException
+	 */
+	public static function assert(mixed $value, string $expected, string $label = 'variable'): void
+	{
+		if (!static::is($value, $expected)) {
+			$expected = str_replace(['|', ':'], [' or ', ' in range '], $expected);
+			$translate = ['boolean' => 'bool', 'integer' => 'int', 'double' => 'float', 'NULL' => 'null'];
+			$type = $translate[gettype($value)] ?? gettype($value);
+			if (is_int($value) || is_float($value) || (is_string($value) && strlen($value) < 40)) {
+				$type .= ' ' . var_export($value, return: true);
+			} elseif (is_object($value)) {
+				$type .= ' ' . $value::class;
+>>>>>>> main
 			}
 
 			throw new AssertionException("The $label expects to be $expected, $type given.");
@@ -110,15 +134,24 @@ class Validators
 	/**
 	 * Verifies that element $key in array is of expected types separated by pipe.
 	 * @param  mixed[]  $array
+<<<<<<< HEAD
 	 * @param  int|string  $key
+=======
+>>>>>>> main
 	 * @throws AssertionException
 	 */
 	public static function assertField(
 		array $array,
 		$key,
 		?string $expected = null,
+<<<<<<< HEAD
 		string $label = "item '%' in array"
 	): void {
+=======
+		string $label = "item '%' in array",
+	): void
+	{
+>>>>>>> main
 		if (!array_key_exists($key, $array)) {
 			throw new AssertionException('Missing ' . str_replace('%', $key, $label) . '.');
 
@@ -130,18 +163,30 @@ class Validators
 
 	/**
 	 * Verifies that the value is of expected types separated by pipe.
+<<<<<<< HEAD
 	 * @param  mixed  $value
 	 */
 	public static function is($value, string $expected): bool
 	{
 		foreach (explode('|', $expected) as $item) {
 			if (substr($item, -2) === '[]') {
+=======
+	 */
+	public static function is(mixed $value, string $expected): bool
+	{
+		foreach (explode('|', $expected) as $item) {
+			if (str_ends_with($item, '[]')) {
+>>>>>>> main
 				if (is_iterable($value) && self::everyIs($value, substr($item, 0, -2))) {
 					return true;
 				}
 
 				continue;
+<<<<<<< HEAD
 			} elseif (substr($item, 0, 1) === '?') {
+=======
+			} elseif (str_starts_with($item, '?')) {
+>>>>>>> main
 				$item = substr($item, 1);
 				if ($value === null) {
 					return true;
@@ -208,9 +253,15 @@ class Validators
 
 	/**
 	 * Checks if the value is an integer or a float.
+<<<<<<< HEAD
 	 * @param  mixed  $value
 	 */
 	public static function isNumber($value): bool
+=======
+	 * @return ($value is int|float ? true : false)
+	 */
+	public static function isNumber(mixed $value): bool
+>>>>>>> main
 	{
 		return is_int($value) || is_float($value);
 	}
@@ -218,9 +269,15 @@ class Validators
 
 	/**
 	 * Checks if the value is an integer or a integer written in a string.
+<<<<<<< HEAD
 	 * @param  mixed  $value
 	 */
 	public static function isNumericInt($value): bool
+=======
+	 * @return ($value is non-empty-string ? bool : ($value is int ? true : false))
+	 */
+	public static function isNumericInt(mixed $value): bool
+>>>>>>> main
 	{
 		return is_int($value) || (is_string($value) && preg_match('#^[+-]?[0-9]+$#D', $value));
 	}
@@ -228,9 +285,15 @@ class Validators
 
 	/**
 	 * Checks if the value is a number or a number written in a string.
+<<<<<<< HEAD
 	 * @param  mixed  $value
 	 */
 	public static function isNumeric($value): bool
+=======
+	 * @return ($value is non-empty-string ? bool : ($value is int|float ? true : false))
+	 */
+	public static function isNumeric(mixed $value): bool
+>>>>>>> main
 	{
 		return is_float($value) || is_int($value) || (is_string($value) && preg_match('#^[+-]?([0-9]++\.?[0-9]*|\.[0-9]+)$#D', $value));
 	}
@@ -238,19 +301,31 @@ class Validators
 
 	/**
 	 * Checks if the value is a syntactically correct callback.
+<<<<<<< HEAD
 	 * @param  mixed  $value
 	 */
 	public static function isCallable($value): bool
 	{
 		return $value && is_callable($value, true);
+=======
+	 */
+	public static function isCallable(mixed $value): bool
+	{
+		return $value && is_callable($value, syntax_only: true);
+>>>>>>> main
 	}
 
 
 	/**
 	 * Checks if the value is a valid UTF-8 string.
+<<<<<<< HEAD
 	 * @param  mixed  $value
 	 */
 	public static function isUnicode($value): bool
+=======
+	 */
+	public static function isUnicode(mixed $value): bool
+>>>>>>> main
 	{
 		return is_string($value) && preg_match('##u', $value);
 	}
@@ -258,9 +333,15 @@ class Validators
 
 	/**
 	 * Checks if the value is 0, '', false or null.
+<<<<<<< HEAD
 	 * @param  mixed  $value
 	 */
 	public static function isNone($value): bool
+=======
+	 * @return ($value is 0|''|false|null ? true : false)
+	 */
+	public static function isNone(mixed $value): bool
+>>>>>>> main
 	{
 		return $value == null; // intentionally ==
 	}
@@ -275,10 +356,17 @@ class Validators
 
 	/**
 	 * Checks if a variable is a zero-based integer indexed array.
+<<<<<<< HEAD
 	 * @param  mixed  $value
 	 * @deprecated  use Nette\Utils\Arrays::isList
 	 */
 	public static function isList($value): bool
+=======
+	 * @deprecated  use Nette\Utils\Arrays::isList
+	 * @return ($value is list ? true : false)
+	 */
+	public static function isList(mixed $value): bool
+>>>>>>> main
 	{
 		return Arrays::isList($value);
 	}
@@ -287,9 +375,14 @@ class Validators
 	/**
 	 * Checks if the value is in the given range [min, max], where the upper or lower limit can be omitted (null).
 	 * Numbers, strings and DateTime objects can be compared.
+<<<<<<< HEAD
 	 * @param  mixed  $value
 	 */
 	public static function isInRange($value, array $range): bool
+=======
+	 */
+	public static function isInRange(mixed $value, array $range): bool
+>>>>>>> main
 	{
 		if ($value === null || !(isset($range[0]) || isset($range[1]))) {
 			return false;
@@ -320,6 +413,7 @@ class Validators
 		$atom = "[-a-z0-9!#$%&'*+/=?^_`{|}~]"; // RFC 5322 unquoted characters in local-part
 		$alpha = "a-z\x80-\xFF"; // superset of IDN
 		return (bool) preg_match(<<<XX
+<<<<<<< HEAD
 		(^
 			("([ !#-[\\]-~]*|\\\\[ -~])+"|$atom+(\\.$atom+)*)  # quoted or unquoted
 			@
@@ -328,6 +422,15 @@ class Validators
 		$)Dix
 XX
 , $value);
+=======
+			(^(?n)
+				("([ !#-[\\]-~]*|\\\\[ -~])+"|$atom+(\\.$atom+)*)  # quoted or unquoted
+				@
+				([0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)+  # domain - RFC 1034
+				[$alpha]([-0-9$alpha]{0,17}[$alpha])?              # top domain
+			$)Dix
+			XX, $value);
+>>>>>>> main
 	}
 
 
@@ -338,6 +441,7 @@ XX
 	{
 		$alpha = "a-z\x80-\xFF";
 		return (bool) preg_match(<<<XX
+<<<<<<< HEAD
 		(^
 			https?://(
 				(([-_0-9$alpha]+\\.)*                       # subdomain
@@ -352,6 +456,21 @@ XX
 		$)Dix
 XX
 , $value);
+=======
+			(^(?n)
+				https?://(
+					(([-_0-9$alpha]+\\.)*                       # subdomain
+						[0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)?  # domain
+						[$alpha]([-0-9$alpha]{0,17}[$alpha])?   # top domain
+					|\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}  # IPv4
+					|\\[[0-9a-f:]{3,39}\\]                      # IPv6
+				)(:\\d{1,5})?                                   # port
+				(/\\S*)?                                        # path
+				(\\?\\S*)?                                      # query
+				(\\#\\S*)?                                      # fragment
+			$)Dix
+			XX, $value);
+>>>>>>> main
 	}
 
 
@@ -366,6 +485,10 @@ XX
 
 	/**
 	 * Checks whether the input is a class, interface or trait.
+<<<<<<< HEAD
+=======
+	 * @deprecated
+>>>>>>> main
 	 */
 	public static function isType(string $type): bool
 	{
@@ -380,4 +503,40 @@ XX
 	{
 		return preg_match('#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$#D', $value) === 1;
 	}
+<<<<<<< HEAD
+=======
+
+
+	/**
+	 * Determines if type is PHP built-in type. Otherwise, it is the class name.
+	 */
+	public static function isBuiltinType(string $type): bool
+	{
+		return isset(self::BuiltinTypes[strtolower($type)]);
+	}
+
+
+	/**
+	 * Determines if type is special class name self/parent/static.
+	 */
+	public static function isClassKeyword(string $name): bool
+	{
+		return (bool) preg_match('#^(self|parent|static)$#Di', $name);
+	}
+
+
+	/**
+	 * Checks whether the given type declaration is syntactically valid.
+	 */
+	public static function isTypeDeclaration(string $type): bool
+	{
+		return (bool) preg_match(<<<'XX'
+			~((?n)
+				\?? (?<type> \\? (?<name> [a-zA-Z_\x7f-\xff][\w\x7f-\xff]*) (\\ (?&name))* ) |
+				(?<intersection> (?&type) (& (?&type))+ ) |
+				(?<upart> (?&type) | \( (?&intersection) \) )  (\| (?&upart))+
+			)$~xAD
+			XX, $type);
+	}
+>>>>>>> main
 }

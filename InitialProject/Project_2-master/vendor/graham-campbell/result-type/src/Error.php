@@ -19,6 +19,10 @@ use PhpOption\Some;
 /**
  * @template T
  * @template E
+<<<<<<< HEAD
+=======
+ *
+>>>>>>> main
  * @extends \GrahamCampbell\ResultType\Result<T,E>
  */
 final class Error extends Result

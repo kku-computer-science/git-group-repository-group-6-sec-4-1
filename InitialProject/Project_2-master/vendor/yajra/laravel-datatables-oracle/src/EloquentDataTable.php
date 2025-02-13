@@ -189,16 +189,29 @@ class EloquentDataTable extends QueryDataTable
 
                 case $model instanceof HasOneThrough:
                     $pivot    = explode('.', $model->getQualifiedParentKeyName())[0]; // extract pivot table from key
+<<<<<<< HEAD
                     $pivotPK  = $pivot . '.' . $model->getLocalKeyName();
+=======
+                    $pivotPK  = $pivot . '.' . $model->getFirstKeyName();
+>>>>>>> main
                     $pivotFK  = $model->getQualifiedLocalKeyName();
                     $this->performJoin($pivot, $pivotPK, $pivotFK);
 
                     $related = $model->getRelated();
                     $table   = $related->getTable();
+<<<<<<< HEAD
                     $tablePK = $related->getForeignKey();
                     $foreign = $pivot . '.' . $tablePK;
                     $other   = $related->getQualifiedKeyName();
 
+=======
+                    $tablePK = $model->getSecondLocalKeyName();
+                    $foreign = $pivot . '.' . $tablePK;
+                    $other   = $related->getQualifiedKeyName();
+
+                    $lastQuery->addSelect($lastQuery->getModel()->getTable().'.*');
+
+>>>>>>> main
                     break;
 
                 case $model instanceof HasOneOrMany:

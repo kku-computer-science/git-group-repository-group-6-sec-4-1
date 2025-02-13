@@ -65,15 +65,24 @@ final class CompleteCommand extends Command
     {
         try {
             // uncomment when a bugfix or BC break has been introduced in the shell completion scripts
+<<<<<<< HEAD
             //$version = $input->getOption('symfony');
             //if ($version && version_compare($version, 'x.y', '>=')) {
+=======
+            // $version = $input->getOption('symfony');
+            // if ($version && version_compare($version, 'x.y', '>=')) {
+>>>>>>> main
             //    $message = sprintf('Completion script version is not supported ("%s" given, ">=x.y" required).', $version);
             //    $this->log($message);
 
             //    $output->writeln($message.' Install the Symfony completion script again by using the "completion" command.');
 
             //    return 126;
+<<<<<<< HEAD
             //}
+=======
+            // }
+>>>>>>> main
 
             $shell = $input->getOption('shell');
             if (!$shell) {
@@ -105,11 +114,19 @@ final class CompleteCommand extends Command
             } elseif (
                 $completionInput->mustSuggestArgumentValuesFor('command')
                 && $command->getName() !== $completionInput->getCompletionValue()
+<<<<<<< HEAD
+=======
+                && !\in_array($completionInput->getCompletionValue(), $command->getAliases(), true)
+>>>>>>> main
             ) {
                 $this->log('  No command found, completing using the Application class.');
 
                 // expand shortcut names ("cache:cl<TAB>") into their full name ("cache:clear")
+<<<<<<< HEAD
                 $suggestions->suggestValue($command->getName());
+=======
+                $suggestions->suggestValues(array_filter(array_merge([$command->getName()], $command->getAliases())));
+>>>>>>> main
             } else {
                 $command->mergeApplicationDefinition();
                 $completionInput->bind($command->getDefinition());
@@ -154,10 +171,17 @@ final class CompleteCommand extends Command
                 throw $e;
             }
 
+<<<<<<< HEAD
             return self::FAILURE;
         }
 
         return self::SUCCESS;
+=======
+            return 2;
+        }
+
+        return 0;
+>>>>>>> main
     }
 
     private function createCompletionInput(InputInterface $input): CompletionInput

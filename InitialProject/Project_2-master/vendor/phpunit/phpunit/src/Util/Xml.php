@@ -68,8 +68,13 @@ final class Xml
             '',
             htmlspecialchars(
                 self::convertToUtf8($string),
+<<<<<<< HEAD
                 ENT_QUOTES
             )
+=======
+                ENT_QUOTES,
+            ),
+>>>>>>> main
         );
     }
 
@@ -126,8 +131,13 @@ final class Xml
                     } catch (ReflectionException $e) {
                         throw new Exception(
                             $e->getMessage(),
+<<<<<<< HEAD
                             (int) $e->getCode(),
                             $e
+=======
+                            $e->getCode(),
+                            $e,
+>>>>>>> main
                         );
                     }
                     // @codeCoverageIgnoreEnd

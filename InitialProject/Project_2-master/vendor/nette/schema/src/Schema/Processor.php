@@ -17,6 +17,7 @@ use Nette;
  */
 final class Processor
 {
+<<<<<<< HEAD
 	use Nette\SmartObject;
 
 	/** @var array */
@@ -30,6 +31,14 @@ final class Processor
 
 
 	public function skipDefaults(bool $value = true)
+=======
+	public array $onNewContext = [];
+	private Context $context;
+	private bool $skipDefaults = false;
+
+
+	public function skipDefaults(bool $value = true): void
+>>>>>>> main
 	{
 		$this->skipDefaults = $value;
 	}
@@ -37,10 +46,16 @@ final class Processor
 
 	/**
 	 * Normalizes and validates data. Result is a clean completed data.
+<<<<<<< HEAD
 	 * @return mixed
 	 * @throws ValidationException
 	 */
 	public function process(Schema $schema, $data)
+=======
+	 * @throws ValidationException
+	 */
+	public function process(Schema $schema, mixed $data): mixed
+>>>>>>> main
 	{
 		$this->createContext();
 		$data = $schema->normalize($data, $this->context);
@@ -53,10 +68,16 @@ final class Processor
 
 	/**
 	 * Normalizes and validates and merges multiple data. Result is a clean completed data.
+<<<<<<< HEAD
 	 * @return mixed
 	 * @throws ValidationException
 	 */
 	public function processMultiple(Schema $schema, array $dataset)
+=======
+	 * @throws ValidationException
+	 */
+	public function processMultiple(Schema $schema, array $dataset): mixed
+>>>>>>> main
 	{
 		$this->createContext();
 		$flatten = null;
@@ -67,6 +88,10 @@ final class Processor
 			$flatten = $first ? $data : $schema->merge($data, $flatten);
 			$first = false;
 		}
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 		$data = $schema->complete($flatten, $this->context);
 		$this->throwsErrors();
 		return $data;
@@ -82,6 +107,10 @@ final class Processor
 		foreach ($this->context->warnings as $message) {
 			$res[] = $message->toString();
 		}
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 		return $res;
 	}
 
@@ -94,10 +123,18 @@ final class Processor
 	}
 
 
+<<<<<<< HEAD
 	private function createContext()
 	{
 		$this->context = new Context;
 		$this->context->skipDefaults = $this->skipDefaults;
 		$this->onNewContext($this->context);
+=======
+	private function createContext(): void
+	{
+		$this->context = new Context;
+		$this->context->skipDefaults = $this->skipDefaults;
+		Nette\Utils\Arrays::invoke($this->onNewContext, $this->context);
+>>>>>>> main
 	}
 }

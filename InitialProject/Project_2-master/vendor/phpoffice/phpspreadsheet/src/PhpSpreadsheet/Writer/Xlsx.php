@@ -25,12 +25,19 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx\RelsRibbon;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx\RelsVBA;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx\StringTable;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Style;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Table;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Theme;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Workbook;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Worksheet;
 use ZipArchive;
 use ZipStream\Exception\OverflowException;
+<<<<<<< HEAD
 use ZipStream\Option\Archive;
+=======
+>>>>>>> main
 use ZipStream\ZipStream;
 
 class Xlsx extends BaseWriter
@@ -168,6 +175,14 @@ class Xlsx extends BaseWriter
     private $writerPartTheme;
 
     /**
+<<<<<<< HEAD
+=======
+     * @var Table
+     */
+    private $writerPartTable;
+
+    /**
+>>>>>>> main
      * @var Workbook
      */
     private $writerPartWorkbook;
@@ -196,6 +211,10 @@ class Xlsx extends BaseWriter
         $this->writerPartStringTable = new StringTable($this);
         $this->writerPartStyle = new Style($this);
         $this->writerPartTheme = new Theme($this);
+<<<<<<< HEAD
+=======
+        $this->writerPartTable = new Table($this);
+>>>>>>> main
         $this->writerPartWorkbook = new Workbook($this);
         $this->writerPartWorksheet = new Worksheet($this);
 
@@ -271,6 +290,14 @@ class Xlsx extends BaseWriter
         return $this->writerPartTheme;
     }
 
+<<<<<<< HEAD
+=======
+    public function getWriterPartTable(): Table
+    {
+        return $this->writerPartTable;
+    }
+
+>>>>>>> main
     public function getWriterPartWorkbook(): Workbook
     {
         return $this->writerPartWorkbook;
@@ -330,19 +357,34 @@ class Xlsx extends BaseWriter
                     //signed macros ?
                     // Yes : add the certificate file and the related rels file
                     $zipContent['xl/vbaProjectSignature.bin'] = $this->spreadSheet->getMacrosCertificate();
+<<<<<<< HEAD
                     $zipContent['xl/_rels/vbaProject.bin.rels'] = $this->getWriterPartRelsVBA()->writeVBARelationships($this->spreadSheet);
+=======
+                    $zipContent['xl/_rels/vbaProject.bin.rels'] = $this->getWriterPartRelsVBA()->writeVBARelationships();
+>>>>>>> main
                 }
             }
         }
         //a custom UI in this workbook ? add it ("base" xml and additional objects (pictures) and rels)
         if ($this->spreadSheet->hasRibbon()) {
             $tmpRibbonTarget = $this->spreadSheet->getRibbonXMLData('target');
+<<<<<<< HEAD
+=======
+            $tmpRibbonTarget = is_string($tmpRibbonTarget) ? $tmpRibbonTarget : '';
+>>>>>>> main
             $zipContent[$tmpRibbonTarget] = $this->spreadSheet->getRibbonXMLData('data');
             if ($this->spreadSheet->hasRibbonBinObjects()) {
                 $tmpRootPath = dirname($tmpRibbonTarget) . '/';
                 $ribbonBinObjects = $this->spreadSheet->getRibbonBinObjects('data'); //the files to write
+<<<<<<< HEAD
                 foreach ($ribbonBinObjects as $aPath => $aContent) {
                     $zipContent[$tmpRootPath . $aPath] = $aContent;
+=======
+                if (is_array($ribbonBinObjects)) {
+                    foreach ($ribbonBinObjects as $aPath => $aContent) {
+                        $zipContent[$tmpRootPath . $aPath] = $aContent;
+                    }
+>>>>>>> main
                 }
                 //the rels for files
                 $zipContent[$tmpRootPath . '_rels/' . basename($tmpRibbonTarget) . '.rels'] = $this->getWriterPartRelsRibbon()->writeRibbonRelationships($this->spreadSheet);
@@ -389,10 +431,18 @@ class Xlsx extends BaseWriter
         }
 
         $chartRef1 = 0;
+<<<<<<< HEAD
         // Add worksheet relationships (drawings, ...)
         for ($i = 0; $i < $this->spreadSheet->getSheetCount(); ++$i) {
             // Add relationships
             $zipContent['xl/worksheets/_rels/sheet' . ($i + 1) . '.xml.rels'] = $this->getWriterPartRels()->writeWorksheetRelationships($this->spreadSheet->getSheet($i), ($i + 1), $this->includeCharts);
+=======
+        $tableRef1 = 1;
+        // Add worksheet relationships (drawings, ...)
+        for ($i = 0; $i < $this->spreadSheet->getSheetCount(); ++$i) {
+            // Add relationships
+            $zipContent['xl/worksheets/_rels/sheet' . ($i + 1) . '.xml.rels'] = $this->getWriterPartRels()->writeWorksheetRelationships($this->spreadSheet->getSheet($i), ($i + 1), $this->includeCharts, $tableRef1);
+>>>>>>> main
 
             // Add unparsedLoadedData
             $sheetCodeName = $this->spreadSheet->getSheet($i)->getCodeName();
@@ -439,14 +489,27 @@ class Xlsx extends BaseWriter
             }
 
             // Add comment relationship parts
+<<<<<<< HEAD
             if (count($this->spreadSheet->getSheet($i)->getComments()) > 0) {
+=======
+            $legacy = $unparsedLoadedData['sheets'][$this->spreadSheet->getSheet($i)->getCodeName()]['legacyDrawing'] ?? null;
+            if (count($this->spreadSheet->getSheet($i)->getComments()) > 0 || $legacy !== null) {
+>>>>>>> main
                 // VML Comments relationships
                 $zipContent['xl/drawings/_rels/vmlDrawing' . ($i + 1) . '.vml.rels'] = $this->getWriterPartRels()->writeVMLDrawingRelationships($this->spreadSheet->getSheet($i));
 
                 // VML Comments
+<<<<<<< HEAD
                 $zipContent['xl/drawings/vmlDrawing' . ($i + 1) . '.vml'] = $this->getWriterPartComments()->writeVMLComments($this->spreadSheet->getSheet($i));
 
                 // Comments
+=======
+                $zipContent['xl/drawings/vmlDrawing' . ($i + 1) . '.vml'] = $legacy ?? $this->getWriterPartComments()->writeVMLComments($this->spreadSheet->getSheet($i));
+            }
+
+            // Comments
+            if (count($this->spreadSheet->getSheet($i)->getComments()) > 0) {
+>>>>>>> main
                 $zipContent['xl/comments' . ($i + 1) . '.xml'] = $this->getWriterPartComments()->writeComments($this->spreadSheet->getSheet($i));
 
                 // Media
@@ -461,7 +524,13 @@ class Xlsx extends BaseWriter
             // Add unparsed relationship parts
             if (isset($unparsedLoadedData['sheets'][$sheetCodeName]['vmlDrawings'])) {
                 foreach ($unparsedLoadedData['sheets'][$sheetCodeName]['vmlDrawings'] as $vmlDrawing) {
+<<<<<<< HEAD
                     $zipContent[$vmlDrawing['filePath']] = $vmlDrawing['content'];
+=======
+                    if (!isset($zipContent[$vmlDrawing['filePath']])) {
+                        $zipContent[$vmlDrawing['filePath']] = $vmlDrawing['content'];
+                    }
+>>>>>>> main
                 }
             }
 
@@ -475,9 +544,23 @@ class Xlsx extends BaseWriter
 
                 // Media
                 foreach ($this->spreadSheet->getSheet($i)->getHeaderFooter()->getImages() as $image) {
+<<<<<<< HEAD
                     $zipContent['xl/media/' . $image->getIndexedFilename()] = file_get_contents($image->getPath());
                 }
             }
+=======
+                    if ($image->getPath() !== '') {
+                        $zipContent['xl/media/' . $image->getIndexedFilename()] = file_get_contents($image->getPath());
+                    }
+                }
+            }
+
+            // Add Table parts
+            $tables = $this->spreadSheet->getSheet($i)->getTableCollection();
+            foreach ($tables as $table) {
+                $zipContent['xl/tables/table' . $tableRef1 . '.xml'] = $this->getWriterPartTable()->writeTable($table, $tableRef1++);
+            }
+>>>>>>> main
         }
 
         // Add media
@@ -485,6 +568,12 @@ class Xlsx extends BaseWriter
             if ($this->getDrawingHashTable()->getByIndex($i) instanceof WorksheetDrawing) {
                 $imageContents = null;
                 $imagePath = $this->getDrawingHashTable()->getByIndex($i)->getPath();
+<<<<<<< HEAD
+=======
+                if ($imagePath === '') {
+                    continue;
+                }
+>>>>>>> main
                 if (strpos($imagePath, 'zip://') !== false) {
                     $imagePath = substr($imagePath, 6);
                     $imagePathSplitted = explode('#', $imagePath);
@@ -501,8 +590,15 @@ class Xlsx extends BaseWriter
                 $zipContent['xl/media/' . $this->getDrawingHashTable()->getByIndex($i)->getIndexedFilename()] = $imageContents;
             } elseif ($this->getDrawingHashTable()->getByIndex($i) instanceof MemoryDrawing) {
                 ob_start();
+<<<<<<< HEAD
                 call_user_func(
                     $this->getDrawingHashTable()->getByIndex($i)->getRenderingFunction(),
+=======
+                /** @var callable */
+                $callable = $this->getDrawingHashTable()->getByIndex($i)->getRenderingFunction();
+                call_user_func(
+                    $callable,
+>>>>>>> main
                     $this->getDrawingHashTable()->getByIndex($i)->getImageResource()
                 );
                 $imageContents = ob_get_contents();
@@ -517,11 +613,15 @@ class Xlsx extends BaseWriter
 
         $this->openFileHandle($filename);
 
+<<<<<<< HEAD
         $options = new Archive();
         $options->setEnableZip64(false);
         $options->setOutputStream($this->fileHandle);
 
         $this->zip = new ZipStream(null, $options);
+=======
+        $this->zip = ZipStream0::newZipStream($this->fileHandle);
+>>>>>>> main
 
         $this->addZipFiles($zipContent);
 
@@ -663,6 +763,10 @@ class Xlsx extends BaseWriter
         return $this;
     }
 
+<<<<<<< HEAD
+=======
+    /** @var array */
+>>>>>>> main
     private $pathNames = [];
 
     private function addZipFile(string $path, string $content): void
@@ -687,9 +791,18 @@ class Xlsx extends BaseWriter
     {
         $data = null;
         $filename = $drawing->getPath();
+<<<<<<< HEAD
         $imageData = getimagesize($filename);
 
         if (is_array($imageData)) {
+=======
+        if ($filename === '') {
+            return null;
+        }
+        $imageData = getimagesize($filename);
+
+        if (!empty($imageData)) {
+>>>>>>> main
             switch ($imageData[2]) {
                 case 1: // GIF, not supported by BIFF8, we convert to PNG
                     $image = imagecreatefromgif($filename);

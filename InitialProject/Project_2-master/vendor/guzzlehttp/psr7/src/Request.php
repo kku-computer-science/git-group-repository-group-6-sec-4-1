@@ -28,7 +28,11 @@ class Request implements RequestInterface
     /**
      * @param string                               $method  HTTP method
      * @param string|UriInterface                  $uri     URI
+<<<<<<< HEAD
      * @param array<string, string|string[]>       $headers Request headers
+=======
+     * @param (string|string[])[]                  $headers Request headers
+>>>>>>> main
      * @param string|resource|StreamInterface|null $body    Request body
      * @param string                               $version Protocol version
      */
@@ -69,7 +73,11 @@ class Request implements RequestInterface
             $target = '/';
         }
         if ($this->uri->getQuery() != '') {
+<<<<<<< HEAD
             $target .= '?' . $this->uri->getQuery();
+=======
+            $target .= '?'.$this->uri->getQuery();
+>>>>>>> main
         }
 
         return $target;
@@ -85,6 +93,10 @@ class Request implements RequestInterface
 
         $new = clone $this;
         $new->requestTarget = $requestTarget;
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
         return $new;
     }
 
@@ -98,6 +110,10 @@ class Request implements RequestInterface
         $this->assertMethod($method);
         $new = clone $this;
         $new->method = strtoupper($method);
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
         return $new;
     }
 
@@ -131,7 +147,11 @@ class Request implements RequestInterface
         }
 
         if (($port = $this->uri->getPort()) !== null) {
+<<<<<<< HEAD
             $host .= ':' . $port;
+=======
+            $host .= ':'.$port;
+>>>>>>> main
         }
 
         if (isset($this->headerNames['host'])) {
@@ -141,7 +161,11 @@ class Request implements RequestInterface
             $this->headerNames['host'] = 'Host';
         }
         // Ensure Host is the first header.
+<<<<<<< HEAD
         // See: http://tools.ietf.org/html/rfc7230#section-5.4
+=======
+        // See: https://datatracker.ietf.org/doc/html/rfc7230#section-5.4
+>>>>>>> main
         $this->headers = [$header => [$host]] + $this->headers;
     }
 

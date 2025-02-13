@@ -33,7 +33,11 @@ abstract class Input implements InputInterface, StreamableInputInterface
     protected $arguments = [];
     protected $interactive = true;
 
+<<<<<<< HEAD
     public function __construct(InputDefinition $definition = null)
+=======
+    public function __construct(?InputDefinition $definition = null)
+>>>>>>> main
     {
         if (null === $definition) {
             $this->definition = new InputDefinition();

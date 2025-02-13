@@ -9,16 +9,27 @@
  */
 namespace SebastianBergmann\Type;
 
+<<<<<<< HEAD
 use function array_unique;
 use function assert;
 use function count;
 use function implode;
+=======
+use function assert;
+use function count;
+use function implode;
+use function in_array;
+>>>>>>> main
 use function sort;
 
 final class IntersectionType extends Type
 {
     /**
+<<<<<<< HEAD
      * @psalm-var list<Type>
+=======
+     * @psalm-var non-empty-list<Type>
+>>>>>>> main
      */
     private $types;
 
@@ -62,12 +73,29 @@ final class IntersectionType extends Type
         return false;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true IntersectionType $this
+     */
+>>>>>>> main
     public function isIntersection(): bool
     {
         return true;
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * @psalm-return non-empty-list<Type>
+     */
+    public function types(): array
+    {
+        return $this->types;
+    }
+
+    /**
+>>>>>>> main
      * @throws RuntimeException
      */
     private function ensureMinimumOfTwoTypes(Type ...$types): void
@@ -103,6 +131,7 @@ final class IntersectionType extends Type
         foreach ($types as $type) {
             assert($type instanceof ObjectType);
 
+<<<<<<< HEAD
             $names[] = $type->className()->qualifiedName();
         }
 
@@ -110,6 +139,15 @@ final class IntersectionType extends Type
             throw new RuntimeException(
                 'An intersection type must not contain duplicate types'
             );
+=======
+            $classQualifiedName = $type->className()->qualifiedName();
+
+            if (in_array($classQualifiedName, $names, true)) {
+                throw new RuntimeException('An intersection type must not contain duplicate types');
+            }
+
+            $names[] = $classQualifiedName;
+>>>>>>> main
         }
     }
 }

@@ -31,7 +31,11 @@ final class OrExpr implements ExpressionInterface
      */
     public function __construct(callable ...$expressions)
     {
+<<<<<<< HEAD
         $this->conditions = $expressions;
+=======
+        $this->conditions = \array_values($expressions);
+>>>>>>> main
     }
 
     /**

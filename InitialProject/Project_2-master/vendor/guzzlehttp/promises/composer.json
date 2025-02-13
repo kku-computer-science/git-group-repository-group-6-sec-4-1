@@ -26,22 +26,35 @@
         }
     ],
     "require": {
+<<<<<<< HEAD
         "php": ">=5.5"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^4.4 || ^5.1"
+=======
+        "php": "^7.2.5 || ^8.0"
+    },
+    "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.8.2",
+        "phpunit/phpunit": "^8.5.39 || ^9.6.20"
+>>>>>>> main
     },
     "autoload": {
         "psr-4": {
             "GuzzleHttp\\Promise\\": "src/"
+<<<<<<< HEAD
         },
         "files": ["src/functions_include.php"]
+=======
+        }
+>>>>>>> main
     },
     "autoload-dev": {
         "psr-4": {
             "GuzzleHttp\\Promise\\Tests\\": "tests/"
         }
     },
+<<<<<<< HEAD
     "scripts": {
         "test": "vendor/bin/simple-phpunit",
         "test-ci": "vendor/bin/simple-phpunit --coverage-text"
@@ -52,6 +65,18 @@
         }
     },
     "config": {
+=======
+    "extra": {
+        "bamarni-bin": {
+            "bin-links": true,
+            "forward-command": false
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "bamarni/composer-bin-plugin": true
+        },
+>>>>>>> main
         "preferred-install": "dist",
         "sort-packages": true
     }

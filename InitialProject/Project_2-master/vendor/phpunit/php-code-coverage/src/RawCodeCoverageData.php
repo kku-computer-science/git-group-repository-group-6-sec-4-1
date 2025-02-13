@@ -15,8 +15,17 @@ use function array_flip;
 use function array_intersect;
 use function array_intersect_key;
 use function count;
+<<<<<<< HEAD
 use function in_array;
 use function range;
+=======
+use function explode;
+use function file_get_contents;
+use function in_array;
+use function is_file;
+use function range;
+use function trim;
+>>>>>>> main
 use SebastianBergmann\CodeCoverage\Driver\Driver;
 use SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser;
 
@@ -87,7 +96,11 @@ final class RawCodeCoverageData
     {
         $lineCoverage = [];
 
+<<<<<<< HEAD
         foreach ($analyser->executableLinesIn($filename) as $line) {
+=======
+        foreach ($analyser->executableLinesIn($filename) as $line => $branch) {
+>>>>>>> main
             $lineCoverage[$line] = Driver::LINE_NOT_EXECUTED;
         }
 
@@ -138,6 +151,45 @@ final class RawCodeCoverageData
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * @param int[] $linesToBranchMap
+     */
+    public function markExecutableLineByBranch(string $filename, array $linesToBranchMap): void
+    {
+        if (!isset($this->lineCoverage[$filename])) {
+            return;
+        }
+
+        $linesByBranch = [];
+
+        foreach ($linesToBranchMap as $line => $branch) {
+            $linesByBranch[$branch][] = $line;
+        }
+
+        foreach ($this->lineCoverage[$filename] as $line => $lineStatus) {
+            if (!isset($linesToBranchMap[$line])) {
+                continue;
+            }
+
+            $branch = $linesToBranchMap[$line];
+
+            if (!isset($linesByBranch[$branch])) {
+                continue;
+            }
+
+            foreach ($linesByBranch[$branch] as $lineInBranch) {
+                $this->lineCoverage[$filename][$lineInBranch] = $lineStatus;
+            }
+
+            if (Driver::LINE_EXECUTED === $lineStatus) {
+                unset($linesByBranch[$branch]);
+            }
+        }
+    }
+
+    /**
+>>>>>>> main
      * @param int[] $lines
      */
     public function keepFunctionCoverageDataOnlyForLines(string $filename, array $lines): void

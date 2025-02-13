@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+<<<<<<< HEAD
+=======
+6.0
+---
+
+ * Remove `LegacyEventDispatcherProxy`
+
+>>>>>>> main
 5.4
 ---
 

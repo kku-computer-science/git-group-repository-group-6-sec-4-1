@@ -25,6 +25,14 @@ use League\CommonMark\Util\ArrayCollection;
 
 final class TableParser extends AbstractBlockContinueParser implements BlockContinueParserWithInlinesInterface
 {
+<<<<<<< HEAD
+=======
+    /**
+     * @internal
+     */
+    public const DEFAULT_MAX_AUTOCOMPLETED_CELLS = 10_000;
+
+>>>>>>> main
     /** @psalm-readonly */
     private Table $block;
 
@@ -54,6 +62,11 @@ final class TableParser extends AbstractBlockContinueParser implements BlockCont
     /** @psalm-readonly-allow-private-mutation */
     private bool $nextIsSeparatorLine = true;
 
+<<<<<<< HEAD
+=======
+    private int $remainingAutocompletedCells;
+
+>>>>>>> main
     /**
      * @param array<int, string|null> $columns
      * @param array<int, string>      $headerCells
@@ -62,12 +75,22 @@ final class TableParser extends AbstractBlockContinueParser implements BlockCont
      *
      * @phpstan-param array<int, TableCell::ALIGN_*|null> $columns
      */
+<<<<<<< HEAD
     public function __construct(array $columns, array $headerCells)
     {
         $this->block       = new Table();
         $this->bodyLines   = new ArrayCollection();
         $this->columns     = $columns;
         $this->headerCells = $headerCells;
+=======
+    public function __construct(array $columns, array $headerCells, int $remainingAutocompletedCells = self::DEFAULT_MAX_AUTOCOMPLETED_CELLS)
+    {
+        $this->block                       = new Table();
+        $this->bodyLines                   = new ArrayCollection();
+        $this->columns                     = $columns;
+        $this->headerCells                 = $headerCells;
+        $this->remainingAutocompletedCells = $remainingAutocompletedCells;
+>>>>>>> main
     }
 
     public function canHaveLazyContinuationLines(): bool
@@ -121,6 +144,15 @@ final class TableParser extends AbstractBlockContinueParser implements BlockCont
 
             // Body can not have more columns than head
             for ($i = 0; $i < $headerColumns; $i++) {
+<<<<<<< HEAD
+=======
+                // It can have less columns though, in which case we'll autocomplete the empty ones (up to some limit)
+                if (! isset($cells[$i]) && $this->remainingAutocompletedCells-- <= 0) {
+                    // Too many cells were auto-completed, so we'll just stop here
+                    return;
+                }
+
+>>>>>>> main
                 $cell      = $cells[$i] ?? '';
                 $tableCell = $this->parseCell($cell, $i, $inlineParser);
                 $row->appendChild($tableCell);
@@ -138,6 +170,7 @@ final class TableParser extends AbstractBlockContinueParser implements BlockCont
 
     private function parseCell(string $cell, int $column, InlineParserEngineInterface $inlineParser): TableCell
     {
+<<<<<<< HEAD
         $tableCell = new TableCell();
 
         if ($column < \count($this->columns)) {
@@ -146,6 +179,14 @@ final class TableParser extends AbstractBlockContinueParser implements BlockCont
 
         $inlineParser->parse(\trim($cell), $tableCell);
 
+=======
+        $tableCell = new TableCell(TableCell::TYPE_DATA, $this->columns[$column] ?? null);
+
+        if ($cell !== '') {
+            $inlineParser->parse(\trim($cell), $tableCell);
+        }
+
+>>>>>>> main
         return $tableCell;
     }
 

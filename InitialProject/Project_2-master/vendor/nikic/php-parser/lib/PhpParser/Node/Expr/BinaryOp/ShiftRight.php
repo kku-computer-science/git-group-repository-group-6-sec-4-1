@@ -4,6 +4,7 @@ namespace PhpParser\Node\Expr\BinaryOp;
 
 use PhpParser\Node\Expr\BinaryOp;
 
+<<<<<<< HEAD
 class ShiftRight extends BinaryOp
 {
     public function getOperatorSigil() : string {
@@ -11,6 +12,14 @@ class ShiftRight extends BinaryOp
     }
     
     public function getType() : string {
+=======
+class ShiftRight extends BinaryOp {
+    public function getOperatorSigil(): string {
+        return '>>';
+    }
+
+    public function getType(): string {
+>>>>>>> main
         return 'Expr_BinaryOp_ShiftRight';
     }
 }

@@ -22,6 +22,11 @@ class HTMLPurifier_ChildDef_List extends HTMLPurifier_ChildDef
     // XXX: This whole business with 'wrap' is all a bit unsatisfactory
     public $elements = array('li' => true, 'ul' => true, 'ol' => true);
 
+<<<<<<< HEAD
+=======
+    public $whitespace;
+
+>>>>>>> main
     /**
      * @param array $children
      * @param HTMLPurifier_Config $config

@@ -2,6 +2,7 @@
 
 namespace PhpParser\Node\Stmt;
 
+<<<<<<< HEAD
 use PhpParser\Node;
 
 class DeclareDeclare extends Node\Stmt
@@ -30,5 +31,14 @@ class DeclareDeclare extends Node\Stmt
     
     public function getType() : string {
         return 'Stmt_DeclareDeclare';
+=======
+use PhpParser\Node\DeclareItem;
+
+require __DIR__ . '/../DeclareItem.php';
+
+if (false) {
+    // For classmap-authoritative support.
+    class DeclareDeclare extends DeclareItem {
+>>>>>>> main
     }
 }

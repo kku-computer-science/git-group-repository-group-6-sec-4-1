@@ -26,6 +26,10 @@ use function substr;
 use function trim;
 use DOMDocument;
 use DOMElement;
+<<<<<<< HEAD
+=======
+use DOMNode;
+>>>>>>> main
 use DOMNodeList;
 use DOMXPath;
 use PHPUnit\Runner\TestSuiteSorter;
@@ -49,6 +53,10 @@ use PHPUnit\TextUI\XmlConfiguration\Logging\TestDox\Text as TestDoxText;
 use PHPUnit\TextUI\XmlConfiguration\Logging\TestDox\Xml as TestDoxXml;
 use PHPUnit\TextUI\XmlConfiguration\Logging\Text;
 use PHPUnit\TextUI\XmlConfiguration\TestSuite as TestSuiteConfiguration;
+<<<<<<< HEAD
+=======
+use PHPUnit\TextUI\XmlConfigurationTest;
+>>>>>>> main
 use PHPUnit\Util\TestDox\CliTestDoxPrinter;
 use PHPUnit\Util\VersionComparisonOperator;
 use PHPUnit\Util\Xml;
@@ -72,8 +80,13 @@ final class Loader
         } catch (XmlException $e) {
             throw new Exception(
                 $e->getMessage(),
+<<<<<<< HEAD
                 (int) $e->getCode(),
                 $e
+=======
+                $e->getCode(),
+                $e,
+>>>>>>> main
             );
         }
 
@@ -84,8 +97,13 @@ final class Loader
         } catch (XmlException $e) {
             throw new Exception(
                 $e->getMessage(),
+<<<<<<< HEAD
                 (int) $e->getCode(),
                 $e
+=======
+                $e->getCode(),
+                $e,
+>>>>>>> main
             );
         }
 
@@ -100,7 +118,11 @@ final class Loader
             $this->logging($filename, $xpath),
             $this->php($filename, $xpath),
             $this->phpunit($filename, $document),
+<<<<<<< HEAD
             $this->testSuite($filename, $xpath)
+=======
+            $this->testSuite($filename, $xpath),
+>>>>>>> main
         );
     }
 
@@ -118,9 +140,15 @@ final class Loader
                 new File(
                     $this->toAbsolutePath(
                         $filename,
+<<<<<<< HEAD
                         (string) $this->getStringAttribute($element, 'outputFile')
                     )
                 )
+=======
+                        (string) $this->getStringAttribute($element, 'outputFile'),
+                    ),
+                ),
+>>>>>>> main
             );
         }
 
@@ -132,9 +160,15 @@ final class Loader
                 new File(
                     $this->toAbsolutePath(
                         $filename,
+<<<<<<< HEAD
                         (string) $this->getStringAttribute($element, 'outputFile')
                     )
                 )
+=======
+                        (string) $this->getStringAttribute($element, 'outputFile'),
+                    ),
+                ),
+>>>>>>> main
             );
         }
 
@@ -146,9 +180,15 @@ final class Loader
                 new File(
                     $this->toAbsolutePath(
                         $filename,
+<<<<<<< HEAD
                         (string) $this->getStringAttribute($element, 'outputFile')
                     )
                 )
+=======
+                        (string) $this->getStringAttribute($element, 'outputFile'),
+                    ),
+                ),
+>>>>>>> main
             );
         }
 
@@ -160,9 +200,15 @@ final class Loader
                 new File(
                     $this->toAbsolutePath(
                         $filename,
+<<<<<<< HEAD
                         (string) $this->getStringAttribute($element, 'outputFile')
                     )
                 )
+=======
+                        (string) $this->getStringAttribute($element, 'outputFile'),
+                    ),
+                ),
+>>>>>>> main
             );
         }
 
@@ -174,9 +220,15 @@ final class Loader
                 new File(
                     $this->toAbsolutePath(
                         $filename,
+<<<<<<< HEAD
                         (string) $this->getStringAttribute($element, 'outputFile')
                     )
                 )
+=======
+                        (string) $this->getStringAttribute($element, 'outputFile'),
+                    ),
+                ),
+>>>>>>> main
             );
         }
 
@@ -188,9 +240,15 @@ final class Loader
                 new File(
                     $this->toAbsolutePath(
                         $filename,
+<<<<<<< HEAD
                         (string) $this->getStringAttribute($element, 'outputFile')
                     )
                 )
+=======
+                        (string) $this->getStringAttribute($element, 'outputFile'),
+                    ),
+                ),
+>>>>>>> main
             );
         }
 
@@ -200,7 +258,11 @@ final class Loader
             $teamCity,
             $testDoxHtml,
             $testDoxText,
+<<<<<<< HEAD
             $testDoxXml
+=======
+            $testDoxXml,
+>>>>>>> main
         );
     }
 
@@ -228,42 +290,66 @@ final class Loader
             switch ($type) {
                 case 'plain':
                     $text = new Text(
+<<<<<<< HEAD
                         new File($target)
+=======
+                        new File($target),
+>>>>>>> main
                     );
 
                     break;
 
                 case 'junit':
                     $junit = new Junit(
+<<<<<<< HEAD
                         new File($target)
+=======
+                        new File($target),
+>>>>>>> main
                     );
 
                     break;
 
                 case 'teamcity':
                     $teamCity = new TeamCity(
+<<<<<<< HEAD
                         new File($target)
+=======
+                        new File($target),
+>>>>>>> main
                     );
 
                     break;
 
                 case 'testdox-html':
                     $testDoxHtml = new TestDoxHtml(
+<<<<<<< HEAD
                         new File($target)
+=======
+                        new File($target),
+>>>>>>> main
                     );
 
                     break;
 
                 case 'testdox-text':
                     $testDoxText = new TestDoxText(
+<<<<<<< HEAD
                         new File($target)
+=======
+                        new File($target),
+>>>>>>> main
                     );
 
                     break;
 
                 case 'testdox-xml':
                     $testDoxXml = new TestDoxXml(
+<<<<<<< HEAD
                         new File($target)
+=======
+                        new File($target),
+>>>>>>> main
                     );
 
                     break;
@@ -276,7 +362,11 @@ final class Loader
             $teamCity,
             $testDoxHtml,
             $testDoxText,
+<<<<<<< HEAD
             $testDoxXml
+=======
+            $testDoxXml,
+>>>>>>> main
         );
     }
 
@@ -304,7 +394,11 @@ final class Loader
             $file = $this->toAbsolutePath(
                 $filename,
                 (string) $element->getAttribute('file'),
+<<<<<<< HEAD
                 true
+=======
+                true,
+>>>>>>> main
             );
         }
 
@@ -402,38 +496,62 @@ final class Loader
 
             if ($cacheDirectory !== null) {
                 $cacheDirectory = new Directory(
+<<<<<<< HEAD
                     $this->toAbsolutePath($filename, $cacheDirectory)
+=======
+                    $this->toAbsolutePath($filename, $cacheDirectory),
+>>>>>>> main
                 );
             }
 
             $pathCoverage = $this->getBooleanAttribute(
                 $element,
                 'pathCoverage',
+<<<<<<< HEAD
                 false
+=======
+                false,
+>>>>>>> main
             );
 
             $includeUncoveredFiles = $this->getBooleanAttribute(
                 $element,
                 'includeUncoveredFiles',
+<<<<<<< HEAD
                 true
+=======
+                true,
+>>>>>>> main
             );
 
             $processUncoveredFiles = $this->getBooleanAttribute(
                 $element,
                 'processUncoveredFiles',
+<<<<<<< HEAD
                 false
+=======
+                false,
+>>>>>>> main
             );
 
             $ignoreDeprecatedCodeUnits = $this->getBooleanAttribute(
                 $element,
                 'ignoreDeprecatedCodeUnits',
+<<<<<<< HEAD
                 false
+=======
+                false,
+>>>>>>> main
             );
 
             $disableCodeCoverageIgnore = $this->getBooleanAttribute(
                 $element,
                 'disableCodeCoverageIgnore',
+<<<<<<< HEAD
                 false
+=======
+                false,
+>>>>>>> main
             );
         }
 
@@ -445,9 +563,15 @@ final class Loader
                 new File(
                     $this->toAbsolutePath(
                         $filename,
+<<<<<<< HEAD
                         (string) $this->getStringAttribute($element, 'outputFile')
                     )
                 )
+=======
+                        (string) $this->getStringAttribute($element, 'outputFile'),
+                    ),
+                ),
+>>>>>>> main
             );
         }
 
@@ -459,9 +583,15 @@ final class Loader
                 new File(
                     $this->toAbsolutePath(
                         $filename,
+<<<<<<< HEAD
                         (string) $this->getStringAttribute($element, 'outputFile')
                     )
                 )
+=======
+                        (string) $this->getStringAttribute($element, 'outputFile'),
+                    ),
+                ),
+>>>>>>> main
             );
         }
 
@@ -473,10 +603,17 @@ final class Loader
                 new File(
                     $this->toAbsolutePath(
                         $filename,
+<<<<<<< HEAD
                         (string) $this->getStringAttribute($element, 'outputFile')
                     )
                 ),
                 $this->getIntegerAttribute($element, 'threshold', 30)
+=======
+                        (string) $this->getStringAttribute($element, 'outputFile'),
+                    ),
+                ),
+                $this->getIntegerAttribute($element, 'threshold', 30),
+>>>>>>> main
             );
         }
 
@@ -488,11 +625,19 @@ final class Loader
                 new Directory(
                     $this->toAbsolutePath(
                         $filename,
+<<<<<<< HEAD
                         (string) $this->getStringAttribute($element, 'outputDirectory')
                     )
                 ),
                 $this->getIntegerAttribute($element, 'lowUpperBound', 50),
                 $this->getIntegerAttribute($element, 'highLowerBound', 90)
+=======
+                        (string) $this->getStringAttribute($element, 'outputDirectory'),
+                    ),
+                ),
+                $this->getIntegerAttribute($element, 'lowUpperBound', 50),
+                $this->getIntegerAttribute($element, 'highLowerBound', 90),
+>>>>>>> main
             );
         }
 
@@ -504,9 +649,15 @@ final class Loader
                 new File(
                     $this->toAbsolutePath(
                         $filename,
+<<<<<<< HEAD
                         (string) $this->getStringAttribute($element, 'outputFile')
                     )
                 )
+=======
+                        (string) $this->getStringAttribute($element, 'outputFile'),
+                    ),
+                ),
+>>>>>>> main
             );
         }
 
@@ -518,11 +669,19 @@ final class Loader
                 new File(
                     $this->toAbsolutePath(
                         $filename,
+<<<<<<< HEAD
                         (string) $this->getStringAttribute($element, 'outputFile')
                     )
                 ),
                 $this->getBooleanAttribute($element, 'showUncoveredFiles', false),
                 $this->getBooleanAttribute($element, 'showOnlySummary', false)
+=======
+                        (string) $this->getStringAttribute($element, 'outputFile'),
+                    ),
+                ),
+                $this->getBooleanAttribute($element, 'showUncoveredFiles', false),
+                $this->getBooleanAttribute($element, 'showOnlySummary', false),
+>>>>>>> main
             );
         }
 
@@ -534,9 +693,15 @@ final class Loader
                 new Directory(
                     $this->toAbsolutePath(
                         $filename,
+<<<<<<< HEAD
                         (string) $this->getStringAttribute($element, 'outputDirectory')
                     )
                 )
+=======
+                        (string) $this->getStringAttribute($element, 'outputDirectory'),
+                    ),
+                ),
+>>>>>>> main
             );
         }
 
@@ -557,7 +722,11 @@ final class Loader
             $html,
             $php,
             $text,
+<<<<<<< HEAD
             $xml
+=======
+            $xml,
+>>>>>>> main
         );
     }
 
@@ -569,13 +738,21 @@ final class Loader
         $ignoreDeprecatedCodeUnits = $this->getBooleanAttribute(
             $document->documentElement,
             'ignoreDeprecatedCodeUnitsFromCodeCoverage',
+<<<<<<< HEAD
             false
+=======
+            false,
+>>>>>>> main
         );
 
         $disableCodeCoverageIgnore = $this->getBooleanAttribute(
             $document->documentElement,
             'disableCodeCoverageIgnore',
+<<<<<<< HEAD
             false
+=======
+            false,
+>>>>>>> main
         );
 
         $includeUncoveredFiles = true;
@@ -587,14 +764,22 @@ final class Loader
             if ($element->hasAttribute('addUncoveredFilesFromWhitelist')) {
                 $includeUncoveredFiles = (bool) $this->getBoolean(
                     (string) $element->getAttribute('addUncoveredFilesFromWhitelist'),
+<<<<<<< HEAD
                     true
+=======
+                    true,
+>>>>>>> main
                 );
             }
 
             if ($element->hasAttribute('processUncoveredFilesFromWhitelist')) {
                 $processUncoveredFiles = (bool) $this->getBoolean(
                     (string) $element->getAttribute('processUncoveredFilesFromWhitelist'),
+<<<<<<< HEAD
                     false
+=======
+                    false,
+>>>>>>> main
                 );
             }
         }
@@ -622,14 +807,22 @@ final class Loader
             switch ($type) {
                 case 'coverage-clover':
                     $clover = new Clover(
+<<<<<<< HEAD
                         new File($target)
+=======
+                        new File($target),
+>>>>>>> main
                     );
 
                     break;
 
                 case 'coverage-cobertura':
                     $cobertura = new Cobertura(
+<<<<<<< HEAD
                         new File($target)
+=======
+                        new File($target),
+>>>>>>> main
                     );
 
                     break;
@@ -637,7 +830,11 @@ final class Loader
                 case 'coverage-crap4j':
                     $crap4j = new Crap4j(
                         new File($target),
+<<<<<<< HEAD
                         $this->getIntegerAttribute($log, 'threshold', 30)
+=======
+                        $this->getIntegerAttribute($log, 'threshold', 30),
+>>>>>>> main
                     );
 
                     break;
@@ -646,14 +843,22 @@ final class Loader
                     $html = new CodeCoverageHtml(
                         new Directory($target),
                         $this->getIntegerAttribute($log, 'lowUpperBound', 50),
+<<<<<<< HEAD
                         $this->getIntegerAttribute($log, 'highLowerBound', 90)
+=======
+                        $this->getIntegerAttribute($log, 'highLowerBound', 90),
+>>>>>>> main
                     );
 
                     break;
 
                 case 'coverage-php':
                     $php = new CodeCoveragePhp(
+<<<<<<< HEAD
                         new File($target)
+=======
+                        new File($target),
+>>>>>>> main
                     );
 
                     break;
@@ -662,14 +867,22 @@ final class Loader
                     $text = new CodeCoverageText(
                         new File($target),
                         $this->getBooleanAttribute($log, 'showUncoveredFiles', false),
+<<<<<<< HEAD
                         $this->getBooleanAttribute($log, 'showOnlySummary', false)
+=======
+                        $this->getBooleanAttribute($log, 'showOnlySummary', false),
+>>>>>>> main
                     );
 
                     break;
 
                 case 'coverage-xml':
                     $xml = new CodeCoverageXml(
+<<<<<<< HEAD
                         new Directory($target)
+=======
+                        new Directory($target),
+>>>>>>> main
                     );
 
                     break;
@@ -693,7 +906,11 @@ final class Loader
             $html,
             $php,
             $text,
+<<<<<<< HEAD
             $xml
+=======
+            $xml,
+>>>>>>> main
         );
     }
 
@@ -701,7 +918,11 @@ final class Loader
      * If $value is 'false' or 'true', this returns the value that $value represents.
      * Otherwise, returns $default, which may be a string in rare cases.
      *
+<<<<<<< HEAD
      * @see \PHPUnit\TextUI\XmlConfigurationTest::testPHPConfigurationIsReadCorrectly
+=======
+     * @see XmlConfigurationTest::testPHPConfigurationIsReadCorrectly
+>>>>>>> main
      *
      * @param bool|string $default
      *
@@ -737,7 +958,11 @@ final class Loader
                 $this->toAbsolutePath($filename, $directoryPath),
                 $directoryNode->hasAttribute('prefix') ? (string) $directoryNode->getAttribute('prefix') : '',
                 $directoryNode->hasAttribute('suffix') ? (string) $directoryNode->getAttribute('suffix') : '.php',
+<<<<<<< HEAD
                 $directoryNode->hasAttribute('group') ? (string) $directoryNode->getAttribute('group') : 'DEFAULT'
+=======
+                $directoryNode->hasAttribute('group') ? (string) $directoryNode->getAttribute('group') : 'DEFAULT',
+>>>>>>> main
             );
         }
 
@@ -749,6 +974,11 @@ final class Loader
         $files = [];
 
         foreach ($xpath->query($query) as $file) {
+<<<<<<< HEAD
+=======
+            assert($file instanceof DOMNode);
+
+>>>>>>> main
             $filePath = (string) $file->textContent;
 
             if ($filePath) {
@@ -775,16 +1005,30 @@ final class Loader
         $exclude = [];
 
         foreach ($xpath->query($root . '/include/group') as $group) {
+<<<<<<< HEAD
+=======
+            assert($group instanceof DOMNode);
+
+>>>>>>> main
             $include[] = new Group((string) $group->textContent);
         }
 
         foreach ($xpath->query($root . '/exclude/group') as $group) {
+<<<<<<< HEAD
+=======
+            assert($group instanceof DOMNode);
+
+>>>>>>> main
             $exclude[] = new Group((string) $group->textContent);
         }
 
         return new Groups(
             GroupCollection::fromArray($include),
+<<<<<<< HEAD
             GroupCollection::fromArray($exclude)
+=======
+            GroupCollection::fromArray($exclude),
+>>>>>>> main
         );
     }
 
@@ -809,7 +1053,11 @@ final class Loader
 
         return (bool) $this->getBoolean(
             (string) $element->getAttribute($attribute),
+<<<<<<< HEAD
             false
+=======
+            false,
+>>>>>>> main
         );
     }
 
@@ -821,7 +1069,11 @@ final class Loader
 
         return $this->getInteger(
             (string) $element->getAttribute($attribute),
+<<<<<<< HEAD
             $default
+=======
+            $default,
+>>>>>>> main
         );
     }
 
@@ -848,6 +1100,11 @@ final class Loader
         $includePaths = [];
 
         foreach ($xpath->query('php/includePath') as $includePath) {
+<<<<<<< HEAD
+=======
+            assert($includePath instanceof DOMNode);
+
+>>>>>>> main
             $path = (string) $includePath->textContent;
 
             if ($path) {
@@ -862,7 +1119,11 @@ final class Loader
 
             $iniSettings[] = new IniSetting(
                 (string) $ini->getAttribute('name'),
+<<<<<<< HEAD
                 (string) $ini->getAttribute('value')
+=======
+                (string) $ini->getAttribute('value'),
+>>>>>>> main
             );
         }
 
@@ -875,7 +1136,11 @@ final class Loader
 
             $constants[] = new Constant(
                 (string) $const->getAttribute('name'),
+<<<<<<< HEAD
                 $this->getBoolean($value, $value)
+=======
+                $this->getBoolean($value, $value),
+>>>>>>> main
             );
         }
 
@@ -1077,7 +1342,11 @@ final class Loader
             $this->getBooleanAttribute($document->documentElement, 'backupGlobals', false),
             $this->getBooleanAttribute($document->documentElement, 'backupStaticAttributes', false),
             $this->getBooleanAttribute($document->documentElement, 'registerMockObjectsFromTestArgumentsRecursively', false),
+<<<<<<< HEAD
             $conflictBetweenPrinterClassAndTestdox
+=======
+            $conflictBetweenPrinterClassAndTestdox,
+>>>>>>> main
         );
     }
 
@@ -1171,7 +1440,11 @@ final class Loader
                     $prefix,
                     $suffix,
                     $phpVersion,
+<<<<<<< HEAD
                     $phpVersionOperator
+=======
+                    $phpVersionOperator,
+>>>>>>> main
                 );
             }
 
@@ -1201,7 +1474,11 @@ final class Loader
                 $files[] = new TestFile(
                     $this->toAbsolutePath($filename, $file),
                     $phpVersion,
+<<<<<<< HEAD
                     $phpVersionOperator
+=======
+                    $phpVersionOperator,
+>>>>>>> main
                 );
             }
 
@@ -1209,7 +1486,11 @@ final class Loader
                 (string) $element->getAttribute('name'),
                 TestDirectoryCollection::fromArray($directories),
                 TestFileCollection::fromArray($files),
+<<<<<<< HEAD
                 FileCollection::fromArray($exclude)
+=======
+                FileCollection::fromArray($exclude),
+>>>>>>> main
             );
         }
 

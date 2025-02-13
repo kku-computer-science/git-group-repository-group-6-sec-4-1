@@ -50,6 +50,19 @@ interface RunInterface
     public function clearHandlers();
 
     /**
+<<<<<<< HEAD
+=======
+     * @return array<callable>
+     */
+    public function getFrameFilters();
+
+    /**
+     * @return Run
+     */
+    public function clearFrameFilters();
+
+    /**
+>>>>>>> main
      * Registers this instance as an error handler.
      *
      * @return Run
@@ -137,4 +150,15 @@ interface RunInterface
      * Special case to deal with Fatal errors and the like.
      */
     public function handleShutdown();
+<<<<<<< HEAD
+=======
+
+    /**
+     * Registers a filter callback in the frame filters stack.
+     *
+     * @param callable $filterCallback
+     * @return \Whoops\Run
+     */
+    public function addFrameFilter($filterCallback);
+>>>>>>> main
 }

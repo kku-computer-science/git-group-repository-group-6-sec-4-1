@@ -245,6 +245,10 @@ ROWS = SOROK
 RTD = VIA
 TRANSPOSE = TRANSZPONÁLÁS
 VLOOKUP = FKERES
+<<<<<<< HEAD
+=======
+*RC = SO
+>>>>>>> main
 
 ##
 ## Matematikai és trigonometrikus függvények (Math & Trig Functions)

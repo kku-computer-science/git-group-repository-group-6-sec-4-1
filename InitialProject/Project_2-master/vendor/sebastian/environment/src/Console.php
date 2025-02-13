@@ -105,16 +105,26 @@ final class Console
     public function isInteractive($fileDescriptor = self::STDOUT): bool
     {
         if (is_resource($fileDescriptor)) {
+<<<<<<< HEAD
             // These functions require a descriptor that is a real resource, not a numeric ID of it
+=======
+>>>>>>> main
             if (function_exists('stream_isatty') && @stream_isatty($fileDescriptor)) {
                 return true;
             }
 
+<<<<<<< HEAD
             // Check if formatted mode is S_IFCHR
             if (function_exists('fstat') && @stream_isatty($fileDescriptor)) {
                 $stat = @fstat(STDOUT);
 
                 return $stat ? 0020000 === ($stat['mode'] & 0170000) : false;
+=======
+            if (function_exists('fstat')) {
+                $stat = @fstat(STDOUT);
+
+                return $stat && 0020000 === ($stat['mode'] & 0170000);
+>>>>>>> main
             }
 
             return false;

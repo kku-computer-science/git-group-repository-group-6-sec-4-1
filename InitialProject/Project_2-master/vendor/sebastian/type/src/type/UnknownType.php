@@ -31,6 +31,12 @@ final class UnknownType extends Type
         return true;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true UnknownType $this
+     */
+>>>>>>> main
     public function isUnknown(): bool
     {
         return true;

@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -25,12 +29,16 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class WtfCommand extends TraceCommand implements ContextAware
 {
+<<<<<<< HEAD
     /**
      * Context instance (for ContextAware interface).
      *
      * @var Context
      */
     protected $context;
+=======
+    protected Context $context;
+>>>>>>> main
 
     /**
      * ContextAware interface.
@@ -81,8 +89,15 @@ HELP
 
     /**
      * {@inheritdoc}
+<<<<<<< HEAD
      */
     protected function execute(InputInterface $input, OutputInterface $output)
+=======
+     *
+     * @return int 0 if everything went fine, or an exit code
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): int
+>>>>>>> main
     {
         $this->filter->bind($input);
 
@@ -94,8 +109,11 @@ HELP
         $exception = $this->context->getLastException();
         $count = $input->getOption('all') ? \PHP_INT_MAX : \max(3, \pow(2, \strlen($incredulity) + 1));
 
+<<<<<<< HEAD
         $shell = $this->getApplication();
 
+=======
+>>>>>>> main
         if ($output instanceof ShellOutput) {
             $output->startPaging();
         }
@@ -111,7 +129,11 @@ HELP
             $trace = $this->getBacktrace($exception, $showLines);
             $moreLines = $traceCount - \count($trace);
 
+<<<<<<< HEAD
             $output->writeln($shell->formatException($exception));
+=======
+            $output->writeln($this->getShell()->formatException($exception));
+>>>>>>> main
             $output->writeln('--');
             $output->write($trace, true, ShellOutput::NUMBER_LINES);
             $output->writeln('');

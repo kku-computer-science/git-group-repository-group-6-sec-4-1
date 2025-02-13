@@ -17,11 +17,19 @@ class Parser
     private $oParserState;
 
     /**
+<<<<<<< HEAD
      * @param string $sText
      * @param Settings|null $oParserSettings
      * @param int $iLineNo the line number (starting from 1, not from 0)
      */
     public function __construct($sText, Settings $oParserSettings = null, $iLineNo = 1)
+=======
+     * @param string $sText the complete CSS as text (i.e., usually the contents of a CSS file)
+     * @param Settings|null $oParserSettings
+     * @param int $iLineNo the line number (starting from 1, not from 0)
+     */
+    public function __construct($sText, $oParserSettings = null, $iLineNo = 1)
+>>>>>>> main
     {
         if ($oParserSettings === null) {
             $oParserSettings = Settings::create();
@@ -30,9 +38,19 @@ class Parser
     }
 
     /**
+<<<<<<< HEAD
      * @param string $sCharset
      *
      * @return void
+=======
+     * Sets the charset to be used if the CSS does not contain an `@charset` declaration.
+     *
+     * @param string $sCharset
+     *
+     * @return void
+     *
+     * @deprecated since 8.7.0, will be removed in version 9.0.0 with #687
+>>>>>>> main
      */
     public function setCharset($sCharset)
     {
@@ -40,7 +58,15 @@ class Parser
     }
 
     /**
+<<<<<<< HEAD
      * @return void
+=======
+     * Returns the charset that is used if the CSS does not contain an `@charset` declaration.
+     *
+     * @return void
+     *
+     * @deprecated since 8.7.0, will be removed in version 9.0.0 with #687
+>>>>>>> main
      */
     public function getCharset()
     {
@@ -49,6 +75,11 @@ class Parser
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Parses the CSS provided to the constructor and creates a `Document` from it.
+     *
+>>>>>>> main
      * @return Document
      *
      * @throws SourceException

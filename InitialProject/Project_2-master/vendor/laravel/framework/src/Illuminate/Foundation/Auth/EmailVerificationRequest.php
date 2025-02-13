@@ -14,6 +14,7 @@ class EmailVerificationRequest extends FormRequest
      */
     public function authorize()
     {
+<<<<<<< HEAD
         if (! hash_equals((string) $this->route('id'),
                           (string) $this->user()->getKey())) {
             return false;
@@ -21,6 +22,13 @@ class EmailVerificationRequest extends FormRequest
 
         if (! hash_equals((string) $this->route('hash'),
                           sha1($this->user()->getEmailForVerification()))) {
+=======
+        if (! hash_equals((string) $this->user()->getKey(), (string) $this->route('id'))) {
+            return false;
+        }
+
+        if (! hash_equals(sha1($this->user()->getEmailForVerification()), (string) $this->route('hash'))) {
+>>>>>>> main
             return false;
         }
 

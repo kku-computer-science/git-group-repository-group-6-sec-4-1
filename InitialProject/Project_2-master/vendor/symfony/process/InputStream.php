@@ -30,7 +30,11 @@ class InputStream implements \IteratorAggregate
     /**
      * Sets a callback that is called when the write buffer becomes empty.
      */
+<<<<<<< HEAD
     public function onEmpty(callable $onEmpty = null)
+=======
+    public function onEmpty(?callable $onEmpty = null)
+>>>>>>> main
     {
         $this->onEmpty = $onEmpty;
     }

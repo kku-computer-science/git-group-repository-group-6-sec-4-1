@@ -26,6 +26,10 @@
  * - Nicolás Hock Isaza
  * - Ochirkhuyag
  * - Batmandakh
+<<<<<<< HEAD
+=======
+ * - lucifer-crybaby
+>>>>>>> main
  */
 return [
     'year' => ':count жил',
@@ -43,6 +47,7 @@ return [
     'second' => ':count секунд',
     's' => ':countс',
 
+<<<<<<< HEAD
     'ago' => ':timeн өмнө',
     'year_ago' => ':count жилий',
     'month_ago' => ':count сары',
@@ -55,10 +60,35 @@ return [
     'year_from_now' => ':count жилийн дараа',
     'month_from_now' => ':count сарын дараа',
     'day_from_now' => ':count хоногийн дараа',
+=======
+    'ago_mode' => 'last',
+    'ago' => ':time өмнө',
+    'year_ago' => ':count жилийн',
+    'y_ago' => ':count жилийн',
+    'month_ago' => ':count сарын',
+    'm_ago' => ':count сарын',
+    'day_ago' => ':count хоногийн',
+    'd_ago' => ':count хоногийн',
+    'week_ago' => ':count долоо хоногийн',
+    'w_ago' => ':count долоо хоногийн',
+    'hour_ago' => ':count цагийн',
+    'minute_ago' => ':count минутын',
+    'second_ago' => ':count секундын',
+
+    'from_now_mode' => 'last',
+    'from_now' => 'одоогоос :time',
+    'year_from_now' => ':count жилийн дараа',
+    'y_from_now' => ':count жилийн дараа',
+    'month_from_now' => ':count сарын дараа',
+    'm_from_now' => ':count сарын дараа',
+    'day_from_now' => ':count хоногийн дараа',
+    'd_from_now' => ':count хоногийн дараа',
+>>>>>>> main
     'hour_from_now' => ':count цагийн дараа',
     'minute_from_now' => ':count минутын дараа',
     'second_from_now' => ':count секундын дараа',
 
+<<<<<<< HEAD
     // Does it required to make translation for before, after as follows? hmm, I think we've made it with ago and from now keywords already. Anyway, I've included it just in case of undesired action...
     'after' => ':timeн дараа',
     'year_after' => ':count жилий',
@@ -75,6 +105,31 @@ return [
     'hour_before' => ':count цагий',
     'minute_before' => ':count минуты',
     'second_before' => ':count секунды',
+=======
+    'after_mode' => 'last',
+    'after' => ':time дараа',
+    'year_after' => ':count жилийн',
+    'y_after' => ':count жилийн',
+    'month_after' => ':count сарын',
+    'm_after' => ':count сарын',
+    'day_after' => ':count хоногийн',
+    'd_after' => ':count хоногийн',
+    'hour_after' => ':count цагийн',
+    'minute_after' => ':count минутын',
+    'second_after' => ':count секундын',
+
+    'before_mode' => 'last',
+    'before' => ':time өмнө',
+    'year_before' => ':count жилийн',
+    'y_before' => ':count жилийн',
+    'month_before' => ':count сарын',
+    'm_before' => ':count сарын',
+    'day_before' => ':count хоногийн',
+    'd_before' => ':count хоногийн',
+    'hour_before' => ':count цагийн',
+    'minute_before' => ':count минутын',
+    'second_before' => ':count секундын',
+>>>>>>> main
 
     'list' => ', ',
     'diff_now' => 'одоо',

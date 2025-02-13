@@ -2,7 +2,11 @@
 
 namespace PhpOffice\PhpSpreadsheet\Calculation\Database;
 
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class DGet extends DatabaseAbstract
 {
@@ -36,12 +40,20 @@ class DGet extends DatabaseAbstract
     {
         $field = self::fieldExtract($database, $field);
         if ($field === null) {
+<<<<<<< HEAD
             return null;
+=======
+            return ExcelError::VALUE();
+>>>>>>> main
         }
 
         $columnData = self::getFilteredColumn($database, $field, $criteria);
         if (count($columnData) > 1) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         $row = array_pop($columnData);

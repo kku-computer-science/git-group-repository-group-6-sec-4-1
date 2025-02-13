@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -19,14 +23,25 @@ use Symfony\Component\Console\Input\StringInput;
  */
 class ShellInput extends StringInput
 {
+<<<<<<< HEAD
     private $hasCodeArgument = false;
+=======
+    public const REGEX_STRING = '([^\s]+?)(?:\s|(?<!\\\\)"|(?<!\\\\)\'|$)';
+
+    private bool $hasCodeArgument = false;
+>>>>>>> main
 
     /**
      * Unlike the parent implementation's tokens, this contains an array of
      * token/rest pairs, so that code arguments can be handled while parsing.
      */
+<<<<<<< HEAD
     private $tokenPairs;
     private $parsed;
+=======
+    private array $tokenPairs;
+    private array $parsed = [];
+>>>>>>> main
 
     /**
      * Constructor.
@@ -45,7 +60,11 @@ class ShellInput extends StringInput
      *
      * @throws \InvalidArgumentException if $definition has CodeArgument before the final argument position
      */
+<<<<<<< HEAD
     public function bind(InputDefinition $definition)
+=======
+    public function bind(InputDefinition $definition): void
+>>>>>>> main
     {
         $hasCodeArgument = false;
 
@@ -66,7 +85,11 @@ class ShellInput extends StringInput
 
         $this->hasCodeArgument = $hasCodeArgument;
 
+<<<<<<< HEAD
         return parent::bind($definition);
+=======
+        parent::bind($definition);
+>>>>>>> main
     }
 
     /**
@@ -98,7 +121,11 @@ class ShellInput extends StringInput
                     \stripcslashes(\substr($match[0], 1, \strlen($match[0]) - 2)),
                     \stripcslashes(\substr($input, $cursor)),
                 ];
+<<<<<<< HEAD
             } elseif (\preg_match('/'.StringInput::REGEX_STRING.'/A', $input, $match, 0, $cursor)) {
+=======
+            } elseif (\preg_match('/'.self::REGEX_STRING.'/A', $input, $match, 0, $cursor)) {
+>>>>>>> main
                 $tokens[] = [
                     \stripcslashes($match[1]),
                     \stripcslashes(\substr($input, $cursor)),
@@ -119,7 +146,11 @@ class ShellInput extends StringInput
     /**
      * Same as parent, but with some bonus handling for code arguments.
      */
+<<<<<<< HEAD
     protected function parse()
+=======
+    protected function parse(): void
+>>>>>>> main
     {
         $parseOptions = true;
         $this->parsed = $this->tokenPairs;

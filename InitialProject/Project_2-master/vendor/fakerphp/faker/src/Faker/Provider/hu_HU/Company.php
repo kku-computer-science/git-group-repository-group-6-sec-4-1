@@ -9,5 +9,9 @@ class Company extends \Faker\Provider\Company
         '{{lastName}}',
     ];
 
+<<<<<<< HEAD
     protected static $companySuffix = ['Kft', 'és Tsa', 'Kht', 'ZRT', 'NyRT', 'BT'];
+=======
+    protected static $companySuffix = ['Kft.', 'és Tsa', 'Kht', 'Zrt.', 'Nyrt.', 'Bt.'];
+>>>>>>> main
 }

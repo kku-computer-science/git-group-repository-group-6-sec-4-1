@@ -34,9 +34,17 @@ class DynamoDbLock extends Lock
      */
     public function acquire()
     {
+<<<<<<< HEAD
         return $this->dynamo->add(
             $this->name, $this->owner, $this->seconds
         );
+=======
+        if ($this->seconds > 0) {
+            return $this->dynamo->add($this->name, $this->owner, $this->seconds);
+        } else {
+            return $this->dynamo->add($this->name, $this->owner, 86400);
+        }
+>>>>>>> main
     }
 
     /**

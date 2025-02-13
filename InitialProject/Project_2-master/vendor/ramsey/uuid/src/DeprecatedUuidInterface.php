@@ -18,8 +18,12 @@ use DateTimeInterface;
 use Ramsey\Uuid\Converter\NumberConverterInterface;
 
 /**
+<<<<<<< HEAD
  * This interface encapsulates deprecated methods for ramsey/uuid; this
  * interface and its methods will be removed in ramsey/uuid 5.0.0.
+=======
+ * This interface encapsulates deprecated methods for ramsey/uuid
+>>>>>>> main
  *
  * @psalm-immutable
  */
@@ -124,12 +128,15 @@ interface DeprecatedUuidInterface
     public function getTimestampHex(): string;
 
     /**
+<<<<<<< HEAD
      * @deprecated In ramsey/uuid version 5.0.0, this will be removed from this
      *     interface. It has moved to {@see \Ramsey\Uuid\Rfc4122\UuidInterface::getUrn()}.
      */
     public function getUrn(): string;
 
     /**
+=======
+>>>>>>> main
      * @deprecated Use {@see UuidInterface::getFields()} to get a
      *     {@see FieldsInterface} instance. If it is a
      *     {@see \Ramsey\Uuid\Rfc4122\FieldsInterface} instance, you may call

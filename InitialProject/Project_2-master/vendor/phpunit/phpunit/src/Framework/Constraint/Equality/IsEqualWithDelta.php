@@ -14,6 +14,10 @@ use function trim;
 use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\Comparator\ComparisonFailure;
 use SebastianBergmann\Comparator\Factory as ComparatorFactory;
+<<<<<<< HEAD
+=======
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+>>>>>>> main
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
@@ -62,13 +66,21 @@ final class IsEqualWithDelta extends Constraint
         try {
             $comparator = $comparatorFactory->getComparatorFor(
                 $this->value,
+<<<<<<< HEAD
                 $other
+=======
+                $other,
+>>>>>>> main
             );
 
             $comparator->assertEquals(
                 $this->value,
                 $other,
+<<<<<<< HEAD
                 $this->delta
+=======
+                $this->delta,
+>>>>>>> main
             );
         } catch (ComparisonFailure $f) {
             if ($returnResult) {
@@ -77,7 +89,11 @@ final class IsEqualWithDelta extends Constraint
 
             throw new ExpectationFailedException(
                 trim($description . "\n" . $f->getMessage()),
+<<<<<<< HEAD
                 $f
+=======
+                $f,
+>>>>>>> main
             );
         }
 
@@ -87,14 +103,24 @@ final class IsEqualWithDelta extends Constraint
     /**
      * Returns a string representation of the constraint.
      *
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     public function toString(): string
     {
         return sprintf(
+<<<<<<< HEAD
             'is equal to %s with delta <%F>>',
             $this->exporter()->export($this->value),
             $this->delta
+=======
+            'is equal to %s with delta <%F>',
+            $this->exporter()->export($this->value),
+            $this->delta,
+>>>>>>> main
         );
     }
 }

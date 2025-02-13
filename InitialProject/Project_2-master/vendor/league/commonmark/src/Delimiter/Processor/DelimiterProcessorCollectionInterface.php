@@ -19,6 +19,11 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Delimiter\Processor;
 
+<<<<<<< HEAD
+=======
+use League\CommonMark\Exception\InvalidArgumentException;
+
+>>>>>>> main
 interface DelimiterProcessorCollectionInterface extends \Countable
 {
     /**
@@ -26,7 +31,11 @@ interface DelimiterProcessorCollectionInterface extends \Countable
      *
      * @param DelimiterProcessorInterface $processor The delim processor to add
      *
+<<<<<<< HEAD
      * @throws \InvalidArgumentException Exception will be thrown if attempting to add multiple processors for the same character
+=======
+     * @throws InvalidArgumentException Exception will be thrown if attempting to add multiple processors for the same character
+>>>>>>> main
      */
     public function add(DelimiterProcessorInterface $processor): void;
 

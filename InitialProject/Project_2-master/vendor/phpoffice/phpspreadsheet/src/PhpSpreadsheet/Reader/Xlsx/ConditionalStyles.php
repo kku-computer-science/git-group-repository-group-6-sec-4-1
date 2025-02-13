@@ -10,11 +10,22 @@ use PhpOffice\PhpSpreadsheet\Style\ConditionalFormatting\ConditionalFormatValueO
 use PhpOffice\PhpSpreadsheet\Style\Style as Style;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use SimpleXMLElement;
+<<<<<<< HEAD
 
 class ConditionalStyles
 {
     private $worksheet;
 
+=======
+use stdClass;
+
+class ConditionalStyles
+{
+    /** @var Worksheet */
+    private $worksheet;
+
+    /** @var SimpleXMLElement */
+>>>>>>> main
     private $worksheetXml;
 
     /**
@@ -22,6 +33,10 @@ class ConditionalStyles
      */
     private $ns;
 
+<<<<<<< HEAD
+=======
+    /** @var array */
+>>>>>>> main
     private $dxfs;
 
     public function __construct(Worksheet $workSheet, SimpleXMLElement $worksheetXml, array $dxfs = [])
@@ -33,19 +48,39 @@ class ConditionalStyles
 
     public function load(): void
     {
+<<<<<<< HEAD
+=======
+        $selectedCells = $this->worksheet->getSelectedCells();
+
+>>>>>>> main
         $this->setConditionalStyles(
             $this->worksheet,
             $this->readConditionalStyles($this->worksheetXml),
             $this->worksheetXml->extLst
         );
+<<<<<<< HEAD
+=======
+
+        $this->worksheet->setSelectedCells($selectedCells);
+>>>>>>> main
     }
 
     public function loadFromExt(StyleReader $styleReader): void
     {
+<<<<<<< HEAD
+=======
+        $selectedCells = $this->worksheet->getSelectedCells();
+
+>>>>>>> main
         $this->ns = $this->worksheetXml->getNamespaces(true);
         $this->setConditionalsFromExt(
             $this->readConditionalsFromExt($this->worksheetXml->extLst, $styleReader)
         );
+<<<<<<< HEAD
+=======
+
+        $this->worksheet->setSelectedCells($selectedCells);
+>>>>>>> main
     }
 
     private function setConditionalsFromExt(array $conditionals): void
@@ -146,12 +181,20 @@ class ConditionalStyles
         return $cfStyle;
     }
 
+<<<<<<< HEAD
     private function readConditionalStyles($xmlSheet): array
+=======
+    private function readConditionalStyles(SimpleXMLElement $xmlSheet): array
+>>>>>>> main
     {
         $conditionals = [];
         foreach ($xmlSheet->conditionalFormatting as $conditional) {
             foreach ($conditional->cfRule as $cfRule) {
+<<<<<<< HEAD
                 if (Conditional::isValidConditionType((string) $cfRule['type']) && isset($this->dxfs[(int) ($cfRule['dxfId'])])) {
+=======
+                if (Conditional::isValidConditionType((string) $cfRule['type']) && (!isset($cfRule['dxfId']) || isset($this->dxfs[(int) ($cfRule['dxfId'])]))) {
+>>>>>>> main
                     $conditionals[(string) $conditional['sqref']][(int) ($cfRule['priority'])] = $cfRule;
                 } elseif ((string) $cfRule['type'] == Conditional::CONDITION_DATABAR) {
                     $conditionals[(string) $conditional['sqref']][(int) ($cfRule['priority'])] = $cfRule;
@@ -162,7 +205,11 @@ class ConditionalStyles
         return $conditionals;
     }
 
+<<<<<<< HEAD
     private function setConditionalStyles(Worksheet $worksheet, array $conditionals, $xmlExtLst): void
+=======
+    private function setConditionalStyles(Worksheet $worksheet, array $conditionals, SimpleXMLElement $xmlExtLst): void
+>>>>>>> main
     {
         foreach ($conditionals as $cellRangeReference => $cfRules) {
             ksort($cfRules);
@@ -176,7 +223,11 @@ class ConditionalStyles
         }
     }
 
+<<<<<<< HEAD
     private function readStyleRules($cfRules, $extLst)
+=======
+    private function readStyleRules(array $cfRules, SimpleXMLElement $extLst): array
+>>>>>>> main
     {
         $conditionalFormattingRuleExtensions = ConditionalFormattingRuleExtension::parseExtLstXml($extLst);
         $conditionalStyles = [];
@@ -185,6 +236,10 @@ class ConditionalStyles
             $objConditional = new Conditional();
             $objConditional->setConditionType((string) $cfRule['type']);
             $objConditional->setOperatorType((string) $cfRule['operator']);
+<<<<<<< HEAD
+=======
+            $objConditional->setNoFormatSet(!isset($cfRule['dxfId']));
+>>>>>>> main
 
             if ((string) $cfRule['text'] != '') {
                 $objConditional->setText((string) $cfRule['text']);
@@ -196,19 +251,41 @@ class ConditionalStyles
                 $objConditional->setStopIfTrue(true);
             }
 
+<<<<<<< HEAD
             if (count($cfRule->formula) > 1) {
                 foreach ($cfRule->formula as $formula) {
                     $objConditional->addCondition((string) $formula);
                 }
             } else {
                 $objConditional->addCondition((string) $cfRule->formula);
+=======
+            if (count($cfRule->formula) >= 1) {
+                foreach ($cfRule->formula as $formulax) {
+                    $formula = (string) $formulax;
+                    if ($formula === 'TRUE') {
+                        $objConditional->addCondition(true);
+                    } elseif ($formula === 'FALSE') {
+                        $objConditional->addCondition(false);
+                    } else {
+                        $objConditional->addCondition($formula);
+                    }
+                }
+            } else {
+                $objConditional->addCondition('');
+>>>>>>> main
             }
 
             if (isset($cfRule->dataBar)) {
                 $objConditional->setDataBar(
+<<<<<<< HEAD
                     $this->readDataBarOfConditionalRule($cfRule, $conditionalFormattingRuleExtensions)
                 );
             } else {
+=======
+                    $this->readDataBarOfConditionalRule($cfRule, $conditionalFormattingRuleExtensions) // @phpstan-ignore-line
+                );
+            } elseif (isset($cfRule['dxfId'])) {
+>>>>>>> main
                 $objConditional->setStyle(clone $this->dxfs[(int) ($cfRule['dxfId'])]);
             }
 
@@ -218,7 +295,14 @@ class ConditionalStyles
         return $conditionalStyles;
     }
 
+<<<<<<< HEAD
     private function readDataBarOfConditionalRule($cfRule, $conditionalFormattingRuleExtensions): ConditionalDataBar
+=======
+    /**
+     * @param SimpleXMLElement|stdClass $cfRule
+     */
+    private function readDataBarOfConditionalRule($cfRule, array $conditionalFormattingRuleExtensions): ConditionalDataBar
+>>>>>>> main
     {
         $dataBar = new ConditionalDataBar();
         //dataBar attribute
@@ -250,7 +334,14 @@ class ConditionalStyles
         return $dataBar;
     }
 
+<<<<<<< HEAD
     private function readDataBarExtLstOfConditionalRule(ConditionalDataBar $dataBar, $cfRule, $conditionalFormattingRuleExtensions): void
+=======
+    /**
+     * @param SimpleXMLElement|stdClass $cfRule
+     */
+    private function readDataBarExtLstOfConditionalRule(ConditionalDataBar $dataBar, $cfRule, array $conditionalFormattingRuleExtensions): void
+>>>>>>> main
     {
         if (isset($cfRule->extLst)) {
             $ns = $cfRule->extLst->getNamespaces(true);

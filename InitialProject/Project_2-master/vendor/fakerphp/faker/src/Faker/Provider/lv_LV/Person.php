@@ -2,7 +2,10 @@
 
 namespace Faker\Provider\lv_LV;
 
+<<<<<<< HEAD
 use Faker\Calculator\Luhn;
+=======
+>>>>>>> main
 use Faker\Provider\DateTime;
 
 class Person extends \Faker\Provider\Person
@@ -135,21 +138,57 @@ class Person extends \Faker\Provider\Person
      *
      * @see https://en.wikipedia.org/wiki/National_identification_number#Latvia
      *
+<<<<<<< HEAD
      * @param \DateTime $birthdate
      *
      * @return string on format XXXXXX-XXXXX
      */
     public function personalIdentityNumber(\DateTime $birthdate = null)
+=======
+     * @return string on format XXXXXX-XXXXX
+     */
+    public function personalIdentityNumber(?\DateTime $birthdate = null)
+>>>>>>> main
     {
         if (!$birthdate) {
             $birthdate = DateTime::dateTimeThisCentury();
         }
 
+<<<<<<< HEAD
         $datePart = $birthdate->format('dmy');
         $randomDigits = (string) static::numerify('####');
 
         $checksum = Luhn::computeCheckDigit($datePart . $randomDigits);
 
         return $datePart . '-' . $randomDigits . $checksum;
+=======
+        $year = $birthdate->format('Y');
+
+        if ($year >= 2000 && $year <= 2099) {
+            $century = 2;
+        } elseif ($year >= 1900 && $year <= 1999) {
+            $century = 1;
+        } else {
+            $century = 0;
+        }
+
+        $datePart = $birthdate->format('dmy');
+        $serialNumber = static::numerify('###');
+
+        $partialNumberSplit = str_split($datePart . $century . $serialNumber);
+
+        $idDigitValidator = [1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+        $total = 0;
+
+        foreach ($partialNumberSplit as $key => $digit) {
+            if (isset($idDigitValidator[$key])) {
+                $total += $idDigitValidator[$key] * (int) $digit;
+            }
+        }
+
+        $checksumDigit = (1101 - $total) % 11 % 10;
+
+        return $datePart . '-' . $century . $serialNumber . $checksumDigit;
+>>>>>>> main
     }
 }

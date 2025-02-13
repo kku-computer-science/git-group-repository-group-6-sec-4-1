@@ -7,6 +7,13 @@ use Sabberworm\CSS\Parsing\ParserState;
 use Sabberworm\CSS\Parsing\UnexpectedEOFException;
 use Sabberworm\CSS\Parsing\UnexpectedTokenException;
 
+<<<<<<< HEAD
+=======
+/**
+ * `Color's can be input in the form #rrggbb, #rgb or schema(val1, val2, …) but are always stored as an array of
+ * ('s' => val1, 'c' => val2, 'h' => val3, …) and output in the second form.
+ */
+>>>>>>> main
 class Color extends CSSFunction
 {
     /**
@@ -19,12 +26,22 @@ class Color extends CSSFunction
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * @param ParserState $oParserState
+     * @param bool $bIgnoreCase
+     *
+>>>>>>> main
      * @return Color|CSSFunction
      *
      * @throws UnexpectedEOFException
      * @throws UnexpectedTokenException
      */
+<<<<<<< HEAD
     public static function parse(ParserState $oParserState)
+=======
+    public static function parse(ParserState $oParserState, $bIgnoreCase = false)
+>>>>>>> main
     {
         $aColor = [];
         if ($oParserState->comes('#')) {
@@ -49,12 +66,26 @@ class Color extends CSSFunction
                         $oParserState->currentLine()
                     ),
                 ];
+<<<<<<< HEAD
             } else {
+=======
+            } elseif ($oParserState->strlen($sValue) === 6) {
+>>>>>>> main
                 $aColor = [
                     'r' => new Size(intval($sValue[0] . $sValue[1], 16), null, true, $oParserState->currentLine()),
                     'g' => new Size(intval($sValue[2] . $sValue[3], 16), null, true, $oParserState->currentLine()),
                     'b' => new Size(intval($sValue[4] . $sValue[5], 16), null, true, $oParserState->currentLine()),
                 ];
+<<<<<<< HEAD
+=======
+            } else {
+                throw new UnexpectedTokenException(
+                    'Invalid hex color value',
+                    $sValue,
+                    'custom',
+                    $oParserState->currentLine()
+                );
+>>>>>>> main
             }
         } else {
             $sColorMode = $oParserState->parseIdentifier(true);
@@ -146,9 +177,17 @@ class Color extends CSSFunction
     }
 
     /**
+<<<<<<< HEAD
      * @return string
      */
     public function render(OutputFormat $oOutputFormat)
+=======
+     * @param OutputFormat|null $oOutputFormat
+     *
+     * @return string
+     */
+    public function render($oOutputFormat)
+>>>>>>> main
     {
         // Shorthand RGB color values
         if ($oOutputFormat->getRGBHashNotation() && implode('', array_keys($this->aComponents)) === 'rgb') {

@@ -32,7 +32,11 @@ class Disk
      * @param  string|null  $name
      * @param  array  $diskOptions
      */
+<<<<<<< HEAD
     public function __construct(IlluminateFilesystem $disk, string $name = null, array $diskOptions = [])
+=======
+    public function __construct(IlluminateFilesystem $disk, ?string $name = null, array $diskOptions = [])
+>>>>>>> main
     {
         $this->disk        = $disk;
         $this->name        = $name;

@@ -1,7 +1,11 @@
 <?php
 /**
  * @package php-font-lib
+<<<<<<< HEAD
  * @link    https://github.com/PhenX/php-font-lib
+=======
+ * @link    https://github.com/dompdf/php-font-lib
+>>>>>>> main
  * @author  Fabien Ménager <fabien.menager@gmail.com>
  * @license http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
  */
@@ -23,6 +27,10 @@ class nameRecord extends BinaryStream {
   public $length;
   public $offset;
   public $string;
+<<<<<<< HEAD
+=======
+  public $stringRaw;
+>>>>>>> main
 
   public static $format = array(
     "platformID"         => self::uint16,

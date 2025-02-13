@@ -84,6 +84,12 @@ final class CallableType extends Type
         return $this->allowsNull;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true CallableType $this
+     */
+>>>>>>> main
     public function isCallable(): bool
     {
         return true;
@@ -140,6 +146,13 @@ final class CallableType extends Type
             return false;
         }
 
+<<<<<<< HEAD
+=======
+        if (!isset($type->value()[0], $type->value()[1])) {
+            return false;
+        }
+
+>>>>>>> main
         if (!is_object($type->value()[0]) || !is_string($type->value()[1])) {
             return false;
         }
@@ -168,6 +181,13 @@ final class CallableType extends Type
                 return false;
             }
 
+<<<<<<< HEAD
+=======
+            if (!isset($type->value()[0], $type->value()[1])) {
+                return false;
+            }
+
+>>>>>>> main
             if (!is_string($type->value()[0]) || !is_string($type->value()[1])) {
                 return false;
             }

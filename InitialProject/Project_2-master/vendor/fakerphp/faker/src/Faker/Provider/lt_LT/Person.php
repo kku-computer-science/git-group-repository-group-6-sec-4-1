@@ -238,7 +238,11 @@ class Person extends \Faker\Provider\Person
      * @see http://www.horoskopai.lt/gaires/populiariausios-pavardes-lietuvoje/
      */
     protected static $lastNameMale = [
+<<<<<<< HEAD
         'Kazlaukas', 'Jankauskas', 'Petrauskas', 'Stankevičius', 'Vasiliauskas', 'Žukauskas', 'Butkus',
+=======
+        'Kazlauskas', 'Jankauskas', 'Petrauskas', 'Stankevičius', 'Vasiliauskas', 'Žukauskas', 'Butkus',
+>>>>>>> main
         'Kateiva', 'Paulauskas', 'Urbonas', 'Kavaliauskas', 'Baranauskas', 'Pocius', 'Sakalauskas',
     ];
 
@@ -325,6 +329,7 @@ class Person extends \Faker\Provider\Person
      * @see https://en.wikipedia.org/wiki/National_identification_number#Lithuania
      * @see https://lt.wikipedia.org/wiki/Asmens_kodas
      *
+<<<<<<< HEAD
      * @param string    $gender       [male|female]
      * @param \DateTime $birthdate
      * @param string    $randomNumber three integers
@@ -332,6 +337,14 @@ class Person extends \Faker\Provider\Person
      * @return string on format XXXXXXXXXXX
      */
     public function personalIdentityNumber($gender = 'male', \DateTime $birthdate = null, $randomNumber = '')
+=======
+     * @param string $gender       [male|female]
+     * @param string $randomNumber three integers
+     *
+     * @return string on format XXXXXXXXXXX
+     */
+    public function personalIdentityNumber($gender = 'male', ?\DateTime $birthdate = null, $randomNumber = '')
+>>>>>>> main
     {
         if (!$birthdate) {
             $birthdate = \Faker\Provider\DateTime::dateTimeThisCentury();

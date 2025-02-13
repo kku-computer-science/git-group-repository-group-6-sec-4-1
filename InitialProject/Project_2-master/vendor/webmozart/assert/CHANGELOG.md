@@ -3,6 +3,26 @@ Changelog
 
 ## UNRELEASED
 
+<<<<<<< HEAD
+=======
+## 1.11.0
+
+### Added
+
+* Added explicit (non magic) `allNullOr*` methods, with `@psalm-assert` annotations, for better Psalm support.
+
+### Changed
+
+* Trait methods will now check the assertion themselves, instead of using `__callStatic`
+* `isList` will now deal correctly with (modified) lists that contain `NaN`
+* `reportInvalidArgument` now has a return type of `never`.
+
+### Removed
+
+* Removed `symfony/polyfill-ctype` as a dependency, and require `ext-cytpe` instead.
+  * You can still require the `symfony/polyfill-ctype` in your project if you need it, as it provides `ext-ctype`
+
+>>>>>>> main
 ## 1.10.0
 
 ### Added

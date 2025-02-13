@@ -31,6 +31,10 @@ namespace PHPSTORM_META
         'html_input',
         'allow_unsafe_links',
         'max_nesting_level',
+<<<<<<< HEAD
+=======
+        'max_delimiters_per_line',
+>>>>>>> main
         'renderer',
         'renderer/block_separator',
         'renderer/inner_separator',
@@ -60,6 +64,11 @@ namespace PHPSTORM_META
         'footnote/footnote_class',
         'footnote/footnote_id_prefix',
         'heading_permalink',
+<<<<<<< HEAD
+=======
+        'heading_permalink/apply_id_to_heading',
+        'heading_permalink/heading_class',
+>>>>>>> main
         'heading_permalink/html_class',
         'heading_permalink/fragment_prefix',
         'heading_permalink/id_prefix',
@@ -83,6 +92,14 @@ namespace PHPSTORM_META
         'table/wrap/attributes',
         'table/wrap/enabled',
         'table/wrap/tag',
+<<<<<<< HEAD
+=======
+        'table/alignment_attributes',
+        'table/alignment_attributes/left',
+        'table/alignment_attributes/center',
+        'table/alignment_attributes/right',
+        'table/max_autocompleted_cells',
+>>>>>>> main
         'table_of_contents',
         'table_of_contents/html_class',
         'table_of_contents/max_heading_level',

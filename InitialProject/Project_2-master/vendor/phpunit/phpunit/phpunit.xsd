@@ -2,7 +2,11 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:annotation>
         <xs:documentation source="https://phpunit.de/documentation.html">
+<<<<<<< HEAD
             This Schema file defines the rules by which the XML configuration file of PHPUnit 9.5 may be structured.
+=======
+            This Schema file defines the rules by which the XML configuration file of PHPUnit 9.6 may be structured.
+>>>>>>> main
         </xs:documentation>
         <xs:appinfo source="https://phpunit.de/documentation.html"/>
     </xs:annotation>
@@ -57,7 +61,11 @@
     </xs:complexType>
     <xs:complexType name="extensionsType">
         <xs:sequence>
+<<<<<<< HEAD
             <xs:element name="extension" type="objectType" maxOccurs="unbounded"/>
+=======
+            <xs:element name="extension" type="objectType" minOccurs="0" maxOccurs="unbounded"/>
+>>>>>>> main
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="listenersType">
@@ -279,8 +287,15 @@
     </xs:complexType>
     <xs:complexType name="testSuiteType">
         <xs:sequence>
+<<<<<<< HEAD
             <xs:group ref="pathGroup"/>
             <xs:element name="exclude" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+=======
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="pathGroup"/>
+                <xs:element name="exclude" type="xs:string"/>
+            </xs:choice>
+>>>>>>> main
         </xs:sequence>
         <xs:attribute name="name" type="xs:string" use="required"/>
     </xs:complexType>

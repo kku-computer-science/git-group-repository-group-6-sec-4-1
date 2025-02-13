@@ -13,6 +13,16 @@ use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\RefreshesPermissionCache;
 
+<<<<<<< HEAD
+=======
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $guard_name
+ * @property ?\Illuminate\Support\Carbon $created_at
+ * @property ?\Illuminate\Support\Carbon $updated_at
+ */
+>>>>>>> main
 class Role extends Model implements RoleContract
 {
     use HasPermissions;
@@ -72,7 +82,11 @@ class Role extends Model implements RoleContract
     public function users(): BelongsToMany
     {
         return $this->morphedByMany(
+<<<<<<< HEAD
             getModelForGuard($this->attributes['guard_name']),
+=======
+            getModelForGuard($this->attributes['guard_name'] ?? config('auth.defaults.guard')),
+>>>>>>> main
             'model',
             config('permission.table_names.model_has_roles'),
             PermissionRegistrar::$pivotRole,
@@ -83,9 +97,13 @@ class Role extends Model implements RoleContract
     /**
      * Find a role by its name and guard name.
      *
+<<<<<<< HEAD
      * @param string $name
      * @param string|null $guardName
      *
+=======
+     * @param  string|null  $guardName
+>>>>>>> main
      * @return \Spatie\Permission\Contracts\Role|\Spatie\Permission\Models\Role
      *
      * @throws \Spatie\Permission\Exceptions\RoleDoesNotExist
@@ -103,11 +121,24 @@ class Role extends Model implements RoleContract
         return $role;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * Find a role by its id (and optionally guardName).
+     *
+     * @param  string|null  $guardName
+     * @return \Spatie\Permission\Contracts\Role|\Spatie\Permission\Models\Role
+     */
+>>>>>>> main
     public static function findById(int $id, $guardName = null): RoleContract
     {
         $guardName = $guardName ?? Guard::getDefaultName(static::class);
 
+<<<<<<< HEAD
         $role = static::findByParam(['id' => $id, 'guard_name' => $guardName]);
+=======
+        $role = static::findByParam([(new static())->getKeyName() => $id, 'guard_name' => $guardName]);
+>>>>>>> main
 
         if (! $role) {
             throw RoleDoesNotExist::withId($id);
@@ -119,10 +150,15 @@ class Role extends Model implements RoleContract
     /**
      * Find or create role by its name (and optionally guardName).
      *
+<<<<<<< HEAD
      * @param string $name
      * @param string|null $guardName
      *
      * @return \Spatie\Permission\Contracts\Role
+=======
+     * @param  string|null  $guardName
+     * @return \Spatie\Permission\Contracts\Role|\Spatie\Permission\Models\Role
+>>>>>>> main
      */
     public static function findOrCreate(string $name, $guardName = null): RoleContract
     {
@@ -159,9 +195,13 @@ class Role extends Model implements RoleContract
     /**
      * Determine if the user may perform the given permission.
      *
+<<<<<<< HEAD
      * @param string|Permission $permission
      *
      * @return bool
+=======
+     * @param  string|Permission  $permission
+>>>>>>> main
      *
      * @throws \Spatie\Permission\Exceptions\GuardDoesNotMatch
      */
@@ -185,6 +225,10 @@ class Role extends Model implements RoleContract
             throw GuardDoesNotMatch::create($permission->guard_name, $this->getGuardNames());
         }
 
+<<<<<<< HEAD
         return $this->permissions->contains('id', $permission->id);
+=======
+        return $this->permissions->contains($permission->getKeyName(), $permission->getKey());
+>>>>>>> main
     }
 }

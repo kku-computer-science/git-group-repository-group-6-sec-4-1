@@ -6,6 +6,9 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+<<<<<<< HEAD
     'Mockery' => array($vendorDir . '/mockery/mockery/library'),
+=======
+>>>>>>> main
     'HTMLPurifier' => array($vendorDir . '/ezyang/htmlpurifier/library'),
 );

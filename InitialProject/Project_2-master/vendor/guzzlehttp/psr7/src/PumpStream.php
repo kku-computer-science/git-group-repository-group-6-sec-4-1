@@ -18,7 +18,11 @@ use Psr\Http\Message\StreamInterface;
  */
 final class PumpStream implements StreamInterface
 {
+<<<<<<< HEAD
     /** @var callable|null */
+=======
+    /** @var callable(int): (string|false|null)|null */
+>>>>>>> main
     private $source;
 
     /** @var int|null */
@@ -34,7 +38,11 @@ final class PumpStream implements StreamInterface
     private $buffer;
 
     /**
+<<<<<<< HEAD
      * @param callable(int): (string|null|false)  $source  Source of the stream data. The callable MAY
+=======
+     * @param callable(int): (string|false|null)  $source  Source of the stream data. The callable MAY
+>>>>>>> main
      *                                                     accept an integer argument used to control the
      *                                                     amount of data to return. The callable MUST
      *                                                     return a string when called, or false|null on error
@@ -60,6 +68,10 @@ final class PumpStream implements StreamInterface
                 throw $e;
             }
             trigger_error(sprintf('%s::__toString exception: %s', self::class, (string) $e), E_USER_ERROR);
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
             return '';
         }
     }
@@ -149,8 +161,11 @@ final class PumpStream implements StreamInterface
     }
 
     /**
+<<<<<<< HEAD
      * {@inheritdoc}
      *
+=======
+>>>>>>> main
      * @return mixed
      */
     public function getMetadata($key = null)
@@ -164,11 +179,20 @@ final class PumpStream implements StreamInterface
 
     private function pump(int $length): void
     {
+<<<<<<< HEAD
         if ($this->source) {
             do {
                 $data = call_user_func($this->source, $length);
                 if ($data === false || $data === null) {
                     $this->source = null;
+=======
+        if ($this->source !== null) {
+            do {
+                $data = ($this->source)($length);
+                if ($data === false || $data === null) {
+                    $this->source = null;
+
+>>>>>>> main
                     return;
                 }
                 $this->buffer->write($data);

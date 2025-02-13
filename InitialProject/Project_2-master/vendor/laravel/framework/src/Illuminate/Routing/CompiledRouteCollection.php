@@ -152,7 +152,11 @@ class CompiledRouteCollection extends AbstractRouteCollection
      */
     protected function requestWithoutTrailingSlash(Request $request)
     {
+<<<<<<< HEAD
         $trimmedRequest = Request::createFromBase($request);
+=======
+        $trimmedRequest = $request->duplicate();
+>>>>>>> main
 
         $parts = explode('?', $request->server->get('REQUEST_URI'), 2);
 
@@ -252,11 +256,15 @@ class CompiledRouteCollection extends AbstractRouteCollection
             })
             ->map(function (Collection $routes) {
                 return $routes->mapWithKeys(function (Route $route) {
+<<<<<<< HEAD
                     if ($domain = $route->getDomain()) {
                         return [$domain.'/'.$route->uri => $route];
                     }
 
                     return [$route->uri => $route];
+=======
+                    return [$route->getDomain().$route->uri => $route];
+>>>>>>> main
                 })->all();
             })
             ->all();

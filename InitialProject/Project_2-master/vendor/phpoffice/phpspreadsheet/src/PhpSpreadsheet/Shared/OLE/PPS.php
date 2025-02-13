@@ -88,7 +88,11 @@ class PPS
     /**
      * Starting block (small or big) for this PPS's data  inside the container.
      *
+<<<<<<< HEAD
      * @var int
+=======
+     * @var ?int
+>>>>>>> main
      */
     public $startBlock;
 
@@ -104,7 +108,11 @@ class PPS
      *
      * @var string
      */
+<<<<<<< HEAD
     public $_data;
+=======
+    public $_data = '';
+>>>>>>> main
 
     /**
      * Array of child PPS's (only used by Root and Dir PPS's).
@@ -123,6 +131,7 @@ class PPS
     /**
      * The constructor.
      *
+<<<<<<< HEAD
      * @param int $No The PPS index
      * @param string $name The PPS name
      * @param int $type The PPS type. Dir, Root or File
@@ -132,10 +141,22 @@ class PPS
      * @param null|float|int $time_1st A timestamp
      * @param null|float|int $time_2nd A timestamp
      * @param string $data The (usually binary) source data of the PPS
+=======
+     * @param ?int $No The PPS index
+     * @param ?string $name The PPS name
+     * @param ?int $type The PPS type. Dir, Root or File
+     * @param ?int $prev The index of the previous PPS
+     * @param ?int $next The index of the next PPS
+     * @param ?int $dir The index of it's first child if this is a Dir or Root PPS
+     * @param null|float|int $time_1st A timestamp
+     * @param null|float|int $time_2nd A timestamp
+     * @param ?string $data The (usually binary) source data of the PPS
+>>>>>>> main
      * @param array $children Array containing children PPS for this PPS
      */
     public function __construct($No, $name, $type, $prev, $next, $dir, $time_1st, $time_2nd, $data, $children)
     {
+<<<<<<< HEAD
         $this->No = $No;
         $this->Name = $name;
         $this->Type = $type;
@@ -151,6 +172,19 @@ class PPS
         } else {
             $this->Size = 0;
         }
+=======
+        $this->No = (int) $No;
+        $this->Name = (string) $name;
+        $this->Type = (int) $type;
+        $this->PrevPps = (int) $prev;
+        $this->NextPps = (int) $next;
+        $this->DirPps = (int) $dir;
+        $this->Time1st = $time_1st ?? 0;
+        $this->Time2nd = $time_2nd ?? 0;
+        $this->_data = (string) $data;
+        $this->children = $children;
+        $this->Size = strlen((string) $data);
+>>>>>>> main
     }
 
     /**
@@ -160,9 +194,15 @@ class PPS
      */
     public function getDataLen()
     {
+<<<<<<< HEAD
         if (!isset($this->_data)) {
             return 0;
         }
+=======
+        //if (!isset($this->_data)) {
+        //    return 0;
+        //}
+>>>>>>> main
 
         return strlen($this->_data);
     }
@@ -220,7 +260,11 @@ class PPS
             $raList[$cnt]->NextPps = 0xFFFFFFFF;
             $raList[$cnt]->DirPps = self::savePpsSetPnt($raList, @$raList[$cnt]->children, $depth++);
         } else {
+<<<<<<< HEAD
             $iPos = floor(count($to_save) / 2);
+=======
+            $iPos = (int) floor(count($to_save) / 2);
+>>>>>>> main
             $aPrev = array_slice($to_save, 0, $iPos);
             $aNext = array_slice($to_save, $iPos + 1);
             $cnt = count($raList);

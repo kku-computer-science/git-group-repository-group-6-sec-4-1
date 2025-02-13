@@ -35,8 +35,13 @@ final class ExtensionHandler
             throw new Exception(
                 sprintf(
                     'Class "%s" does not implement a PHPUnit\Runner\Hook interface',
+<<<<<<< HEAD
                     $extensionConfiguration->className()
                 )
+=======
+                    $extensionConfiguration->className(),
+                ),
+>>>>>>> main
             );
         }
 
@@ -56,8 +61,13 @@ final class ExtensionHandler
             throw new Exception(
                 sprintf(
                     'Class "%s" does not implement the PHPUnit\Framework\TestListener interface',
+<<<<<<< HEAD
                     $listenerConfiguration->className()
                 )
+=======
+                    $listenerConfiguration->className(),
+                ),
+>>>>>>> main
             );
         }
 
@@ -76,8 +86,13 @@ final class ExtensionHandler
         } catch (ReflectionException $e) {
             throw new Exception(
                 $e->getMessage(),
+<<<<<<< HEAD
                 (int) $e->getCode(),
                 $e
+=======
+                $e->getCode(),
+                $e,
+>>>>>>> main
             );
         }
 
@@ -100,6 +115,10 @@ final class ExtensionHandler
         if ($extensionConfiguration->hasSourceFile()) {
             /**
              * @noinspection PhpIncludeInspection
+<<<<<<< HEAD
+=======
+             *
+>>>>>>> main
              * @psalm-suppress UnresolvableInclude
              */
             require_once $extensionConfiguration->sourceFile();
@@ -109,8 +128,13 @@ final class ExtensionHandler
             throw new Exception(
                 sprintf(
                     'Class "%s" does not exist',
+<<<<<<< HEAD
                     $extensionConfiguration->className()
                 )
+=======
+                    $extensionConfiguration->className(),
+                ),
+>>>>>>> main
             );
         }
     }

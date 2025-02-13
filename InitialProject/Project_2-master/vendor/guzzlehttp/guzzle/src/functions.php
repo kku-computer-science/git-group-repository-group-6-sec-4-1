@@ -50,10 +50,17 @@ function debug_resource($value = null)
  *
  * The returned handler is not wrapped by any default middlewares.
  *
+<<<<<<< HEAD
  * @throws \RuntimeException if no viable Handler is available.
  *
  * @return callable(\Psr\Http\Message\RequestInterface, array): \GuzzleHttp\Promise\PromiseInterface Returns the best handler for the given system.
  *
+=======
+ * @return callable(\Psr\Http\Message\RequestInterface, array): \GuzzleHttp\Promise\PromiseInterface Returns the best handler for the given system.
+ *
+ * @throws \RuntimeException if no viable Handler is available.
+ *
+>>>>>>> main
  * @deprecated choose_handler will be removed in guzzlehttp/guzzle:8.0. Use Utils::chooseHandler instead.
  */
 function choose_handler(): callable
@@ -141,7 +148,11 @@ function is_host_in_noproxy(string $host, array $noProxyArray): bool
  *
  * @throws Exception\InvalidArgumentException if the JSON cannot be decoded.
  *
+<<<<<<< HEAD
  * @link https://www.php.net/manual/en/function.json-decode.php
+=======
+ * @see https://www.php.net/manual/en/function.json-decode.php
+>>>>>>> main
  * @deprecated json_decode will be removed in guzzlehttp/guzzle:8.0. Use Utils::jsonDecode instead.
  */
 function json_decode(string $json, bool $assoc = false, int $depth = 512, int $options = 0)
@@ -158,7 +169,11 @@ function json_decode(string $json, bool $assoc = false, int $depth = 512, int $o
  *
  * @throws Exception\InvalidArgumentException if the JSON cannot be encoded.
  *
+<<<<<<< HEAD
  * @link https://www.php.net/manual/en/function.json-encode.php
+=======
+ * @see https://www.php.net/manual/en/function.json-encode.php
+>>>>>>> main
  * @deprecated json_encode will be removed in guzzlehttp/guzzle:8.0. Use Utils::jsonEncode instead.
  */
 function json_encode($value, int $options = 0, int $depth = 512): string

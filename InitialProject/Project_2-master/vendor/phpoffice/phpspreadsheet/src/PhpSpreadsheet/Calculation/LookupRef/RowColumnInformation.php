@@ -3,7 +3,11 @@
 namespace PhpOffice\PhpSpreadsheet\Calculation\LookupRef;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
@@ -50,7 +54,11 @@ class RowColumnInformation
 
         if (is_array($cellAddress)) {
             foreach ($cellAddress as $columnKey => $value) {
+<<<<<<< HEAD
                 $columnKey = preg_replace('/[^a-z]/i', '', $columnKey);
+=======
+                $columnKey = (string) preg_replace('/[^a-z]/i', '', $columnKey);
+>>>>>>> main
 
                 return (int) Coordinate::columnIndexFromString($columnKey);
             }
@@ -66,8 +74,13 @@ class RowColumnInformation
         [, $cellAddress] = Worksheet::extractSheetTitle($cellAddress, true);
         if (strpos($cellAddress, ':') !== false) {
             [$startAddress, $endAddress] = explode(':', $cellAddress);
+<<<<<<< HEAD
             $startAddress = preg_replace('/[^a-z]/i', '', $startAddress);
             $endAddress = preg_replace('/[^a-z]/i', '', $endAddress);
+=======
+            $startAddress = (string) preg_replace('/[^a-z]/i', '', $startAddress);
+            $endAddress = (string) preg_replace('/[^a-z]/i', '', $endAddress);
+>>>>>>> main
 
             return range(
                 (int) Coordinate::columnIndexFromString($startAddress),
@@ -75,7 +88,11 @@ class RowColumnInformation
             );
         }
 
+<<<<<<< HEAD
         $cellAddress = preg_replace('/[^a-z]/i', '', $cellAddress);
+=======
+        $cellAddress = (string) preg_replace('/[^a-z]/i', '', $cellAddress);
+>>>>>>> main
 
         return (int) Coordinate::columnIndexFromString($cellAddress);
     }
@@ -99,7 +116,11 @@ class RowColumnInformation
             return 1;
         }
         if (!is_array($cellAddress)) {
+<<<<<<< HEAD
             return Functions::VALUE();
+=======
+            return ExcelError::VALUE();
+>>>>>>> main
         }
 
         reset($cellAddress);
@@ -159,8 +180,13 @@ class RowColumnInformation
         [, $cellAddress] = Worksheet::extractSheetTitle($cellAddress, true);
         if (strpos($cellAddress, ':') !== false) {
             [$startAddress, $endAddress] = explode(':', $cellAddress);
+<<<<<<< HEAD
             $startAddress = preg_replace('/\D/', '', $startAddress);
             $endAddress = preg_replace('/\D/', '', $endAddress);
+=======
+            $startAddress = (string) preg_replace('/\D/', '', $startAddress);
+            $endAddress = (string) preg_replace('/\D/', '', $endAddress);
+>>>>>>> main
 
             return array_map(
                 function ($value) {
@@ -193,7 +219,11 @@ class RowColumnInformation
             return 1;
         }
         if (!is_array($cellAddress)) {
+<<<<<<< HEAD
             return Functions::VALUE();
+=======
+            return ExcelError::VALUE();
+>>>>>>> main
         }
 
         reset($cellAddress);

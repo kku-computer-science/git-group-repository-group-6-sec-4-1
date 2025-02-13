@@ -21,8 +21,13 @@ final class MatcherAlreadyRegisteredException extends \PHPUnit\Framework\Excepti
         parent::__construct(
             sprintf(
                 'Matcher with id <%s> is already registered',
+<<<<<<< HEAD
                 $id
             )
+=======
+                $id,
+            ),
+>>>>>>> main
         );
     }
 }

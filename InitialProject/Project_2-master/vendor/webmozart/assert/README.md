@@ -43,8 +43,13 @@ Installation
 
 Use [Composer] to install the package:
 
+<<<<<<< HEAD
 ```
 $ composer require webmozart/assert
+=======
+```bash
+composer require webmozart/assert
+>>>>>>> main
 ```
 
 Example

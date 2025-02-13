@@ -32,10 +32,14 @@ use const STR_PAD_LEFT;
  */
 class StaticNodeProvider implements NodeProviderInterface
 {
+<<<<<<< HEAD
     /**
      * @var Hexadecimal
      */
     private $node;
+=======
+    private Hexadecimal $node;
+>>>>>>> main
 
     /**
      * @param Hexadecimal $node The static node value to use

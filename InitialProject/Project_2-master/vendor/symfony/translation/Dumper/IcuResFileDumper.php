@@ -20,6 +20,7 @@ use Symfony\Component\Translation\MessageCatalogue;
  */
 class IcuResFileDumper extends FileDumper
 {
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
@@ -29,6 +30,11 @@ class IcuResFileDumper extends FileDumper
      * {@inheritdoc}
      */
     public function formatCatalogue(MessageCatalogue $messages, string $domain, array $options = [])
+=======
+    protected $relativePathTemplate = '%domain%/%locale%.%extension%';
+
+    public function formatCatalogue(MessageCatalogue $messages, string $domain, array $options = []): string
+>>>>>>> main
     {
         $data = $indexes = $resources = '';
 
@@ -47,7 +53,11 @@ class IcuResFileDumper extends FileDumper
             $data .= pack('V', \strlen($target))
                 .mb_convert_encoding($target."\0", 'UTF-16LE', 'UTF-8')
                 .$this->writePadding($data)
+<<<<<<< HEAD
                   ;
+=======
+            ;
+>>>>>>> main
         }
 
         $resOffset = $this->getPosition($data);
@@ -56,7 +66,11 @@ class IcuResFileDumper extends FileDumper
             .$indexes
             .$this->writePadding($data)
             .$resources
+<<<<<<< HEAD
               ;
+=======
+        ;
+>>>>>>> main
 
         $bundleTop = $this->getPosition($data);
 
@@ -89,15 +103,23 @@ class IcuResFileDumper extends FileDumper
         return $padding ? str_repeat("\xAA", 4 - $padding) : null;
     }
 
+<<<<<<< HEAD
     private function getPosition(string $data)
+=======
+    private function getPosition(string $data): float|int
+>>>>>>> main
     {
         return (\strlen($data) + 28) / 4;
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
     protected function getExtension()
+=======
+    protected function getExtension(): string
+>>>>>>> main
     {
         return 'res';
     }

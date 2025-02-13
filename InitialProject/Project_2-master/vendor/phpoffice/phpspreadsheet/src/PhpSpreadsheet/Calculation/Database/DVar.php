@@ -2,6 +2,10 @@
 
 namespace PhpOffice\PhpSpreadsheet\Calculation\Database;
 
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Variances;
 
 class DVar extends DatabaseAbstract
@@ -30,13 +34,21 @@ class DVar extends DatabaseAbstract
      *                                        the column label in which you specify a condition for the
      *                                        column.
      *
+<<<<<<< HEAD
      * @return null|float|string (string if result is an error)
+=======
+     * @return float|string (string if result is an error)
+>>>>>>> main
      */
     public static function evaluate($database, $field, $criteria)
     {
         $field = self::fieldExtract($database, $field);
         if ($field === null) {
+<<<<<<< HEAD
             return null;
+=======
+            return ExcelError::VALUE();
+>>>>>>> main
         }
 
         return Variances::VAR(

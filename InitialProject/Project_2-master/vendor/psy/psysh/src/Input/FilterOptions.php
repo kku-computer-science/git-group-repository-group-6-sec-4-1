@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -21,10 +25,17 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class FilterOptions
 {
+<<<<<<< HEAD
     private $filter = false;
     private $pattern;
     private $insensitive;
     private $invert;
+=======
+    private bool $filter = false;
+    private ?string $pattern = null;
+    private bool $insensitive = false;
+    private bool $invert = false;
+>>>>>>> main
 
     /**
      * Get input option definitions for filtering.
@@ -73,8 +84,11 @@ class FilterOptions
 
     /**
      * Check whether the bound input has filter options.
+<<<<<<< HEAD
      *
      * @return bool
+=======
+>>>>>>> main
      */
     public function hasFilter(): bool
     {
@@ -86,10 +100,15 @@ class FilterOptions
      *
      * @param string $string
      * @param array  $matches
+<<<<<<< HEAD
      *
      * @return bool
      */
     public function match(string $string, array &$matches = null): bool
+=======
+     */
+    public function match(string $string, ?array &$matches = null): bool
+>>>>>>> main
     {
         return $this->filter === false || (\preg_match($this->pattern, $string, $matches) xor $this->invert);
     }
@@ -116,8 +135,11 @@ class FilterOptions
      * Check whether a string appears to be a regular expression.
      *
      * @param string $string
+<<<<<<< HEAD
      *
      * @return bool
+=======
+>>>>>>> main
      */
     private function stringIsRegex(string $string): bool
     {

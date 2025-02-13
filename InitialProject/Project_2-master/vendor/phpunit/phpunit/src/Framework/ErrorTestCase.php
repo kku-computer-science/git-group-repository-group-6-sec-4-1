@@ -15,17 +15,29 @@ namespace PHPUnit\Framework;
 final class ErrorTestCase extends TestCase
 {
     /**
+<<<<<<< HEAD
      * @var bool
+=======
+     * @var ?bool
+>>>>>>> main
      */
     protected $backupGlobals = false;
 
     /**
+<<<<<<< HEAD
      * @var bool
+=======
+     * @var ?bool
+>>>>>>> main
      */
     protected $backupStaticAttributes = false;
 
     /**
+<<<<<<< HEAD
      * @var bool
+=======
+     * @var ?bool
+>>>>>>> main
      */
     protected $runTestInSeparateProcess = false;
 

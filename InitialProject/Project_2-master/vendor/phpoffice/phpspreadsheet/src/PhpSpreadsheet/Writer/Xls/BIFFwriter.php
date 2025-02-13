@@ -42,7 +42,11 @@ class BIFFwriter
     /**
      * The byte order of this architecture. 0 => little endian, 1 => big endian.
      *
+<<<<<<< HEAD
      * @var int
+=======
+     * @var ?int
+>>>>>>> main
      */
     private static $byteOrder;
 
@@ -175,7 +179,11 @@ class BIFFwriter
     /**
      * Writes Excel EOF record to indicate the end of a BIFF stream.
      */
+<<<<<<< HEAD
     public function writeEof()
+=======
+    public function writeEof(): string
+>>>>>>> main
     {
         $record = 0x000A; // Record identifier
         $length = 0x0000; // Number of bytes to follow

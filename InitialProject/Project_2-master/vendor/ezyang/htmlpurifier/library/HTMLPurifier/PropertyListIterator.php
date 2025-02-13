@@ -29,6 +29,10 @@ class HTMLPurifier_PropertyListIterator extends FilterIterator
     /**
      * @return bool
      */
+<<<<<<< HEAD
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> main
     public function accept()
     {
         $key = $this->getInnerIterator()->key();

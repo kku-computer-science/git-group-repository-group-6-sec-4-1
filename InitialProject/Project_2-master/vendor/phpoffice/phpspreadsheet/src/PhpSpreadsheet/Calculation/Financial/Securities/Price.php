@@ -8,6 +8,10 @@ use PhpOffice\PhpSpreadsheet\Calculation\Financial\Constants as FinancialConstan
 use PhpOffice\PhpSpreadsheet\Calculation\Financial\Coupons;
 use PhpOffice\PhpSpreadsheet\Calculation\Financial\Helpers;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class Price
 {
@@ -69,10 +73,17 @@ class Price
             return $e->getMessage();
         }
 
+<<<<<<< HEAD
         $dsc = Coupons::COUPDAYSNC($settlement, $maturity, $frequency, $basis);
         $e = Coupons::COUPDAYS($settlement, $maturity, $frequency, $basis);
         $n = Coupons::COUPNUM($settlement, $maturity, $frequency, $basis);
         $a = Coupons::COUPDAYBS($settlement, $maturity, $frequency, $basis);
+=======
+        $dsc = (float) Coupons::COUPDAYSNC($settlement, $maturity, $frequency, $basis);
+        $e = (float) Coupons::COUPDAYS($settlement, $maturity, $frequency, $basis);
+        $n = (int) Coupons::COUPNUM($settlement, $maturity, $frequency, $basis);
+        $a = (float) Coupons::COUPDAYBS($settlement, $maturity, $frequency, $basis);
+>>>>>>> main
 
         $baseYF = 1.0 + ($yield / $frequency);
         $rfp = 100 * ($rate / $frequency);
@@ -194,7 +205,11 @@ class Price
             return $e->getMessage();
         }
 
+<<<<<<< HEAD
         $daysPerYear = Functions::scalar(Helpers::daysPerYear(DateTimeExcel\DateParts::year($settlement), $basis));
+=======
+        $daysPerYear = Helpers::daysPerYear(Functions::scalar(DateTimeExcel\DateParts::year($settlement)), $basis);
+>>>>>>> main
         if (!is_numeric($daysPerYear)) {
             return $daysPerYear;
         }
@@ -270,12 +285,20 @@ class Price
         }
 
         if ($investment <= 0) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
         $daysBetweenSettlementAndMaturity = DateTimeExcel\YearFrac::fraction($settlement, $maturity, $basis);
         if (!is_numeric($daysBetweenSettlementAndMaturity)) {
             //    return date error
+<<<<<<< HEAD
             return $daysBetweenSettlementAndMaturity;
+=======
+            return Functions::scalar($daysBetweenSettlementAndMaturity);
+>>>>>>> main
         }
 
         return $investment / (1 - ($discount * $daysBetweenSettlementAndMaturity));

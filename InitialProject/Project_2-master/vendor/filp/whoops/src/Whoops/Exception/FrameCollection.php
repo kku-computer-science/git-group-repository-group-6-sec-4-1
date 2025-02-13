@@ -25,9 +25,12 @@ class FrameCollection implements ArrayAccess, IteratorAggregate, Serializable, C
      */
     private $frames;
 
+<<<<<<< HEAD
     /**
      * @param array $frames
      */
+=======
+>>>>>>> main
     public function __construct(array $frames)
     {
         $this->frames = array_map(function ($frame) {

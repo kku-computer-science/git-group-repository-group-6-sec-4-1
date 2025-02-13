@@ -78,6 +78,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
      */
     private static $freshCache = [];
 
+<<<<<<< HEAD
     public const VERSION = '5.4.7';
     public const VERSION_ID = 50407;
     public const MAJOR_VERSION = 5;
@@ -87,6 +88,17 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
 
     public const END_OF_MAINTENANCE = '11/2024';
     public const END_OF_LIFE = '11/2025';
+=======
+    public const VERSION = '5.4.48';
+    public const VERSION_ID = 50448;
+    public const MAJOR_VERSION = 5;
+    public const MINOR_VERSION = 4;
+    public const RELEASE_VERSION = 48;
+    public const EXTRA_VERSION = '';
+
+    public const END_OF_MAINTENANCE = '11/2024';
+    public const END_OF_LIFE = '02/2029';
+>>>>>>> main
 
     public function __construct(string $environment, bool $debug)
     {
@@ -404,9 +416,15 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
     /**
      * Gets the container class.
      *
+<<<<<<< HEAD
      * @throws \InvalidArgumentException If the generated classname is invalid
      *
      * @return string
+=======
+     * @return string
+     *
+     * @throws \InvalidArgumentException If the generated classname is invalid
+>>>>>>> main
      */
     protected function getContainerClass()
     {
@@ -467,10 +485,15 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
         try {
             is_dir($buildDir) ?: mkdir($buildDir, 0777, true);
 
+<<<<<<< HEAD
             if ($lock = fopen($cachePath.'.lock', 'w')) {
                 flock($lock, \LOCK_EX | \LOCK_NB, $wouldBlock);
 
                 if (!flock($lock, $wouldBlock ? \LOCK_SH : \LOCK_EX)) {
+=======
+            if ($lock = fopen($cachePath.'.lock', 'w+')) {
+                if (!flock($lock, \LOCK_EX | \LOCK_NB, $wouldBlock) && !flock($lock, $wouldBlock ? \LOCK_SH : \LOCK_EX)) {
+>>>>>>> main
                     fclose($lock);
                     $lock = null;
                 } elseif (!is_file($cachePath) || !\is_object($this->container = include $cachePath)) {
@@ -780,7 +803,13 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
             $this->startTime = microtime(true);
         }
         if ($this->debug && !isset($_ENV['SHELL_VERBOSITY']) && !isset($_SERVER['SHELL_VERBOSITY'])) {
+<<<<<<< HEAD
             putenv('SHELL_VERBOSITY=3');
+=======
+            if (\function_exists('putenv')) {
+                putenv('SHELL_VERBOSITY=3');
+            }
+>>>>>>> main
             $_ENV['SHELL_VERBOSITY'] = 3;
             $_SERVER['SHELL_VERBOSITY'] = 3;
         }

@@ -9,6 +9,7 @@
  */
 namespace PHPUnit\Framework\Constraint;
 
+<<<<<<< HEAD
 use const PHP_FLOAT_EPSILON;
 use function abs;
 use function get_class;
@@ -16,11 +17,19 @@ use function is_array;
 use function is_float;
 use function is_infinite;
 use function is_nan;
+=======
+use function get_class;
+use function is_array;
+>>>>>>> main
 use function is_object;
 use function is_string;
 use function sprintf;
 use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\Comparator\ComparisonFailure;
+<<<<<<< HEAD
+=======
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+>>>>>>> main
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
@@ -47,6 +56,7 @@ final class IsIdentical extends Constraint
      * a boolean value instead: true in case of success, false in case of a
      * failure.
      *
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws ExpectationFailedException
      */
@@ -59,6 +69,14 @@ final class IsIdentical extends Constraint
         } else {
             $success = $this->value === $other;
         }
+=======
+     * @throws ExpectationFailedException
+     * @throws InvalidArgumentException
+     */
+    public function evaluate($other, string $description = '', bool $returnResult = false): ?bool
+    {
+        $success = $this->value === $other;
+>>>>>>> main
 
         if ($returnResult) {
             return $success;
@@ -73,7 +91,11 @@ final class IsIdentical extends Constraint
                     $this->value,
                     $other,
                     sprintf("'%s'", $this->value),
+<<<<<<< HEAD
                     sprintf("'%s'", $other)
+=======
+                    sprintf("'%s'", $other),
+>>>>>>> main
                 );
             }
 
@@ -83,7 +105,11 @@ final class IsIdentical extends Constraint
                     $this->value,
                     $other,
                     $this->exporter()->export($this->value),
+<<<<<<< HEAD
                     $this->exporter()->export($other)
+=======
+                    $this->exporter()->export($other),
+>>>>>>> main
                 );
             }
 
@@ -96,7 +122,11 @@ final class IsIdentical extends Constraint
     /**
      * Returns a string representation of the constraint.
      *
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     public function toString(): string
     {
@@ -116,7 +146,11 @@ final class IsIdentical extends Constraint
      *
      * @param mixed $other evaluated value or object
      *
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     protected function failureDescription($other): string
     {

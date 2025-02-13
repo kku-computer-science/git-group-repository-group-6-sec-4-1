@@ -6,11 +6,16 @@ namespace PhpParser\Builder;
 
 use PhpParser;
 use PhpParser\BuilderHelpers;
+<<<<<<< HEAD
+=======
+use PhpParser\Modifiers;
+>>>>>>> main
 use PhpParser\Node;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt;
 
+<<<<<<< HEAD
 class ClassConst implements PhpParser\Builder
 {
     protected $flags = 0;
@@ -19,12 +24,30 @@ class ClassConst implements PhpParser\Builder
 
     /** @var Node\AttributeGroup[] */
     protected $attributeGroups = [];
+=======
+class ClassConst implements PhpParser\Builder {
+    protected int $flags = 0;
+    /** @var array<string, mixed> */
+    protected array $attributes = [];
+    /** @var list<Const_> */
+    protected array $constants = [];
+
+    /** @var list<Node\AttributeGroup> */
+    protected array $attributeGroups = [];
+    /** @var Identifier|Node\Name|Node\ComplexType|null */
+    protected ?Node $type = null;
+>>>>>>> main
 
     /**
      * Creates a class constant builder
      *
+<<<<<<< HEAD
      * @param string|Identifier                          $name  Name
      * @param Node\Expr|bool|null|int|float|string|array $value Value
+=======
+     * @param string|Identifier $name Name
+     * @param Node\Expr|bool|null|int|float|string|array|\UnitEnum $value Value
+>>>>>>> main
      */
     public function __construct($name, $value) {
         $this->constants = [new Const_($name, BuilderHelpers::normalizeValue($value))];
@@ -33,8 +56,13 @@ class ClassConst implements PhpParser\Builder
     /**
      * Add another constant to const group
      *
+<<<<<<< HEAD
      * @param string|Identifier                          $name  Name
      * @param Node\Expr|bool|null|int|float|string|array $value Value
+=======
+     * @param string|Identifier $name Name
+     * @param Node\Expr|bool|null|int|float|string|array|\UnitEnum $value Value
+>>>>>>> main
      *
      * @return $this The builder instance (for fluid interface)
      */
@@ -50,7 +78,11 @@ class ClassConst implements PhpParser\Builder
      * @return $this The builder instance (for fluid interface)
      */
     public function makePublic() {
+<<<<<<< HEAD
         $this->flags = BuilderHelpers::addModifier($this->flags, Stmt\Class_::MODIFIER_PUBLIC);
+=======
+        $this->flags = BuilderHelpers::addModifier($this->flags, Modifiers::PUBLIC);
+>>>>>>> main
 
         return $this;
     }
@@ -61,7 +93,11 @@ class ClassConst implements PhpParser\Builder
      * @return $this The builder instance (for fluid interface)
      */
     public function makeProtected() {
+<<<<<<< HEAD
         $this->flags = BuilderHelpers::addModifier($this->flags, Stmt\Class_::MODIFIER_PROTECTED);
+=======
+        $this->flags = BuilderHelpers::addModifier($this->flags, Modifiers::PROTECTED);
+>>>>>>> main
 
         return $this;
     }
@@ -72,7 +108,11 @@ class ClassConst implements PhpParser\Builder
      * @return $this The builder instance (for fluid interface)
      */
     public function makePrivate() {
+<<<<<<< HEAD
         $this->flags = BuilderHelpers::addModifier($this->flags, Stmt\Class_::MODIFIER_PRIVATE);
+=======
+        $this->flags = BuilderHelpers::addModifier($this->flags, Modifiers::PRIVATE);
+>>>>>>> main
 
         return $this;
     }
@@ -83,7 +123,11 @@ class ClassConst implements PhpParser\Builder
      * @return $this The builder instance (for fluid interface)
      */
     public function makeFinal() {
+<<<<<<< HEAD
         $this->flags = BuilderHelpers::addModifier($this->flags, Stmt\Class_::MODIFIER_FINAL);
+=======
+        $this->flags = BuilderHelpers::addModifier($this->flags, Modifiers::FINAL);
+>>>>>>> main
 
         return $this;
     }
@@ -117,6 +161,22 @@ class ClassConst implements PhpParser\Builder
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Sets the constant type.
+     *
+     * @param string|Node\Name|Identifier|Node\ComplexType $type
+     *
+     * @return $this
+     */
+    public function setType($type) {
+        $this->type = BuilderHelpers::normalizeType($type);
+
+        return $this;
+    }
+
+    /**
+>>>>>>> main
      * Returns the built class node.
      *
      * @return Stmt\ClassConst The built constant node
@@ -126,7 +186,12 @@ class ClassConst implements PhpParser\Builder
             $this->constants,
             $this->flags,
             $this->attributes,
+<<<<<<< HEAD
             $this->attributeGroups
+=======
+            $this->attributeGroups,
+            $this->type
+>>>>>>> main
         );
     }
 }

@@ -4,7 +4,11 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\Statistical;
 
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Calculation\MathTrig;
 use PhpOffice\PhpSpreadsheet\Shared\IntOrFloat;
 
@@ -44,9 +48,24 @@ class Permutations
         }
 
         if ($numObjs < $numInSet) {
+<<<<<<< HEAD
             return Functions::NAN();
         }
         $result = round(MathTrig\Factorial::fact($numObjs) / MathTrig\Factorial::fact($numObjs - $numInSet));
+=======
+            return ExcelError::NAN();
+        }
+        $result1 = MathTrig\Factorial::fact($numObjs);
+        if (is_string($result1)) {
+            return $result1;
+        }
+        $result2 = MathTrig\Factorial::fact($numObjs - $numInSet);
+        if (is_string($result2)) {
+            return $result2;
+        }
+        // phpstan thinks result1 and result2 can be arrays; they can't.
+        $result = round($result1 / $result2); // @phpstan-ignore-line
+>>>>>>> main
 
         return IntOrFloat::evaluate($result);
     }
@@ -80,7 +99,11 @@ class Permutations
         }
 
         if ($numObjs < 0 || $numInSet < 0) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         $result = $numObjs ** $numInSet;

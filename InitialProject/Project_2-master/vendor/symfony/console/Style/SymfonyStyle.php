@@ -61,7 +61,11 @@ class SymfonyStyle extends OutputStyle
      *
      * @param string|array $messages The message to write in the block
      */
+<<<<<<< HEAD
     public function block($messages, string $type = null, string $style = null, string $prefix = ' ', bool $padding = false, bool $escape = true)
+=======
+    public function block($messages, ?string $type = null, ?string $style = null, string $prefix = ' ', bool $padding = false, bool $escape = true)
+>>>>>>> main
     {
         $messages = \is_array($messages) ? array_values($messages) : [$messages];
 
@@ -250,7 +254,11 @@ class SymfonyStyle extends OutputStyle
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function ask(string $question, string $default = null, callable $validator = null)
+=======
+    public function ask(string $question, ?string $default = null, ?callable $validator = null)
+>>>>>>> main
     {
         $question = new Question($question, $default);
         $question->setValidator($validator);
@@ -261,7 +269,11 @@ class SymfonyStyle extends OutputStyle
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function askHidden(string $question, callable $validator = null)
+=======
+    public function askHidden(string $question, ?callable $validator = null)
+>>>>>>> main
     {
         $question = new Question($question);
 
@@ -338,7 +350,11 @@ class SymfonyStyle extends OutputStyle
     /**
      * @see ProgressBar::iterate()
      */
+<<<<<<< HEAD
     public function progressIterate(iterable $iterable, int $max = null): iterable
+=======
+    public function progressIterate(iterable $iterable, ?int $max = null): iterable
+>>>>>>> main
     {
         yield from $this->createProgressBar()->iterate($iterable, $max);
 
@@ -440,18 +456,30 @@ class SymfonyStyle extends OutputStyle
         $chars = substr(str_replace(\PHP_EOL, "\n", $this->bufferedOutput->fetch()), -2);
 
         if (!isset($chars[0])) {
+<<<<<<< HEAD
             $this->newLine(); //empty history, so we should start with a new line.
 
             return;
         }
         //Prepend new line for each non LF chars (This means no blank line was output before)
+=======
+            $this->newLine(); // empty history, so we should start with a new line.
+
+            return;
+        }
+        // Prepend new line for each non LF chars (This means no blank line was output before)
+>>>>>>> main
         $this->newLine(2 - substr_count($chars, "\n"));
     }
 
     private function autoPrependText(): void
     {
         $fetched = $this->bufferedOutput->fetch();
+<<<<<<< HEAD
         //Prepend new line if last char isn't EOL:
+=======
+        // Prepend new line if last char isn't EOL:
+>>>>>>> main
         if (!str_ends_with($fetched, "\n")) {
             $this->newLine();
         }
@@ -463,7 +491,11 @@ class SymfonyStyle extends OutputStyle
         $this->bufferedOutput->write($message, $newLine, $type);
     }
 
+<<<<<<< HEAD
     private function createBlock(iterable $messages, string $type = null, string $style = null, string $prefix = ' ', bool $padding = false, bool $escape = false): array
+=======
+    private function createBlock(iterable $messages, ?string $type = null, ?string $style = null, string $prefix = ' ', bool $padding = false, bool $escape = false): array
+>>>>>>> main
     {
         $indentLength = 0;
         $prefixLength = Helper::width(Helper::removeDecoration($this->getFormatter(), $prefix));

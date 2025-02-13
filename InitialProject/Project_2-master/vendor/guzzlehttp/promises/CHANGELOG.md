@@ -1,5 +1,67 @@
 # CHANGELOG
 
+<<<<<<< HEAD
+=======
+
+## 2.0.4 - 2024-10-17
+
+### Fixed
+
+- Once settled, don't allow further rejection of additional promises
+
+
+## 2.0.3 - 2024-07-18
+
+### Changed
+
+- PHP 8.4 support
+
+
+## 2.0.2 - 2023-12-03
+
+### Changed
+
+- Replaced `call_user_func*` with native calls
+
+
+## 2.0.1 - 2023-08-03
+
+### Changed
+
+- PHP 8.3 support
+
+
+## 2.0.0 - 2023-05-21
+
+### Added
+
+- Added PHP 7 type hints
+
+### Changed
+
+- All previously non-final non-exception classes have been marked as soft-final
+
+### Removed
+
+- Dropped PHP < 7.2 support
+- All functions in the `GuzzleHttp\Promise` namespace
+
+
+## 1.5.3 - 2023-05-21
+
+### Changed
+
+- Removed remaining usage of deprecated functions
+
+
+## 1.5.2 - 2022-08-07
+
+### Changed
+
+- Officially support PHP 8.2
+
+
+>>>>>>> main
 ## 1.5.1 - 2021-10-22
 
 ### Fixed
@@ -7,15 +69,28 @@
 - Revert "Call handler when waiting on fulfilled/rejected Promise"
 - Fix pool memory leak when empty array of promises provided
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ## 1.5.0 - 2021-10-07
 
 ### Changed
 
 - Call handler when waiting on fulfilled/rejected Promise
+<<<<<<< HEAD
 
 ### Fixed
 
 - Fix manually settle promises generated with Utils::task
+=======
+- Officially support PHP 8.1
+
+### Fixed
+
+- Fix manually settle promises generated with `Utils::task`
+
+>>>>>>> main
 
 ## 1.4.1 - 2021-02-18
 
@@ -23,6 +98,10 @@
 
 - Fixed `each_limit` skipping promises and failing
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ## 1.4.0 - 2020-09-30
 
 ### Added

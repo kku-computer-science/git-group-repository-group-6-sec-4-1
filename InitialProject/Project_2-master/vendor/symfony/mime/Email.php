@@ -43,6 +43,13 @@ class Email extends Message
     private $html;
     private $htmlCharset;
     private $attachments = [];
+<<<<<<< HEAD
+=======
+    /**
+     * @var AbstractPart|null
+     */
+    private $cachedBody; // Used to avoid wrong body hash in DKIM signatures with multiple parts (e.g. HTML + TEXT) due to multiple boundaries.
+>>>>>>> main
 
     /**
      * @return $this
@@ -117,6 +124,13 @@ class Email extends Message
      */
     public function from(...$addresses)
     {
+<<<<<<< HEAD
+=======
+        if (!$addresses) {
+            throw new LogicException('"from()" must be called with at least one address.');
+        }
+
+>>>>>>> main
         return $this->setListAddressHeaderBody('From', $addresses);
     }
 
@@ -272,12 +286,24 @@ class Email extends Message
     }
 
     /**
+<<<<<<< HEAD
      * @param resource|string $body
+=======
+     * @param resource|string|null $body
+>>>>>>> main
      *
      * @return $this
      */
     public function text($body, string $charset = 'utf-8')
     {
+<<<<<<< HEAD
+=======
+        if (null !== $body && !\is_string($body) && !\is_resource($body)) {
+            throw new \TypeError(sprintf('The body must be a string, a resource or null (got "%s").', get_debug_type($body)));
+        }
+
+        $this->cachedBody = null;
+>>>>>>> main
         $this->text = $body;
         $this->textCharset = $charset;
 
@@ -304,6 +330,14 @@ class Email extends Message
      */
     public function html($body, string $charset = 'utf-8')
     {
+<<<<<<< HEAD
+=======
+        if (null !== $body && !\is_string($body) && !\is_resource($body)) {
+            throw new \TypeError(sprintf('The body must be a string, a resource or null (got "%s").', get_debug_type($body)));
+        }
+
+        $this->cachedBody = null;
+>>>>>>> main
         $this->html = $body;
         $this->htmlCharset = $charset;
 
@@ -328,8 +362,18 @@ class Email extends Message
      *
      * @return $this
      */
+<<<<<<< HEAD
     public function attach($body, string $name = null, string $contentType = null)
     {
+=======
+    public function attach($body, ?string $name = null, ?string $contentType = null)
+    {
+        if (!\is_string($body) && !\is_resource($body)) {
+            throw new \TypeError(sprintf('The body must be a string or a resource (got "%s").', get_debug_type($body)));
+        }
+
+        $this->cachedBody = null;
+>>>>>>> main
         $this->attachments[] = ['body' => $body, 'name' => $name, 'content-type' => $contentType, 'inline' => false];
 
         return $this;
@@ -338,8 +382,14 @@ class Email extends Message
     /**
      * @return $this
      */
+<<<<<<< HEAD
     public function attachFromPath(string $path, string $name = null, string $contentType = null)
     {
+=======
+    public function attachFromPath(string $path, ?string $name = null, ?string $contentType = null)
+    {
+        $this->cachedBody = null;
+>>>>>>> main
         $this->attachments[] = ['path' => $path, 'name' => $name, 'content-type' => $contentType, 'inline' => false];
 
         return $this;
@@ -350,8 +400,18 @@ class Email extends Message
      *
      * @return $this
      */
+<<<<<<< HEAD
     public function embed($body, string $name = null, string $contentType = null)
     {
+=======
+    public function embed($body, ?string $name = null, ?string $contentType = null)
+    {
+        if (!\is_string($body) && !\is_resource($body)) {
+            throw new \TypeError(sprintf('The body must be a string or a resource (got "%s").', get_debug_type($body)));
+        }
+
+        $this->cachedBody = null;
+>>>>>>> main
         $this->attachments[] = ['body' => $body, 'name' => $name, 'content-type' => $contentType, 'inline' => true];
 
         return $this;
@@ -360,8 +420,14 @@ class Email extends Message
     /**
      * @return $this
      */
+<<<<<<< HEAD
     public function embedFromPath(string $path, string $name = null, string $contentType = null)
     {
+=======
+    public function embedFromPath(string $path, ?string $name = null, ?string $contentType = null)
+    {
+        $this->cachedBody = null;
+>>>>>>> main
         $this->attachments[] = ['path' => $path, 'name' => $name, 'content-type' => $contentType, 'inline' => true];
 
         return $this;
@@ -372,6 +438,10 @@ class Email extends Message
      */
     public function attachPart(DataPart $part)
     {
+<<<<<<< HEAD
+=======
+        $this->cachedBody = null;
+>>>>>>> main
         $this->attachments[] = ['part' => $part];
 
         return $this;
@@ -430,9 +500,19 @@ class Email extends Message
      */
     private function generateBody(): AbstractPart
     {
+<<<<<<< HEAD
         $this->ensureValidity();
 
         [$htmlPart, $attachmentParts, $inlineParts] = $this->prepareParts();
+=======
+        if (null !== $this->cachedBody) {
+            return $this->cachedBody;
+        }
+
+        $this->ensureValidity();
+
+        [$htmlPart, $otherParts, $relatedParts] = $this->prepareParts();
+>>>>>>> main
 
         $part = null === $this->text ? null : new TextPart($this->text, $this->textCharset);
         if (null !== $htmlPart) {
@@ -443,6 +523,7 @@ class Email extends Message
             }
         }
 
+<<<<<<< HEAD
         if ($inlineParts) {
             $part = new RelatedPart($part, ...$inlineParts);
         }
@@ -456,6 +537,21 @@ class Email extends Message
         }
 
         return $part;
+=======
+        if ($relatedParts) {
+            $part = new RelatedPart($part, ...$relatedParts);
+        }
+
+        if ($otherParts) {
+            if ($part) {
+                $part = new MixedPart($part, ...$otherParts);
+            } else {
+                $part = new MixedPart(...$otherParts);
+            }
+        }
+
+        return $this->cachedBody = $part;
+>>>>>>> main
     }
 
     private function prepareParts(): ?array
@@ -463,6 +559,7 @@ class Email extends Message
         $names = [];
         $htmlPart = null;
         $html = $this->html;
+<<<<<<< HEAD
         if (null !== $this->html) {
             $htmlPart = new TextPart($html, $this->htmlCharset, 'html');
             $html = $htmlPart->getBody();
@@ -489,12 +586,58 @@ class Email extends Message
                 continue 2;
             }
             $attachmentParts[] = $this->createDataPart($attachment);
+=======
+        if (null !== $html) {
+            $htmlPart = new TextPart($html, $this->htmlCharset, 'html');
+            $html = $htmlPart->getBody();
+            preg_match_all('(<img\s+[^>]*src\s*=\s*(?:([\'"])cid:(.+?)\\1|cid:([^>\s]+)))i', $html, $names);
+            $names = array_filter(array_unique(array_merge($names[2], $names[3])));
+        }
+
+        // usage of reflection is a temporary workaround for missing getters that will be added in 6.2
+        $nameRef = new \ReflectionProperty(TextPart::class, 'name');
+        $nameRef->setAccessible(true);
+        $otherParts = $relatedParts = [];
+        foreach ($this->attachments as $attachment) {
+            $part = $this->createDataPart($attachment);
+            if (isset($attachment['part'])) {
+                $attachment['name'] = $nameRef->getValue($part);
+            }
+
+            $related = false;
+            foreach ($names as $name) {
+                if ($name !== $attachment['name']) {
+                    continue;
+                }
+                if (isset($relatedParts[$name])) {
+                    continue 2;
+                }
+                $part->setDisposition('inline');
+                $html = str_replace('cid:'.$name, 'cid:'.$part->getContentId(), $html, $count);
+                if ($count) {
+                    $related = true;
+                }
+                $part->setName($part->getContentId());
+
+                break;
+            }
+
+            if ($related) {
+                $relatedParts[$attachment['name']] = $part;
+            } else {
+                $otherParts[] = $part;
+            }
+>>>>>>> main
         }
         if (null !== $htmlPart) {
             $htmlPart = new TextPart($html, $this->htmlCharset, 'html');
         }
 
+<<<<<<< HEAD
         return [$htmlPart, $attachmentParts, array_values($inlineParts)];
+=======
+        return [$htmlPart, $otherParts, array_values($relatedParts)];
+>>>>>>> main
     }
 
     private function createDataPart(array $attachment): DataPart

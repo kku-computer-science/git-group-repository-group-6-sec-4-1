@@ -33,7 +33,11 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
      * @param string|null $foreground The style foreground color name
      * @param string|null $background The style background color name
      */
+<<<<<<< HEAD
     public function __construct(string $foreground = null, string $background = null, array $options = [])
+=======
+    public function __construct(?string $foreground = null, ?string $background = null, array $options = [])
+>>>>>>> main
     {
         $this->color = new Color($this->foreground = $foreground ?: '', $this->background = $background ?: '', $this->options = $options);
     }
@@ -41,7 +45,11 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function setForeground(string $color = null)
+=======
+    public function setForeground(?string $color = null)
+>>>>>>> main
     {
         $this->color = new Color($this->foreground = $color ?: '', $this->background, $this->options);
     }
@@ -49,7 +57,11 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function setBackground(string $color = null)
+=======
+    public function setBackground(?string $color = null)
+>>>>>>> main
     {
         $this->color = new Color($this->foreground, $this->background = $color ?: '', $this->options);
     }
@@ -96,7 +108,12 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
     {
         if (null === $this->handlesHrefGracefully) {
             $this->handlesHrefGracefully = 'JetBrains-JediTerm' !== getenv('TERMINAL_EMULATOR')
+<<<<<<< HEAD
                 && (!getenv('KONSOLE_VERSION') || (int) getenv('KONSOLE_VERSION') > 201100);
+=======
+                && (!getenv('KONSOLE_VERSION') || (int) getenv('KONSOLE_VERSION') > 201100)
+                && !isset($_SERVER['IDEA_INITIAL_DIRECTORY']);
+>>>>>>> main
         }
 
         if (null !== $this->href && $this->handlesHrefGracefully) {

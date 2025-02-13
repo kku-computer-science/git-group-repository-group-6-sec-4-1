@@ -4,7 +4,11 @@ namespace PhpOffice\PhpSpreadsheet\Reader\Xls\Color;
 
 class BIFF5
 {
+<<<<<<< HEAD
     protected static $map = [
+=======
+    private const BIFF5_COLOR_MAP = [
+>>>>>>> main
         0x08 => '000000',
         0x09 => 'FFFFFF',
         0x0A => 'FF0000',
@@ -72,10 +76,14 @@ class BIFF5
      */
     public static function lookup($color)
     {
+<<<<<<< HEAD
         if (isset(self::$map[$color])) {
             return ['rgb' => self::$map[$color]];
         }
 
         return ['rgb' => '000000'];
+=======
+        return ['rgb' => self::BIFF5_COLOR_MAP[$color] ?? '000000'];
+>>>>>>> main
     }
 }

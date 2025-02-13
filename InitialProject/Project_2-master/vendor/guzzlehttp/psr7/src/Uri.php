@@ -25,7 +25,11 @@ class Uri implements UriInterface, \JsonSerializable
     private const HTTP_DEFAULT_HOST = 'localhost';
 
     private const DEFAULT_PORTS = [
+<<<<<<< HEAD
         'http'  => 80,
+=======
+        'http' => 80,
+>>>>>>> main
         'https' => 443,
         'ftp' => 21,
         'gopher' => 70,
@@ -41,14 +45,22 @@ class Uri implements UriInterface, \JsonSerializable
     /**
      * Unreserved characters for use in a regex.
      *
+<<<<<<< HEAD
      * @link https://tools.ietf.org/html/rfc3986#section-2.3
+=======
+     * @see https://datatracker.ietf.org/doc/html/rfc3986#section-2.3
+>>>>>>> main
      */
     private const CHAR_UNRESERVED = 'a-zA-Z0-9_\-\.~';
 
     /**
      * Sub-delims for use in a regex.
      *
+<<<<<<< HEAD
      * @link https://tools.ietf.org/html/rfc3986#section-2.2
+=======
+     * @see https://datatracker.ietf.org/doc/html/rfc3986#section-2.2
+>>>>>>> main
      */
     private const CHAR_SUB_DELIMS = '!\$&\'\(\)\*\+,;=';
     private const QUERY_SEPARATORS_REPLACEMENT = ['=' => '%3D', '&' => '%26'];
@@ -87,6 +99,10 @@ class Uri implements UriInterface, \JsonSerializable
             $this->applyParts($parts);
         }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
     /**
      * UTF-8 aware \parse_url() replacement.
      *
@@ -121,7 +137,11 @@ class Uri implements UriInterface, \JsonSerializable
             $url
         );
 
+<<<<<<< HEAD
         $result = parse_url($prefix . $encodedUrl);
+=======
+        $result = parse_url($prefix.$encodedUrl);
+>>>>>>> main
 
         if ($result === false) {
             return false;
@@ -161,7 +181,11 @@ class Uri implements UriInterface, \JsonSerializable
      * `file:///` is the more common syntax for the file scheme anyway (Chrome for example redirects to
      * that format).
      *
+<<<<<<< HEAD
      * @link https://tools.ietf.org/html/rfc3986#section-5.3
+=======
+     * @see https://datatracker.ietf.org/doc/html/rfc3986#section-5.3
+>>>>>>> main
      */
     public static function composeComponents(?string $scheme, ?string $authority, string $path, ?string $query, ?string $fragment): string
     {
@@ -169,21 +193,41 @@ class Uri implements UriInterface, \JsonSerializable
 
         // weak type checks to also accept null until we can add scalar type hints
         if ($scheme != '') {
+<<<<<<< HEAD
             $uri .= $scheme . ':';
         }
 
         if ($authority != ''|| $scheme === 'file') {
             $uri .= '//' . $authority;
+=======
+            $uri .= $scheme.':';
+        }
+
+        if ($authority != '' || $scheme === 'file') {
+            $uri .= '//'.$authority;
+        }
+
+        if ($authority != '' && $path != '' && $path[0] != '/') {
+            $path = '/'.$path;
+>>>>>>> main
         }
 
         $uri .= $path;
 
         if ($query != '') {
+<<<<<<< HEAD
             $uri .= '?' . $query;
         }
 
         if ($fragment != '') {
             $uri .= '#' . $fragment;
+=======
+            $uri .= '?'.$query;
+        }
+
+        if ($fragment != '') {
+            $uri .= '#'.$fragment;
+>>>>>>> main
         }
 
         return $uri;
@@ -214,7 +258,11 @@ class Uri implements UriInterface, \JsonSerializable
      * @see Uri::isNetworkPathReference
      * @see Uri::isAbsolutePathReference
      * @see Uri::isRelativePathReference
+<<<<<<< HEAD
      * @link https://tools.ietf.org/html/rfc3986#section-4
+=======
+     * @see https://datatracker.ietf.org/doc/html/rfc3986#section-4
+>>>>>>> main
      */
     public static function isAbsolute(UriInterface $uri): bool
     {
@@ -226,7 +274,11 @@ class Uri implements UriInterface, \JsonSerializable
      *
      * A relative reference that begins with two slash characters is termed an network-path reference.
      *
+<<<<<<< HEAD
      * @link https://tools.ietf.org/html/rfc3986#section-4.2
+=======
+     * @see https://datatracker.ietf.org/doc/html/rfc3986#section-4.2
+>>>>>>> main
      */
     public static function isNetworkPathReference(UriInterface $uri): bool
     {
@@ -238,7 +290,11 @@ class Uri implements UriInterface, \JsonSerializable
      *
      * A relative reference that begins with a single slash character is termed an absolute-path reference.
      *
+<<<<<<< HEAD
      * @link https://tools.ietf.org/html/rfc3986#section-4.2
+=======
+     * @see https://datatracker.ietf.org/doc/html/rfc3986#section-4.2
+>>>>>>> main
      */
     public static function isAbsolutePathReference(UriInterface $uri): bool
     {
@@ -253,7 +309,11 @@ class Uri implements UriInterface, \JsonSerializable
      *
      * A relative reference that does not begin with a slash character is termed a relative-path reference.
      *
+<<<<<<< HEAD
      * @link https://tools.ietf.org/html/rfc3986#section-4.2
+=======
+     * @see https://datatracker.ietf.org/doc/html/rfc3986#section-4.2
+>>>>>>> main
      */
     public static function isRelativePathReference(UriInterface $uri): bool
     {
@@ -272,9 +332,15 @@ class Uri implements UriInterface, \JsonSerializable
      * @param UriInterface      $uri  The URI to check
      * @param UriInterface|null $base An optional base URI to compare against
      *
+<<<<<<< HEAD
      * @link https://tools.ietf.org/html/rfc3986#section-4.4
      */
     public static function isSameDocumentReference(UriInterface $uri, UriInterface $base = null): bool
+=======
+     * @see https://datatracker.ietf.org/doc/html/rfc3986#section-4.4
+     */
+    public static function isSameDocumentReference(UriInterface $uri, ?UriInterface $base = null): bool
+>>>>>>> main
     {
         if ($base !== null) {
             $uri = UriResolver::resolve($base, $uri);
@@ -331,8 +397,13 @@ class Uri implements UriInterface, \JsonSerializable
      *
      * It has the same behavior as withQueryValue() but for an associative array of key => value.
      *
+<<<<<<< HEAD
      * @param UriInterface               $uri           URI to use as a base.
      * @param array<string, string|null> $keyValueArray Associative array of key and values
+=======
+     * @param UriInterface    $uri           URI to use as a base.
+     * @param (string|null)[] $keyValueArray Associative array of key and values
+>>>>>>> main
      */
     public static function withQueryValues(UriInterface $uri, array $keyValueArray): UriInterface
     {
@@ -348,7 +419,11 @@ class Uri implements UriInterface, \JsonSerializable
     /**
      * Creates a URI from a hash of `parse_url` components.
      *
+<<<<<<< HEAD
      * @link http://php.net/manual/en/function.parse-url.php
+=======
+     * @see https://www.php.net/manual/en/function.parse-url.php
+>>>>>>> main
      *
      * @throws MalformedUriException If the components do not form a valid URI.
      */
@@ -370,11 +445,19 @@ class Uri implements UriInterface, \JsonSerializable
     {
         $authority = $this->host;
         if ($this->userInfo !== '') {
+<<<<<<< HEAD
             $authority = $this->userInfo . '@' . $authority;
         }
 
         if ($this->port !== null) {
             $authority .= ':' . $this->port;
+=======
+            $authority = $this->userInfo.'@'.$authority;
+        }
+
+        if ($this->port !== null) {
+            $authority .= ':'.$this->port;
+>>>>>>> main
         }
 
         return $authority;
@@ -431,7 +514,11 @@ class Uri implements UriInterface, \JsonSerializable
     {
         $info = $this->filterUserInfoComponent($user);
         if ($password !== null) {
+<<<<<<< HEAD
             $info .= ':' . $this->filterUserInfoComponent($password);
+=======
+            $info .= ':'.$this->filterUserInfoComponent($password);
+>>>>>>> main
         }
 
         if ($this->userInfo === $info) {
@@ -559,7 +646,11 @@ class Uri implements UriInterface, \JsonSerializable
             ? $this->filterQueryAndFragment($parts['fragment'])
             : '';
         if (isset($parts['pass'])) {
+<<<<<<< HEAD
             $this->userInfo .= ':' . $this->filterUserInfoComponent($parts['pass']);
+=======
+            $this->userInfo .= ':'.$this->filterUserInfoComponent($parts['pass']);
+>>>>>>> main
         }
 
         $this->removeDefaultPort();
@@ -591,7 +682,11 @@ class Uri implements UriInterface, \JsonSerializable
         }
 
         return preg_replace_callback(
+<<<<<<< HEAD
             '/(?:[^%' . self::CHAR_UNRESERVED . self::CHAR_SUB_DELIMS . ']+|%(?![A-Fa-f0-9]{2}))/',
+=======
+            '/(?:[^%'.self::CHAR_UNRESERVED.self::CHAR_SUB_DELIMS.']+|%(?![A-Fa-f0-9]{2}))/',
+>>>>>>> main
             [$this, 'rawurlencodeMatchZero'],
             $component
         );
@@ -623,7 +718,11 @@ class Uri implements UriInterface, \JsonSerializable
         }
 
         $port = (int) $port;
+<<<<<<< HEAD
         if (0 > $port || 0xffff < $port) {
+=======
+        if (0 > $port || 0xFFFF < $port) {
+>>>>>>> main
             throw new \InvalidArgumentException(
                 sprintf('Invalid port: %d. Must be between 0 and 65535', $port)
             );
@@ -633,7 +732,11 @@ class Uri implements UriInterface, \JsonSerializable
     }
 
     /**
+<<<<<<< HEAD
      * @param string[] $keys
+=======
+     * @param (string|int)[] $keys
+>>>>>>> main
      *
      * @return string[]
      */
@@ -645,7 +748,13 @@ class Uri implements UriInterface, \JsonSerializable
             return [];
         }
 
+<<<<<<< HEAD
         $decodedKeys = array_map('rawurldecode', $keys);
+=======
+        $decodedKeys = array_map(function ($k): string {
+            return rawurldecode((string) $k);
+        }, $keys);
+>>>>>>> main
 
         return array_filter(explode('&', $current), function ($part) use ($decodedKeys) {
             return !in_array(rawurldecode(explode('=', $part)[0]), $decodedKeys, true);
@@ -660,7 +769,11 @@ class Uri implements UriInterface, \JsonSerializable
         $queryString = strtr($key, self::QUERY_SEPARATORS_REPLACEMENT);
 
         if ($value !== null) {
+<<<<<<< HEAD
             $queryString .= '=' . strtr($value, self::QUERY_SEPARATORS_REPLACEMENT);
+=======
+            $queryString .= '='.strtr($value, self::QUERY_SEPARATORS_REPLACEMENT);
+>>>>>>> main
         }
 
         return $queryString;
@@ -687,7 +800,11 @@ class Uri implements UriInterface, \JsonSerializable
         }
 
         return preg_replace_callback(
+<<<<<<< HEAD
             '/(?:[^' . self::CHAR_UNRESERVED . self::CHAR_SUB_DELIMS . '%:@\/]++|%(?![A-Fa-f0-9]{2}))/',
+=======
+            '/(?:[^'.self::CHAR_UNRESERVED.self::CHAR_SUB_DELIMS.'%:@\/]++|%(?![A-Fa-f0-9]{2}))/',
+>>>>>>> main
             [$this, 'rawurlencodeMatchZero'],
             $path
         );
@@ -707,7 +824,11 @@ class Uri implements UriInterface, \JsonSerializable
         }
 
         return preg_replace_callback(
+<<<<<<< HEAD
             '/(?:[^' . self::CHAR_UNRESERVED . self::CHAR_SUB_DELIMS . '%:@\/\?]++|%(?![A-Fa-f0-9]{2}))/',
+=======
+            '/(?:[^'.self::CHAR_UNRESERVED.self::CHAR_SUB_DELIMS.'%:@\/\?]++|%(?![A-Fa-f0-9]{2}))/',
+>>>>>>> main
             [$this, 'rawurlencodeMatchZero'],
             $str
         );
@@ -731,8 +852,11 @@ class Uri implements UriInterface, \JsonSerializable
             if ($this->scheme === '' && false !== strpos(explode('/', $this->path, 2)[0], ':')) {
                 throw new MalformedUriException('A relative URI must not have a path beginning with a segment containing a colon');
             }
+<<<<<<< HEAD
         } elseif (isset($this->path[0]) && $this->path[0] !== '/') {
             throw new MalformedUriException('The path of a URI with an authority must start with a slash "/" or be empty');
+=======
+>>>>>>> main
         }
     }
 }

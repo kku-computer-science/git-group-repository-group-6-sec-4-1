@@ -2,6 +2,10 @@
 
 namespace PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx\Namespaces;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Shared\XMLWriter;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
@@ -27,13 +31,21 @@ class RelsRibbon extends WriterPart
 
         // Relationships
         $objWriter->startElement('Relationships');
+<<<<<<< HEAD
         $objWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
+=======
+        $objWriter->writeAttribute('xmlns', Namespaces::RELATIONSHIPS);
+>>>>>>> main
         $localRels = $spreadsheet->getRibbonBinObjects('names');
         if (is_array($localRels)) {
             foreach ($localRels as $aId => $aTarget) {
                 $objWriter->startElement('Relationship');
                 $objWriter->writeAttribute('Id', $aId);
+<<<<<<< HEAD
                 $objWriter->writeAttribute('Type', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image');
+=======
+                $objWriter->writeAttribute('Type', Namespaces::IMAGE);
+>>>>>>> main
                 $objWriter->writeAttribute('Target', $aTarget);
                 $objWriter->endElement();
             }

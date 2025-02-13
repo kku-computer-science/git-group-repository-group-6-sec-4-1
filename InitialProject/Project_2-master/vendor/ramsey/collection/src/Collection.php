@@ -76,6 +76,7 @@ namespace Ramsey\Collection;
 class Collection extends AbstractCollection
 {
     /**
+<<<<<<< HEAD
      * The type of elements stored in this collection.
      *
      * A collection's type is immutable once it is set. For this reason, this
@@ -96,6 +97,17 @@ class Collection extends AbstractCollection
     public function __construct(string $collectionType, array $data = [])
     {
         $this->collectionType = $collectionType;
+=======
+     * Constructs a collection object of the specified type, optionally with the
+     * specified data.
+     *
+     * @param string $collectionType The type or class name associated with this
+     *     collection.
+     * @param array<array-key, T> $data The initial items to store in the collection.
+     */
+    public function __construct(private readonly string $collectionType, array $data = [])
+    {
+>>>>>>> main
         parent::__construct($data);
     }
 

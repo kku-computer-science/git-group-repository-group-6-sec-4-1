@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -29,7 +33,11 @@ abstract class AbstractDefaultParametersMatcher extends AbstractContextAwareMatc
 
             $defaultValue = $this->valueToShortString($parameter->getDefaultValue());
 
+<<<<<<< HEAD
             $parametersProcessed[] = "\${$parameter->getName()} = $defaultValue";
+=======
+            $parametersProcessed[] = \sprintf('$%s = %s', $parameter->getName(), $defaultValue);
+>>>>>>> main
         }
 
         if (empty($parametersProcessed)) {
@@ -45,8 +53,11 @@ abstract class AbstractDefaultParametersMatcher extends AbstractContextAwareMatc
      * This is not 100% true to the original (newlines are inlined, for example).
      *
      * @param mixed $value
+<<<<<<< HEAD
      *
      * @return string
+=======
+>>>>>>> main
      */
     private function valueToShortString($value): string
     {

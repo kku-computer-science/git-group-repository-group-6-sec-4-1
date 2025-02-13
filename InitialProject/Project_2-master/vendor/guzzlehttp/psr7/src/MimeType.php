@@ -18,7 +18,11 @@ final class MimeType
         '7zip' => 'application/x-7z-compressed',
         '123' => 'application/vnd.lotus-1-2-3',
         'aab' => 'application/x-authorware-bin',
+<<<<<<< HEAD
         'aac' => 'audio/x-acc',
+=======
+        'aac' => 'audio/aac',
+>>>>>>> main
         'aam' => 'application/x-authorware-map',
         'aas' => 'application/x-authorware-seg',
         'abw' => 'application/x-abiword',
@@ -29,9 +33,17 @@ final class MimeType
         'acu' => 'application/vnd.acucobol',
         'acutc' => 'application/vnd.acucorp',
         'adp' => 'audio/adpcm',
+<<<<<<< HEAD
         'aep' => 'application/vnd.audiograph',
         'afm' => 'application/x-font-type1',
         'afp' => 'application/vnd.ibm.modcap',
+=======
+        'adts' => 'audio/aac',
+        'aep' => 'application/vnd.audiograph',
+        'afm' => 'application/x-font-type1',
+        'afp' => 'application/vnd.ibm.modcap',
+        'age' => 'application/vnd.age',
+>>>>>>> main
         'ahead' => 'application/vnd.ahead.space',
         'ai' => 'application/pdf',
         'aif' => 'audio/x-aiff',
@@ -40,11 +52,23 @@ final class MimeType
         'air' => 'application/vnd.adobe.air-application-installer-package+zip',
         'ait' => 'application/vnd.dvb.ait',
         'ami' => 'application/vnd.amiga.ami',
+<<<<<<< HEAD
+=======
+        'aml' => 'application/automationml-aml+xml',
+        'amlx' => 'application/automationml-amlx+zip',
+>>>>>>> main
         'amr' => 'audio/amr',
         'apk' => 'application/vnd.android.package-archive',
         'apng' => 'image/apng',
         'appcache' => 'text/cache-manifest',
+<<<<<<< HEAD
         'application' => 'application/x-ms-application',
+=======
+        'appinstaller' => 'application/appinstaller',
+        'application' => 'application/x-ms-application',
+        'appx' => 'application/appx',
+        'appxbundle' => 'application/appxbundle',
+>>>>>>> main
         'apr' => 'application/vnd.lotus-approach',
         'arc' => 'application/x-freearc',
         'arj' => 'application/x-arj',
@@ -60,6 +84,11 @@ final class MimeType
         'atomsvc' => 'application/atomsvc+xml',
         'atx' => 'application/vnd.antix.game-component',
         'au' => 'audio/x-au',
+<<<<<<< HEAD
+=======
+        'avci' => 'image/avci',
+        'avcs' => 'image/avcs',
+>>>>>>> main
         'avi' => 'video/x-msvideo',
         'avif' => 'image/avif',
         'aw' => 'application/applixware',
@@ -87,6 +116,10 @@ final class MimeType
         'bpk' => 'application/octet-stream',
         'bpmn' => 'application/octet-stream',
         'bsp' => 'model/vnd.valve.source.compiled-map',
+<<<<<<< HEAD
+=======
+        'btf' => 'image/prs.btif',
+>>>>>>> main
         'btif' => 'image/prs.btif',
         'buffer' => 'application/octet-stream',
         'bz' => 'application/x-bzip',
@@ -138,6 +171,10 @@ final class MimeType
         'cjs' => 'application/node',
         'cla' => 'application/vnd.claymore',
         'class' => 'application/octet-stream',
+<<<<<<< HEAD
+=======
+        'cld' => 'model/vnd.cld',
+>>>>>>> main
         'clkk' => 'application/vnd.crick.clicker.keyboard',
         'clkp' => 'application/vnd.crick.clicker.palette',
         'clkt' => 'application/vnd.crick.clicker.template',
@@ -154,6 +191,10 @@ final class MimeType
         'com' => 'application/x-msdownload',
         'conf' => 'text/plain',
         'cpio' => 'application/x-cpio',
+<<<<<<< HEAD
+=======
+        'cpl' => 'application/cpl+xml',
+>>>>>>> main
         'cpp' => 'text/x-c',
         'cpt' => 'application/mac-compactpro',
         'crd' => 'application/x-mscardfile',
@@ -171,6 +212,10 @@ final class MimeType
         'csv' => 'text/csv',
         'cu' => 'application/cu-seeme',
         'curl' => 'text/vnd.curl',
+<<<<<<< HEAD
+=======
+        'cwl' => 'application/cwl',
+>>>>>>> main
         'cww' => 'application/prs.cww',
         'cxt' => 'application/x-director',
         'cxx' => 'text/x-c',
@@ -193,6 +238,10 @@ final class MimeType
         'der' => 'application/x-x509-ca-cert',
         'dfac' => 'application/vnd.dreamfactory',
         'dgc' => 'application/x-dgc-compressed',
+<<<<<<< HEAD
+=======
+        'dib' => 'image/bmp',
+>>>>>>> main
         'dic' => 'text/x-c',
         'dir' => 'application/x-director',
         'dis' => 'application/vnd.mobius.dis',
@@ -215,6 +264,10 @@ final class MimeType
         'dotx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
         'dp' => 'application/vnd.osgi.dp',
         'dpg' => 'application/vnd.dpgraph',
+<<<<<<< HEAD
+=======
+        'dpx' => 'image/dpx',
+>>>>>>> main
         'dra' => 'audio/vnd.dra',
         'drle' => 'image/dicom-rle',
         'dsc' => 'text/prs.lines.tag',
@@ -251,7 +304,10 @@ final class MimeType
         'eot' => 'application/vnd.ms-fontobject',
         'eps' => 'application/postscript',
         'epub' => 'application/epub+zip',
+<<<<<<< HEAD
         'es' => 'application/ecmascript',
+=======
+>>>>>>> main
         'es3' => 'application/vnd.eszigno3+xml',
         'esa' => 'application/vnd.osgi.subsystem',
         'esf' => 'application/vnd.epson.esf',
@@ -316,6 +372,10 @@ final class MimeType
         'gca' => 'application/x-gca-compressed',
         'gdl' => 'model/vnd.gdl',
         'gdoc' => 'application/vnd.google-apps.document',
+<<<<<<< HEAD
+=======
+        'ged' => 'text/vnd.familysearch.gedcom',
+>>>>>>> main
         'geo' => 'application/vnd.dynageo',
         'geojson' => 'application/geo+json',
         'gex' => 'application/vnd.geometry-explorer',
@@ -443,6 +503,10 @@ final class MimeType
         'jsonld' => 'application/ld+json',
         'jsonml' => 'application/jsonml+json',
         'jsx' => 'text/jsx',
+<<<<<<< HEAD
+=======
+        'jt' => 'model/jt',
+>>>>>>> main
         'jxr' => 'image/jxr',
         'jxra' => 'image/jxra',
         'jxrs' => 'image/jxrs',
@@ -547,7 +611,11 @@ final class MimeType
         'mime' => 'message/rfc822',
         'mj2' => 'video/mj2',
         'mjp2' => 'video/mj2',
+<<<<<<< HEAD
         'mjs' => 'application/javascript',
+=======
+        'mjs' => 'text/javascript',
+>>>>>>> main
         'mk3d' => 'video/x-matroska',
         'mka' => 'audio/x-matroska',
         'mkd' => 'text/x-markdown',
@@ -576,6 +644,10 @@ final class MimeType
         'mpd' => 'application/dash+xml',
         'mpe' => 'video/mpeg',
         'mpeg' => 'video/mpeg',
+<<<<<<< HEAD
+=======
+        'mpf' => 'application/media-policy-dataset+xml',
+>>>>>>> main
         'mpg' => 'video/mpeg',
         'mpg4' => 'video/mp4',
         'mpga' => 'audio/mpeg',
@@ -596,6 +668,11 @@ final class MimeType
         'msg' => 'application/vnd.ms-outlook',
         'msh' => 'model/mesh',
         'msi' => 'application/x-msdownload',
+<<<<<<< HEAD
+=======
+        'msix' => 'application/msix',
+        'msixbundle' => 'application/msixbundle',
+>>>>>>> main
         'msl' => 'application/vnd.mobius.msl',
         'msm' => 'application/octet-stream',
         'msp' => 'application/octet-stream',
@@ -719,6 +796,10 @@ final class MimeType
         'pgm' => 'image/x-portable-graymap',
         'pgn' => 'application/x-chess-pgn',
         'pgp' => 'application/pgp',
+<<<<<<< HEAD
+=======
+        'phar' => 'application/octet-stream',
+>>>>>>> main
         'php' => 'application/x-httpd-php',
         'php3' => 'application/x-httpd-php',
         'php4' => 'application/x-httpd-php',
@@ -753,7 +834,11 @@ final class MimeType
         'pptm' => 'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
         'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
         'pqa' => 'application/vnd.palm',
+<<<<<<< HEAD
         'prc' => 'application/x-pilot',
+=======
+        'prc' => 'model/prc',
+>>>>>>> main
         'pre' => 'application/vnd.lotus-freelance',
         'prf' => 'application/pics-rules',
         'provx' => 'application/provenance+xml',
@@ -768,6 +853,11 @@ final class MimeType
         'pvb' => 'application/vnd.3gpp.pic-bw-var',
         'pwn' => 'application/vnd.3m.post-it-notes',
         'pya' => 'audio/vnd.ms-playready.media.pya',
+<<<<<<< HEAD
+=======
+        'pyo' => 'model/vnd.pytha.pyox',
+        'pyox' => 'model/vnd.pytha.pyox',
+>>>>>>> main
         'pyv' => 'video/vnd.ms-playready.media.pyv',
         'qam' => 'application/vnd.epson.quickanime',
         'qbo' => 'application/vnd.intu.qbo',
@@ -916,10 +1006,18 @@ final class MimeType
         'st' => 'application/vnd.sailingtracker.track',
         'stc' => 'application/vnd.sun.xml.calc.template',
         'std' => 'application/vnd.sun.xml.draw.template',
+<<<<<<< HEAD
+=======
+        'step' => 'application/STEP',
+>>>>>>> main
         'stf' => 'application/vnd.wt.stf',
         'sti' => 'application/vnd.sun.xml.impress.template',
         'stk' => 'application/hyperstudio',
         'stl' => 'model/stl',
+<<<<<<< HEAD
+=======
+        'stp' => 'application/STEP',
+>>>>>>> main
         'stpx' => 'model/step+xml',
         'stpxz' => 'model/step-xml+zip',
         'stpz' => 'model/step+zip',
@@ -993,6 +1091,10 @@ final class MimeType
         'txd' => 'application/vnd.genomatix.tuxedo',
         'txf' => 'application/vnd.mobius.txf',
         'txt' => 'text/plain',
+<<<<<<< HEAD
+=======
+        'u3d' => 'model/u3d',
+>>>>>>> main
         'u8dsn' => 'message/global-delivery-status',
         'u8hdr' => 'message/global-headers',
         'u8mdn' => 'message/global-disposition-notification',
@@ -1005,10 +1107,18 @@ final class MimeType
         'ulx' => 'application/x-glulx',
         'umj' => 'application/vnd.umajin',
         'unityweb' => 'application/vnd.unity',
+<<<<<<< HEAD
+=======
+        'uo' => 'application/vnd.uoml+xml',
+>>>>>>> main
         'uoml' => 'application/vnd.uoml+xml',
         'uri' => 'text/uri-list',
         'uris' => 'text/uri-list',
         'urls' => 'text/uri-list',
+<<<<<<< HEAD
+=======
+        'usda' => 'model/vnd.usda',
+>>>>>>> main
         'usdz' => 'model/vnd.usdz+zip',
         'ustar' => 'application/x-ustar',
         'utz' => 'application/vnd.uiq.theme',
@@ -1088,7 +1198,13 @@ final class MimeType
         'webmanifest' => 'application/manifest+json',
         'webp' => 'image/webp',
         'wg' => 'application/vnd.pmi.widget',
+<<<<<<< HEAD
         'wgt' => 'application/widget',
+=======
+        'wgsl' => 'text/wgsl',
+        'wgt' => 'application/widget',
+        'wif' => 'application/watcherinfo+xml',
+>>>>>>> main
         'wks' => 'application/vnd.ms-works',
         'wm' => 'video/x-ms-wm',
         'wma' => 'audio/x-ms-wma',
@@ -1141,9 +1257,16 @@ final class MimeType
         'xel' => 'application/xcap-el+xml',
         'xenc' => 'application/xenc+xml',
         'xer' => 'application/patch-ops-error+xml',
+<<<<<<< HEAD
         'xfdf' => 'application/vnd.adobe.xfdf',
         'xfdl' => 'application/vnd.xfdl',
         'xht' => 'application/xhtml+xml',
+=======
+        'xfdf' => 'application/xfdf',
+        'xfdl' => 'application/vnd.xfdl',
+        'xht' => 'application/xhtml+xml',
+        'xhtm' => 'application/vnd.pwg-xhtml-print+xml',
+>>>>>>> main
         'xhtml' => 'application/xhtml+xml',
         'xhvml' => 'application/xv+xml',
         'xif' => 'image/vnd.xiff',
@@ -1174,6 +1297,10 @@ final class MimeType
         'xpw' => 'application/vnd.intercon.formnet',
         'xpx' => 'application/vnd.intercon.formnet',
         'xsd' => 'application/xml',
+<<<<<<< HEAD
+=======
+        'xsf' => 'application/prs.xsf+xml',
+>>>>>>> main
         'xsl' => 'application/xml',
         'xslt' => 'application/xslt+xml',
         'xsm' => 'application/vnd.syncml+xml',
@@ -1209,7 +1336,11 @@ final class MimeType
     /**
      * Determines the mimetype of a file by looking at its extension.
      *
+<<<<<<< HEAD
      * @link https://raw.githubusercontent.com/jshttp/mime-db/master/db.json
+=======
+     * @see https://raw.githubusercontent.com/jshttp/mime-db/master/db.json
+>>>>>>> main
      */
     public static function fromFilename(string $filename): ?string
     {
@@ -1219,7 +1350,11 @@ final class MimeType
     /**
      * Maps a file extensions to a mimetype.
      *
+<<<<<<< HEAD
      * @link https://raw.githubusercontent.com/jshttp/mime-db/master/db.json
+=======
+     * @see https://raw.githubusercontent.com/jshttp/mime-db/master/db.json
+>>>>>>> main
      */
     public static function fromExtension(string $extension): ?string
     {

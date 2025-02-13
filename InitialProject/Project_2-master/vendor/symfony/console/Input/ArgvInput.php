@@ -43,7 +43,11 @@ class ArgvInput extends Input
     private $tokens;
     private $parsed;
 
+<<<<<<< HEAD
     public function __construct(array $argv = null, InputDefinition $definition = null)
+=======
+    public function __construct(?array $argv = null, ?InputDefinition $definition = null)
+>>>>>>> main
     {
         $argv = $argv ?? $_SERVER['argv'] ?? [];
 

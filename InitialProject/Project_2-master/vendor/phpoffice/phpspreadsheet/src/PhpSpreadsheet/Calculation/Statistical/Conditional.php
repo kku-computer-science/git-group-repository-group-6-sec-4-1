@@ -7,6 +7,10 @@ use PhpOffice\PhpSpreadsheet\Calculation\Database\DCount;
 use PhpOffice\PhpSpreadsheet\Calculation\Database\DMax;
 use PhpOffice\PhpSpreadsheet\Calculation\Database\DMin;
 use PhpOffice\PhpSpreadsheet\Calculation\Database\DSum;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Exception as CalcException;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
 
 class Conditional
@@ -23,14 +27,26 @@ class Conditional
      * Excel Function:
      *        AVERAGEIF(range,condition[, average_range])
      *
+<<<<<<< HEAD
      * @param mixed[] $range Data values
      * @param string $condition the criteria that defines which cells will be checked
      * @param mixed[] $averageRange Data values
+=======
+     * @param mixed $range Data values
+     * @param string $condition the criteria that defines which cells will be checked
+     * @param mixed $averageRange Data values
+>>>>>>> main
      *
      * @return null|float|string
      */
     public static function AVERAGEIF($range, $condition, $averageRange = [])
     {
+<<<<<<< HEAD
+=======
+        if (!is_array($range) || !is_array($averageRange) || array_key_exists(0, $range) || array_key_exists(0, $averageRange)) {
+            throw new CalcException('Must specify range of cells, not any kind of literal');
+        }
+>>>>>>> main
         $database = self::databaseFromRangeAndValue($range, $averageRange);
         $condition = [[self::CONDITION_COLUMN_NAME, self::VALUE_COLUMN_NAME], [$condition, null]];
 
@@ -56,6 +72,14 @@ class Conditional
         } elseif (count($args) === 3) {
             return self::AVERAGEIF($args[1], $args[2], $args[0]);
         }
+<<<<<<< HEAD
+=======
+        foreach ($args as $arg) {
+            if (is_array($arg) && array_key_exists(0, $arg)) {
+                throw new CalcException('Must specify range of cells, not any kind of literal');
+            }
+        }
+>>>>>>> main
 
         $conditions = self::buildConditionSetForValueRange(...$args);
         $database = self::buildDatabaseWithValueRange(...$args);
@@ -74,7 +98,11 @@ class Conditional
      * @param mixed[] $range Data values
      * @param string $condition the criteria that defines which cells will be counted
      *
+<<<<<<< HEAD
      * @return int
+=======
+     * @return int|string
+>>>>>>> main
      */
     public static function COUNTIF($range, $condition)
     {
@@ -89,7 +117,11 @@ class Conditional
         $range = array_merge([[self::CONDITION_COLUMN_NAME]], array_chunk($range, 1));
         $condition = array_merge([[self::CONDITION_COLUMN_NAME]], [[$condition]]);
 
+<<<<<<< HEAD
         return DCount::evaluate($range, null, $condition);
+=======
+        return DCount::evaluate($range, null, $condition, false);
+>>>>>>> main
     }
 
     /**
@@ -102,7 +134,11 @@ class Conditional
      *
      * @param mixed $args Pairs of Ranges and Criteria
      *
+<<<<<<< HEAD
      * @return int
+=======
+     * @return int|string
+>>>>>>> main
      */
     public static function COUNTIFS(...$args)
     {
@@ -115,7 +151,11 @@ class Conditional
         $database = self::buildDatabase(...$args);
         $conditions = self::buildConditionSet(...$args);
 
+<<<<<<< HEAD
         return DCount::evaluate($database, null, $conditions);
+=======
+        return DCount::evaluate($database, null, $conditions, false);
+>>>>>>> main
     }
 
     /**
@@ -139,7 +179,11 @@ class Conditional
         $conditions = self::buildConditionSetForValueRange(...$args);
         $database = self::buildDatabaseWithValueRange(...$args);
 
+<<<<<<< HEAD
         return DMax::evaluate($database, self::VALUE_COLUMN_NAME, $conditions);
+=======
+        return DMax::evaluate($database, self::VALUE_COLUMN_NAME, $conditions, false);
+>>>>>>> main
     }
 
     /**
@@ -163,7 +207,11 @@ class Conditional
         $conditions = self::buildConditionSetForValueRange(...$args);
         $database = self::buildDatabaseWithValueRange(...$args);
 
+<<<<<<< HEAD
         return DMin::evaluate($database, self::VALUE_COLUMN_NAME, $conditions);
+=======
+        return DMin::evaluate($database, self::VALUE_COLUMN_NAME, $conditions, false);
+>>>>>>> main
     }
 
     /**
@@ -178,7 +226,11 @@ class Conditional
      * @param mixed $sumRange
      * @param mixed $condition
      *
+<<<<<<< HEAD
      * @return float|string
+=======
+     * @return null|float|string
+>>>>>>> main
      */
     public static function SUMIF($range, $condition, $sumRange = [])
     {
@@ -214,13 +266,25 @@ class Conditional
         return DSum::evaluate($database, self::VALUE_COLUMN_NAME, $conditions);
     }
 
+<<<<<<< HEAD
+=======
+    /** @param array $args */
+>>>>>>> main
     private static function buildConditionSet(...$args): array
     {
         $conditions = self::buildConditions(1, ...$args);
 
+<<<<<<< HEAD
         return array_map(null, ...$conditions);
     }
 
+=======
+        // Scrutinizer thinks first parameter of array_map can't be null. It is wrong.
+        return array_map(/** @scrutinizer ignore-type */ null, ...$conditions);
+    }
+
+    /** @param array $args */
+>>>>>>> main
     private static function buildConditionSetForValueRange(...$args): array
     {
         $conditions = self::buildConditions(2, ...$args);
@@ -234,9 +298,16 @@ class Conditional
             );
         }
 
+<<<<<<< HEAD
         return array_map(null, ...$conditions);
     }
 
+=======
+        return array_map(/** @scrutinizer ignore-type */ null, ...$conditions);
+    }
+
+    /** @param array $args */
+>>>>>>> main
     private static function buildConditions(int $startOffset, ...$args): array
     {
         $conditions = [];
@@ -251,6 +322,10 @@ class Conditional
         return $conditions;
     }
 
+<<<<<<< HEAD
+=======
+    /** @param array $args */
+>>>>>>> main
     private static function buildDatabase(...$args): array
     {
         $database = [];
@@ -258,6 +333,10 @@ class Conditional
         return self::buildDataSet(0, $database, ...$args);
     }
 
+<<<<<<< HEAD
+=======
+    /** @param array $args */
+>>>>>>> main
     private static function buildDatabaseWithValueRange(...$args): array
     {
         $database = [];
@@ -269,6 +348,10 @@ class Conditional
         return self::buildDataSet(1, $database, ...$args);
     }
 
+<<<<<<< HEAD
+=======
+    /** @param array $args */
+>>>>>>> main
     private static function buildDataSet(int $startOffset, array $database, ...$args): array
     {
         $pairCount = 1;
@@ -281,7 +364,11 @@ class Conditional
             ++$pairCount;
         }
 
+<<<<<<< HEAD
         return array_map(null, ...$database);
+=======
+        return array_map(/** @scrutinizer ignore-type */ null, ...$database);
+>>>>>>> main
     }
 
     private static function databaseFromRangeAndValue(array $range, array $valueRange = []): array
@@ -293,11 +380,15 @@ class Conditional
             $valueRange = $range;
         }
 
+<<<<<<< HEAD
         $database = array_map(
             null,
             array_merge([self::CONDITION_COLUMN_NAME], $range),
             array_merge([self::VALUE_COLUMN_NAME], $valueRange)
         );
+=======
+        $database = array_map(/** @scrutinizer ignore-type */ null, array_merge([self::CONDITION_COLUMN_NAME], $range), array_merge([self::VALUE_COLUMN_NAME], $valueRange));
+>>>>>>> main
 
         return $database;
     }

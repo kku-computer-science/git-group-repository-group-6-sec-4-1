@@ -27,10 +27,16 @@ class Financial
      * Excel Function:
      *        ACCRINT(issue,firstinterest,settlement,rate,par,frequency[,basis][,calc_method])
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Securities\AccruedInterest::periodic()
      *      Use the periodic() method in the Financial\Securities\AccruedInterest class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the periodic() method in the Financial\Securities\AccruedInterest class instead
+     * @see Securities\AccruedInterest::periodic()
+>>>>>>> main
      *
      * @param mixed $issue the security's issue date
      * @param mixed $firstInterest the security's first interest date
@@ -87,10 +93,16 @@ class Financial
      * Excel Function:
      *        ACCRINTM(issue,settlement,rate[,par[,basis]])
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Securities\AccruedInterest::atMaturity()
      *      Use the atMaturity() method in the Financial\Securities\AccruedInterest class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the atMaturity() method in the Financial\Securities\AccruedInterest class instead
+     * @see Financial\Securities\AccruedInterest::atMaturity()
+>>>>>>> main
      *
      * @param mixed $issue The security's issue date
      * @param mixed $settlement The security's settlement (or maturity) date
@@ -126,10 +138,16 @@ class Financial
      * Excel Function:
      *        AMORDEGRC(cost,purchased,firstPeriod,salvage,period,rate[,basis])
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Amortization::AMORDEGRC()
      *      Use the AMORDEGRC() method in the Financial\Amortization class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the AMORDEGRC() method in the Financial\Amortization class instead
+     * @see Financial\Amortization::AMORDEGRC()
+>>>>>>> main
      *
      * @param float $cost The cost of the asset
      * @param mixed $purchased Date of the purchase of the asset
@@ -161,10 +179,16 @@ class Financial
      * Excel Function:
      *        AMORLINC(cost,purchased,firstPeriod,salvage,period,rate[,basis])
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Amortization::AMORLINC()
      *      Use the AMORLINC() method in the Financial\Amortization class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the AMORLINC() method in the Financial\Amortization class instead
+     * @see Financial\Amortization::AMORLINC()
+>>>>>>> main
      *
      * @param float $cost The cost of the asset
      * @param mixed $purchased Date of the purchase of the asset
@@ -194,10 +218,16 @@ class Financial
      * Excel Function:
      *        COUPDAYBS(settlement,maturity,frequency[,basis])
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Coupons::COUPDAYBS()
      *      Use the COUPDAYBS() method in the Financial\Coupons class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the COUPDAYBS() method in the Financial\Coupons class instead
+     * @see Financial\Coupons::COUPDAYBS()
+>>>>>>> main
      *
      * @param mixed $settlement The security's settlement date.
      *                                The security settlement date is the date after the issue
@@ -231,10 +261,16 @@ class Financial
      * Excel Function:
      *        COUPDAYS(settlement,maturity,frequency[,basis])
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Coupons::COUPDAYS()
      *      Use the COUPDAYS() method in the Financial\Coupons class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the COUPDAYS() method in the Financial\Coupons class instead
+     * @see Financial\Coupons::COUPDAYS()
+>>>>>>> main
      *
      * @param mixed $settlement The security's settlement date.
      *                                The security settlement date is the date after the issue
@@ -268,10 +304,16 @@ class Financial
      * Excel Function:
      *        COUPDAYSNC(settlement,maturity,frequency[,basis])
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Coupons::COUPDAYSNC()
      *      Use the COUPDAYSNC() method in the Financial\Coupons class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the COUPDAYSNC() method in the Financial\Coupons class instead
+     * @see Financial\Coupons::COUPDAYSNC()
+>>>>>>> main
      *
      * @param mixed $settlement The security's settlement date.
      *                                The security settlement date is the date after the issue
@@ -305,10 +347,16 @@ class Financial
      * Excel Function:
      *        COUPNCD(settlement,maturity,frequency[,basis])
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Coupons::COUPNCD()
      *      Use the COUPNCD() method in the Financial\Coupons class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the COUPNCD() method in the Financial\Coupons class instead
+     * @see Financial\Coupons::COUPNCD()
+>>>>>>> main
      *
      * @param mixed $settlement The security's settlement date.
      *                                The security settlement date is the date after the issue
@@ -344,10 +392,16 @@ class Financial
      * Excel Function:
      *        COUPNUM(settlement,maturity,frequency[,basis])
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Coupons::COUPNUM()
      *      Use the COUPNUM() method in the Financial\Coupons class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the COUPNUM() method in the Financial\Coupons class instead
+     * @see Financial\Coupons::COUPNUM()
+>>>>>>> main
      *
      * @param mixed $settlement The security's settlement date.
      *                                The security settlement date is the date after the issue
@@ -381,10 +435,16 @@ class Financial
      * Excel Function:
      *        COUPPCD(settlement,maturity,frequency[,basis])
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Coupons::COUPPCD()
      *      Use the COUPPCD() method in the Financial\Coupons class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the COUPPCD() method in the Financial\Coupons class instead
+     * @see Financial\Coupons::COUPPCD()
+>>>>>>> main
      *
      * @param mixed $settlement The security's settlement date.
      *                                The security settlement date is the date after the issue
@@ -419,10 +479,16 @@ class Financial
      * Excel Function:
      *        CUMIPMT(rate,nper,pv,start,end[,type])
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\CashFlow\Constant\Periodic\Cumulative::interest()
      *      Use the interest() method in the Financial\CashFlow\Constant\Periodic\Cumulative class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the interest() method in the Financial\CashFlow\Constant\Periodic\Cumulative class instead
+     * @see Financial\CashFlow\Constant\Periodic\Cumulative::interest()
+>>>>>>> main
      *
      * @param float $rate The Interest rate
      * @param int $nper The total number of payment periods
@@ -449,10 +515,16 @@ class Financial
      * Excel Function:
      *        CUMPRINC(rate,nper,pv,start,end[,type])
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\CashFlow\Constant\Periodic\Cumulative::principal()
      *      Use the principal() method in the Financial\CashFlow\Constant\Periodic\Cumulative class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the principal() method in the Financial\CashFlow\Constant\Periodic\Cumulative class instead
+     * @see Financial\CashFlow\Constant\Periodic\Cumulative::principal()
+>>>>>>> main
      *
      * @param float $rate The Interest rate
      * @param int $nper The total number of payment periods
@@ -484,10 +556,16 @@ class Financial
      * Excel Function:
      *        DB(cost,salvage,life,period[,month])
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Depreciation::DB()
      *      Use the DB() method in the Financial\Depreciation class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the DB() method in the Financial\Depreciation class instead
+     * @see Financial\Depreciation::DB()
+>>>>>>> main
      *
      * @param float $cost Initial cost of the asset
      * @param float $salvage Value at the end of the depreciation.
@@ -515,10 +593,16 @@ class Financial
      * Excel Function:
      *        DDB(cost,salvage,life,period[,factor])
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Depreciation::DDB()
      *      Use the DDB() method in the Financial\Depreciation class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the DDB() method in the Financial\Depreciation class instead
+     * @see Financial\Depreciation::DDB()
+>>>>>>> main
      *
      * @param float $cost Initial cost of the asset
      * @param float $salvage Value at the end of the depreciation.
@@ -546,17 +630,27 @@ class Financial
      * Excel Function:
      *        DISC(settlement,maturity,price,redemption[,basis])
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Securities\Rates::discount()
      *      Use the discount() method in the Financial\Securities\Rates class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the discount() method in the Financial\Securities\Rates class instead
+     * @see Financial\Securities\Rates::discount()
+>>>>>>> main
      *
      * @param mixed $settlement The security's settlement date.
      *                                The security settlement date is the date after the issue
      *                                date when the security is traded to the buyer.
      * @param mixed $maturity The security's maturity date.
      *                                The maturity date is the date when the security expires.
+<<<<<<< HEAD
      * @param int $price The security's price per $100 face value
+=======
+     * @param mixed $price The security's price per $100 face value
+>>>>>>> main
      * @param int $redemption The security's redemption value per $100 face value
      * @param int $basis The type of day count to use.
      *                                        0 or omitted    US (NASD) 30/360
@@ -582,10 +676,16 @@ class Financial
      * Excel Function:
      *        DOLLARDE(fractional_dollar,fraction)
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Dollar::decimal()
      *      Use the decimal() method in the Financial\Dollar class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the decimal() method in the Financial\Dollar class instead
+     * @see Financial\Dollar::decimal()
+>>>>>>> main
      *
      * @param array|float $fractional_dollar Fractional Dollar
      * @param array|int $fraction Fraction
@@ -607,10 +707,16 @@ class Financial
      * Excel Function:
      *        DOLLARFR(decimal_dollar,fraction)
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Dollar::fractional()
      *      Use the fractional() method in the Financial\Dollar class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the fractional() method in the Financial\Dollar class instead
+     * @see Financial\Dollar::fractional()
+>>>>>>> main
      *
      * @param array|float $decimal_dollar Decimal Dollar
      * @param array|int $fraction Fraction
@@ -631,10 +737,16 @@ class Financial
      * Excel Function:
      *        EFFECT(nominal_rate,npery)
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\InterestRate::effective()
      *      Use the effective() method in the Financial\InterestRate class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the effective() method in the Financial\InterestRate class instead
+     * @see Financial\InterestRate::effective()
+>>>>>>> main
      *
      * @param float $nominalRate Nominal interest rate
      * @param int $periodsPerYear Number of compounding payments per year
@@ -654,10 +766,16 @@ class Financial
      * Excel Function:
      *        FV(rate,nper,pmt[,pv[,type]])
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\CashFlow\Constant\Periodic::futureValue()
      *      Use the futureValue() method in the Financial\CashFlow\Constant\Periodic class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the futureValue() method in the Financial\CashFlow\Constant\Periodic class instead
+     * @see Financial\CashFlow\Constant\Periodic::futureValue()
+>>>>>>> main
      *
      * @param float $rate The interest rate per period
      * @param int $nper Total number of payment periods in an annuity
@@ -686,10 +804,16 @@ class Financial
      * Excel Function:
      *        FVSCHEDULE(principal,schedule)
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\CashFlow\Single::futureValue()
      *      Use the futureValue() method in the Financial\CashFlow\Single class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the futureValue() method in the Financial\CashFlow\Single class instead
+     * @see Financial\CashFlow\Single::futureValue()
+>>>>>>> main
      *
      * @param float $principal the present value
      * @param float[] $schedule an array of interest rates to apply
@@ -709,10 +833,16 @@ class Financial
      * Excel Function:
      *        INTRATE(settlement,maturity,investment,redemption[,basis])
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Securities\Rates::interest()
      *      Use the interest() method in the Financial\Securities\Rates class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the interest() method in the Financial\Securities\Rates class instead
+     * @see Financial\Securities\Rates::interest()
+>>>>>>> main
      *
      * @param mixed $settlement The security's settlement date.
      *                              The security settlement date is the date after the issue date when the security
@@ -744,10 +874,16 @@ class Financial
      * Excel Function:
      *        IPMT(rate,per,nper,pv[,fv][,type])
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\CashFlow\Constant\Periodic\Interest::payment()
      *      Use the payment() method in the Financial\CashFlow\Constant\Periodic class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the payment() method in the Financial\CashFlow\Constant\Periodic\Interest class instead
+     * @see Financial\CashFlow\Constant\Periodic\Interest::payment()
+>>>>>>> main
      *
      * @param float $rate Interest rate per period
      * @param int $per Period for which we want to find the interest
@@ -775,10 +911,16 @@ class Financial
      * Excel Function:
      *        IRR(values[,guess])
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\CashFlow\Variable\Periodic::rate()
      *      Use the rate() method in the Financial\CashFlow\Variable\Periodic class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the rate() method in the Financial\CashFlow\Variable\Periodic class instead
+     * @see Financial\CashFlow\Variable\Periodic::rate()
+>>>>>>> main
      *
      * @param mixed $values An array or a reference to cells that contain numbers for which you want
      *                                    to calculate the internal rate of return.
@@ -801,10 +943,16 @@ class Financial
      * Excel Function:
      *     =ISPMT(interest_rate, period, number_payments, pv)
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\CashFlow\Constant\Periodic\Interest::schedulePayment()
      *      Use the schedulePayment() method in the Financial\CashFlow\Constant\Periodic class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the schedulePayment() method in the Financial\CashFlow\Constant\Periodic\Interest class instead
+     * @see Financial\CashFlow\Constant\Periodic\Interest::schedulePayment()
+>>>>>>> main
      *
      * interest_rate is the interest rate for the investment
      *
@@ -813,6 +961,13 @@ class Financial
      * number_payments is the number of payments for the annuity
      *
      * pv is the loan amount or present value of the payments
+<<<<<<< HEAD
+=======
+     *
+     * @param array $args
+     *
+     * @return float|string
+>>>>>>> main
      */
     public static function ISPMT(...$args)
     {
@@ -828,10 +983,16 @@ class Financial
      * Excel Function:
      *        MIRR(values,finance_rate, reinvestment_rate)
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\CashFlow\Variable\Periodic::modifiedRate()
      *      Use the modifiedRate() method in the Financial\CashFlow\Variable\Periodic class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the modifiedRate() method in the Financial\CashFlow\Variable\Periodic class instead
+     * @see Financial\CashFlow\Variable\Periodic::modifiedRate()
+>>>>>>> main
      *
      * @param mixed $values An array or a reference to cells that contain a series of payments and
      *                         income occurring at regular intervals.
@@ -854,10 +1015,16 @@ class Financial
      * Excel Function:
      *        NOMINAL(effect_rate, npery)
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\InterestRate::nominal()
      *      Use the nominal() method in the Financial\InterestRate class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the nominal() method in the Financial\InterestRate class instead
+     * @see Financial\InterestRate::nominal()
+>>>>>>> main
      *
      * @param float $effectiveRate Effective interest rate
      * @param int $periodsPerYear Number of compounding payments per year
@@ -874,7 +1041,13 @@ class Financial
      *
      * Returns the number of periods for a cash flow with constant periodic payments (annuities), and interest rate.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
+=======
+     * @deprecated 1.18.0
+     *      Use the periods() method in the Financial\CashFlow\Constant\Periodic class instead
+     * @see Financial\CashFlow\Constant\Periodic::periods()
+>>>>>>> main
      *
      * @param float $rate Interest rate per period
      * @param int $pmt Periodic payment (annuity)
@@ -883,9 +1056,12 @@ class Financial
      * @param int $type Payment type: 0 = at the end of each period, 1 = at the beginning of each period
      *
      * @return float|string Result, or a string containing an error
+<<<<<<< HEAD
      *
      *@see Financial\CashFlow\Constant\Periodic::periods()
      *      Use the periods() method in the Financial\CashFlow\Constant\Periodic class instead
+=======
+>>>>>>> main
      */
     public static function NPER($rate = 0, $pmt = 0, $pv = 0, $fv = 0, $type = 0)
     {
@@ -897,10 +1073,18 @@ class Financial
      *
      * Returns the Net Present Value of a cash flow series given a discount rate.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\CashFlow\Variable\Periodic::presentValue()
      *      Use the presentValue() method in the Financial\CashFlow\Variable\Periodic class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the presentValue() method in the Financial\CashFlow\Variable\Periodic class instead
+     * @see Financial\CashFlow\Variable\Periodic::presentValue()
+     *
+     * @param array $args
+>>>>>>> main
      *
      * @return float
      */
@@ -914,10 +1098,16 @@ class Financial
      *
      * Calculates the number of periods required for an investment to reach a specified value.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\CashFlow\Single::periods()
      *      Use the periods() method in the Financial\CashFlow\Single class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the periods() method in the Financial\CashFlow\Single class instead
+     * @see Financial\CashFlow\Single::periods()
+>>>>>>> main
      *
      * @param float $rate Interest rate per period
      * @param float $pv Present Value
@@ -935,10 +1125,16 @@ class Financial
      *
      * Returns the constant payment (annuity) for a cash flow with a constant interest rate.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\CashFlow\Constant\Periodic\Payments::annuity()
      *      Use the annuity() method in the Financial\CashFlow\Constant\Periodic\Payments class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the annuity() method in the Financial\CashFlow\Constant\Periodic\Payments class instead
+     * @see Financial\CashFlow\Constant\Periodic\Payments::annuity()
+>>>>>>> main
      *
      * @param float $rate Interest rate per period
      * @param int $nper Number of periods
@@ -959,10 +1155,16 @@ class Financial
      * Returns the interest payment for a given period for an investment based on periodic, constant payments
      *         and a constant interest rate.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\CashFlow\Constant\Periodic\Payments::interestPayment()
      *      Use the interestPayment() method in the Financial\CashFlow\Constant\Periodic\Payments class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the interestPayment() method in the Financial\CashFlow\Constant\Periodic\Payments class instead
+     * @see Financial\CashFlow\Constant\Periodic\Payments::interestPayment()
+>>>>>>> main
      *
      * @param float $rate Interest rate per period
      * @param int $per Period for which we want to find the interest
@@ -983,10 +1185,16 @@ class Financial
      *
      * Returns the price per $100 face value of a security that pays periodic interest.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Securities\Price::price()
      *      Use the price() method in the Financial\Securities\Price class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the price() method in the Financial\Securities\Price class instead
+     * @see Financial\Securities\Price::price()
+>>>>>>> main
      *
      * @param mixed $settlement The security's settlement date.
      *                              The security settlement date is the date after the issue date when the security
@@ -1019,17 +1227,27 @@ class Financial
      *
      * Returns the price per $100 face value of a discounted security.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Securities\Price::priceDiscounted()
      *      Use the priceDiscounted() method in the Financial\Securities\Price class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the priceDiscounted() method in the Financial\Securities\Price class instead
+     * @see Financial\Securities\Price::priceDiscounted()
+>>>>>>> main
      *
      * @param mixed $settlement The security's settlement date.
      *                              The security settlement date is the date after the issue date when the security
      *                              is traded to the buyer.
      * @param mixed $maturity The security's maturity date.
      *                            The maturity date is the date when the security expires.
+<<<<<<< HEAD
      * @param int $discount The security's discount rate
+=======
+     * @param mixed $discount The security's discount rate
+>>>>>>> main
      * @param int $redemption The security's redemption value per $100 face value
      * @param int $basis The type of day count to use.
      *                                        0 or omitted    US (NASD) 30/360
@@ -1050,10 +1268,16 @@ class Financial
      *
      * Returns the price per $100 face value of a security that pays interest at maturity.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Securities\Price::priceAtMaturity()
      *      Use the priceAtMaturity() method in the Financial\Securities\Price class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the priceAtMaturity() method in the Financial\Securities\Price class instead
+     * @see Financial\Securities\Price::priceAtMaturity()
+>>>>>>> main
      *
      * @param mixed $settlement The security's settlement date.
      *                              The security's settlement date is the date after the issue date when the security
@@ -1061,8 +1285,13 @@ class Financial
      * @param mixed $maturity The security's maturity date.
      *                            The maturity date is the date when the security expires.
      * @param mixed $issue The security's issue date
+<<<<<<< HEAD
      * @param int $rate The security's interest rate at date of issue
      * @param int $yield The security's annual yield
+=======
+     * @param mixed $rate The security's interest rate at date of issue
+     * @param mixed $yield The security's annual yield
+>>>>>>> main
      * @param int $basis The type of day count to use.
      *                                        0 or omitted    US (NASD) 30/360
      *                                        1                Actual/actual
@@ -1082,10 +1311,16 @@ class Financial
      *
      * Returns the Present Value of a cash flow with constant payments and interest rate (annuities).
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\CashFlow\Constant\Periodic::presentValue()
      *      Use the presentValue() method in the Financial\CashFlow\Constant\Periodic class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the presentValue() method in the Financial\CashFlow\Constant\Periodic class instead
+     * @see Financial\CashFlow\Constant\Periodic::presentValue()
+>>>>>>> main
      *
      * @param float $rate Interest rate per period
      * @param int $nper Number of periods
@@ -1111,10 +1346,16 @@ class Financial
      * Excel Function:
      *        RATE(nper,pmt,pv[,fv[,type[,guess]]])
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\CashFlow\Constant\Periodic\Interest::rate()
      *      Use the rate() method in the Financial\CashFlow\Constant\Periodic class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the rate() method in the Financial\CashFlow\Constant\Periodic\Interest class instead
+     * @see Financial\CashFlow\Constant\Periodic\Interest::rate()
+>>>>>>> main
      *
      * @param mixed $nper The total number of payment periods in an annuity
      * @param mixed $pmt The payment made each period and cannot change over the life
@@ -1144,10 +1385,16 @@ class Financial
      *
      * Returns the amount received at maturity for a fully invested Security.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Securities\Price::received()
      *      Use the received() method in the Financial\Securities\Price class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the received() method in the Financial\Securities\Price class instead
+     * @see Financial\Securities\Price::received()
+>>>>>>> main
      *
      * @param mixed $settlement The security's settlement date.
      *                              The security settlement date is the date after the issue date when the security
@@ -1175,10 +1422,16 @@ class Financial
      *
      * Calculates the interest rate required for an investment to grow to a specified future value .
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\CashFlow\Single::interestRate()
      *      Use the interestRate() method in the Financial\CashFlow\Single class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the interestRate() method in the Financial\CashFlow\Single class instead
+     * @see Financial\CashFlow\Single::interestRate()
+>>>>>>> main
      *
      * @param float $nper The number of periods over which the investment is made
      * @param float $pv Present Value
@@ -1196,10 +1449,16 @@ class Financial
      *
      * Returns the straight-line depreciation of an asset for one period
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Depreciation::SLN()
      *      Use the SLN() method in the Financial\Depreciation class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the SLN() method in the Financial\Depreciation class instead
+     * @see Financial\Depreciation::SLN()
+>>>>>>> main
      *
      * @param mixed $cost Initial cost of the asset
      * @param mixed $salvage Value at the end of the depreciation
@@ -1217,10 +1476,16 @@ class Financial
      *
      * Returns the sum-of-years' digits depreciation of an asset for a specified period.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Depreciation::SYD()
      *      Use the SYD() method in the Financial\Depreciation class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the SYD() method in the Financial\Depreciation class instead
+     * @see Financial\Depreciation::SYD()
+>>>>>>> main
      *
      * @param mixed $cost Initial cost of the asset
      * @param mixed $salvage Value at the end of the depreciation
@@ -1239,17 +1504,27 @@ class Financial
      *
      * Returns the bond-equivalent yield for a Treasury bill.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\TreasuryBill::bondEquivalentYield()
      *      Use the bondEquivalentYield() method in the Financial\TreasuryBill class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the bondEquivalentYield() method in the Financial\TreasuryBill class instead
+     * @see Financial\TreasuryBill::bondEquivalentYield()
+>>>>>>> main
      *
      * @param mixed $settlement The Treasury bill's settlement date.
      *                          The Treasury bill's settlement date is the date after the issue date when the
      *                              Treasury bill is traded to the buyer.
      * @param mixed $maturity The Treasury bill's maturity date.
      *                                The maturity date is the date when the Treasury bill expires.
+<<<<<<< HEAD
      * @param int $discount The Treasury bill's discount rate
+=======
+     * @param mixed $discount The Treasury bill's discount rate
+>>>>>>> main
      *
      * @return float|string Result, or a string containing an error
      */
@@ -1263,17 +1538,27 @@ class Financial
      *
      * Returns the price per $100 face value for a Treasury bill.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\TreasuryBill::price()
      *      Use the price() method in the Financial\TreasuryBill class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the price() method in the Financial\TreasuryBill class instead
+     * @see Financial\TreasuryBill::price()
+>>>>>>> main
      *
      * @param mixed $settlement The Treasury bill's settlement date.
      *                                The Treasury bill's settlement date is the date after the issue date
      *                                    when the Treasury bill is traded to the buyer.
      * @param mixed $maturity The Treasury bill's maturity date.
      *                                The maturity date is the date when the Treasury bill expires.
+<<<<<<< HEAD
      * @param int $discount The Treasury bill's discount rate
+=======
+     * @param mixed $discount The Treasury bill's discount rate
+>>>>>>> main
      *
      * @return float|string Result, or a string containing an error
      */
@@ -1287,17 +1572,27 @@ class Financial
      *
      * Returns the yield for a Treasury bill.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\TreasuryBill::yield()
      *      Use the yield() method in the Financial\TreasuryBill class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the yield() method in the Financial\TreasuryBill class instead
+     * @see Financial\TreasuryBill::yield()
+>>>>>>> main
      *
      * @param mixed $settlement The Treasury bill's settlement date.
      *                                The Treasury bill's settlement date is the date after the issue date
      *                                    when the Treasury bill is traded to the buyer.
      * @param mixed $maturity The Treasury bill's maturity date.
      *                                The maturity date is the date when the Treasury bill expires.
+<<<<<<< HEAD
      * @param int $price The Treasury bill's price per $100 face value
+=======
+     * @param mixed $price The Treasury bill's price per $100 face value
+>>>>>>> main
      *
      * @return float|mixed|string
      */
@@ -1314,10 +1609,16 @@ class Financial
      * Excel Function:
      *        =XIRR(values,dates,guess)
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\CashFlow\Variable\NonPeriodic::rate()
      *      Use the rate() method in the Financial\CashFlow\Variable\NonPeriodic class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the rate() method in the Financial\CashFlow\Variable\NonPeriodic class instead
+     * @see Financial\CashFlow\Variable\NonPeriodic::rate()
+>>>>>>> main
      *
      * @param float[] $values     A series of cash flow payments
      *                                The series of values must contain at least one positive value & one negative value
@@ -1342,10 +1643,16 @@ class Financial
      * Excel Function:
      *        =XNPV(rate,values,dates)
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\CashFlow\Variable\NonPeriodic::presentValue()
      *      Use the presentValue() method in the Financial\CashFlow\Variable\NonPeriodic class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the presentValue() method in the Financial\CashFlow\Variable\NonPeriodic class instead
+     * @see Financial\CashFlow\Variable\NonPeriodic::presentValue()
+>>>>>>> main
      *
      * @param float $rate the discount rate to apply to the cash flows
      * @param float[] $values A series of cash flows that corresponds to a schedule of payments in dates.
@@ -1370,17 +1677,27 @@ class Financial
      *
      * Returns the annual yield of a security that pays interest at maturity.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Securities\Yields::yieldDiscounted()
      *      Use the yieldDiscounted() method in the Financial\Securities\Yields class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the yieldDiscounted() method in the Financial\Securities\Yields class instead
+     * @see Financial\Securities\Yields::yieldDiscounted()
+>>>>>>> main
      *
      * @param mixed $settlement The security's settlement date.
      *                              The security's settlement date is the date after the issue date when the security
      *                              is traded to the buyer.
      * @param mixed $maturity The security's maturity date.
      *                            The maturity date is the date when the security expires.
+<<<<<<< HEAD
      * @param int $price The security's price per $100 face value
+=======
+     * @param mixed $price The security's price per $100 face value
+>>>>>>> main
      * @param int $redemption The security's redemption value per $100 face value
      * @param int $basis The type of day count to use.
      *                                        0 or omitted    US (NASD) 30/360
@@ -1401,10 +1718,16 @@ class Financial
      *
      * Returns the annual yield of a security that pays interest at maturity.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Financial\Securities\Yields::yieldAtMaturity()
      *      Use the yieldAtMaturity() method in the Financial\Securities\Yields class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the yieldAtMaturity() method in the Financial\Securities\Yields class instead
+     * @see Financial\Securities\Yields::yieldAtMaturity()
+>>>>>>> main
      *
      * @param mixed $settlement The security's settlement date.
      *                              The security's settlement date is the date after the issue date when the security
@@ -1412,8 +1735,13 @@ class Financial
      * @param mixed $maturity The security's maturity date.
      *                            The maturity date is the date when the security expires.
      * @param mixed $issue The security's issue date
+<<<<<<< HEAD
      * @param int $rate The security's interest rate at date of issue
      * @param int $price The security's price per $100 face value
+=======
+     * @param mixed $rate The security's interest rate at date of issue
+     * @param mixed $price The security's price per $100 face value
+>>>>>>> main
      * @param int $basis The type of day count to use.
      *                       0 or omitted    US (NASD) 30/360
      *                       1               Actual/actual

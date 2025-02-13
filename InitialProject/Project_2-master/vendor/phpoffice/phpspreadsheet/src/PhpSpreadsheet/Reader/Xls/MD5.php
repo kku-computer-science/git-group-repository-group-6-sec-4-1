@@ -4,8 +4,11 @@ namespace PhpOffice\PhpSpreadsheet\Reader\Xls;
 
 class MD5
 {
+<<<<<<< HEAD
     // Context
 
+=======
+>>>>>>> main
     /**
      * @var int
      */
@@ -27,10 +30,22 @@ class MD5
     private $d;
 
     /**
+<<<<<<< HEAD
+=======
+     * @var int
+     */
+    private static $allOneBits;
+
+    /**
+>>>>>>> main
      * MD5 stream constructor.
      */
     public function __construct()
     {
+<<<<<<< HEAD
+=======
+        self::$allOneBits = self::signedInt(0xffffffff);
+>>>>>>> main
         $this->reset();
     }
 
@@ -40,8 +55,13 @@ class MD5
     public function reset(): void
     {
         $this->a = 0x67452301;
+<<<<<<< HEAD
         $this->b = 0xEFCDAB89;
         $this->c = 0x98BADCFE;
+=======
+        $this->b = self::signedInt(0xEFCDAB89);
+        $this->c = self::signedInt(0x98BADCFE);
+>>>>>>> main
         $this->d = 0x10325476;
     }
 
@@ -71,6 +91,10 @@ class MD5
      */
     public function add(string $data): void
     {
+<<<<<<< HEAD
+=======
+        // @phpstan-ignore-next-line
+>>>>>>> main
         $words = array_values(unpack('V16', $data));
 
         $A = $this->a;
@@ -78,10 +102,17 @@ class MD5
         $C = $this->c;
         $D = $this->d;
 
+<<<<<<< HEAD
         $F = ['self', 'f'];
         $G = ['self', 'g'];
         $H = ['self', 'h'];
         $I = ['self', 'i'];
+=======
+        $F = [self::class, 'f'];
+        $G = [self::class, 'g'];
+        $H = [self::class, 'h'];
+        $I = [self::class, 'i'];
+>>>>>>> main
 
         // ROUND 1
         self::step($F, $A, $B, $C, $D, $words[0], 7, 0xd76aa478);
@@ -155,6 +186,7 @@ class MD5
         self::step($I, $C, $D, $A, $B, $words[2], 15, 0x2ad7d2bb);
         self::step($I, $B, $C, $D, $A, $words[9], 21, 0xeb86d391);
 
+<<<<<<< HEAD
         $this->a = ($this->a + $A) & 0xffffffff;
         $this->b = ($this->b + $B) & 0xffffffff;
         $this->c = ($this->c + $C) & 0xffffffff;
@@ -162,25 +194,47 @@ class MD5
     }
 
     private static function f(int $X, int $Y, int $Z)
+=======
+        $this->a = ($this->a + $A) & self::$allOneBits;
+        $this->b = ($this->b + $B) & self::$allOneBits;
+        $this->c = ($this->c + $C) & self::$allOneBits;
+        $this->d = ($this->d + $D) & self::$allOneBits;
+    }
+
+    private static function f(int $X, int $Y, int $Z): int
+>>>>>>> main
     {
         return ($X & $Y) | ((~$X) & $Z); // X AND Y OR NOT X AND Z
     }
 
+<<<<<<< HEAD
     private static function g(int $X, int $Y, int $Z)
+=======
+    private static function g(int $X, int $Y, int $Z): int
+>>>>>>> main
     {
         return ($X & $Z) | ($Y & (~$Z)); // X AND Z OR Y AND NOT Z
     }
 
+<<<<<<< HEAD
     private static function h(int $X, int $Y, int $Z)
+=======
+    private static function h(int $X, int $Y, int $Z): int
+>>>>>>> main
     {
         return $X ^ $Y ^ $Z; // X XOR Y XOR Z
     }
 
+<<<<<<< HEAD
     private static function i(int $X, int $Y, int $Z)
+=======
+    private static function i(int $X, int $Y, int $Z): int
+>>>>>>> main
     {
         return $Y ^ ($X | (~$Z)); // Y XOR (X OR NOT Z)
     }
 
+<<<<<<< HEAD
     private static function step($func, int &$A, int $B, int $C, int $D, int $M, int $s, int $t): void
     {
         $A = ($A + call_user_func($func, $B, $C, $D) + $M + $t) & 0xffffffff;
@@ -193,5 +247,27 @@ class MD5
         $binary = str_pad(decbin($decimal), 32, '0', STR_PAD_LEFT);
 
         return bindec(substr($binary, $bits) . substr($binary, 0, $bits));
+=======
+    /** @param float|int $t may be float on 32-bit system */
+    private static function step(callable $func, int &$A, int $B, int $C, int $D, int $M, int $s, $t): void
+    {
+        $t = self::signedInt($t);
+        $A = (int) ($A + call_user_func($func, $B, $C, $D) + $M + $t) & self::$allOneBits;
+        $A = self::rotate($A, $s);
+        $A = (int) ($B + $A) & self::$allOneBits;
+    }
+
+    /** @param float|int $result may be float on 32-bit system */
+    private static function signedInt($result): int
+    {
+        return is_int($result) ? $result : (int) (PHP_INT_MIN + $result - 1 - PHP_INT_MAX);
+    }
+
+    private static function rotate(int $decimal, int $bits): int
+    {
+        $binary = str_pad(decbin($decimal), 32, '0', STR_PAD_LEFT);
+
+        return self::signedInt(bindec(substr($binary, $bits) . substr($binary, 0, $bits)));
+>>>>>>> main
     }
 }

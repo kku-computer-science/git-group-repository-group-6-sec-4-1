@@ -17,8 +17,12 @@ namespace Ramsey\Collection;
 use ArrayIterator;
 use Traversable;
 
+<<<<<<< HEAD
 use function serialize;
 use function unserialize;
+=======
+use function count;
+>>>>>>> main
 
 /**
  * This class provides a basic implementation of `ArrayInterface`, to minimize
@@ -34,7 +38,11 @@ abstract class AbstractArray implements ArrayInterface
      *
      * @var array<array-key, T>
      */
+<<<<<<< HEAD
     protected $data = [];
+=======
+    protected array $data = [];
+>>>>>>> main
 
     /**
      * Constructs a new array object.
@@ -69,7 +77,11 @@ abstract class AbstractArray implements ArrayInterface
      *
      * @param array-key $offset The offset to check.
      */
+<<<<<<< HEAD
     public function offsetExists($offset): bool
+=======
+    public function offsetExists(mixed $offset): bool
+>>>>>>> main
     {
         return isset($this->data[$offset]);
     }
@@ -81,6 +93,7 @@ abstract class AbstractArray implements ArrayInterface
      *
      * @param array-key $offset The offset for which a value should be returned.
      *
+<<<<<<< HEAD
      * @return T|null the value stored at the offset, or null if the offset
      *     does not exist.
      *
@@ -90,6 +103,14 @@ abstract class AbstractArray implements ArrayInterface
     public function offsetGet($offset)
     {
         return $this->data[$offset] ?? null;
+=======
+     * @return T the value stored at the offset, or null if the offset
+     *     does not exist.
+     */
+    public function offsetGet(mixed $offset): mixed
+    {
+        return $this->data[$offset];
+>>>>>>> main
     }
 
     /**
@@ -97,12 +118,20 @@ abstract class AbstractArray implements ArrayInterface
      *
      * @link http://php.net/manual/en/arrayaccess.offsetset.php ArrayAccess::offsetSet()
      *
+<<<<<<< HEAD
      * @param array-key|null $offset The offset to set. If `null`, the value may be
      *     set at a numerically-indexed offset.
      * @param T $value The value to set at the given offset.
      */
     // phpcs:ignore SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
     public function offsetSet($offset, $value): void
+=======
+     * @param array-key | null $offset The offset to set. If `null`, the value
+     *     may be set at a numerically-indexed offset.
+     * @param T $value The value to set at the given offset.
+     */
+    public function offsetSet(mixed $offset, mixed $value): void
+>>>>>>> main
     {
         if ($offset === null) {
             $this->data[] = $value;
@@ -118,12 +147,17 @@ abstract class AbstractArray implements ArrayInterface
      *
      * @param array-key $offset The offset to remove from the array.
      */
+<<<<<<< HEAD
     public function offsetUnset($offset): void
+=======
+    public function offsetUnset(mixed $offset): void
+>>>>>>> main
     {
         unset($this->data[$offset]);
     }
 
     /**
+<<<<<<< HEAD
      * Returns a serialized string representation of this array object.
      *
      * @deprecated The Serializable interface will go away in PHP 9.
@@ -138,6 +172,8 @@ abstract class AbstractArray implements ArrayInterface
     }
 
     /**
+=======
+>>>>>>> main
      * Returns data suitable for PHP serialization.
      *
      * @link https://www.php.net/manual/en/language.oop5.magic.php#language.oop5.magic.serialize
@@ -151,6 +187,7 @@ abstract class AbstractArray implements ArrayInterface
     }
 
     /**
+<<<<<<< HEAD
      * Converts a serialized string representation into an instance object.
      *
      * @deprecated The Serializable interface will go away in PHP 9.
@@ -170,6 +207,8 @@ abstract class AbstractArray implements ArrayInterface
     }
 
     /**
+=======
+>>>>>>> main
      * Adds unserialized data to the object.
      *
      * @param array<array-key, T> $data
@@ -204,6 +243,10 @@ abstract class AbstractArray implements ArrayInterface
 
     public function isEmpty(): bool
     {
+<<<<<<< HEAD
         return count($this->data) === 0;
+=======
+        return $this->data === [];
+>>>>>>> main
     }
 }

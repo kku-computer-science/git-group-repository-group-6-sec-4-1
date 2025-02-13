@@ -21,6 +21,10 @@ use function is_dir;
 use function is_file;
 use function json_decode;
 use function json_encode;
+<<<<<<< HEAD
+=======
+use function sprintf;
+>>>>>>> main
 use PHPUnit\Util\Filesystem;
 
 /**
@@ -106,7 +110,11 @@ final class DefaultTestResultCache implements TestResultCache
 
         $data = json_decode(
             file_get_contents($this->cacheFilename),
+<<<<<<< HEAD
             true
+=======
+            true,
+>>>>>>> main
         );
 
         if ($data === null) {
@@ -137,8 +145,13 @@ final class DefaultTestResultCache implements TestResultCache
             throw new Exception(
                 sprintf(
                     'Cannot create directory "%s" for result cache file',
+<<<<<<< HEAD
                     $this->cacheFilename
                 )
+=======
+                    $this->cacheFilename,
+                ),
+>>>>>>> main
             );
         }
 
@@ -149,9 +162,15 @@ final class DefaultTestResultCache implements TestResultCache
                     'version' => self::VERSION,
                     'defects' => $this->defects,
                     'times'   => $this->times,
+<<<<<<< HEAD
                 ]
             ),
             LOCK_EX
+=======
+                ],
+            ),
+            LOCK_EX,
+>>>>>>> main
         );
     }
 }

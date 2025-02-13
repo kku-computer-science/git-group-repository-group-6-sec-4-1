@@ -36,10 +36,17 @@ final class InlineParserEngine implements InlineParserEngineInterface
 
     /**
      * @var array<int, InlineParserInterface|string|bool>
+<<<<<<< HEAD
      * @psalm-var list<array{0: InlineParserInterface, 1: string, 2: bool}>
      * @phpstan-var array<int, array{0: InlineParserInterface, 1: string, 2: bool}>
      */
     private array $parsers;
+=======
+     * @psalm-var list<array{0: InlineParserInterface, 1: non-empty-string, 2: bool}>
+     * @phpstan-var array<int, array{0: InlineParserInterface, 1: non-empty-string, 2: bool}>
+     */
+    private array $parsers = [];
+>>>>>>> main
 
     public function __construct(EnvironmentInterface $environment, ReferenceMapInterface $referenceMap)
     {
@@ -50,7 +57,11 @@ final class InlineParserEngine implements InlineParserEngineInterface
             \assert($parser instanceof InlineParserInterface);
             $regex = $parser->getMatchDefinition()->getRegex();
 
+<<<<<<< HEAD
             $this->parsers[] = [$parser, $regex, \strlen($regex) !== \mb_strlen($regex)];
+=======
+            $this->parsers[] = [$parser, $regex, \strlen($regex) !== \mb_strlen($regex, 'UTF-8')];
+>>>>>>> main
         }
     }
 
@@ -59,7 +70,11 @@ final class InlineParserEngine implements InlineParserEngineInterface
         $contents = \trim($contents);
         $cursor   = new Cursor($contents);
 
+<<<<<<< HEAD
         $inlineParserContext = new InlineParserContext($cursor, $block, $this->referenceMap);
+=======
+        $inlineParserContext = new InlineParserContext($cursor, $block, $this->referenceMap, $this->environment->getConfiguration()->get('max_delimiters_per_line'));
+>>>>>>> main
 
         // Have all parsers look at the line to determine what they might want to parse and what positions they exist at
         foreach ($this->matchParsers($contents) as $matchPosition => $parsers) {
@@ -134,7 +149,11 @@ final class InlineParserEngine implements InlineParserEngineInterface
     private function matchParsers(string $contents): array
     {
         $contents    = \trim($contents);
+<<<<<<< HEAD
         $isMultibyte = \mb_strlen($contents) !== \strlen($contents);
+=======
+        $isMultibyte = ! \mb_check_encoding($contents, 'ASCII');
+>>>>>>> main
 
         $ret = [];
 

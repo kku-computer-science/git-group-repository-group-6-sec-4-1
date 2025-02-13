@@ -22,7 +22,11 @@ use Throwable;
  *
  * Depends on the following methods:
  *
+<<<<<<< HEAD
  * @method \Carbon\Carbon|\Carbon\CarbonImmutable shiftTimezone($timezone) Set the timezone
+=======
+ * @method static shiftTimezone($timezone) Set the timezone
+>>>>>>> main
  */
 trait Options
 {
@@ -96,9 +100,15 @@ trait Options
         'v' => '([0-9]{1,3})',
         'e' => '([a-zA-Z]{1,5})|([a-zA-Z]*\\/[a-zA-Z]*)',
         'I' => '(0|1)',
+<<<<<<< HEAD
         'O' => '([+-](1[012]|0[0-9])[0134][05])',
         'P' => '([+-](1[012]|0[0-9]):[0134][05])',
         'p' => '(Z|[+-](1[012]|0[0-9]):[0134][05])',
+=======
+        'O' => '([+-](1[0123]|0[0-9])[0134][05])',
+        'P' => '([+-](1[0123]|0[0-9]):[0134][05])',
+        'p' => '(Z|[+-](1[0123]|0[0-9]):[0134][05])',
+>>>>>>> main
         'T' => '([a-zA-Z]{1,5})',
         'Z' => '(-?[1-5]?[0-9]{1,4})',
         'U' => '([0-9]*)',
@@ -422,7 +432,11 @@ trait Options
         foreach ($map as $property => $key) {
             $value = $this->$property ?? null;
 
+<<<<<<< HEAD
             if ($value !== null) {
+=======
+            if ($value !== null && ($key !== 'locale' || $value !== 'en' || $this->localTranslator)) {
+>>>>>>> main
                 $settings[$key] = $value;
             }
         }
@@ -437,11 +451,19 @@ trait Options
      */
     public function __debugInfo()
     {
+<<<<<<< HEAD
         $infos = array_filter(get_object_vars($this), function ($var) {
             return $var;
         });
 
         foreach (['dumpProperties', 'constructedObjectId'] as $property) {
+=======
+        $infos = array_filter(get_object_vars($this), static function ($var) {
+            return $var;
+        });
+
+        foreach (['dumpProperties', 'constructedObjectId', 'constructed'] as $property) {
+>>>>>>> main
             if (isset($infos[$property])) {
                 unset($infos[$property]);
             }

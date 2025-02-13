@@ -16,7 +16,11 @@
         }
     ],
     "require": {
+<<<<<<< HEAD
         "php": ">=7.1"
+=======
+        "php": ">=7.2"
+>>>>>>> main
     },
     "provide": {
         "ext-ctype": "*"
@@ -30,9 +34,12 @@
     },
     "minimum-stability": "dev",
     "extra": {
+<<<<<<< HEAD
         "branch-alias": {
             "dev-main": "1.23-dev"
         },
+=======
+>>>>>>> main
         "thanks": {
             "name": "symfony/polyfill",
             "url": "https://github.com/symfony/polyfill"

@@ -11,7 +11,11 @@ class VariadicPlaceholder extends NodeAbstract {
     /**
      * Create a variadic argument placeholder (first-class callable syntax).
      *
+<<<<<<< HEAD
      * @param array $attributes Additional attributes
+=======
+     * @param array<string, mixed> $attributes Additional attributes
+>>>>>>> main
      */
     public function __construct(array $attributes = []) {
         $this->attributes = $attributes;
@@ -24,4 +28,8 @@ class VariadicPlaceholder extends NodeAbstract {
     public function getSubNodeNames(): array {
         return [];
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> main

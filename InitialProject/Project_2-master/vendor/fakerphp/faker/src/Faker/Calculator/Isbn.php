@@ -34,9 +34,15 @@ class Isbn
         $digits = str_split($input);
         array_walk(
             $digits,
+<<<<<<< HEAD
             static function (&$digit, $position) {
                 $digit = (10 - $position) * $digit;
             }
+=======
+            static function (&$digit, $position): void {
+                $digit = (10 - $position) * $digit;
+            },
+>>>>>>> main
         );
         $result = (11 - array_sum($digits) % 11) % 11;
 

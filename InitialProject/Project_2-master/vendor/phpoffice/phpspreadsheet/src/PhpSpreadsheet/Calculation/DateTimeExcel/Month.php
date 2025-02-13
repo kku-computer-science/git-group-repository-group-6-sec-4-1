@@ -45,6 +45,10 @@ class Month
         } catch (Exception $e) {
             return $e->getMessage();
         }
+<<<<<<< HEAD
+=======
+        $dateValue = floor($dateValue);
+>>>>>>> main
         $adjustmentMonths = floor($adjustmentMonths);
 
         // Execute function
@@ -88,6 +92,10 @@ class Month
         } catch (Exception $e) {
             return $e->getMessage();
         }
+<<<<<<< HEAD
+=======
+        $dateValue = floor($dateValue);
+>>>>>>> main
         $adjustmentMonths = floor($adjustmentMonths);
 
         // Execute function

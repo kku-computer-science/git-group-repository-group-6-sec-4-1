@@ -39,12 +39,20 @@ class Properties
 
     protected function readCustomProperties(SimpleXMLElement $xml, array $namespaces): void
     {
+<<<<<<< HEAD
         if (isset($xml->CustomDocumentProperties)) {
+=======
+        if (isset($xml->CustomDocumentProperties) && is_iterable($xml->CustomDocumentProperties[0])) {
+>>>>>>> main
             $docProps = $this->spreadsheet->getProperties();
 
             foreach ($xml->CustomDocumentProperties[0] as $propertyName => $propertyValue) {
                 $propertyAttributes = self::getAttributes($propertyValue, $namespaces['dt']);
+<<<<<<< HEAD
                 $propertyName = preg_replace_callback('/_x([0-9a-f]{4})_/i', [$this, 'hex2str'], $propertyName);
+=======
+                $propertyName = (string) preg_replace_callback('/_x([0-9a-f]{4})_/i', [$this, 'hex2str'], $propertyName);
+>>>>>>> main
 
                 $this->processCustomProperty($docProps, $propertyName, $propertyValue, $propertyAttributes);
             }
@@ -93,6 +101,13 @@ class Properties
                 $docProps->setManager($stringValue);
 
                 break;
+<<<<<<< HEAD
+=======
+            case 'HyperlinkBase':
+                $docProps->setHyperlinkBase($stringValue);
+
+                break;
+>>>>>>> main
             case 'Keywords':
                 $docProps->setKeywords($stringValue);
 
@@ -110,6 +125,7 @@ class Properties
         ?SimpleXMLElement $propertyValue,
         SimpleXMLElement $propertyAttributes
     ): void {
+<<<<<<< HEAD
         $propertyType = DocumentProperties::PROPERTY_TYPE_UNKNOWN;
 
         switch ((string) $propertyAttributes) {
@@ -121,6 +137,12 @@ class Properties
             case 'boolean':
                 $propertyType = DocumentProperties::PROPERTY_TYPE_BOOLEAN;
                 $propertyValue = (bool) $propertyValue;
+=======
+        switch ((string) $propertyAttributes) {
+            case 'boolean':
+                $propertyType = DocumentProperties::PROPERTY_TYPE_BOOLEAN;
+                $propertyValue = (bool) (string) $propertyValue;
+>>>>>>> main
 
                 break;
             case 'integer':
@@ -134,10 +156,22 @@ class Properties
 
                 break;
             case 'dateTime.tz':
+<<<<<<< HEAD
+=======
+            case 'dateTime.iso8601tz':
+>>>>>>> main
                 $propertyType = DocumentProperties::PROPERTY_TYPE_DATE;
                 $propertyValue = trim((string) $propertyValue);
 
                 break;
+<<<<<<< HEAD
+=======
+            default:
+                $propertyType = DocumentProperties::PROPERTY_TYPE_STRING;
+                $propertyValue = trim((string) $propertyValue);
+
+                break;
+>>>>>>> main
         }
 
         $docProps->setCustomProperty($propertyName, $propertyValue, $propertyType);
@@ -150,8 +184,12 @@ class Properties
 
     private static function getAttributes(?SimpleXMLElement $simple, string $node): SimpleXMLElement
     {
+<<<<<<< HEAD
         return ($simple === null)
             ? new SimpleXMLElement('<xml></xml>')
             : ($simple->attributes($node) ?? new SimpleXMLElement('<xml></xml>'));
+=======
+        return ($simple === null) ? new SimpleXMLElement('<xml></xml>') : ($simple->attributes($node) ?? new SimpleXMLElement('<xml></xml>'));
+>>>>>>> main
     }
 }

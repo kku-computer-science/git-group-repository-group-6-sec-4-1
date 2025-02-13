@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 /**
  * Mockery
  *
@@ -16,18 +17,42 @@
  * @package    Mockery
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+=======
+
+/**
+ * Mockery (https://docs.mockery.io/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
+>>>>>>> main
  */
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Generator\MockConfiguration;
+<<<<<<< HEAD
 
 class TraitPass implements Pass
 {
+=======
+use function array_map;
+use function implode;
+use function ltrim;
+use function preg_replace;
+
+class TraitPass implements Pass
+{
+    /**
+     * @param  string $code
+     * @return string
+     */
+>>>>>>> main
     public function apply($code, MockConfiguration $config)
     {
         $traits = $config->getTargetTraits();
 
+<<<<<<< HEAD
         if (empty($traits)) {
             return $code;
         }
@@ -43,5 +68,16 @@ class TraitPass implements Pass
         );
 
         return $code;
+=======
+        if ($traits === []) {
+            return $code;
+        }
+
+        $useStatements = array_map(static function ($trait) {
+            return 'use \\\\' . ltrim($trait->getName(), '\\') . ';';
+        }, $traits);
+
+        return preg_replace('/^{$/m', "{\n    " . implode("\n    ", $useStatements) . "\n", $code);
+>>>>>>> main
     }
 }

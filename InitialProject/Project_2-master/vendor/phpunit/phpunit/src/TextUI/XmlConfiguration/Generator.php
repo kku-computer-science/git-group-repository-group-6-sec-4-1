@@ -67,7 +67,11 @@ EOT;
                 $srcDirectory,
                 $cacheDirectory,
             ],
+<<<<<<< HEAD
             self::TEMPLATE
+=======
+            self::TEMPLATE,
+>>>>>>> main
         );
     }
 }

@@ -60,7 +60,11 @@ class UploadedFile extends File
      * @throws FileException         If file_uploads is disabled
      * @throws FileNotFoundException If the file does not exist
      */
+<<<<<<< HEAD
     public function __construct(string $path, string $originalName, string $mimeType = null, int $error = null, bool $test = false)
+=======
+    public function __construct(string $path, string $originalName, ?string $mimeType = null, ?int $error = null, bool $test = false)
+>>>>>>> main
     {
         $this->originalName = $this->getName($originalName);
         $this->mimeType = $mimeType ?: 'application/octet-stream';
@@ -74,7 +78,11 @@ class UploadedFile extends File
      * Returns the original file name.
      *
      * It is extracted from the request from which the file has been uploaded.
+<<<<<<< HEAD
      * Then it should not be considered as a safe value.
+=======
+     * This should not be considered as a safe value to use for a file name on your servers.
+>>>>>>> main
      *
      * @return string
      */
@@ -87,7 +95,11 @@ class UploadedFile extends File
      * Returns the original file extension.
      *
      * It is extracted from the original file name that was uploaded.
+<<<<<<< HEAD
      * Then it should not be considered as a safe value.
+=======
+     * This should not be considered as a safe value to use for a file name on your servers.
+>>>>>>> main
      *
      * @return string
      */
@@ -172,7 +184,11 @@ class UploadedFile extends File
      *
      * @throws FileException if, for any reason, the file could not have been moved
      */
+<<<<<<< HEAD
     public function move(string $directory, string $name = null)
+=======
+    public function move(string $directory, ?string $name = null)
+>>>>>>> main
     {
         if ($this->isValid()) {
             if ($this->test) {
@@ -223,8 +239,13 @@ class UploadedFile extends File
      */
     public static function getMaxFilesize()
     {
+<<<<<<< HEAD
         $sizePostMax = self::parseFilesize(ini_get('post_max_size'));
         $sizeUploadMax = self::parseFilesize(ini_get('upload_max_filesize'));
+=======
+        $sizePostMax = self::parseFilesize(\ini_get('post_max_size'));
+        $sizeUploadMax = self::parseFilesize(\ini_get('upload_max_filesize'));
+>>>>>>> main
 
         return min($sizePostMax ?: \PHP_INT_MAX, $sizeUploadMax ?: \PHP_INT_MAX);
     }
@@ -253,11 +274,19 @@ class UploadedFile extends File
 
         switch (substr($size, -1)) {
             case 't': $max *= 1024;
+<<<<<<< HEAD
             // no break
             case 'g': $max *= 1024;
             // no break
             case 'm': $max *= 1024;
             // no break
+=======
+                // no break
+            case 'g': $max *= 1024;
+                // no break
+            case 'm': $max *= 1024;
+                // no break
+>>>>>>> main
             case 'k': $max *= 1024;
         }
 

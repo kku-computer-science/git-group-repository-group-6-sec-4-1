@@ -9,6 +9,12 @@
  */
 namespace PHPUnit\Framework\MockObject;
 
+<<<<<<< HEAD
+=======
+use function array_diff_assoc;
+use function array_unique;
+use function implode;
+>>>>>>> main
 use function sprintf;
 
 /**
@@ -25,8 +31,13 @@ final class DuplicateMethodException extends \PHPUnit\Framework\Exception implem
             sprintf(
                 'Cannot double using a method list that contains duplicates: "%s" (duplicate: "%s")',
                 implode(', ', $methods),
+<<<<<<< HEAD
                 implode(', ', array_unique(array_diff_assoc($methods, array_unique($methods))))
             )
+=======
+                implode(', ', array_unique(array_diff_assoc($methods, array_unique($methods)))),
+            ),
+>>>>>>> main
         );
     }
 }

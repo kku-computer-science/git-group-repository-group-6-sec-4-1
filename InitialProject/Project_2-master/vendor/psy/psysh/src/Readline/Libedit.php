@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -25,12 +29,19 @@ use Psy\Util\Str;
  */
 class Libedit extends GNUReadline
 {
+<<<<<<< HEAD
     private $hasWarnedOwnership = false;
 
     /**
      * Let's emulate GNU Readline by manually reading and parsing the history file!
      *
      * @return bool
+=======
+    private bool $hasWarnedOwnership = false;
+
+    /**
+     * Let's emulate GNU Readline by manually reading and parsing the history file!
+>>>>>>> main
      */
     public static function isSupported(): bool
     {
@@ -50,6 +61,13 @@ class Libedit extends GNUReadline
      */
     public function listHistory(): array
     {
+<<<<<<< HEAD
+=======
+        if ($this->historyFile === false) {
+            return [];
+        }
+
+>>>>>>> main
         $history = \file_get_contents($this->historyFile);
         if (!$history) {
             return [];
@@ -65,6 +83,10 @@ class Libedit extends GNUReadline
 
         // decode the line
         $history = \array_map([$this, 'parseHistoryLine'], $history);
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
         // filter empty lines & comments
         return \array_values(\array_filter($history));
     }

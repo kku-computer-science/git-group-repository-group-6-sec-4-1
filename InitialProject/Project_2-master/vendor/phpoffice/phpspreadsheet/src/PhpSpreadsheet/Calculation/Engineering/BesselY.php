@@ -4,7 +4,11 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\Engineering;
 
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class BesselY
 {
@@ -45,12 +49,20 @@ class BesselY
         }
 
         if (($ord < 0) || ($x <= 0.0)) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         $fBy = self::calculate($x, $ord);
 
+<<<<<<< HEAD
         return (is_nan($fBy)) ? Functions::NAN() : $fBy;
+=======
+        return (is_nan($fBy)) ? ExcelError::NAN() : $fBy;
+>>>>>>> main
     }
 
     private static function calculate(float $x, int $ord): float
@@ -66,6 +78,24 @@ class BesselY
         return self::besselY2($x, $ord);
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * Mollify Phpstan.
+     *
+     * @codeCoverageIgnore
+     */
+    private static function callBesselJ(float $x, int $ord): float
+    {
+        $rslt = BesselJ::BESSELJ($x, $ord);
+        if (!is_float($rslt)) {
+            throw new Exception('Unexpected array or string');
+        }
+
+        return $rslt;
+    }
+
+>>>>>>> main
     private static function besselY0(float $x): float
     {
         if ($x < 8.0) {
@@ -75,7 +105,11 @@ class BesselY
             $ans2 = 40076544269.0 + $y * (745249964.8 + $y * (7189466.438 + $y *
                         (47447.26470 + $y * (226.1030244 + $y))));
 
+<<<<<<< HEAD
             return $ans1 / $ans2 + 0.636619772 * BesselJ::BESSELJ($x, 0) * log($x);
+=======
+            return $ans1 / $ans2 + 0.636619772 * self::callBesselJ($x, 0) * log($x);
+>>>>>>> main
         }
 
         $z = 8.0 / $x;
@@ -97,7 +131,11 @@ class BesselY
             $ans2 = 0.2499580570e14 + $y * (0.4244419664e12 + $y * (0.3733650367e10 + $y * (0.2245904002e8 + $y *
                             (0.1020426050e6 + $y * (0.3549632885e3 + $y)))));
 
+<<<<<<< HEAD
             return ($ans1 / $ans2) + 0.636619772 * (BesselJ::BESSELJ($x, 1) * log($x) - 1 / $x);
+=======
+            return ($ans1 / $ans2) + 0.636619772 * (self::callBesselJ($x, 1) * log($x) - 1 / $x);
+>>>>>>> main
         }
 
         $z = 8.0 / $x;

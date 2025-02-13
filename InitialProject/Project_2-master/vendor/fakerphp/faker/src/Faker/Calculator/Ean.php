@@ -17,11 +17,17 @@ class Ean
      *
      * @see https://en.wikipedia.org/wiki/International_Article_Number
      *
+<<<<<<< HEAD
      * @param string $digits
      *
      * @return int
      */
     public static function checksum($digits)
+=======
+     * @return int
+     */
+    public static function checksum(string $digits)
+>>>>>>> main
     {
         $sequence = (strlen($digits) + 1) === 8 ? [3, 1] : [1, 3];
         $sums = 0;
@@ -41,7 +47,11 @@ class Ean
      *
      * @return bool
      */
+<<<<<<< HEAD
     public static function isValid($ean)
+=======
+    public static function isValid(string $ean)
+>>>>>>> main
     {
         if (!preg_match(self::PATTERN, $ean)) {
             return false;

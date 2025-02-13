@@ -18,6 +18,14 @@ class Row implements ArrayAccess
     protected $headingRow = [];
 
     /**
+<<<<<<< HEAD
+=======
+     * @var array
+     */
+    protected $headerIsGrouped = [];
+
+    /**
+>>>>>>> main
      * @var \Closure
      */
     protected $preparationCallback;
@@ -33,6 +41,19 @@ class Row implements ArrayAccess
     protected $rowCache;
 
     /**
+<<<<<<< HEAD
+=======
+     * @var bool|null
+     */
+    protected $rowCacheFormatData;
+
+    /**
+     * @var string|null
+     */
+    protected $rowCacheEndColumn;
+
+    /**
+>>>>>>> main
      * @param  SpreadsheetRow  $row
      * @param  array  $headingRow
      * @param  array  $headerIsGrouped
@@ -73,7 +94,11 @@ class Row implements ArrayAccess
      */
     public function toArray($nullValue = null, $calculateFormulas = false, $formatData = true, ?string $endColumn = null)
     {
+<<<<<<< HEAD
         if (is_array($this->rowCache)) {
+=======
+        if (is_array($this->rowCache) && ($this->rowCacheFormatData === $formatData) && ($this->rowCacheEndColumn === $endColumn)) {
+>>>>>>> main
             return $this->rowCache;
         }
 
@@ -100,7 +125,13 @@ class Row implements ArrayAccess
             $cells = ($this->preparationCallback)($cells, $this->row->getRowIndex());
         }
 
+<<<<<<< HEAD
         $this->rowCache = $cells;
+=======
+        $this->rowCache           = $cells;
+        $this->rowCacheFormatData = $formatData;
+        $this->rowCacheEndColumn  = $endColumn;
+>>>>>>> main
 
         return $cells;
     }
@@ -126,13 +157,21 @@ class Row implements ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
+<<<<<<< HEAD
         return isset(($this->toArray())[$offset]);
+=======
+        return isset($this->toArray()[$offset]);
+>>>>>>> main
     }
 
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
+<<<<<<< HEAD
         return ($this->toArray())[$offset];
+=======
+        return $this->toArray()[$offset];
+>>>>>>> main
     }
 
     #[\ReturnTypeWillChange]
@@ -152,7 +191,11 @@ class Row implements ArrayAccess
      *
      * @internal
      */
+<<<<<<< HEAD
     public function setPreparationCallback(Closure $preparationCallback = null)
+=======
+    public function setPreparationCallback(?Closure $preparationCallback = null)
+>>>>>>> main
     {
         $this->preparationCallback = $preparationCallback;
     }

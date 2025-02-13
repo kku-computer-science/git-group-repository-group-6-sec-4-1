@@ -2,6 +2,11 @@
 
 namespace Maatwebsite\Excel\Cache;
 
+<<<<<<< HEAD
+=======
+use Composer\InstalledVersions;
+use Composer\Semver\VersionParser;
+>>>>>>> main
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Manager;
 use Psr\SimpleCache\CacheInterface;
@@ -38,6 +43,15 @@ class CacheManager extends Manager
      */
     public function createMemoryDriver(): CacheInterface
     {
+<<<<<<< HEAD
+=======
+        if (!InstalledVersions::satisfies(new VersionParser, 'psr/simple-cache', '^3.0')) {
+            return new MemoryCacheDeprecated(
+                config('excel.cache.batch.memory_limit', 60000)
+            );
+        }
+
+>>>>>>> main
         return new MemoryCache(
             config('excel.cache.batch.memory_limit', 60000)
         );
@@ -48,9 +62,24 @@ class CacheManager extends Manager
      */
     public function createBatchDriver(): CacheInterface
     {
+<<<<<<< HEAD
         return new BatchCache(
             $this->createIlluminateDriver(),
             $this->createMemoryDriver()
+=======
+        if (!InstalledVersions::satisfies(new VersionParser, 'psr/simple-cache', '^3.0')) {
+            return new BatchCacheDeprecated(
+                $this->createIlluminateDriver(),
+                $this->createMemoryDriver(),
+                config('excel.cache.default_ttl')
+            );
+        }
+
+        return new BatchCache(
+            $this->createIlluminateDriver(),
+            $this->createMemoryDriver(),
+            config('excel.cache.default_ttl')
+>>>>>>> main
         );
     }
 

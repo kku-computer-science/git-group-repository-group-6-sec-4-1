@@ -15,7 +15,11 @@ if (!\function_exists(t::class)) {
     /**
      * @author Nate Wiebe <nate@northern.co>
      */
+<<<<<<< HEAD
     function t(string $message, array $parameters = [], string $domain = null): TranslatableMessage
+=======
+    function t(string $message, array $parameters = [], ?string $domain = null): TranslatableMessage
+>>>>>>> main
     {
         return new TranslatableMessage($message, $parameters, $domain);
     }

@@ -26,7 +26,11 @@ class RoutingConfigurator
     private $file;
     private $env;
 
+<<<<<<< HEAD
     public function __construct(RouteCollection $collection, PhpFileLoader $loader, string $path, string $file, string $env = null)
+=======
+    public function __construct(RouteCollection $collection, PhpFileLoader $loader, string $path, string $file, ?string $env = null)
+>>>>>>> main
     {
         $this->collection = $collection;
         $this->loader = $loader;
@@ -38,7 +42,11 @@ class RoutingConfigurator
     /**
      * @param string|string[]|null $exclude Glob patterns to exclude from the import
      */
+<<<<<<< HEAD
     final public function import($resource, string $type = null, bool $ignoreErrors = false, $exclude = null): ImportConfigurator
+=======
+    final public function import($resource, ?string $type = null, bool $ignoreErrors = false, $exclude = null): ImportConfigurator
+>>>>>>> main
     {
         $this->loader->setCurrentDir(\dirname($this->path));
 

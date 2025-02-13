@@ -42,7 +42,11 @@ final class FileLoader
             $includePathFilename === $localFile ||
             !self::isReadable($includePathFilename)) {
             throw new Exception(
+<<<<<<< HEAD
                 sprintf('Cannot open file "%s".' . "\n", $filename)
+=======
+                sprintf('Cannot open file "%s".' . "\n", $filename),
+>>>>>>> main
             );
         }
 
@@ -60,6 +64,10 @@ final class FileLoader
 
         /**
          * @noinspection PhpIncludeInspection
+<<<<<<< HEAD
+=======
+         *
+>>>>>>> main
          * @psalm-suppress UnresolvableInclude
          */
         include_once $filename;

@@ -79,6 +79,7 @@ class HTMLPurifier_Bootstrap
     public static function registerAutoload()
     {
         $autoload = array('HTMLPurifier_Bootstrap', 'autoload');
+<<<<<<< HEAD
         if (($funcs = spl_autoload_functions()) === false) {
             spl_autoload_register($autoload);
         } elseif (function_exists('spl_autoload_unregister')) {
@@ -117,6 +118,13 @@ class HTMLPurifier_Bootstrap
                     spl_autoload_register($func);
                 }
             }
+=======
+        if (spl_autoload_functions() === false) {
+            spl_autoload_register($autoload);
+        } else {
+            // prepend flag exists, no need for shenanigans
+            spl_autoload_register($autoload, true, true);
+>>>>>>> main
         }
     }
 }

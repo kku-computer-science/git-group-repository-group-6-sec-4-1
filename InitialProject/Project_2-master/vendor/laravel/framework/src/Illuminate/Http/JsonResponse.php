@@ -74,6 +74,12 @@ class JsonResponse extends BaseJsonResponse
     {
         $this->original = $data;
 
+<<<<<<< HEAD
+=======
+        // Ensure json_last_error() is cleared...
+        json_decode('[]');
+
+>>>>>>> main
         if ($data instanceof Jsonable) {
             $this->data = $data->toJson($this->encodingOptions);
         } elseif ($data instanceof JsonSerializable) {

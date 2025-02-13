@@ -8,6 +8,13 @@ use Sabberworm\CSS\Parsing\UnexpectedEOFException;
 use Sabberworm\CSS\Parsing\UnexpectedTokenException;
 use Sabberworm\CSS\Renderable;
 
+<<<<<<< HEAD
+=======
+/**
+ * Abstract base class for specific classes of CSS values: `Size`, `Color`, `CSSString` and `URL`, and another
+ * abstract subclass `ValueList`.
+ */
+>>>>>>> main
 abstract class Value implements Renderable
 {
     /**
@@ -39,8 +46,14 @@ abstract class Value implements Renderable
         //Build a list of delimiters and parsed values
         while (
             !($oParserState->comes('}') || $oParserState->comes(';') || $oParserState->comes('!')
+<<<<<<< HEAD
             || $oParserState->comes(')')
             || $oParserState->comes('\\'))
+=======
+                || $oParserState->comes(')')
+                || $oParserState->comes('\\')
+                || $oParserState->isEnd())
+>>>>>>> main
         ) {
             if (count($aStack) > 0) {
                 $bFoundDelimiter = false;
@@ -62,6 +75,7 @@ abstract class Value implements Renderable
         }
         // Convert the list to list objects
         foreach ($aListDelimiters as $sDelimiter) {
+<<<<<<< HEAD
             if (count($aStack) === 1) {
                 return $aStack[0];
             }
@@ -69,16 +83,40 @@ abstract class Value implements Renderable
             while (($iStartPosition = array_search($sDelimiter, $aStack, true)) !== false) {
                 $iLength = 2; //Number of elements to be joined
                 for ($i = $iStartPosition + 2; $i < count($aStack); $i += 2, ++$iLength) {
+=======
+            $iStackLength = count($aStack);
+            if ($iStackLength === 1) {
+                return $aStack[0];
+            }
+            $aNewStack = [];
+            for ($iStartPosition = 0; $iStartPosition < $iStackLength; ++$iStartPosition) {
+                if ($iStartPosition === ($iStackLength - 1) || $sDelimiter !== $aStack[$iStartPosition + 1]) {
+                    $aNewStack[] = $aStack[$iStartPosition];
+                    continue;
+                }
+                $iLength = 2; //Number of elements to be joined
+                for ($i = $iStartPosition + 3; $i < $iStackLength; $i += 2, ++$iLength) {
+>>>>>>> main
                     if ($sDelimiter !== $aStack[$i]) {
                         break;
                     }
                 }
                 $oList = new RuleValueList($sDelimiter, $oParserState->currentLine());
+<<<<<<< HEAD
                 for ($i = $iStartPosition - 1; $i - $iStartPosition + 1 < $iLength * 2; $i += 2) {
                     $oList->addListComponent($aStack[$i]);
                 }
                 array_splice($aStack, $iStartPosition - 1, $iLength * 2 - 1, [$oList]);
             }
+=======
+                for ($i = $iStartPosition; $i - $iStartPosition < $iLength * 2; $i += 2) {
+                    $oList->addListComponent($aStack[$i]);
+                }
+                $aNewStack[] = $oList;
+                $iStartPosition += $iLength * 2 - 2;
+            }
+            $aStack = $aNewStack;
+>>>>>>> main
         }
         if (!isset($aStack[0])) {
             throw new UnexpectedTokenException(
@@ -101,6 +139,7 @@ abstract class Value implements Renderable
      */
     public static function parseIdentifierOrFunction(ParserState $oParserState, $bIgnoreCase = false)
     {
+<<<<<<< HEAD
         $sResult = $oParserState->parseIdentifier($bIgnoreCase);
 
         if ($oParserState->comes('(')) {
@@ -111,6 +150,27 @@ abstract class Value implements Renderable
         }
 
         return $sResult;
+=======
+        $oAnchor = $oParserState->anchor();
+        $mResult = $oParserState->parseIdentifier($bIgnoreCase);
+
+        if ($oParserState->comes('(')) {
+            $oAnchor->backtrack();
+            if ($oParserState->streql('url', $mResult)) {
+                $mResult = URL::parse($oParserState);
+            } elseif (
+                $oParserState->streql('calc', $mResult)
+                || $oParserState->streql('-webkit-calc', $mResult)
+                || $oParserState->streql('-moz-calc', $mResult)
+            ) {
+                $mResult = CalcFunction::parse($oParserState);
+            } else {
+                $mResult = CSSFunction::parse($oParserState, $bIgnoreCase);
+            }
+        }
+
+        return $mResult;
+>>>>>>> main
     }
 
     /**
@@ -133,6 +193,7 @@ abstract class Value implements Renderable
             $oValue = Size::parse($oParserState);
         } elseif ($oParserState->comes('#') || $oParserState->comes('rgb', true) || $oParserState->comes('hsl', true)) {
             $oValue = Color::parse($oParserState);
+<<<<<<< HEAD
         } elseif ($oParserState->comes('url', true)) {
             $oValue = URL::parse($oParserState);
         } elseif (
@@ -140,6 +201,8 @@ abstract class Value implements Renderable
             || $oParserState->comes('-moz-calc', true)
         ) {
             $oValue = CalcFunction::parse($oParserState);
+=======
+>>>>>>> main
         } elseif ($oParserState->comes("'") || $oParserState->comes('"')) {
             $oValue = CSSString::parse($oParserState);
         } elseif ($oParserState->comes("progid:") && $oParserState->getSettings()->bLenientParsing) {
@@ -149,7 +212,20 @@ abstract class Value implements Renderable
         } elseif ($oParserState->comes("U+")) {
             $oValue = self::parseUnicodeRangeValue($oParserState);
         } else {
+<<<<<<< HEAD
             $oValue = self::parseIdentifierOrFunction($oParserState);
+=======
+            $sNextChar = $oParserState->peek(1);
+            try {
+                $oValue = self::parseIdentifierOrFunction($oParserState);
+            } catch (UnexpectedTokenException $e) {
+                if (\in_array($sNextChar, ['+', '-', '*', '/'], true)) {
+                    $oValue = $oParserState->consume(1);
+                } else {
+                    throw $e;
+                }
+            }
+>>>>>>> main
         }
         $oParserState->consumeWhiteSpace();
         return $oValue;

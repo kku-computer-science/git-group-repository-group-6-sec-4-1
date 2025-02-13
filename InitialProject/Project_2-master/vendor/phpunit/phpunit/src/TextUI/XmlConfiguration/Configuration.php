@@ -15,6 +15,10 @@ use PHPUnit\Util\Xml\ValidationResult;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
+<<<<<<< HEAD
+=======
+ *
+>>>>>>> main
  * @psalm-immutable
  */
 final class Configuration

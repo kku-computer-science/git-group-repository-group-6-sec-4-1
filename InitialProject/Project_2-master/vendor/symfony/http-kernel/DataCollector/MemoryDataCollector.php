@@ -29,7 +29,11 @@ class MemoryDataCollector extends DataCollector implements LateDataCollectorInte
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function collect(Request $request, Response $response, \Throwable $exception = null)
+=======
+    public function collect(Request $request, Response $response, ?\Throwable $exception = null)
+>>>>>>> main
     {
         $this->updateMemoryUsage();
     }
@@ -41,7 +45,11 @@ class MemoryDataCollector extends DataCollector implements LateDataCollectorInte
     {
         $this->data = [
             'memory' => 0,
+<<<<<<< HEAD
             'memory_limit' => $this->convertToBytes(ini_get('memory_limit')),
+=======
+            'memory_limit' => $this->convertToBytes(\ini_get('memory_limit')),
+>>>>>>> main
         ];
     }
 
@@ -100,11 +108,19 @@ class MemoryDataCollector extends DataCollector implements LateDataCollectorInte
 
         switch (substr($memoryLimit, -1)) {
             case 't': $max *= 1024;
+<<<<<<< HEAD
             // no break
             case 'g': $max *= 1024;
             // no break
             case 'm': $max *= 1024;
             // no break
+=======
+                // no break
+            case 'g': $max *= 1024;
+                // no break
+            case 'm': $max *= 1024;
+                // no break
+>>>>>>> main
             case 'k': $max *= 1024;
         }
 

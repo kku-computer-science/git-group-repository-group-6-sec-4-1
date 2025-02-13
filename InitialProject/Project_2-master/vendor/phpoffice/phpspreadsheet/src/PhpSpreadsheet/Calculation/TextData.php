@@ -12,9 +12,15 @@ class TextData
     /**
      * CHARACTER.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the character() method in the TextData\CharacterConvert class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the character() method in the TextData\CharacterConvert class instead
+     * @see TextData\CharacterConvert::character()
+>>>>>>> main
      *
      * @param string $character Value
      *
@@ -28,9 +34,15 @@ class TextData
     /**
      * TRIMNONPRINTABLE.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the nonPrintable() method in the TextData\Trim class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the nonPrintable() method in the TextData\Trim class instead
+     * @see TextData\Trim::nonPrintable()
+>>>>>>> main
      *
      * @param mixed $stringValue Value to check
      *
@@ -44,9 +56,15 @@ class TextData
     /**
      * TRIMSPACES.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the spaces() method in the TextData\Trim class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the spaces() method in the TextData\Trim class instead
+     * @see TextData\Trim::spaces()
+>>>>>>> main
      *
      * @param mixed $stringValue Value to check
      *
@@ -60,9 +78,15 @@ class TextData
     /**
      * ASCIICODE.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the code() method in the TextData\CharacterConvert class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the code() method in the TextData\CharacterConvert class instead
+     * @see TextData\CharacterConvert::code()
+>>>>>>> main
      *
      * @param array|string $characters Value
      *
@@ -76,9 +100,17 @@ class TextData
     /**
      * CONCATENATE.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the CONCATENATE() method in the TextData\Concatenate class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the CONCATENATE() method in the TextData\Concatenate class instead
+     * @see TextData\Concatenate::CONCATENATE()
+     *
+     * @param array $args
+>>>>>>> main
      *
      * @return string
      */
@@ -93,9 +125,15 @@ class TextData
      * This function converts a number to text using currency format, with the decimals rounded to the specified place.
      * The format used is $#,##0.00_);($#,##0.00)..
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the DOLLAR() method in the TextData\Format class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the DOLLAR() method in the TextData\Format class instead
+     * @see TextData\Format::DOLLAR()
+>>>>>>> main
      *
      * @param float $value The value to format
      * @param int $decimals The number of digits to display to the right of the decimal point.
@@ -112,9 +150,15 @@ class TextData
     /**
      * FIND.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the sensitive() method in the TextData\Search class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the sensitive() method in the TextData\Search class instead
+     * @see TextData\Search::sensitive()
+>>>>>>> main
      *
      * @param array|string $needle The string to look for
      * @param array|string $haystack The string in which to look
@@ -130,9 +174,15 @@ class TextData
     /**
      * SEARCH.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the insensitive() method in the TextData\Search class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the insensitive() method in the TextData\Search class instead
+     * @see TextData\Search::insensitive()
+>>>>>>> main
      *
      * @param array|string $needle The string to look for
      * @param array|string $haystack The string in which to look
@@ -148,9 +198,15 @@ class TextData
     /**
      * FIXEDFORMAT.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the FIXEDFORMAT() method in the TextData\Format class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the FIXEDFORMAT() method in the TextData\Format class instead
+     * @see TextData\Format::FIXEDFORMAT()
+>>>>>>> main
      *
      * @param mixed $value Value to check
      * @param int $decimals
@@ -166,9 +222,15 @@ class TextData
     /**
      * LEFT.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the left() method in the TextData\Extract class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the left() method in the TextData\Extract class instead
+     * @see TextData\Extract::left()
+>>>>>>> main
      *
      * @param array|string $value Value
      * @param array|int $chars Number of characters
@@ -183,9 +245,15 @@ class TextData
     /**
      * MID.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the mid() method in the TextData\Extract class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the mid() method in the TextData\Extract class instead
+     * @see TextData\Extract::mid()
+>>>>>>> main
      *
      * @param array|string $value Value
      * @param array|int $start Start character
@@ -201,9 +269,15 @@ class TextData
     /**
      * RIGHT.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the right() method in the TextData\Extract class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the right() method in the TextData\Extract class instead
+     * @see TextData\Extract::right()
+>>>>>>> main
      *
      * @param array|string $value Value
      * @param array|int $chars Number of characters
@@ -218,9 +292,15 @@ class TextData
     /**
      * STRINGLENGTH.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the length() method in the TextData\Text class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the length() method in the TextData\Text class instead
+     * @see TextData\Text::length()
+>>>>>>> main
      *
      * @param string $value Value
      *
@@ -236,9 +316,15 @@ class TextData
      *
      * Converts a string value to lower case.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the lower() method in the TextData\CaseConvert class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the lower() method in the TextData\CaseConvert class instead
+     * @see TextData\CaseConvert::lower()
+>>>>>>> main
      *
      * @param array|string $mixedCaseString
      *
@@ -254,9 +340,15 @@ class TextData
      *
      * Converts a string value to upper case.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the upper() method in the TextData\CaseConvert class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the upper() method in the TextData\CaseConvert class instead
+     * @see TextData\CaseConvert::upper()
+>>>>>>> main
      *
      * @param string $mixedCaseString
      *
@@ -272,9 +364,15 @@ class TextData
      *
      * Converts a string value to proper/title case.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the proper() method in the TextData\CaseConvert class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the proper() method in the TextData\CaseConvert class instead
+     * @see TextData\CaseConvert::proper()
+>>>>>>> main
      *
      * @param array|string $mixedCaseString
      *
@@ -288,9 +386,15 @@ class TextData
     /**
      * REPLACE.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the replace() method in the TextData\Replace class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the replace() method in the TextData\Replace class instead
+     * @see TextData\Replace::replace()
+>>>>>>> main
      *
      * @param string $oldText String to modify
      * @param int $start Start character
@@ -307,9 +411,15 @@ class TextData
     /**
      * SUBSTITUTE.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the substitute() method in the TextData\Replace class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the substitute() method in the TextData\Replace class instead
+     * @see TextData\Replace::substitute()
+>>>>>>> main
      *
      * @param string $text Value
      * @param string $fromText From Value
@@ -326,9 +436,15 @@ class TextData
     /**
      * RETURNSTRING.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the test() method in the TextData\Text class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the test() method in the TextData\Text class instead
+     * @see TextData\Text::test()
+>>>>>>> main
      *
      * @param mixed $testValue Value to check
      *
@@ -342,9 +458,15 @@ class TextData
     /**
      * TEXTFORMAT.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the TEXTFORMAT() method in the TextData\Format class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the TEXTFORMAT() method in the TextData\Format class instead
+     * @see TextData\Format::TEXTFORMAT()
+>>>>>>> main
      *
      * @param mixed $value Value to check
      * @param string $format Format mask to use
@@ -359,9 +481,15 @@ class TextData
     /**
      * VALUE.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the VALUE() method in the TextData\Format class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the VALUE() method in the TextData\Format class instead
+     * @see TextData\Format::VALUE()
+>>>>>>> main
      *
      * @param mixed $value Value to check
      *
@@ -375,9 +503,15 @@ class TextData
     /**
      * NUMBERVALUE.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the NUMBERVALUE() method in the TextData\Format class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the NUMBERVALUE() method in the TextData\Format class instead
+     * @see TextData\Format::NUMBERVALUE()
+>>>>>>> main
      *
      * @param mixed $value Value to check
      * @param string $decimalSeparator decimal separator, defaults to locale defined value
@@ -395,9 +529,15 @@ class TextData
      * EXACT is case-sensitive but ignores formatting differences.
      * Use EXACT to test text being entered into a document.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the exact() method in the TextData\Text class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the exact() method in the TextData\Text class instead
+     * @see TextData\Text::exact()
+>>>>>>> main
      *
      * @param mixed $value1
      * @param mixed $value2
@@ -412,9 +552,15 @@ class TextData
     /**
      * TEXTJOIN.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the TEXTJOIN() method in the TextData\Concatenate class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the TEXTJOIN() method in the TextData\Concatenate class instead
+     * @see TextData\Concatenate::TEXTJOIN()
+>>>>>>> main
      *
      * @param mixed $delimiter
      * @param mixed $ignoreEmpty
@@ -432,9 +578,15 @@ class TextData
      *
      * Returns the result of builtin function repeat after validating args.
      *
+<<<<<<< HEAD
      * @Deprecated 1.18.0
      *
      * @see Use the builtinREPT() method in the TextData\Concatenate class instead
+=======
+     * @deprecated 1.18.0
+     *      Use the builtinREPT() method in the TextData\Concatenate class instead
+     * @see TextData\Concatenate::builtinREPT()
+>>>>>>> main
      *
      * @param array|string $str Should be numeric
      * @param mixed $number Should be int

@@ -116,8 +116,13 @@ class OLE
      */
     public function read($filename)
     {
+<<<<<<< HEAD
         $fh = fopen($filename, 'rb');
         if (!$fh) {
+=======
+        $fh = @fopen($filename, 'rb');
+        if ($fh === false) {
+>>>>>>> main
             throw new ReaderException("Can't open file $filename");
         }
         $this->_file_handle = $fh;
@@ -239,7 +244,16 @@ class OLE
             $path .= '&blockId=' . $blockIdOrPps;
         }
 
+<<<<<<< HEAD
         return fopen($path, 'rb');
+=======
+        $resource = fopen($path, 'rb');
+        if ($resource === false) {
+            throw new Exception("Unable to open stream $path");
+        }
+
+        return $resource;
+>>>>>>> main
     }
 
     /**
@@ -251,7 +265,11 @@ class OLE
      */
     private static function readInt1($fileHandle)
     {
+<<<<<<< HEAD
         [, $tmp] = unpack('c', fread($fileHandle, 1));
+=======
+        [, $tmp] = unpack('c', fread($fileHandle, 1) ?: '') ?: [0, 0];
+>>>>>>> main
 
         return $tmp;
     }
@@ -265,13 +283,26 @@ class OLE
      */
     private static function readInt2($fileHandle)
     {
+<<<<<<< HEAD
         [, $tmp] = unpack('v', fread($fileHandle, 2));
+=======
+        [, $tmp] = unpack('v', fread($fileHandle, 2) ?: '') ?: [0, 0];
+>>>>>>> main
 
         return $tmp;
     }
 
+<<<<<<< HEAD
     /**
      * Reads an unsigned long (4 octets).
+=======
+    private const SIGNED_4OCTET_LIMIT = 2147483648;
+
+    private const SIGNED_4OCTET_SUBTRACT = 2 * self::SIGNED_4OCTET_LIMIT;
+
+    /**
+     * Reads long (4 octets), interpreted as if signed on 32-bit system.
+>>>>>>> main
      *
      * @param resource $fileHandle file handle
      *
@@ -279,7 +310,14 @@ class OLE
      */
     private static function readInt4($fileHandle)
     {
+<<<<<<< HEAD
         [, $tmp] = unpack('V', fread($fileHandle, 4));
+=======
+        [, $tmp] = unpack('V', fread($fileHandle, 4) ?: '') ?: [0, 0];
+        if ($tmp >= self::SIGNED_4OCTET_LIMIT) {
+            $tmp -= self::SIGNED_4OCTET_SUBTRACT;
+        }
+>>>>>>> main
 
         return $tmp;
     }
@@ -297,7 +335,11 @@ class OLE
         $fh = $this->getStream($blockId);
         for ($pos = 0; true; $pos += 128) {
             fseek($fh, $pos, SEEK_SET);
+<<<<<<< HEAD
             $nameUtf16 = fread($fh, 64);
+=======
+            $nameUtf16 = (string) fread($fh, 64);
+>>>>>>> main
             $nameLength = self::readInt2($fh);
             $nameUtf16 = substr($nameUtf16, 0, $nameLength - 2);
             // Simple conversion from UTF-16LE to ISO-8859-1
@@ -327,15 +369,24 @@ class OLE
             $pps->NextPps = self::readInt4($fh);
             $pps->DirPps = self::readInt4($fh);
             fseek($fh, 20, SEEK_CUR);
+<<<<<<< HEAD
             $pps->Time1st = self::OLE2LocalDate(fread($fh, 8));
             $pps->Time2nd = self::OLE2LocalDate(fread($fh, 8));
+=======
+            $pps->Time1st = self::OLE2LocalDate((string) fread($fh, 8));
+            $pps->Time2nd = self::OLE2LocalDate((string) fread($fh, 8));
+>>>>>>> main
             $pps->startBlock = self::readInt4($fh);
             $pps->Size = self::readInt4($fh);
             $pps->No = count($this->_list);
             $this->_list[] = $pps;
 
             // check if the PPS tree (starting from root) is complete
+<<<<<<< HEAD
             if (isset($this->root) && $this->ppsTreeComplete($this->root->No)) {
+=======
+            if (isset($this->root) && $this->ppsTreeComplete($this->root->No)) { //* @phpstan-ignore-line
+>>>>>>> main
                 break;
             }
         }
@@ -346,7 +397,11 @@ class OLE
             if ($pps->Type == self::OLE_PPS_TYPE_DIR || $pps->Type == self::OLE_PPS_TYPE_ROOT) {
                 $nos = [$pps->DirPps];
                 $pps->children = [];
+<<<<<<< HEAD
                 while ($nos) {
+=======
+                while (!empty($nos)) {
+>>>>>>> main
                     $no = array_pop($nos);
                     if ($no != -1) {
                         $childPps = $this->_list[$no];
@@ -445,7 +500,11 @@ class OLE
             return '';
         }
         $fh = $this->getStream($this->_list[$index]);
+<<<<<<< HEAD
         $data = stream_get_contents($fh, $length, $position);
+=======
+        $data = (string) stream_get_contents($fh, $length, $position);
+>>>>>>> main
         fclose($fh);
 
         return $data;
@@ -537,7 +596,11 @@ class OLE
         }
 
         // convert to units of 100 ns since 1601:
+<<<<<<< HEAD
         $unpackedTimestamp = unpack('v4', $oleTimestamp);
+=======
+        $unpackedTimestamp = unpack('v4', $oleTimestamp) ?: [];
+>>>>>>> main
         $timestampHigh = (float) $unpackedTimestamp[4] * 65536 + (float) $unpackedTimestamp[3];
         $timestampLow = (float) $unpackedTimestamp[2] * 65536 + (float) $unpackedTimestamp[1];
 

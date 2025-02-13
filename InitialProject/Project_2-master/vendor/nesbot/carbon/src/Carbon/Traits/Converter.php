@@ -16,6 +16,10 @@ use Carbon\CarbonImmutable;
 use Carbon\CarbonInterface;
 use Carbon\CarbonInterval;
 use Carbon\CarbonPeriod;
+<<<<<<< HEAD
+=======
+use Carbon\CarbonPeriodImmutable;
+>>>>>>> main
 use Carbon\Exceptions\UnitException;
 use Closure;
 use DateTime;
@@ -34,6 +38,7 @@ use ReturnTypeWillChange;
  */
 trait Converter
 {
+<<<<<<< HEAD
     /**
      * Format to use for __toString method when type juggling occurs.
      *
@@ -67,6 +72,9 @@ trait Converter
     {
         static::$toStringFormat = $format;
     }
+=======
+    use ToStringFormat;
+>>>>>>> main
 
     /**
      * Returns the formatted date string on success or FALSE on failure.
@@ -110,7 +118,11 @@ trait Converter
      *
      * @example
      * ```
+<<<<<<< HEAD
      * echo Carbon::now(); // Carbon instances can be casted to string
+=======
+     * echo Carbon::now(); // Carbon instances can be cast to string
+>>>>>>> main
      * ```
      *
      * @return string
@@ -159,6 +171,24 @@ trait Converter
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Format the instance with the day, and a readable date
+     *
+     * @example
+     * ```
+     * echo Carbon::now()->toFormattedDayDateString();
+     * ```
+     *
+     * @return string
+     */
+    public function toFormattedDayDateString(): string
+    {
+        return $this->rawFormat('D, M j, Y');
+    }
+
+    /**
+>>>>>>> main
      * Format the instance as time
      *
      * @example
@@ -622,6 +652,7 @@ trait Converter
             $interval = CarbonInterval::make("$interval ".static::pluralUnit($unit));
         }
 
+<<<<<<< HEAD
         $period = (new CarbonPeriod())->setDateClass(static::class)->setStartDate($this);
 
         if ($interval) {
@@ -632,6 +663,20 @@ trait Converter
             $period->setRecurrences($end);
         } elseif ($end) {
             $period->setEndDate($end);
+=======
+        $period = ($this->isMutable() ? new CarbonPeriod() : new CarbonPeriodImmutable())
+            ->setDateClass(static::class)
+            ->setStartDate($this);
+
+        if ($interval) {
+            $period = $period->setDateInterval($interval);
+        }
+
+        if (\is_int($end) || (\is_string($end) && ctype_digit($end))) {
+            $period = $period->setRecurrences($end);
+        } elseif ($end) {
+            $period = $period->setEndDate($end);
+>>>>>>> main
         }
 
         return $period;

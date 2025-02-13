@@ -49,6 +49,7 @@ class Route
     public function __construct(
         $data = [],
         $path = null,
+<<<<<<< HEAD
         string $name = null,
         array $requirements = [],
         array $options = [],
@@ -63,6 +64,22 @@ class Route
         bool $utf8 = null,
         bool $stateless = null,
         string $env = null
+=======
+        ?string $name = null,
+        array $requirements = [],
+        array $options = [],
+        array $defaults = [],
+        ?string $host = null,
+        $methods = [],
+        $schemes = [],
+        ?string $condition = null,
+        ?int $priority = null,
+        ?string $locale = null,
+        ?string $format = null,
+        ?bool $utf8 = null,
+        ?bool $stateless = null,
+        ?string $env = null
+>>>>>>> main
     ) {
         if (\is_string($data)) {
             $data = ['path' => $data];

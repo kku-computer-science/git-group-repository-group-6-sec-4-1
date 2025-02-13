@@ -9,6 +9,10 @@
  */
 namespace PHPUnit\Util\Log;
 
+<<<<<<< HEAD
+=======
+use const PHP_EOL;
+>>>>>>> main
 use function class_exists;
 use function count;
 use function explode;
@@ -77,7 +81,11 @@ final class TeamCity extends DefaultResultPrinter
                 'message'  => self::getMessage($t),
                 'details'  => self::getDetails($t),
                 'duration' => self::toMilliseconds($time),
+<<<<<<< HEAD
             ]
+=======
+            ],
+>>>>>>> main
         );
     }
 
@@ -169,7 +177,11 @@ final class TeamCity extends DefaultResultPrinter
                 'message'  => self::getMessage($t),
                 'details'  => self::getDetails($t),
                 'duration' => self::toMilliseconds($time),
+<<<<<<< HEAD
             ]
+=======
+            ],
+>>>>>>> main
         );
     }
 
@@ -189,7 +201,11 @@ final class TeamCity extends DefaultResultPrinter
 
             $this->printEvent(
                 'testCount',
+<<<<<<< HEAD
                 ['count' => count($suite)]
+=======
+                ['count' => count($suite)],
+>>>>>>> main
             );
         }
 
@@ -271,7 +287,11 @@ final class TeamCity extends DefaultResultPrinter
             [
                 'name'     => $test->getName(),
                 'duration' => self::toMilliseconds($time),
+<<<<<<< HEAD
             ]
+=======
+            ],
+>>>>>>> main
         );
     }
 
@@ -351,7 +371,11 @@ final class TeamCity extends DefaultResultPrinter
         return str_replace(
             ['|', "'", "\n", "\r", ']', '['],
             ['||', "|'", '|n', '|r', '|]', '|['],
+<<<<<<< HEAD
             $text
+=======
+            $text,
+>>>>>>> main
         );
     }
 
@@ -366,8 +390,13 @@ final class TeamCity extends DefaultResultPrinter
         } catch (ReflectionException $e) {
             throw new Exception(
                 $e->getMessage(),
+<<<<<<< HEAD
                 (int) $e->getCode(),
                 $e
+=======
+                $e->getCode(),
+                $e,
+>>>>>>> main
             );
         }
         // @codeCoverageIgnoreEnd

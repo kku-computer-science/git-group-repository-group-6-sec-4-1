@@ -9,6 +9,10 @@
  */
 namespace SebastianBergmann\Comparator;
 
+<<<<<<< HEAD
+=======
+use function is_bool;
+>>>>>>> main
 use function is_object;
 use function is_scalar;
 use function is_string;
@@ -58,7 +62,11 @@ class ScalarComparator extends Comparator
 
         // always compare as strings to avoid strange behaviour
         // otherwise 0 == 'Foobar'
+<<<<<<< HEAD
         if (is_string($expected) || is_string($actual)) {
+=======
+        if ((is_string($expected) && !is_bool($actual)) || (is_string($actual) && !is_bool($expected))) {
+>>>>>>> main
             $expectedToCompare = (string) $expectedToCompare;
             $actualToCompare   = (string) $actualToCompare;
 

@@ -12,10 +12,13 @@ use Brick\Math\BigInteger;
 class IntegerOverflowException extends MathException
 {
     /**
+<<<<<<< HEAD
      * @param BigInteger $value
      *
      * @return IntegerOverflowException
      *
+=======
+>>>>>>> main
      * @psalm-pure
      */
     public static function toIntOverflow(BigInteger $value) : IntegerOverflowException

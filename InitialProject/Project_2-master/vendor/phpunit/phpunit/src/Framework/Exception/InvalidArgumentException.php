@@ -34,12 +34,21 @@ final class InvalidArgumentException extends Exception
                 $argument,
                 $function,
                 in_array(lcfirst($type)[0], ['a', 'e', 'i', 'o', 'u'], true) ? 'an' : 'a',
+<<<<<<< HEAD
                 $type
             )
         );
     }
 
     private function __construct(string $message = '', int $code = 0, \Exception $previous = null)
+=======
+                $type,
+            ),
+        );
+    }
+
+    private function __construct(string $message = '', int $code = 0, ?\Exception $previous = null)
+>>>>>>> main
     {
         parent::__construct($message, $code, $previous);
     }

@@ -3,6 +3,10 @@
 namespace PhpOffice\PhpSpreadsheet\Shared;
 
 use GdImage;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Reader\Exception as ReaderException;
+>>>>>>> main
 use SimpleXMLElement;
 
 class Drawing
@@ -159,6 +163,7 @@ class Drawing
      * @param string $bmpFilename Path to Windows DIB (BMP) image
      *
      * @return GdImage|resource
+<<<<<<< HEAD
      */
     public static function imagecreatefrombmp($bmpFilename)
     {
@@ -253,5 +258,20 @@ class Drawing
 
         //    Return image-object
         return $image;
+=======
+     *
+     * @deprecated 1.26 use Php function imagecreatefrombmp instead
+     *
+     * @codeCoverageIgnore
+     */
+    public static function imagecreatefrombmp($bmpFilename)
+    {
+        $retVal = @imagecreatefrombmp($bmpFilename);
+        if ($retVal === false) {
+            throw new ReaderException("Unable to create image from $bmpFilename");
+        }
+
+        return $retVal;
+>>>>>>> main
     }
 }

@@ -2,13 +2,18 @@
 
 namespace PhpParser;
 
+<<<<<<< HEAD
 interface NodeTraverserInterface
 {
+=======
+interface NodeTraverserInterface {
+>>>>>>> main
     /**
      * Adds a visitor.
      *
      * @param NodeVisitor $visitor Visitor to add
      */
+<<<<<<< HEAD
     public function addVisitor(NodeVisitor $visitor);
 
     /**
@@ -17,6 +22,14 @@ interface NodeTraverserInterface
      * @param NodeVisitor $visitor
      */
     public function removeVisitor(NodeVisitor $visitor);
+=======
+    public function addVisitor(NodeVisitor $visitor): void;
+
+    /**
+     * Removes an added visitor.
+     */
+    public function removeVisitor(NodeVisitor $visitor): void;
+>>>>>>> main
 
     /**
      * Traverses an array of nodes using the registered visitors.
@@ -25,5 +38,9 @@ interface NodeTraverserInterface
      *
      * @return Node[] Traversed array of nodes
      */
+<<<<<<< HEAD
     public function traverse(array $nodes) : array;
+=======
+    public function traverse(array $nodes): array;
+>>>>>>> main
 }

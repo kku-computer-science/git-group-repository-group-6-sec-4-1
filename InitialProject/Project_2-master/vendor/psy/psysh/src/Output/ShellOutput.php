@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,7 +17,10 @@ namespace Psy\Output;
 
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
+<<<<<<< HEAD
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+=======
+>>>>>>> main
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
@@ -23,8 +30,14 @@ class ShellOutput extends ConsoleOutput
 {
     const NUMBER_LINES = 128;
 
+<<<<<<< HEAD
     private $paging = 0;
     private $pager;
+=======
+    private int $paging = 0;
+    private OutputPager $pager;
+    private Theme $theme;
+>>>>>>> main
 
     /**
      * Construct a ShellOutput instance.
@@ -34,10 +47,18 @@ class ShellOutput extends ConsoleOutput
      * @param OutputFormatterInterface|null $formatter (default: null)
      * @param string|OutputPager|null       $pager     (default: null)
      */
+<<<<<<< HEAD
     public function __construct($verbosity = self::VERBOSITY_NORMAL, $decorated = null, OutputFormatterInterface $formatter = null, $pager = null)
     {
         parent::__construct($verbosity, $decorated, $formatter);
 
+=======
+    public function __construct($verbosity = self::VERBOSITY_NORMAL, $decorated = null, ?OutputFormatterInterface $formatter = null, $pager = null, $theme = null)
+    {
+        parent::__construct($verbosity, $decorated, $formatter);
+
+        $this->theme = $theme ?? new Theme('modern');
+>>>>>>> main
         $this->initFormatters();
 
         if ($pager === null) {
@@ -114,7 +135,11 @@ class ShellOutput extends ConsoleOutput
      * @param bool         $newline  Whether to add a newline or not
      * @param int          $type     The type of output
      */
+<<<<<<< HEAD
     public function write($messages, $newline = false, $type = 0)
+=======
+    public function write($messages, $newline = false, $type = 0): void
+>>>>>>> main
     {
         if ($this->getVerbosity() === self::VERBOSITY_QUIET) {
             return;
@@ -149,9 +174,16 @@ class ShellOutput extends ConsoleOutput
      * @param string $message A message to write to the output
      * @param bool   $newline Whether to add a newline or not
      */
+<<<<<<< HEAD
     public function doWrite($message, $newline)
     {
         if ($this->paging > 0) {
+=======
+    public function doWrite($message, $newline): void
+    {
+        // @todo Update OutputPager interface to require doWrite
+        if ($this->paging > 0 && $this->pager instanceof ProcOutputPager) {
+>>>>>>> main
             $this->pager->doWrite($message, $newline);
         } else {
             parent::doWrite($message, $newline);
@@ -159,6 +191,18 @@ class ShellOutput extends ConsoleOutput
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Set the output Theme.
+     */
+    public function setTheme(Theme $theme)
+    {
+        $this->theme = $theme;
+        $this->initFormatters();
+    }
+
+    /**
+>>>>>>> main
      * Flush and close the output pager.
      */
     private function closePager()
@@ -173,6 +217,7 @@ class ShellOutput extends ConsoleOutput
      */
     private function initFormatters()
     {
+<<<<<<< HEAD
         $formatter = $this->getFormatter();
 
         $formatter->setStyle('warning', new OutputFormatterStyle('black', 'yellow'));
@@ -206,5 +251,24 @@ class ShellOutput extends ConsoleOutput
 
         // Code-specific formatting
         $formatter->setStyle('inline_html', new OutputFormatterStyle('cyan'));
+=======
+        $useGrayFallback = !$this->grayExists();
+        $this->theme->applyStyles($this->getFormatter(), $useGrayFallback);
+        $this->theme->applyErrorStyles($this->getErrorOutput()->getFormatter(), $useGrayFallback);
+    }
+
+    /**
+     * Checks if the "gray" color exists on the output.
+     */
+    private function grayExists(): bool
+    {
+        try {
+            $this->write('<fg=gray></>');
+        } catch (\InvalidArgumentException $e) {
+            return false;
+        }
+
+        return true;
+>>>>>>> main
     }
 }

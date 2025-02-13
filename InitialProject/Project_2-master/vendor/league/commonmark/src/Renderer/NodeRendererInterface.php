@@ -13,6 +13,10 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Renderer;
 
+<<<<<<< HEAD
+=======
+use League\CommonMark\Exception\InvalidArgumentException;
+>>>>>>> main
 use League\CommonMark\Node\Node;
 
 interface NodeRendererInterface
@@ -20,7 +24,11 @@ interface NodeRendererInterface
     /**
      * @return \Stringable|string|null
      *
+<<<<<<< HEAD
      * @throws \InvalidArgumentException if the wrong type of Node is provided
+=======
+     * @throws InvalidArgumentException if the wrong type of Node is provided
+>>>>>>> main
      */
     public function render(Node $node, ChildNodeRendererInterface $childRenderer);
 }

@@ -145,7 +145,11 @@ class Data implements DataInterface, ArrayAccess
      */
     public function has(string $key): bool
     {
+<<<<<<< HEAD
         $currentValue = &$this->data;
+=======
+        $currentValue = $this->data;
+>>>>>>> main
 
         foreach (self::keyToPathArray($key) as $currentKey) {
             if (
@@ -154,7 +158,11 @@ class Data implements DataInterface, ArrayAccess
             ) {
                 return false;
             }
+<<<<<<< HEAD
             $currentValue = &$currentValue[$currentKey];
+=======
+            $currentValue = $currentValue[$currentKey];
+>>>>>>> main
         }
 
         return true;
@@ -203,6 +211,11 @@ class Data implements DataInterface, ArrayAccess
 
     /**
      * {@inheritdoc}
+<<<<<<< HEAD
+=======
+     *
+     * @return bool
+>>>>>>> main
      */
     #[\ReturnTypeWillChange]
     public function offsetExists($key)
@@ -212,6 +225,11 @@ class Data implements DataInterface, ArrayAccess
 
     /**
      * {@inheritdoc}
+<<<<<<< HEAD
+=======
+     *
+     * @return mixed
+>>>>>>> main
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($key)
@@ -223,6 +241,12 @@ class Data implements DataInterface, ArrayAccess
      * {@inheritdoc}
      *
      * @param string $key
+<<<<<<< HEAD
+=======
+     * @param mixed $value
+     *
+     * @return void
+>>>>>>> main
      */
     #[\ReturnTypeWillChange]
     public function offsetSet($key, $value)
@@ -232,6 +256,11 @@ class Data implements DataInterface, ArrayAccess
 
     /**
      * {@inheritdoc}
+<<<<<<< HEAD
+=======
+     *
+     * @return void
+>>>>>>> main
      */
     #[\ReturnTypeWillChange]
     public function offsetUnset($key)

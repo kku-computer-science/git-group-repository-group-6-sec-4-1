@@ -12,18 +12,25 @@ class AfterImport extends Event
     public $reader;
 
     /**
+<<<<<<< HEAD
      * @var object
      */
     private $importable;
 
     /**
+=======
+>>>>>>> main
      * @param  Reader  $reader
      * @param  object  $importable
      */
     public function __construct(Reader $reader, $importable)
     {
         $this->reader     = $reader;
+<<<<<<< HEAD
         $this->importable = $importable;
+=======
+        parent::__construct($importable);
+>>>>>>> main
     }
 
     /**
@@ -35,6 +42,7 @@ class AfterImport extends Event
     }
 
     /**
+<<<<<<< HEAD
      * @return object
      */
     public function getConcernable()
@@ -43,6 +51,8 @@ class AfterImport extends Event
     }
 
     /**
+=======
+>>>>>>> main
      * @return mixed
      */
     public function getDelegate()

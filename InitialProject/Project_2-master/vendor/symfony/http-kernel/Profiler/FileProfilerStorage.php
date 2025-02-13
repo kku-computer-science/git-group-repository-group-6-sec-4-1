@@ -47,7 +47,11 @@ class FileProfilerStorage implements ProfilerStorageInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function find(?string $ip, ?string $url, ?int $limit, ?string $method, int $start = null, int $end = null, string $statusCode = null): array
+=======
+    public function find(?string $ip, ?string $url, ?int $limit, ?string $method, ?int $start = null, ?int $end = null, ?string $statusCode = null): array
+>>>>>>> main
     {
         $file = $this->getIndexFilename();
 
@@ -60,7 +64,17 @@ class FileProfilerStorage implements ProfilerStorageInterface
 
         $result = [];
         while (\count($result) < $limit && $line = $this->readLineFromFile($file)) {
+<<<<<<< HEAD
             $values = str_getcsv($line);
+=======
+            $values = str_getcsv($line, ',', '"', '\\');
+
+            if (7 !== \count($values)) {
+                // skip invalid lines
+                continue;
+            }
+
+>>>>>>> main
             [$csvToken, $csvIp, $csvMethod, $csvUrl, $csvTime, $csvParent, $csvStatusCode] = $values;
             $csvTime = (int) $csvTime;
 
@@ -115,6 +129,7 @@ class FileProfilerStorage implements ProfilerStorageInterface
      */
     public function read(string $token): ?Profile
     {
+<<<<<<< HEAD
         if (!$token || !file_exists($file = $this->getFilename($token))) {
             return null;
         }
@@ -128,6 +143,9 @@ class FileProfilerStorage implements ProfilerStorageInterface
         }
 
         return $this->createProfileFromData($token, $data);
+=======
+        return $this->doRead($token);
+>>>>>>> main
     }
 
     /**
@@ -169,6 +187,7 @@ class FileProfilerStorage implements ProfilerStorageInterface
             'status_code' => $profile->getStatusCode(),
         ];
 
+<<<<<<< HEAD
         $context = stream_context_create();
 
         if (\function_exists('gzcompress')) {
@@ -177,6 +196,15 @@ class FileProfilerStorage implements ProfilerStorageInterface
         }
 
         if (false === file_put_contents($file, serialize($data), 0, $context)) {
+=======
+        $data = serialize($data);
+
+        if (\function_exists('gzencode')) {
+            $data = gzencode($data, 3);
+        }
+
+        if (false === file_put_contents($file, $data, \LOCK_EX)) {
+>>>>>>> main
             return false;
         }
 
@@ -194,7 +222,11 @@ class FileProfilerStorage implements ProfilerStorageInterface
                 $profile->getTime(),
                 $profile->getParentToken(),
                 $profile->getStatusCode(),
+<<<<<<< HEAD
             ]);
+=======
+            ], ',', '"', '\\');
+>>>>>>> main
             fclose($file);
         }
 
@@ -272,7 +304,11 @@ class FileProfilerStorage implements ProfilerStorageInterface
         return '' === $line ? null : $line;
     }
 
+<<<<<<< HEAD
     protected function createProfileFromData(string $token, array $data, Profile $parent = null)
+=======
+    protected function createProfileFromData(string $token, array $data, ?Profile $parent = null)
+>>>>>>> main
     {
         $profile = new Profile($token);
         $profile->setIp($data['ip']);
@@ -291,6 +327,7 @@ class FileProfilerStorage implements ProfilerStorageInterface
         }
 
         foreach ($data['children'] as $token) {
+<<<<<<< HEAD
             if (!$token || !file_exists($file = $this->getFilename($token))) {
                 continue;
             }
@@ -304,8 +341,39 @@ class FileProfilerStorage implements ProfilerStorageInterface
             }
 
             $profile->addChild($this->createProfileFromData($token, $childData, $profile));
+=======
+            if (null !== $childProfile = $this->doRead($token, $profile)) {
+                $profile->addChild($childProfile);
+            }
+>>>>>>> main
         }
 
         return $profile;
     }
+<<<<<<< HEAD
+=======
+
+    private function doRead($token, ?Profile $profile = null): ?Profile
+    {
+        if (!$token || !file_exists($file = $this->getFilename($token))) {
+            return null;
+        }
+
+        $h = fopen($file, 'r');
+        flock($h, \LOCK_SH);
+        $data = stream_get_contents($h);
+        flock($h, \LOCK_UN);
+        fclose($h);
+
+        if (\function_exists('gzdecode')) {
+            $data = @gzdecode($data) ?: $data;
+        }
+
+        if (!$data = unserialize($data)) {
+            return null;
+        }
+
+        return $this->createProfileFromData($token, $data, $profile);
+    }
+>>>>>>> main
 }

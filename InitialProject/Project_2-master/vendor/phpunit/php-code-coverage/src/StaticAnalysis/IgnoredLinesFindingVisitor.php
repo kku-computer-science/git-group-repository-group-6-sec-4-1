@@ -10,9 +10,17 @@
 namespace SebastianBergmann\CodeCoverage\StaticAnalysis;
 
 use function array_merge;
+<<<<<<< HEAD
 use function range;
 use function strpos;
 use PhpParser\Node;
+=======
+use function assert;
+use function range;
+use function strpos;
+use PhpParser\Node;
+use PhpParser\Node\Attribute;
+>>>>>>> main
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
@@ -52,7 +60,12 @@ final class IgnoredLinesFindingVisitor extends NodeVisitorAbstract
             !$node instanceof Trait_ &&
             !$node instanceof Interface_ &&
             !$node instanceof ClassMethod &&
+<<<<<<< HEAD
             !$node instanceof Function_) {
+=======
+            !$node instanceof Function_ &&
+            !$node instanceof Attribute) {
+>>>>>>> main
             return;
         }
 
@@ -60,11 +73,24 @@ final class IgnoredLinesFindingVisitor extends NodeVisitorAbstract
             return;
         }
 
+<<<<<<< HEAD
         // Workaround for https://bugs.xdebug.org/view.php?id=1798
         if ($node instanceof Class_ ||
             $node instanceof Trait_ ||
             $node instanceof Interface_) {
             $this->ignoredLines[] = $node->getStartLine();
+=======
+        if ($node instanceof Class_ ||
+            $node instanceof Trait_ ||
+            $node instanceof Interface_ ||
+            $node instanceof Attribute) {
+            $this->ignoredLines[] = $node->getStartLine();
+
+            assert($node->name !== null);
+
+            // Workaround for https://github.com/nikic/PHP-Parser/issues/886
+            $this->ignoredLines[] = $node->name->getStartLine();
+>>>>>>> main
         }
 
         if (!$this->useAnnotationsForIgnoringCode) {
@@ -75,6 +101,22 @@ final class IgnoredLinesFindingVisitor extends NodeVisitorAbstract
             return;
         }
 
+<<<<<<< HEAD
+=======
+        $this->processDocComment($node);
+    }
+
+    /**
+     * @psalm-return list<int>
+     */
+    public function ignoredLines(): array
+    {
+        return $this->ignoredLines;
+    }
+
+    private function processDocComment(Node $node): void
+    {
+>>>>>>> main
         $docComment = $node->getDocComment();
 
         if ($docComment === null) {
@@ -95,6 +137,7 @@ final class IgnoredLinesFindingVisitor extends NodeVisitorAbstract
             );
         }
     }
+<<<<<<< HEAD
 
     /**
      * @psalm-return list<int>
@@ -103,4 +146,6 @@ final class IgnoredLinesFindingVisitor extends NodeVisitorAbstract
     {
         return $this->ignoredLines;
     }
+=======
+>>>>>>> main
 }

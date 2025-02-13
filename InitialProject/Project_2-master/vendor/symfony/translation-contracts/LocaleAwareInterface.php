@@ -16,7 +16,11 @@ interface LocaleAwareInterface
     /**
      * Sets the current locale.
      *
+<<<<<<< HEAD
      * @param string $locale The locale
+=======
+     * @return void
+>>>>>>> main
      *
      * @throws \InvalidArgumentException If the locale contains invalid characters
      */
@@ -24,8 +28,13 @@ interface LocaleAwareInterface
 
     /**
      * Returns the current locale.
+<<<<<<< HEAD
      *
      * @return string
      */
     public function getLocale();
+=======
+     */
+    public function getLocale(): string;
+>>>>>>> main
 }

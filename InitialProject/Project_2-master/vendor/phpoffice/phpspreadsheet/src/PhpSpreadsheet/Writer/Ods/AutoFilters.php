@@ -25,9 +25,18 @@ class AutoFilters
         $this->spreadsheet = $spreadsheet;
     }
 
+<<<<<<< HEAD
     public function write(): void
     {
         $wrapperWritten = false;
+=======
+    /** @var mixed */
+    private static $scrutinizerFalse = false;
+
+    public function write(): void
+    {
+        $wrapperWritten = self::$scrutinizerFalse;
+>>>>>>> main
         $sheetCount = $this->spreadsheet->getSheetCount();
         for ($i = 0; $i < $sheetCount; ++$i) {
             $worksheet = $this->spreadsheet->getSheet($i);

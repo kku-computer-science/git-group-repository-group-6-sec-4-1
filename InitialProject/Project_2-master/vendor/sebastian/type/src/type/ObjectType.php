@@ -64,6 +64,12 @@ final class ObjectType extends Type
         return $this->className;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true ObjectType $this
+     */
+>>>>>>> main
     public function isObject(): bool
     {
         return true;

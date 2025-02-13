@@ -44,7 +44,11 @@ class Exception extends RuntimeException implements \PHPUnit\Exception
      */
     protected $serializableTrace;
 
+<<<<<<< HEAD
     public function __construct($message = '', $code = 0, Throwable $previous = null)
+=======
+    public function __construct($message = '', $code = 0, ?Throwable $previous = null)
+>>>>>>> main
     {
         parent::__construct($message, $code, $previous);
 

@@ -7,15 +7,29 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
 use Maatwebsite\Excel\Concerns\WithColumnLimit;
+<<<<<<< HEAD
+=======
+use Maatwebsite\Excel\Concerns\WithEvents;
+>>>>>>> main
 use Maatwebsite\Excel\Concerns\WithFormatData;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithProgressBar;
 use Maatwebsite\Excel\Concerns\WithValidation;
+<<<<<<< HEAD
+=======
+use Maatwebsite\Excel\Events\AfterBatch;
+use Maatwebsite\Excel\HasEventBus;
+>>>>>>> main
 use Maatwebsite\Excel\Row;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class ModelImporter
 {
+<<<<<<< HEAD
+=======
+    use HasEventBus;
+
+>>>>>>> main
     /**
      * @var ModelManager
      */
@@ -42,6 +56,12 @@ class ModelImporter
         if ($startRow > $worksheet->getHighestRow()) {
             return;
         }
+<<<<<<< HEAD
+=======
+        if ($import instanceof WithEvents) {
+            $this->registerListeners($import->registerEvents());
+        }
+>>>>>>> main
 
         $headingRow       = HeadingRowExtractor::extract($worksheet, $import);
         $headerIsGrouped  = HeadingRowExtractor::extractGrouping($headingRow, $import);
@@ -56,14 +76,29 @@ class ModelImporter
 
         $this->manager->setRemembersRowNumber(method_exists($import, 'rememberRowNumber'));
 
+<<<<<<< HEAD
         $i = 0;
+=======
+        $i             = 0;
+        $batchStartRow = $startRow;
+>>>>>>> main
         foreach ($worksheet->getRowIterator($startRow, $endRow) as $spreadSheetRow) {
             $i++;
 
             $row = new Row($spreadSheetRow, $headingRow, $headerIsGrouped);
+<<<<<<< HEAD
             if (!$import instanceof SkipsEmptyRows || ($import instanceof SkipsEmptyRows && !$row->isEmpty($withCalcFormulas))) {
                 $rowArray = $row->toArray(null, $withCalcFormulas, $formatData, $endColumn);
 
+=======
+            if (!$import instanceof SkipsEmptyRows || !$row->isEmpty($withCalcFormulas)) {
+                $rowArray = $row->toArray(null, $withCalcFormulas, $formatData, $endColumn);
+
+                if ($import instanceof SkipsEmptyRows && method_exists($import, 'isEmptyWhen') && $import->isEmptyWhen($rowArray)) {
+                    continue;
+                }
+
+>>>>>>> main
                 if ($withValidation) {
                     $rowArray = $import->prepareForValidation($rowArray, $row->getIndex());
                 }
@@ -79,7 +114,12 @@ class ModelImporter
 
                 // Flush each batch.
                 if (($i % $batchSize) === 0) {
+<<<<<<< HEAD
                     $this->manager->flush($import, $batchSize > 1);
+=======
+                    $this->flush($import, $batchSize, $batchStartRow);
+                    $batchStartRow += $i;
+>>>>>>> main
                     $i = 0;
 
                     if ($progessBar) {
@@ -89,7 +129,20 @@ class ModelImporter
             }
         }
 
+<<<<<<< HEAD
         // Flush left-overs.
         $this->manager->flush($import, $batchSize > 1);
+=======
+        if ($i > 0) {
+            // Flush left-overs.
+            $this->flush($import, $batchSize, $batchStartRow);
+        }
+    }
+
+    private function flush(ToModel $import, int $batchSize, int $startRow)
+    {
+        $this->manager->flush($import, $batchSize > 1);
+        $this->raise(new AfterBatch($this->manager, $import, $batchSize, $startRow));
+>>>>>>> main
     }
 }

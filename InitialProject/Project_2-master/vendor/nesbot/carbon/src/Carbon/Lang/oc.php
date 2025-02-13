@@ -17,7 +17,11 @@
 use Symfony\Component\Translation\PluralizationRules;
 
 if (class_exists('Symfony\\Component\\Translation\\PluralizationRules')) {
+<<<<<<< HEAD
     PluralizationRules::set(function ($number) {
+=======
+    PluralizationRules::set(static function ($number) {
+>>>>>>> main
         return $number == 1 ? 0 : 1;
     }, 'oc');
 }

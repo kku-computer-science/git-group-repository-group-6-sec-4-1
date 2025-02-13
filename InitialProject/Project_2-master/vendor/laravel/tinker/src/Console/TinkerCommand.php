@@ -52,6 +52,13 @@ class TinkerCommand extends Command
             $this->getCasters()
         );
 
+<<<<<<< HEAD
+=======
+        if ($this->option('execute')) {
+            $config->setRawOutput(true);
+        }
+
+>>>>>>> main
         $shell = new Shell($config);
         $shell->addCommands($this->getCommands());
         $shell->setIncludes($this->argument('include'));
@@ -127,6 +134,13 @@ class TinkerCommand extends Command
             $casters['Illuminate\Database\Eloquent\Model'] = 'Laravel\Tinker\TinkerCaster::castModel';
         }
 
+<<<<<<< HEAD
+=======
+        if (class_exists('Illuminate\Process\ProcessResult')) {
+            $casters['Illuminate\Process\ProcessResult'] = 'Laravel\Tinker\TinkerCaster::castProcessResult';
+        }
+
+>>>>>>> main
         if (class_exists('Illuminate\Foundation\Application')) {
             $casters['Illuminate\Foundation\Application'] = 'Laravel\Tinker\TinkerCaster::castApplication';
         }

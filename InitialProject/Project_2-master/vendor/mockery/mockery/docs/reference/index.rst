@@ -9,6 +9,10 @@ Reference
     argument_validation
     alternative_should_receive_syntax
     spies
+<<<<<<< HEAD
+=======
+    instance_mocking
+>>>>>>> main
     partial_mocks
     protected_methods
     public_properties

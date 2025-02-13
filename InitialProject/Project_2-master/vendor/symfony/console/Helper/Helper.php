@@ -26,7 +26,11 @@ abstract class Helper implements HelperInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function setHelperSet(HelperSet $helperSet = null)
+=======
+    public function setHelperSet(?HelperSet $helperSet = null)
+>>>>>>> main
     {
         $this->helperSet = $helperSet;
     }
@@ -96,7 +100,11 @@ abstract class Helper implements HelperInterface
      *
      * @return string
      */
+<<<<<<< HEAD
     public static function substr(?string $string, int $from, int $length = null)
+=======
+    public static function substr(?string $string, int $from, ?int $length = null)
+>>>>>>> main
     {
         $string ?? $string = '';
 
@@ -171,6 +179,11 @@ abstract class Helper implements HelperInterface
         $string = $formatter->format($string ?? '');
         // remove already formatted characters
         $string = preg_replace("/\033\[[^m]*m/", '', $string ?? '');
+<<<<<<< HEAD
+=======
+        // remove terminal hyperlinks
+        $string = preg_replace('/\\033]8;[^;]*;[^\\033]*\\033\\\\/', '', $string ?? '');
+>>>>>>> main
         $formatter->setDecorated($isDecorated);
 
         return $string;

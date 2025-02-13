@@ -12,18 +12,25 @@ class BeforeSheet extends Event
     public $sheet;
 
     /**
+<<<<<<< HEAD
      * @var object
      */
     private $exportable;
 
     /**
+=======
+>>>>>>> main
      * @param  Sheet  $sheet
      * @param  object  $exportable
      */
     public function __construct(Sheet $sheet, $exportable)
     {
         $this->sheet       = $sheet;
+<<<<<<< HEAD
         $this->exportable  = $exportable;
+=======
+        parent::__construct($exportable);
+>>>>>>> main
     }
 
     /**
@@ -35,6 +42,7 @@ class BeforeSheet extends Event
     }
 
     /**
+<<<<<<< HEAD
      * @return object
      */
     public function getConcernable()
@@ -43,6 +51,8 @@ class BeforeSheet extends Event
     }
 
     /**
+=======
+>>>>>>> main
      * @return mixed
      */
     public function getDelegate()

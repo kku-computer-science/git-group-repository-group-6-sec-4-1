@@ -20,6 +20,11 @@ interface RepositoryInterface
      *
      * @param string $name
      *
+<<<<<<< HEAD
+=======
+     * @throws \InvalidArgumentException
+     *
+>>>>>>> main
      * @return string|null
      */
     public function get(string $name);
@@ -30,6 +35,11 @@ interface RepositoryInterface
      * @param string $name
      * @param string $value
      *
+<<<<<<< HEAD
+=======
+     * @throws \InvalidArgumentException
+     *
+>>>>>>> main
      * @return bool
      */
     public function set(string $name, string $value);
@@ -39,6 +49,11 @@ interface RepositoryInterface
      *
      * @param string $name
      *
+<<<<<<< HEAD
+=======
+     * @throws \InvalidArgumentException
+     *
+>>>>>>> main
      * @return bool
      */
     public function clear(string $name);

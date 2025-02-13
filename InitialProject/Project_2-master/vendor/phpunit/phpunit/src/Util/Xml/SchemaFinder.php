@@ -9,9 +9,18 @@
  */
 namespace PHPUnit\Util\Xml;
 
+<<<<<<< HEAD
 use function defined;
 use function is_file;
 use function sprintf;
+=======
+use function assert;
+use function defined;
+use function is_file;
+use function rsort;
+use function sprintf;
+use DirectoryIterator;
+>>>>>>> main
 use PHPUnit\Runner\Version;
 
 /**
@@ -20,6 +29,33 @@ use PHPUnit\Runner\Version;
 final class SchemaFinder
 {
     /**
+<<<<<<< HEAD
+=======
+     * @psalm-return non-empty-list<non-empty-string>
+     */
+    public function available(): array
+    {
+        $result = [Version::series()];
+
+        foreach ((new DirectoryIterator($this->path() . 'schema')) as $file) {
+            if ($file->isDot()) {
+                continue;
+            }
+
+            $version = $file->getBasename('.xsd');
+
+            assert(!empty($version));
+
+            $result[] = $version;
+        }
+
+        rsort($result);
+
+        return $result;
+    }
+
+    /**
+>>>>>>> main
      * @throws Exception
      */
     public function find(string $version): string
@@ -34,8 +70,13 @@ final class SchemaFinder
             throw new Exception(
                 sprintf(
                     'Schema for PHPUnit %s is not available',
+<<<<<<< HEAD
                     $version
                 )
+=======
+                    $version,
+                ),
+>>>>>>> main
             );
         }
 

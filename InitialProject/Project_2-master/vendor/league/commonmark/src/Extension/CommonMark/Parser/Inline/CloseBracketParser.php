@@ -16,6 +16,10 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Extension\CommonMark\Parser\Inline;
 
+<<<<<<< HEAD
+=======
+use League\CommonMark\Delimiter\Bracket;
+>>>>>>> main
 use League\CommonMark\Environment\EnvironmentAwareInterface;
 use League\CommonMark\Environment\EnvironmentInterface;
 use League\CommonMark\Extension\CommonMark\Node\Inline\AbstractWebResource;
@@ -46,14 +50,24 @@ final class CloseBracketParser implements InlineParserInterface, EnvironmentAwar
     public function parse(InlineParserContext $inlineContext): bool
     {
         // Look through stack of delimiters for a [ or !
+<<<<<<< HEAD
         $opener = $inlineContext->getDelimiterStack()->searchByCharacter(['[', '!']);
+=======
+        $opener = $inlineContext->getDelimiterStack()->getLastBracket();
+>>>>>>> main
         if ($opener === null) {
             return false;
         }
 
+<<<<<<< HEAD
         if (! $opener->isActive()) {
             // no matched opener; remove from emphasis stack
             $inlineContext->getDelimiterStack()->removeDelimiter($opener);
+=======
+        if (! $opener->isImage() && ! $opener->isActive()) {
+            // no matched opener; remove from stack
+            $inlineContext->getDelimiterStack()->removeBracket();
+>>>>>>> main
 
             return false;
         }
@@ -70,21 +84,35 @@ final class CloseBracketParser implements InlineParserInterface, EnvironmentAwar
         // Inline link?
         if ($result = $this->tryParseInlineLinkAndTitle($cursor)) {
             $link = $result;
+<<<<<<< HEAD
         } elseif ($link = $this->tryParseReference($cursor, $inlineContext->getReferenceMap(), $opener->getIndex(), $startPos)) {
             $reference = $link;
             $link      = ['url' => $link->getDestination(), 'title' => $link->getTitle()];
         } else {
             // No match
             $inlineContext->getDelimiterStack()->removeDelimiter($opener); // Remove this opener from stack
+=======
+        } elseif ($link = $this->tryParseReference($cursor, $inlineContext->getReferenceMap(), $opener, $startPos)) {
+            $reference = $link;
+            $link      = ['url' => $link->getDestination(), 'title' => $link->getTitle()];
+        } else {
+            // No match; remove this opener from stack
+            $inlineContext->getDelimiterStack()->removeBracket();
+>>>>>>> main
             $cursor->restoreState($previousState);
 
             return false;
         }
 
+<<<<<<< HEAD
         $isImage = $opener->getChar() === '!';
 
         $inline = $this->createInline($link['url'], $link['title'], $isImage, $reference ?? null);
         $opener->getInlineNode()->replaceWith($inline);
+=======
+        $inline = $this->createInline($link['url'], $link['title'], $opener->isImage(), $reference ?? null);
+        $opener->getNode()->replaceWith($inline);
+>>>>>>> main
         while (($label = $inline->next()) !== null) {
             // Is there a Mention or Link contained within this link?
             // CommonMark does not allow nested links, so we'll restore the original text.
@@ -104,8 +132,14 @@ final class CloseBracketParser implements InlineParserInterface, EnvironmentAwar
 
         // Process delimiters such as emphasis inside link/image
         $delimiterStack = $inlineContext->getDelimiterStack();
+<<<<<<< HEAD
         $stackBottom    = $opener->getPrevious();
         $delimiterStack->processDelimiters($stackBottom, $this->environment->getDelimiterProcessors());
+=======
+        $stackBottom    = $opener->getPosition();
+        $delimiterStack->processDelimiters($stackBottom, $this->environment->getDelimiterProcessors());
+        $delimiterStack->removeBracket();
+>>>>>>> main
         $delimiterStack->removeAll($stackBottom);
 
         // Merge any adjacent Text nodes together
@@ -113,8 +147,13 @@ final class CloseBracketParser implements InlineParserInterface, EnvironmentAwar
 
         // processEmphasis will remove this and later delimiters.
         // Now, for a link, we also remove earlier link openers (no links in links)
+<<<<<<< HEAD
         if (! $isImage) {
             $inlineContext->getDelimiterStack()->removeEarlierMatches('[');
+=======
+        if (! $opener->isImage()) {
+            $inlineContext->getDelimiterStack()->deactivateLinkOpeners();
+>>>>>>> main
         }
 
         return true;
@@ -168,6 +207,7 @@ final class CloseBracketParser implements InlineParserInterface, EnvironmentAwar
         return ['url' => $dest, 'title' => $title];
     }
 
+<<<<<<< HEAD
     private function tryParseReference(Cursor $cursor, ReferenceMapInterface $referenceMap, ?int $openerIndex, int $startPos): ?ReferenceInterface
     {
         if ($openerIndex === null) {
@@ -183,6 +223,25 @@ final class CloseBracketParser implements InlineParserInterface, EnvironmentAwar
         } else {
             $start  = $beforeLabel + 1;
             $length = $n - 2;
+=======
+    private function tryParseReference(Cursor $cursor, ReferenceMapInterface $referenceMap, Bracket $opener, int $startPos): ?ReferenceInterface
+    {
+        $savePos     = $cursor->saveState();
+        $beforeLabel = $cursor->getPosition();
+        $n           = LinkParserHelper::parseLinkLabel($cursor);
+        if ($n > 2) {
+            $start  = $beforeLabel + 1;
+            $length = $n - 2;
+        } elseif (! $opener->hasNext()) {
+            // Empty or missing second label means to use the first label as the reference.
+            // The reference must not contain a bracket. If we know there's a bracket, we don't even bother checking it.
+            $start  = $opener->getPosition();
+            $length = $startPos - $start;
+        } else {
+            $cursor->restoreState($savePos);
+
+            return null;
+>>>>>>> main
         }
 
         $referenceLabel = $cursor->getSubstring($start, $length);

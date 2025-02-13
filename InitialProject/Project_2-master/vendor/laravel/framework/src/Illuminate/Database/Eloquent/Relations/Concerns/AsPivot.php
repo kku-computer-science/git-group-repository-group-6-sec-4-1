@@ -2,7 +2,10 @@
 
 namespace Illuminate\Database\Eloquent\Relations\Concerns;
 
+<<<<<<< HEAD
 use Illuminate\Database\Eloquent\Builder;
+=======
+>>>>>>> main
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 

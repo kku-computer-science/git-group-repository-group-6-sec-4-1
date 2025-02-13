@@ -4,7 +4,11 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\MathTrig;
 
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class Roman
 {
@@ -803,12 +807,20 @@ class Roman
 
     private static function styleOk(int $aValue, int $style): string
     {
+<<<<<<< HEAD
         return ($aValue < 0 || $aValue > self::MAX_ROMAN_VALUE) ? Functions::VALUE() : self::valueOk($aValue, $style);
+=======
+        return ($aValue < 0 || $aValue > self::MAX_ROMAN_VALUE) ? ExcelError::VALUE() : self::valueOk($aValue, $style);
+>>>>>>> main
     }
 
     public static function calculateRoman(int $aValue, int $style): string
     {
+<<<<<<< HEAD
         return ($style < 0 || $style > self::MAX_ROMAN_STYLE) ? Functions::VALUE() : self::styleOk($aValue, $style);
+=======
+        return ($style < 0 || $style > self::MAX_ROMAN_STYLE) ? ExcelError::VALUE() : self::styleOk($aValue, $style);
+>>>>>>> main
     }
 
     /**

@@ -61,7 +61,11 @@ class FormulaParser
     /**
      * Create a new FormulaParser.
      *
+<<<<<<< HEAD
      * @param string $formula Formula to parse
+=======
+     * @param ?string $formula Formula to parse
+>>>>>>> main
      */
     public function __construct($formula = '')
     {
@@ -137,7 +141,12 @@ class FormulaParser
         // Helper variables
         $tokens1 = $tokens2 = $stack = [];
         $inString = $inPath = $inRange = $inError = false;
+<<<<<<< HEAD
         $token = $previousToken = $nextToken = null;
+=======
+        $nextToken = null;
+        //$token = $previousToken = null;
+>>>>>>> main
 
         $index = 1;
         $value = '';
@@ -527,11 +536,19 @@ class FormulaParser
             } else {
                 $previousToken = null;
             }
+<<<<<<< HEAD
             if (isset($tokens2[$i + 1])) {
                 $nextToken = $tokens2[$i + 1];
             } else {
                 $nextToken = null;
             }
+=======
+            //if (isset($tokens2[$i + 1])) {
+            //    $nextToken = $tokens2[$i + 1];
+            //} else {
+            //    $nextToken = null;
+            //}
+>>>>>>> main
 
             if ($token === null) {
                 continue;

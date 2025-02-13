@@ -5,9 +5,13 @@ namespace GuzzleHttp;
 /**
  * This class contains a list of built-in Guzzle request options.
  *
+<<<<<<< HEAD
  * More documentation for each option can be found at http://guzzlephp.org/.
  *
  * @link http://docs.guzzlephp.org/en/v6/request-options.html
+=======
+ * @see https://docs.guzzlephp.org/en/latest/request-options.html
+>>>>>>> main
  */
 final class RequestOptions
 {
@@ -63,18 +67,41 @@ final class RequestOptions
      * Specifies whether or not cookies are used in a request or what cookie
      * jar to use or what cookies to send. This option only works if your
      * handler has the `cookie` middleware. Valid values are `false` and
+<<<<<<< HEAD
      * an instance of {@see \GuzzleHttp\Cookie\CookieJarInterface}.
+=======
+     * an instance of {@see Cookie\CookieJarInterface}.
+>>>>>>> main
      */
     public const COOKIES = 'cookies';
 
     /**
      * connect_timeout: (float, default=0) Float describing the number of
      * seconds to wait while trying to connect to a server. Use 0 to wait
+<<<<<<< HEAD
      * indefinitely (the default behavior).
+=======
+     * 300 seconds (the default behavior).
+>>>>>>> main
      */
     public const CONNECT_TIMEOUT = 'connect_timeout';
 
     /**
+<<<<<<< HEAD
+=======
+     * crypto_method: (int) A value describing the minimum TLS protocol
+     * version to use.
+     *
+     * This setting must be set to one of the
+     * ``STREAM_CRYPTO_METHOD_TLS*_CLIENT`` constants. PHP 7.4 or higher is
+     * required in order to use TLS 1.3, and cURL 7.34.0 or higher is required
+     * in order to specify a crypto method, with cURL 7.52.0 or higher being
+     * required to use TLS 1.3.
+     */
+    public const CRYPTO_METHOD = 'crypto_method';
+
+    /**
+>>>>>>> main
      * debug: (bool|resource) Set to true or set to a PHP stream returned by
      * fopen()  enable debug output with the HTTP handler used to send a
      * request.

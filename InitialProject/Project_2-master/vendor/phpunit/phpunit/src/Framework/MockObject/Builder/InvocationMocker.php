@@ -16,6 +16,10 @@ use function in_array;
 use function is_string;
 use function strtolower;
 use PHPUnit\Framework\Constraint\Constraint;
+<<<<<<< HEAD
+=======
+use PHPUnit\Framework\InvalidArgumentException;
+>>>>>>> main
 use PHPUnit\Framework\MockObject\ConfigurableMethod;
 use PHPUnit\Framework\MockObject\IncompatibleReturnValueException;
 use PHPUnit\Framework\MockObject\InvocationHandler;
@@ -194,6 +198,11 @@ final class InvocationMocker implements InvocationStubber, MethodNameMatch
      * @throws MethodParametersAlreadyConfiguredException
      *
      * @return $this
+<<<<<<< HEAD
+=======
+     *
+     * @deprecated
+>>>>>>> main
      */
     public function withConsecutive(...$arguments): self
     {
@@ -222,7 +231,11 @@ final class InvocationMocker implements InvocationStubber, MethodNameMatch
     /**
      * @param Constraint|string $constraint
      *
+<<<<<<< HEAD
      * @throws \PHPUnit\Framework\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      * @throws MethodCannotBeConfiguredException
      * @throws MethodNameAlreadyConfiguredException
      *
@@ -239,7 +252,11 @@ final class InvocationMocker implements InvocationStubber, MethodNameMatch
             {
                 return strtolower($configurable->getName());
             },
+<<<<<<< HEAD
             $this->configurableMethods
+=======
+            $this->configurableMethods,
+>>>>>>> main
         );
 
         if (is_string($constraint) && !in_array(strtolower($constraint), $configurableMethodNames, true)) {
@@ -298,7 +315,11 @@ final class InvocationMocker implements InvocationStubber, MethodNameMatch
             if (!$configuredMethod->mayReturn($value)) {
                 throw new IncompatibleReturnValueException(
                     $configuredMethod,
+<<<<<<< HEAD
                     $value
+=======
+                    $value,
+>>>>>>> main
                 );
             }
         }

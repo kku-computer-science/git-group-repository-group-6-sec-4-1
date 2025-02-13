@@ -193,7 +193,11 @@ class EntityPopulator
         return $obj;
     }
 
+<<<<<<< HEAD
     private function fillColumns($obj, $insertedEntities)
+=======
+    private function fillColumns($obj, $insertedEntities): void
+>>>>>>> main
     {
         foreach ($this->columnFormatters as $field => $format) {
             if (null !== $format) {
@@ -205,7 +209,11 @@ class EntityPopulator
                         'Failed to generate a value for %s::%s: %s',
                         get_class($obj),
                         $field,
+<<<<<<< HEAD
                         $ex->getMessage()
+=======
+                        $ex->getMessage(),
+>>>>>>> main
                     ));
                 }
                 // Try a standard setter if it's available, otherwise fall back on reflection
@@ -220,7 +228,11 @@ class EntityPopulator
         }
     }
 
+<<<<<<< HEAD
     private function callMethods($obj, $insertedEntities)
+=======
+    private function callMethods($obj, $insertedEntities): void
+>>>>>>> main
     {
         foreach ($this->getModifiers() as $modifier) {
             $modifier($obj, $insertedEntities);

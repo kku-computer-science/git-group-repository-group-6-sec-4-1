@@ -24,6 +24,10 @@ use Swift;
  * @author Gyula Sallai
  *
  * @phpstan-import-type Record from \Monolog\Logger
+<<<<<<< HEAD
+=======
+ * @deprecated Since Monolog 2.6. Use SymfonyMailerHandler instead.
+>>>>>>> main
  */
 class SwiftMailerHandler extends MailHandler
 {
@@ -42,6 +46,11 @@ class SwiftMailerHandler extends MailHandler
     {
         parent::__construct($level, $bubble);
 
+<<<<<<< HEAD
+=======
+        @trigger_error('The SwiftMailerHandler is deprecated since Monolog 2.6. Use SymfonyMailerHandler instead.', E_USER_DEPRECATED);
+
+>>>>>>> main
         $this->mailer = $mailer;
         $this->messageTemplate = $message;
     }

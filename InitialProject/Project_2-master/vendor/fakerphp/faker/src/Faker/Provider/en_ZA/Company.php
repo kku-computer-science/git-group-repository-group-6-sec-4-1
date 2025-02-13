@@ -20,7 +20,11 @@ class Company extends \Faker\Provider\Company
             '%s/%s/%s',
             \Faker\Provider\DateTime::dateTimeBetween('-50 years', 'now')->format('Y'),
             static::randomNumber(6, true),
+<<<<<<< HEAD
             static::randomElement(static::$legalEntities)
+=======
+            static::randomElement(static::$legalEntities),
+>>>>>>> main
         );
     }
 }

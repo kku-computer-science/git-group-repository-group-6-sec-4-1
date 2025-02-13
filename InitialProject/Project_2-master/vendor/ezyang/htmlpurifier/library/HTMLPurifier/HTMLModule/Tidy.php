@@ -221,6 +221,10 @@ class HTMLPurifier_HTMLModule_Tidy extends HTMLPurifier_HTMLModule
      */
     public function makeFixes()
     {
+<<<<<<< HEAD
+=======
+        return array();
+>>>>>>> main
     }
 }
 

@@ -17,6 +17,10 @@ use Carbon\CarbonInterval;
 use Carbon\Exceptions\UnitException;
 use Closure;
 use DateInterval;
+<<<<<<< HEAD
+=======
+use DateMalformedStringException;
+>>>>>>> main
 use ReturnTypeWillChange;
 
 /**
@@ -60,8 +64,11 @@ trait Units
             case 'millisecond':
                 return $this->addRealUnit('microsecond', $value * static::MICROSECONDS_PER_MILLISECOND);
 
+<<<<<<< HEAD
                 break;
 
+=======
+>>>>>>> main
             // @call addRealUnit
             case 'second':
                 break;
@@ -167,7 +174,11 @@ trait Units
             'weekday',
         ];
 
+<<<<<<< HEAD
         return \in_array($unit, $modifiableUnits) || \in_array($unit, static::$units);
+=======
+        return \in_array($unit, $modifiableUnits, true) || \in_array($unit, static::$units, true);
+>>>>>>> main
     }
 
     /**
@@ -199,7 +210,11 @@ trait Units
     public function add($unit, $value = 1, $overflow = null)
     {
         if (\is_string($unit) && \func_num_args() === 1) {
+<<<<<<< HEAD
             $unit = CarbonInterval::make($unit);
+=======
+            $unit = CarbonInterval::make($unit, [], true);
+>>>>>>> main
         }
 
         if ($unit instanceof CarbonConverterInterface) {
@@ -232,6 +247,11 @@ trait Units
      */
     public function addUnit($unit, $value = 1, $overflow = null)
     {
+<<<<<<< HEAD
+=======
+        $originalArgs = \func_get_args();
+
+>>>>>>> main
         $date = $this;
 
         if (!is_numeric($value) || !(float) $value) {
@@ -264,7 +284,11 @@ trait Units
                     /** @var static $date */
                     $date = $date->addDays($sign);
 
+<<<<<<< HEAD
                     while (\in_array($date->dayOfWeek, $weekendDays)) {
+=======
+                    while (\in_array($date->dayOfWeek, $weekendDays, true)) {
+>>>>>>> main
                         $date = $date->addDays($sign);
                     }
                 }
@@ -274,14 +298,22 @@ trait Units
             }
 
             $timeString = $date->toTimeString();
+<<<<<<< HEAD
         } elseif ($canOverflow = \in_array($unit, [
+=======
+        } elseif ($canOverflow = (\in_array($unit, [
+>>>>>>> main
                 'month',
                 'year',
             ]) && ($overflow === false || (
                 $overflow === null &&
                 ($ucUnit = ucfirst($unit).'s') &&
                 !($this->{'local'.$ucUnit.'Overflow'} ?? static::{'shouldOverflow'.$ucUnit}())
+<<<<<<< HEAD
             ))) {
+=======
+            )))) {
+>>>>>>> main
             $day = $date->day;
         }
 
@@ -304,6 +336,7 @@ trait Units
             $unit = 'second';
             $value = $second;
         }
+<<<<<<< HEAD
         $date = $date->modify("$value $unit");
 
         if (isset($timeString)) {
@@ -314,6 +347,23 @@ trait Units
 
         if (!$date) {
             throw new UnitException('Unable to add unit '.var_export(\func_get_args(), true));
+=======
+
+        try {
+            $date = $date->modify("$value $unit");
+
+            if (isset($timeString)) {
+                $date = $date->setTimeFromTimeString($timeString);
+            } elseif (isset($canOverflow, $day) && $canOverflow && $day !== $date->day) {
+                $date = $date->modify('last day of previous month');
+            }
+        } catch (DateMalformedStringException $ignoredException) { // @codeCoverageIgnore
+            $date = null; // @codeCoverageIgnore
+        }
+
+        if (!$date) {
+            throw new UnitException('Unable to add unit '.var_export($originalArgs, true));
+>>>>>>> main
         }
 
         return $date;
@@ -362,7 +412,11 @@ trait Units
     public function sub($unit, $value = 1, $overflow = null)
     {
         if (\is_string($unit) && \func_num_args() === 1) {
+<<<<<<< HEAD
             $unit = CarbonInterval::make($unit);
+=======
+            $unit = CarbonInterval::make($unit, [], true);
+>>>>>>> main
         }
 
         if ($unit instanceof CarbonConverterInterface) {
@@ -398,7 +452,11 @@ trait Units
     public function subtract($unit, $value = 1, $overflow = null)
     {
         if (\is_string($unit) && \func_num_args() === 1) {
+<<<<<<< HEAD
             $unit = CarbonInterval::make($unit);
+=======
+            $unit = CarbonInterval::make($unit, [], true);
+>>>>>>> main
         }
 
         return $this->sub($unit, $value, $overflow);

@@ -35,7 +35,13 @@ final class FootnoteRef extends AbstractInline implements ReferenceableInterface
         $this->reference = $reference;
         $this->content   = $content;
 
+<<<<<<< HEAD
         $this->data->import($data);
+=======
+        if (\count($data) > 0) {
+            $this->data->import($data);
+        }
+>>>>>>> main
     }
 
     public function getReference(): ReferenceInterface

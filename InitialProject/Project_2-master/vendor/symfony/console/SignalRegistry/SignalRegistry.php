@@ -43,7 +43,11 @@ final class SignalRegistry
             return false;
         }
 
+<<<<<<< HEAD
         if (\in_array('pcntl_signal', explode(',', ini_get('disable_functions')))) {
+=======
+        if (\in_array('pcntl_signal', explode(',', \ini_get('disable_functions')))) {
+>>>>>>> main
             return false;
         }
 

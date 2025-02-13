@@ -6,7 +6,11 @@
 
 namespace Whoops\Handler;
 
+<<<<<<< HEAD
 use Whoops\Exception\Inspector;
+=======
+use Whoops\Inspector\InspectorInterface;
+>>>>>>> main
 use Whoops\RunInterface;
 
 interface HandlerInterface
@@ -29,8 +33,15 @@ interface HandlerInterface
     public function setException($exception);
 
     /**
+<<<<<<< HEAD
      * @param  Inspector $inspector
      * @return void
      */
     public function setInspector(Inspector $inspector);
+=======
+     * @param  InspectorInterface $inspector
+     * @return void
+     */
+    public function setInspector(InspectorInterface $inspector);
+>>>>>>> main
 }

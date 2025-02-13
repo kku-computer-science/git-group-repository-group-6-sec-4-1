@@ -2,8 +2,13 @@
 
 namespace PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Shared\XMLWriter;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+=======
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx\Namespaces;
+use PhpOffice\PhpSpreadsheet\Shared\XMLWriter;
+>>>>>>> main
 
 class RelsVBA extends WriterPart
 {
@@ -12,7 +17,11 @@ class RelsVBA extends WriterPart
      *
      * @return string XML Output
      */
+<<<<<<< HEAD
     public function writeVBARelationships(Spreadsheet $spreadsheet)
+=======
+    public function writeVBARelationships()
+>>>>>>> main
     {
         // Create XML writer
         $objWriter = null;
@@ -27,10 +36,17 @@ class RelsVBA extends WriterPart
 
         // Relationships
         $objWriter->startElement('Relationships');
+<<<<<<< HEAD
         $objWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
         $objWriter->startElement('Relationship');
         $objWriter->writeAttribute('Id', 'rId1');
         $objWriter->writeAttribute('Type', 'http://schemas.microsoft.com/office/2006/relationships/vbaProjectSignature');
+=======
+        $objWriter->writeAttribute('xmlns', Namespaces::RELATIONSHIPS);
+        $objWriter->startElement('Relationship');
+        $objWriter->writeAttribute('Id', 'rId1');
+        $objWriter->writeAttribute('Type', Namespaces::VBA_SIGNATURE);
+>>>>>>> main
         $objWriter->writeAttribute('Target', 'vbaProjectSignature.bin');
         $objWriter->endElement();
         $objWriter->endElement();

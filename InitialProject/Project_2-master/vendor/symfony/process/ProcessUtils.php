@@ -48,7 +48,11 @@ class ProcessUtils
             if (\is_string($input)) {
                 return $input;
             }
+<<<<<<< HEAD
             if (is_scalar($input)) {
+=======
+            if (\is_scalar($input)) {
+>>>>>>> main
                 return (string) $input;
             }
             if ($input instanceof Process) {

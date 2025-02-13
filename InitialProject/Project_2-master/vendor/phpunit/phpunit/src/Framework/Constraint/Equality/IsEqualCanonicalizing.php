@@ -16,6 +16,10 @@ use function trim;
 use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\Comparator\ComparisonFailure;
 use SebastianBergmann\Comparator\Factory as ComparatorFactory;
+<<<<<<< HEAD
+=======
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+>>>>>>> main
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
@@ -58,7 +62,11 @@ final class IsEqualCanonicalizing extends Constraint
         try {
             $comparator = $comparatorFactory->getComparatorFor(
                 $this->value,
+<<<<<<< HEAD
                 $other
+=======
+                $other,
+>>>>>>> main
             );
 
             $comparator->assertEquals(
@@ -66,7 +74,11 @@ final class IsEqualCanonicalizing extends Constraint
                 $other,
                 0.0,
                 true,
+<<<<<<< HEAD
                 false
+=======
+                false,
+>>>>>>> main
             );
         } catch (ComparisonFailure $f) {
             if ($returnResult) {
@@ -75,7 +87,11 @@ final class IsEqualCanonicalizing extends Constraint
 
             throw new ExpectationFailedException(
                 trim($description . "\n" . $f->getMessage()),
+<<<<<<< HEAD
                 $f
+=======
+                $f,
+>>>>>>> main
             );
         }
 
@@ -85,7 +101,11 @@ final class IsEqualCanonicalizing extends Constraint
     /**
      * Returns a string representation of the constraint.
      *
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     public function toString(): string
     {
@@ -96,13 +116,21 @@ final class IsEqualCanonicalizing extends Constraint
 
             return sprintf(
                 "is equal to '%s'",
+<<<<<<< HEAD
                 $this->value
+=======
+                $this->value,
+>>>>>>> main
             );
         }
 
         return sprintf(
             'is equal to %s',
+<<<<<<< HEAD
             $this->exporter()->export($this->value)
+=======
+            $this->exporter()->export($this->value),
+>>>>>>> main
         );
     }
 }

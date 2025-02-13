@@ -3,7 +3,16 @@
 namespace Sabberworm\CSS\Value;
 
 use Sabberworm\CSS\OutputFormat;
+<<<<<<< HEAD
 
+=======
+use Sabberworm\CSS\Parsing\ParserState;
+
+/**
+ * A `CSSFunction` represents a special kind of value that also contains a function name and where the values are the
+ * function’s arguments. It also handles equals-sign-separated argument lists like `filter: alpha(opacity=90);`.
+ */
+>>>>>>> main
 class CSSFunction extends ValueList
 {
     /**
@@ -29,6 +38,29 @@ class CSSFunction extends ValueList
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * @param ParserState $oParserState
+     * @param bool $bIgnoreCase
+     *
+     * @return CSSFunction
+     *
+     * @throws SourceException
+     * @throws UnexpectedEOFException
+     * @throws UnexpectedTokenException
+     */
+    public static function parse(ParserState $oParserState, $bIgnoreCase = false)
+    {
+        $mResult = $oParserState->parseIdentifier($bIgnoreCase);
+        $oParserState->consume('(');
+        $aArguments = Value::parseValue($oParserState, ['=', ' ', ',']);
+        $mResult = new CSSFunction($mResult, $aArguments, ',', $oParserState->currentLine());
+        $oParserState->consume(')');
+        return $mResult;
+    }
+
+    /**
+>>>>>>> main
      * @return string
      */
     public function getName()
@@ -63,9 +95,17 @@ class CSSFunction extends ValueList
     }
 
     /**
+<<<<<<< HEAD
      * @return string
      */
     public function render(OutputFormat $oOutputFormat)
+=======
+     * @param OutputFormat|null $oOutputFormat
+     *
+     * @return string
+     */
+    public function render($oOutputFormat)
+>>>>>>> main
     {
         $aArguments = parent::render($oOutputFormat);
         return "{$this->sName}({$aArguments})";

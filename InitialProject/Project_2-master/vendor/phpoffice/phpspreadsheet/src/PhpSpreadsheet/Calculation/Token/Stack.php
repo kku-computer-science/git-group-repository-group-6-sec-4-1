@@ -3,10 +3,22 @@
 namespace PhpOffice\PhpSpreadsheet\Calculation\Token;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Engine\BranchPruner;
+>>>>>>> main
 
 class Stack
 {
     /**
+<<<<<<< HEAD
+=======
+     * @var BranchPruner
+     */
+    private $branchPruner;
+
+    /**
+>>>>>>> main
      * The parser stack for formulae.
      *
      * @var mixed[]
@@ -20,12 +32,24 @@ class Stack
      */
     private $count = 0;
 
+<<<<<<< HEAD
     /**
      * Return the number of entries on the stack.
      *
      * @return int
      */
     public function count()
+=======
+    public function __construct(BranchPruner $branchPruner)
+    {
+        $this->branchPruner = $branchPruner;
+    }
+
+    /**
+     * Return the number of entries on the stack.
+     */
+    public function count(): int
+>>>>>>> main
     {
         return $this->count;
     }
@@ -33,6 +57,7 @@ class Stack
     /**
      * Push a new entry onto the stack.
      *
+<<<<<<< HEAD
      * @param mixed $type
      * @param mixed $value
      * @param mixed $reference
@@ -55,6 +80,16 @@ class Stack
         $this->stack[$this->count++] = $stackItem;
 
         if ($type == 'Function') {
+=======
+     * @param mixed $value
+     */
+    public function push(string $type, $value, ?string $reference = null): void
+    {
+        $stackItem = $this->getStackItem($type, $value, $reference);
+        $this->stack[$this->count++] = $stackItem;
+
+        if ($type === 'Function') {
+>>>>>>> main
             $localeFunction = Calculation::localeFunc($value);
             if ($localeFunction != $value) {
                 $this->stack[($this->count - 1)]['localeValue'] = $localeFunction;
@@ -62,6 +97,7 @@ class Stack
         }
     }
 
+<<<<<<< HEAD
     public function getStackItem(
         $type,
         $value,
@@ -70,12 +106,25 @@ class Stack
         $onlyIf = null,
         $onlyIfNot = null
     ) {
+=======
+    public function pushStackItem(array $stackItem): void
+    {
+        $this->stack[$this->count++] = $stackItem;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    public function getStackItem(string $type, $value, ?string $reference = null): array
+    {
+>>>>>>> main
         $stackItem = [
             'type' => $type,
             'value' => $value,
             'reference' => $reference,
         ];
 
+<<<<<<< HEAD
         if (isset($storeKey)) {
             $stackItem['storeKey'] = $storeKey;
         }
@@ -85,6 +134,23 @@ class Stack
         }
 
         if (isset($onlyIfNot)) {
+=======
+        // will store the result under this alias
+        $storeKey = $this->branchPruner->currentCondition();
+        if (isset($storeKey) || $reference === 'NULL') {
+            $stackItem['storeKey'] = $storeKey;
+        }
+
+        // will only run computation if the matching store key is true
+        $onlyIf = $this->branchPruner->currentOnlyIf();
+        if (isset($onlyIf) || $reference === 'NULL') {
+            $stackItem['onlyIf'] = $onlyIf;
+        }
+
+        // will only run computation if the matching store key is false
+        $onlyIfNot = $this->branchPruner->currentOnlyIfNot();
+        if (isset($onlyIfNot) || $reference === 'NULL') {
+>>>>>>> main
             $stackItem['onlyIfNot'] = $onlyIfNot;
         }
 
@@ -93,10 +159,15 @@ class Stack
 
     /**
      * Pop the last entry from the stack.
+<<<<<<< HEAD
      *
      * @return mixed
      */
     public function pop()
+=======
+     */
+    public function pop(): ?array
+>>>>>>> main
     {
         if ($this->count > 0) {
             return $this->stack[--$this->count];
@@ -107,12 +178,17 @@ class Stack
 
     /**
      * Return an entry from the stack without removing it.
+<<<<<<< HEAD
      *
      * @param int $n number indicating how far back in the stack we want to look
      *
      * @return mixed
      */
     public function last($n = 1)
+=======
+     */
+    public function last(int $n = 1): ?array
+>>>>>>> main
     {
         if ($this->count - $n < 0) {
             return null;
@@ -129,6 +205,7 @@ class Stack
         $this->stack = [];
         $this->count = 0;
     }
+<<<<<<< HEAD
 
     public function __toString()
     {
@@ -146,4 +223,6 @@ class Stack
 
         return $str;
     }
+=======
+>>>>>>> main
 }

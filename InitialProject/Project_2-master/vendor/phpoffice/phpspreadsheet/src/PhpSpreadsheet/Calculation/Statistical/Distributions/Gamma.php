@@ -4,7 +4,11 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\Statistical\Distributions;
 
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class Gamma extends GammaBase
 {
@@ -35,7 +39,11 @@ class Gamma extends GammaBase
         }
 
         if ((((int) $value) == ((float) $value)) && $value <= 0.0) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         return self::gammaValue($value);
@@ -75,7 +83,11 @@ class Gamma extends GammaBase
         }
 
         if (($value < 0) || ($a <= 0) || ($b <= 0)) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         return self::calculateDistribution($value, $a, $b, $cumulative);
@@ -112,7 +124,11 @@ class Gamma extends GammaBase
         }
 
         if (($alpha <= 0.0) || ($beta <= 0.0)) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         return self::calculateInverse($probability, $alpha, $beta);
@@ -143,7 +159,11 @@ class Gamma extends GammaBase
         }
 
         if ($value <= 0) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         return log(self::gammaValue($value));

@@ -25,7 +25,11 @@ class CreateRole extends Command
         setPermissionsTeamId($this->option('team-id') ?: null);
 
         if (! PermissionRegistrar::$teams && $this->option('team-id')) {
+<<<<<<< HEAD
             $this->warn("Teams feature disabled, argument --team-id has no effect. Either enable it in permissions config file or remove --team-id parameter");
+=======
+            $this->warn('Teams feature disabled, argument --team-id has no effect. Either enable it in permissions config file or remove --team-id parameter');
+>>>>>>> main
 
             return;
         }
@@ -44,7 +48,11 @@ class CreateRole extends Command
     }
 
     /**
+<<<<<<< HEAD
      * @param array|null|string $string
+=======
+     * @param  array|null|string  $string
+>>>>>>> main
      */
     protected function makePermissions($string = null)
     {

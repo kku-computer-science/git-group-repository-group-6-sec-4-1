@@ -15,6 +15,10 @@ use function file_put_contents;
 use function htmlspecialchars;
 use function is_string;
 use function round;
+<<<<<<< HEAD
+=======
+use function strpos;
+>>>>>>> main
 use DOMDocument;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Driver\WriteOperationFailedException;
@@ -124,7 +128,13 @@ final class Crap4j
         $buffer = $document->saveXML();
 
         if ($target !== null) {
+<<<<<<< HEAD
             Filesystem::createDirectory(dirname($target));
+=======
+            if (!strpos($target, '://') !== false) {
+                Filesystem::createDirectory(dirname($target));
+            }
+>>>>>>> main
 
             if (@file_put_contents($target, $buffer) === false) {
                 throw new WriteOperationFailedException($target);

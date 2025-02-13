@@ -157,7 +157,11 @@ class EntityPopulator
         foreach ($tableMap->getBehaviors() as $name => $params) {
             switch ($name) {
                 case 'nested_set':
+<<<<<<< HEAD
                     $modifiers['nested_set'] = static function ($obj, $inserted) use ($class, $generator) {
+=======
+                    $modifiers['nested_set'] = static function ($obj, $inserted) use ($class, $generator): void {
+>>>>>>> main
                         if (isset($inserted[$class])) {
                             $queryClass = $class . 'Query';
                             $parent = $queryClass::create()->findPk($generator->randomElement($inserted[$class]));
@@ -170,7 +174,11 @@ class EntityPopulator
                     break;
 
                 case 'sortable':
+<<<<<<< HEAD
                     $modifiers['sortable'] = static function ($obj, $inserted) use ($class, $generator) {
+=======
+                    $modifiers['sortable'] = static function ($obj, $inserted) use ($class, $generator): void {
+>>>>>>> main
                         $obj->insertAtRank($generator->numberBetween(1, count($inserted[$class] ?? []) + 1));
                     };
 

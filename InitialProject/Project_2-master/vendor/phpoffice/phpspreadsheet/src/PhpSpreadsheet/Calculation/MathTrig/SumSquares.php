@@ -4,6 +4,10 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\MathTrig;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class SumSquares
 {
@@ -40,7 +44,11 @@ class SumSquares
     {
         $count = count($array1);
         if ($count !== count($array2)) {
+<<<<<<< HEAD
             throw new Exception(Functions::NA());
+=======
+            throw new Exception(ExcelError::NA());
+>>>>>>> main
         }
 
         return $count;

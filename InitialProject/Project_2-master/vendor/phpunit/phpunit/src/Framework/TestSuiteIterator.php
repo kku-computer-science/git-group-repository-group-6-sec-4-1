@@ -14,6 +14,11 @@ use function count;
 use RecursiveIterator;
 
 /**
+<<<<<<< HEAD
+=======
+ * @template-implements RecursiveIterator<int, Test>
+ *
+>>>>>>> main
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
 final class TestSuiteIterator implements RecursiveIterator
@@ -65,7 +70,11 @@ final class TestSuiteIterator implements RecursiveIterator
     {
         if (!$this->hasChildren()) {
             throw new NoChildTestSuiteException(
+<<<<<<< HEAD
                 'The current item is not a TestSuite instance and therefore does not have any children.'
+=======
+                'The current item is not a TestSuite instance and therefore does not have any children.',
+>>>>>>> main
             );
         }
 

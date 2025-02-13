@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -20,6 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class EditCommand extends Command implements ContextAware
 {
+<<<<<<< HEAD
     /**
      * @var string
      */
@@ -29,6 +34,10 @@ class EditCommand extends Command implements ContextAware
      * @var Context
      */
     private $context;
+=======
+    private string $runtimeDir = '';
+    private Context $context;
+>>>>>>> main
 
     /**
      * Constructor.
@@ -74,10 +83,19 @@ class EditCommand extends Command implements ContextAware
      * @param InputInterface  $input
      * @param OutputInterface $output
      *
+<<<<<<< HEAD
      * @throws \InvalidArgumentException when both exec and no-exec flags are given or if a given variable is not found in the current context
      * @throws \UnexpectedValueException if file_get_contents on the edited file returns false instead of a string
      */
     protected function execute(InputInterface $input, OutputInterface $output)
+=======
+     * @return int 0 if everything went fine, or an exit code
+     *
+     * @throws \InvalidArgumentException when both exec and no-exec flags are given or if a given variable is not found in the current context
+     * @throws \UnexpectedValueException if file_get_contents on the edited file returns false instead of a string
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): int
+>>>>>>> main
     {
         if ($input->getOption('exec') &&
             $input->getOption('no-exec')) {
@@ -102,7 +120,11 @@ class EditCommand extends Command implements ContextAware
         $editedContent = $this->editFile($filePath, $shouldRemoveFile);
 
         if ($execute) {
+<<<<<<< HEAD
             $this->getApplication()->addInput($editedContent);
+=======
+            $this->getShell()->addInput($editedContent);
+>>>>>>> main
         }
 
         return 0;
@@ -112,10 +134,15 @@ class EditCommand extends Command implements ContextAware
      * @param bool        $execOption
      * @param bool        $noExecOption
      * @param string|null $filePath
+<<<<<<< HEAD
      *
      * @return bool
      */
     private function shouldExecuteFile(bool $execOption, bool $noExecOption, string $filePath = null): bool
+=======
+     */
+    private function shouldExecuteFile(bool $execOption, bool $noExecOption, ?string $filePath = null): bool
+>>>>>>> main
     {
         if ($execOption) {
             return true;
@@ -136,7 +163,11 @@ class EditCommand extends Command implements ContextAware
      *
      * @throws \InvalidArgumentException If the variable is not found in the current context
      */
+<<<<<<< HEAD
     private function extractFilePath(string $fileArgument = null)
+=======
+    private function extractFilePath(?string $fileArgument = null)
+>>>>>>> main
     {
         // If the file argument was a variable, get it from the context
         if ($fileArgument !== null &&
@@ -152,8 +183,11 @@ class EditCommand extends Command implements ContextAware
      * @param string $filePath
      * @param bool   $shouldRemoveFile
      *
+<<<<<<< HEAD
      * @return string
      *
+=======
+>>>>>>> main
      * @throws \UnexpectedValueException if file_get_contents on $filePath returns false instead of a string
      */
     private function editFile(string $filePath, bool $shouldRemoveFile): string

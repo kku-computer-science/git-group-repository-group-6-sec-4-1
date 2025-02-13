@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 /**
  * Mockery
  *
@@ -16,19 +17,47 @@
  * @package    Mockery
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+=======
+
+/**
+ * Mockery (https://docs.mockery.io/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
+>>>>>>> main
  */
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
+<<<<<<< HEAD
 use Mockery\Generator\MockConfiguration;
 
 class ClassPass implements Pass
 {
+=======
+use Mockery;
+use Mockery\Generator\MockConfiguration;
+use function class_exists;
+use function ltrim;
+use function str_replace;
+
+class ClassPass implements Pass
+{
+    /**
+     * @param  string $code
+     * @return string
+     */
+>>>>>>> main
     public function apply($code, MockConfiguration $config)
     {
         $target = $config->getTargetClass();
 
+<<<<<<< HEAD
         if (!$target) {
+=======
+        if (! $target) {
+>>>>>>> main
             return $code;
         }
 
@@ -36,6 +65,7 @@ class ClassPass implements Pass
             return $code;
         }
 
+<<<<<<< HEAD
         $className = ltrim($target->getName(), "\\");
 
         if (!class_exists($className)) {
@@ -49,5 +79,18 @@ class ClassPass implements Pass
         );
 
         return $code;
+=======
+        $className = ltrim($target->getName(), '\\');
+
+        if (! class_exists($className)) {
+            Mockery::declareClass($className);
+        }
+
+        return str_replace(
+            'implements MockInterface',
+            'extends \\' . $className . ' implements MockInterface',
+            $code
+        );
+>>>>>>> main
     }
 }

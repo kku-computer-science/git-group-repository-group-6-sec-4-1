@@ -2,6 +2,7 @@
 
 namespace PhpOffice\PhpSpreadsheet\Chart\Renderer;
 
+<<<<<<< HEAD
 use AccBarPlot;
 use AccLinePlot;
 use BarPlot;
@@ -56,12 +57,33 @@ class JpGraph implements IRenderer
     }
 
     private static function init(): void
+=======
+/**
+ * Jpgraph is not oficially maintained in Composer, so the version there
+ * could be out of date. For that reason, all unit test requiring Jpgraph
+ * are skipped. So, do not measure code coverage for this class till that
+ * is fixed.
+ *
+ * This implementation uses abandoned package
+ * https://packagist.org/packages/jpgraph/jpgraph
+ *
+ * @codeCoverageIgnore
+ */
+class JpGraph extends JpGraphRendererBase
+{
+    protected static function init(): void
+>>>>>>> main
     {
         static $loaded = false;
         if ($loaded) {
             return;
         }
 
+<<<<<<< HEAD
+=======
+        // JpGraph is no longer included with distribution, but user may install it.
+        // So Scrutinizer's complaint that it can't find it is reasonable, but unfixable.
+>>>>>>> main
         \JpGraph\JpGraph::load();
         \JpGraph\JpGraph::module('bar');
         \JpGraph\JpGraph::module('contour');
@@ -73,6 +95,7 @@ class JpGraph implements IRenderer
         \JpGraph\JpGraph::module('scatter');
         \JpGraph\JpGraph::module('stock');
 
+<<<<<<< HEAD
         self::$markSet = [
             'diamond' => MARK_DIAMOND,
             'square' => MARK_SQUARE,
@@ -871,4 +894,8 @@ class JpGraph implements IRenderer
 
         return true;
     }
+=======
+        $loaded = true;
+    }
+>>>>>>> main
 }

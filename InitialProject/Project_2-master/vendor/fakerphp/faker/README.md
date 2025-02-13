@@ -15,7 +15,11 @@ It's heavily inspired by Perl's [Data::Faker](https://metacpan.org/pod/Data::Fak
 
 ### Installation
 
+<<<<<<< HEAD
 Faker requires PHP >= 7.1.
+=======
+Faker requires PHP >= 7.4.
+>>>>>>> main
 
 ```shell
 composer require fakerphp/faker
@@ -57,6 +61,47 @@ for ($i = 0; $i < 3; $i++) {
 // 'Orlo Bergstrom'
 ```
 
+<<<<<<< HEAD
+=======
+## Automated refactoring
+
+If you already used this library with its properties, they are now deprecated and needs to be replaced by their equivalent methods.
+
+You can use the provided [Rector](https://github.com/rectorphp/rector) config file to automate the work.
+
+Run
+
+```bash
+composer require --dev rector/rector
+```
+
+to install `rector/rector`.
+
+Run
+
+```bash
+vendor/bin/rector process src/ --config vendor/fakerphp/faker/rector-migrate.php
+```
+
+to run `rector/rector`.
+
+*Note:* do not forget to replace `src/` with the path to your source directory.
+
+Alternatively, import the configuration in your `rector.php` file:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use Rector\Config;
+
+return static function (Config\RectorConfig $rectorConfig): void {
+    $rectorConfig->import('vendor/fakerphp/faker/rector-migrate.php');
+};
+```
+
+>>>>>>> main
 ## License
 
 Faker is released under the MIT License. See [`LICENSE`](LICENSE) for details.

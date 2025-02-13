@@ -31,6 +31,10 @@ trait StreamDecoratorTrait
     {
         if ($name === 'stream') {
             $this->stream = $this->createStream();
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
             return $this->stream;
         }
 
@@ -43,12 +47,20 @@ trait StreamDecoratorTrait
             if ($this->isSeekable()) {
                 $this->seek(0);
             }
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
             return $this->getContents();
         } catch (\Throwable $e) {
             if (\PHP_VERSION_ID >= 70400) {
                 throw $e;
             }
             trigger_error(sprintf('%s::__toString exception: %s', self::class, (string) $e), E_USER_ERROR);
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
             return '';
         }
     }
@@ -67,7 +79,11 @@ trait StreamDecoratorTrait
     {
         /** @var callable $callable */
         $callable = [$this->stream, $method];
+<<<<<<< HEAD
         $result = call_user_func_array($callable, $args);
+=======
+        $result = ($callable)(...$args);
+>>>>>>> main
 
         // Always return the wrapped object if the result is a return $this
         return $result === $this->stream ? $this : $result;
@@ -79,8 +95,11 @@ trait StreamDecoratorTrait
     }
 
     /**
+<<<<<<< HEAD
      * {@inheritdoc}
      *
+=======
+>>>>>>> main
      * @return mixed
      */
     public function getMetadata($key = null)

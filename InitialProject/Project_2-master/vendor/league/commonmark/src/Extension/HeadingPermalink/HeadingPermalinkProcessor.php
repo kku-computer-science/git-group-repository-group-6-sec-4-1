@@ -22,6 +22,10 @@ use League\CommonMark\Node\RawMarkupContainerInterface;
 use League\CommonMark\Node\StringContainerHelper;
 use League\CommonMark\Normalizer\TextNormalizerInterface;
 use League\Config\ConfigurationInterface;
+<<<<<<< HEAD
+=======
+use League\Config\Exception\InvalidConfigurationException;
+>>>>>>> main
 
 /**
  * Searches the Document for Heading elements and adds HeadingPermalinks to each one
@@ -30,6 +34,10 @@ final class HeadingPermalinkProcessor implements EnvironmentAwareInterface
 {
     public const INSERT_BEFORE = 'before';
     public const INSERT_AFTER  = 'after';
+<<<<<<< HEAD
+=======
+    public const INSERT_NONE   = 'none';
+>>>>>>> main
 
     /** @psalm-readonly-allow-private-mutation */
     private TextNormalizerInterface $slugNormalizer;
@@ -45,6 +53,7 @@ final class HeadingPermalinkProcessor implements EnvironmentAwareInterface
 
     public function __invoke(DocumentParsedEvent $e): void
     {
+<<<<<<< HEAD
         $min = (int) $this->config->get('heading_permalink/min_heading_level');
         $max = (int) $this->config->get('heading_permalink/max_heading_level');
 
@@ -53,11 +62,31 @@ final class HeadingPermalinkProcessor implements EnvironmentAwareInterface
         foreach ($e->getDocument()->iterator(NodeIterator::FLAG_BLOCKS_ONLY) as $node) {
             if ($node instanceof Heading && $node->getLevel() >= $min && $node->getLevel() <= $max) {
                 $this->addHeadingLink($node, $slugLength);
+=======
+        $min            = (int) $this->config->get('heading_permalink/min_heading_level');
+        $max            = (int) $this->config->get('heading_permalink/max_heading_level');
+        $applyToHeading = (bool) $this->config->get('heading_permalink/apply_id_to_heading');
+        $idPrefix       = (string) $this->config->get('heading_permalink/id_prefix');
+        $slugLength     = (int) $this->config->get('slug_normalizer/max_length');
+        $headingClass   = (string) $this->config->get('heading_permalink/heading_class');
+
+        if ($idPrefix !== '') {
+            $idPrefix .= '-';
+        }
+
+        foreach ($e->getDocument()->iterator(NodeIterator::FLAG_BLOCKS_ONLY) as $node) {
+            if ($node instanceof Heading && $node->getLevel() >= $min && $node->getLevel() <= $max) {
+                $this->addHeadingLink($node, $slugLength, $idPrefix, $applyToHeading, $headingClass);
+>>>>>>> main
             }
         }
     }
 
+<<<<<<< HEAD
     private function addHeadingLink(Heading $heading, int $slugLength): void
+=======
+    private function addHeadingLink(Heading $heading, int $slugLength, string $idPrefix, bool $applyToHeading, string $headingClass): void
+>>>>>>> main
     {
         $text = StringContainerHelper::getChildText($heading, [RawMarkupContainerInterface::class]);
         $slug = $this->slugNormalizer->normalize($text, [
@@ -65,6 +94,17 @@ final class HeadingPermalinkProcessor implements EnvironmentAwareInterface
             'length' => $slugLength,
         ]);
 
+<<<<<<< HEAD
+=======
+        if ($applyToHeading) {
+            $heading->data->set('attributes/id', $idPrefix . $slug);
+        }
+
+        if ($headingClass !== '') {
+            $heading->data->append('attributes/class', $headingClass);
+        }
+
+>>>>>>> main
         $headingLinkAnchor = new HeadingPermalink($slug);
 
         switch ($this->config->get('heading_permalink/insert')) {
@@ -76,8 +116,15 @@ final class HeadingPermalinkProcessor implements EnvironmentAwareInterface
                 $heading->appendChild($headingLinkAnchor);
 
                 return;
+<<<<<<< HEAD
             default:
                 throw new \RuntimeException("Invalid configuration value for heading_permalink/insert; expected 'before' or 'after'");
+=======
+            case self::INSERT_NONE:
+                return;
+            default:
+                throw new InvalidConfigurationException("Invalid configuration value for heading_permalink/insert; expected 'before', 'after', or 'none'");
+>>>>>>> main
         }
     }
 }

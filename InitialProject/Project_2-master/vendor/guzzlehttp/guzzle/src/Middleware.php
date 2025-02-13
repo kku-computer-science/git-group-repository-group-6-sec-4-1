@@ -34,10 +34,18 @@ final class Middleware
                 }
                 $cookieJar = $options['cookies'];
                 $request = $cookieJar->withCookieHeader($request);
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
                 return $handler($request, $options)
                     ->then(
                         static function (ResponseInterface $response) use ($cookieJar, $request): ResponseInterface {
                             $cookieJar->extractCookies($request, $response);
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
                             return $response;
                         }
                     );
@@ -53,13 +61,21 @@ final class Middleware
      *
      * @return callable(callable): callable Returns a function that accepts the next handler.
      */
+<<<<<<< HEAD
     public static function httpErrors(BodySummarizerInterface $bodySummarizer = null): callable
+=======
+    public static function httpErrors(?BodySummarizerInterface $bodySummarizer = null): callable
+>>>>>>> main
     {
         return static function (callable $handler) use ($bodySummarizer): callable {
             return static function ($request, array $options) use ($handler, $bodySummarizer) {
                 if (empty($options['http_errors'])) {
                     return $handler($request, $options);
                 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
                 return $handler($request, $options)->then(
                     static function (ResponseInterface $response) use ($request, $bodySummarizer) {
                         $code = $response->getStatusCode();
@@ -93,20 +109,38 @@ final class Middleware
                 return $handler($request, $options)->then(
                     static function ($value) use ($request, &$container, $options) {
                         $container[] = [
+<<<<<<< HEAD
                             'request'  => $request,
                             'response' => $value,
                             'error'    => null,
                             'options'  => $options
                         ];
+=======
+                            'request' => $request,
+                            'response' => $value,
+                            'error' => null,
+                            'options' => $options,
+                        ];
+
+>>>>>>> main
                         return $value;
                     },
                     static function ($reason) use ($request, &$container, $options) {
                         $container[] = [
+<<<<<<< HEAD
                             'request'  => $request,
                             'response' => null,
                             'error'    => $reason,
                             'options'  => $options
                         ];
+=======
+                            'request' => $request,
+                            'response' => null,
+                            'error' => $reason,
+                            'options' => $options,
+                        ];
+
+>>>>>>> main
                         return P\Create::rejectionFor($reason);
                     }
                 );
@@ -127,7 +161,11 @@ final class Middleware
      *
      * @return callable Returns a function that accepts the next handler.
      */
+<<<<<<< HEAD
     public static function tap(callable $before = null, callable $after = null): callable
+=======
+    public static function tap(?callable $before = null, ?callable $after = null): callable
+>>>>>>> main
     {
         return static function (callable $handler) use ($before, $after): callable {
             return static function (RequestInterface $request, array $options) use ($handler, $before, $after) {
@@ -138,6 +176,10 @@ final class Middleware
                 if ($after) {
                     $after($request, $options, $response);
                 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
                 return $response;
             };
         };
@@ -170,7 +212,11 @@ final class Middleware
      *
      * @return callable Returns a function that accepts the next handler.
      */
+<<<<<<< HEAD
     public static function retry(callable $decider, callable $delay = null): callable
+=======
+    public static function retry(callable $decider, ?callable $delay = null): callable
+>>>>>>> main
     {
         return static function (callable $handler) use ($decider, $delay): RetryMiddleware {
             return new RetryMiddleware($decider, $handler, $delay);
@@ -202,12 +248,20 @@ final class Middleware
                     static function ($response) use ($logger, $request, $formatter, $logLevel): ResponseInterface {
                         $message = $formatter->format($request, $response);
                         $logger->log($logLevel, $message);
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
                         return $response;
                     },
                     static function ($reason) use ($logger, $request, $formatter): PromiseInterface {
                         $response = $reason instanceof RequestException ? $reason->getResponse() : null;
                         $message = $formatter->format($request, $response, P\Create::exceptionFor($reason));
                         $logger->error($message);
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
                         return P\Create::rejectionFor($reason);
                     }
                 );

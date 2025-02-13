@@ -7,21 +7,33 @@ class Escher
     /**
      * Drawing Group Container.
      *
+<<<<<<< HEAD
      * @var Escher\DggContainer
+=======
+     * @var ?Escher\DggContainer
+>>>>>>> main
      */
     private $dggContainer;
 
     /**
      * Drawing Container.
      *
+<<<<<<< HEAD
      * @var Escher\DgContainer
+=======
+     * @var ?Escher\DgContainer
+>>>>>>> main
      */
     private $dgContainer;
 
     /**
      * Get Drawing Group Container.
      *
+<<<<<<< HEAD
      * @return Escher\DggContainer
+=======
+     * @return ?Escher\DggContainer
+>>>>>>> main
      */
     public function getDggContainer()
     {
@@ -43,7 +55,11 @@ class Escher
     /**
      * Get Drawing Container.
      *
+<<<<<<< HEAD
      * @return Escher\DgContainer
+=======
+     * @return ?Escher\DgContainer
+>>>>>>> main
      */
     public function getDgContainer()
     {

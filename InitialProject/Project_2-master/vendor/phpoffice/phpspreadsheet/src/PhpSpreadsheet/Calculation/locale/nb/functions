@@ -245,6 +245,10 @@ ROWS = RADER
 RTD = RTD
 TRANSPOSE = TRANSPONER
 VLOOKUP = FINN.RAD
+<<<<<<< HEAD
+=======
+*RC = RK
+>>>>>>> main
 
 ##
 ## Matematikk- og trigonometrifunksjoner (Math & Trig Functions)

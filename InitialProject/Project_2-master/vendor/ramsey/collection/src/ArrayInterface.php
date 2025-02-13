@@ -17,7 +17,10 @@ namespace Ramsey\Collection;
 use ArrayAccess;
 use Countable;
 use IteratorAggregate;
+<<<<<<< HEAD
 use Serializable;
+=======
+>>>>>>> main
 
 /**
  * `ArrayInterface` provides traversable array functionality to data types.
@@ -29,8 +32,12 @@ use Serializable;
 interface ArrayInterface extends
     ArrayAccess,
     Countable,
+<<<<<<< HEAD
     IteratorAggregate,
     Serializable
+=======
+    IteratorAggregate
+>>>>>>> main
 {
     /**
      * Removes all items from this array.

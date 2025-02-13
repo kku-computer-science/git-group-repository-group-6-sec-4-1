@@ -2,6 +2,10 @@
 
 namespace Sabberworm\CSS;
 
+<<<<<<< HEAD
+=======
+use Sabberworm\CSS\Comment\Commentable;
+>>>>>>> main
 use Sabberworm\CSS\Parsing\OutputException;
 
 class OutputFormatter
@@ -212,6 +216,32 @@ class OutputFormatter
     }
 
     /**
+<<<<<<< HEAD
+=======
+     *
+     * @param array<Commentable> $aComments
+     *
+     * @return string
+     */
+    public function comments(Commentable $oCommentable)
+    {
+        if (!$this->oFormat->bRenderComments) {
+            return '';
+        }
+
+        $sResult = '';
+        $aComments = $oCommentable->getComments();
+        $iLastCommentIndex = count($aComments) - 1;
+
+        foreach ($aComments as $i => $oComment) {
+            $sResult .= $oComment->render($this->oFormat);
+            $sResult .= $i === $iLastCommentIndex ? $this->spaceAfterBlocks() : $this->spaceBetweenBlocks();
+        }
+        return $sResult;
+    }
+
+    /**
+>>>>>>> main
      * @param string $sSpaceString
      *
      * @return string

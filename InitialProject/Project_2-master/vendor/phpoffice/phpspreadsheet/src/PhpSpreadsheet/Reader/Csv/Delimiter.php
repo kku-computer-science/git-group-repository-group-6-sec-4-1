@@ -140,6 +140,7 @@ class Delimiter
             $line = $line . $newLine;
 
             // Drop everything that is enclosed to avoid counting false positives in enclosures
+<<<<<<< HEAD
             $line = preg_replace('/(' . $enclosure . '.*' . $enclosure . ')/Us', '', $line);
 
             // See if we have any enclosures left in the line
@@ -147,5 +148,14 @@ class Delimiter
         } while (preg_match('/(' . $enclosure . ')/', $line ?? '') > 0);
 
         return $line ?? false;
+=======
+            $line = (string) preg_replace('/(' . $enclosure . '.*' . $enclosure . ')/Us', '', $line);
+
+            // See if we have any enclosures left in the line
+            // if we still have an enclosure then we need to read the next line as well
+        } while (preg_match('/(' . $enclosure . ')/', $line) > 0);
+
+        return ($line !== '') ? $line : false;
+>>>>>>> main
     }
 }

@@ -26,6 +26,7 @@ use Symfony\Component\CssSelector\XPath\XPathExpr;
  */
 class PseudoClassExtension extends AbstractExtension
 {
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
@@ -40,6 +41,20 @@ class PseudoClassExtension extends AbstractExtension
             'only-child' => [$this, 'translateOnlyChild'],
             'only-of-type' => [$this, 'translateOnlyOfType'],
             'empty' => [$this, 'translateEmpty'],
+=======
+    public function getPseudoClassTranslators(): array
+    {
+        return [
+            'root' => $this->translateRoot(...),
+            'scope' => $this->translateScopePseudo(...),
+            'first-child' => $this->translateFirstChild(...),
+            'last-child' => $this->translateLastChild(...),
+            'first-of-type' => $this->translateFirstOfType(...),
+            'last-of-type' => $this->translateLastOfType(...),
+            'only-child' => $this->translateOnlyChild(...),
+            'only-of-type' => $this->translateOnlyOfType(...),
+            'empty' => $this->translateEmpty(...),
+>>>>>>> main
         ];
     }
 
@@ -48,6 +63,14 @@ class PseudoClassExtension extends AbstractExtension
         return $xpath->addCondition('not(parent::*)');
     }
 
+<<<<<<< HEAD
+=======
+    public function translateScopePseudo(XPathExpr $xpath): XPathExpr
+    {
+        return $xpath->addCondition('1');
+    }
+
+>>>>>>> main
     public function translateFirstChild(XPathExpr $xpath): XPathExpr
     {
         return $xpath
@@ -104,7 +127,11 @@ class PseudoClassExtension extends AbstractExtension
     {
         $element = $xpath->getElement();
 
+<<<<<<< HEAD
         return $xpath->addCondition(sprintf('count(preceding-sibling::%s)=0 and count(following-sibling::%s)=0', $element, $element));
+=======
+        return $xpath->addCondition(\sprintf('count(preceding-sibling::%s)=0 and count(following-sibling::%s)=0', $element, $element));
+>>>>>>> main
     }
 
     public function translateEmpty(XPathExpr $xpath): XPathExpr
@@ -112,9 +139,12 @@ class PseudoClassExtension extends AbstractExtension
         return $xpath->addCondition('not(*) and not(string-length())');
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
+=======
+>>>>>>> main
     public function getName(): string
     {
         return 'pseudo-class';

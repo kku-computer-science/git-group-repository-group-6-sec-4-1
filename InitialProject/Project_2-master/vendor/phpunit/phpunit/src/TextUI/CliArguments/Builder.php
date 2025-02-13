@@ -121,7 +121,10 @@ final class Builder
         'whitelist=',
         'dump-xdebug-filter=',
     ];
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
     private const SHORT_OPTIONS = 'd:c:hv';
 
     public function fromParameters(array $parameters, array $additionalLongOptions): Configuration
@@ -130,13 +133,22 @@ final class Builder
             $options = (new CliParser)->parse(
                 $parameters,
                 self::SHORT_OPTIONS,
+<<<<<<< HEAD
                 array_merge(self::LONG_OPTIONS, $additionalLongOptions)
+=======
+                array_merge(self::LONG_OPTIONS, $additionalLongOptions),
+>>>>>>> main
             );
         } catch (CliParserException $e) {
             throw new Exception(
                 $e->getMessage(),
+<<<<<<< HEAD
                 (int) $e->getCode(),
                 $e
+=======
+                $e->getCode(),
+                $e,
+>>>>>>> main
             );
         }
 
@@ -881,7 +893,11 @@ final class Builder
             $verbose,
             $version,
             $coverageFilter,
+<<<<<<< HEAD
             $xdebugFilterFile
+=======
+            $xdebugFilterFile,
+>>>>>>> main
         );
     }
 }

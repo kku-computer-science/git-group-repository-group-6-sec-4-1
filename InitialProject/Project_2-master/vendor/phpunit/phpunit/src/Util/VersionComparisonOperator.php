@@ -14,6 +14,10 @@ use function sprintf;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
+<<<<<<< HEAD
+=======
+ *
+>>>>>>> main
  * @psalm-immutable
  */
 final class VersionComparisonOperator
@@ -49,8 +53,13 @@ final class VersionComparisonOperator
             throw new Exception(
                 sprintf(
                     '"%s" is not a valid version_compare() operator',
+<<<<<<< HEAD
                     $operator
                 )
+=======
+                    $operator,
+                ),
+>>>>>>> main
             );
         }
     }

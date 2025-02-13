@@ -48,7 +48,11 @@ final class DirectoryExists extends Constraint
     {
         return sprintf(
             'directory "%s" exists',
+<<<<<<< HEAD
             $other
+=======
+            $other,
+>>>>>>> main
         );
     }
 }

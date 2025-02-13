@@ -10,7 +10,11 @@ class ColumnDimension extends Dimension
     /**
      * Column index.
      *
+<<<<<<< HEAD
      * @var string
+=======
+     * @var ?string
+>>>>>>> main
      */
     private $columnIndex;
 
@@ -33,7 +37,11 @@ class ColumnDimension extends Dimension
     /**
      * Create a new ColumnDimension.
      *
+<<<<<<< HEAD
      * @param string $index Character column index
+=======
+     * @param ?string $index Character column index
+>>>>>>> main
      */
     public function __construct($index = 'A')
     {
@@ -47,7 +55,11 @@ class ColumnDimension extends Dimension
     /**
      * Get column index as string eg: 'A'.
      */
+<<<<<<< HEAD
     public function getColumnIndex(): string
+=======
+    public function getColumnIndex(): ?string
+>>>>>>> main
     {
         return $this->columnIndex;
     }
@@ -67,7 +79,11 @@ class ColumnDimension extends Dimension
      */
     public function getColumnNumeric(): int
     {
+<<<<<<< HEAD
         return Coordinate::columnIndexFromString($this->columnIndex);
+=======
+        return Coordinate::columnIndexFromString($this->columnIndex ?? '');
+>>>>>>> main
     }
 
     /**
@@ -83,9 +99,16 @@ class ColumnDimension extends Dimension
     /**
      * Get Width.
      *
+<<<<<<< HEAD
      * Each unit of column width is equal to the width of one character in the default font size.
      * By default, this will be the return value; but this method also accepts a unit of measure argument and will
      *     return the value converted to the specified UoM using an approximation method.
+=======
+     * Each unit of column width is equal to the width of one character in the default font size. A value of -1
+     *      tells Excel to display this column in its default width.
+     * By default, this will be the return value; but this method also accepts an optional unit of measure argument
+     *    and will convert the returned value to the specified UoM..
+>>>>>>> main
      */
     public function getWidth(?string $unitOfMeasure = null): float
     {
@@ -97,9 +120,17 @@ class ColumnDimension extends Dimension
     /**
      * Set Width.
      *
+<<<<<<< HEAD
      * Each unit of column width is equal to the width of one character in the default font size.
      * By default, this will be the unit of measure for the passed value; but this method accepts a unit of measure
      *    argument, and will convert the value from the specified UoM using an approximation method.
+=======
+     * Each unit of column width is equal to the width of one character in the default font size. A value of -1
+     *      tells Excel to display this column in its default width.
+     * By default, this will be the unit of measure for the passed value; but this method also accepts an
+     *    optional unit of measure argument, and will convert the value from the specified UoM using an
+     *    approximation method.
+>>>>>>> main
      *
      * @return $this
      */

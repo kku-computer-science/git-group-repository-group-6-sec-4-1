@@ -508,11 +508,17 @@ class ReflectionClosure extends ReflectionFunction
                     break;
                 case 'id_name':
                     switch ($token[0]) {
+<<<<<<< HEAD
                         // named arguments...
                         case ':':
                             if ($lastState === 'closure' && $context === 'root') {
                                 $state = 'ignore_next';
                                 $lastState = 'closure';
+=======
+                        case $token[0] === ':' && $context !== 'instanceof':
+                            if ($lastState === 'closure' && $context === 'root') {
+                                $state = 'closure';
+>>>>>>> main
                                 $code .= $id_start.$token;
                             }
 
@@ -643,6 +649,14 @@ class ReflectionClosure extends ReflectionFunction
                     break;
                 case 'anonymous':
                     switch ($token[0]) {
+<<<<<<< HEAD
+=======
+                        case T_NAME_QUALIFIED:
+                            [$id_start, $id_start_ci, $id_name] = $this->parseNameQualified($token[1]);
+                            $state = 'id_name';
+                            $lastState = 'anonymous';
+                            break 2;
+>>>>>>> main
                         case T_NS_SEPARATOR:
                         case T_STRING:
                             $id_start = $token[1];
@@ -651,7 +665,11 @@ class ReflectionClosure extends ReflectionFunction
                             $state = 'id_name';
                             $context = 'extends';
                             $lastState = 'anonymous';
+<<<<<<< HEAD
                         break;
+=======
+                            break;
+>>>>>>> main
                         case '{':
                             $state = 'closure';
                             if (! $inside_structure) {
@@ -676,6 +694,33 @@ class ReflectionClosure extends ReflectionFunction
         $this->isShortClosure = $isShortClosure;
         $this->isBindingRequired = $isUsingThisObject;
         $this->isScopeRequired = $isUsingScope;
+<<<<<<< HEAD
+=======
+
+        if (PHP_VERSION_ID >= 80100) {
+            $attributesCode = array_map(function ($attribute) {
+                $arguments = $attribute->getArguments();
+
+                $name = $attribute->getName();
+                $arguments = implode(', ', array_map(function ($argument, $key) {
+                    $argument = sprintf("'%s'", str_replace("'", "\\'", $argument));
+
+                    if (is_string($key)) {
+                        $argument = sprintf('%s: %s', $key, $argument);
+                    }
+
+                    return $argument;
+                }, $arguments, array_keys($arguments)));
+
+                return "#[$name($arguments)]";
+            }, $this->getAttributes());
+
+            if (! empty($attributesCode)) {
+                $code = implode("\n", array_merge($attributesCode, [$code]));
+            }
+        }
+
+>>>>>>> main
         $this->code = $code;
 
         return $this->code;
@@ -779,7 +824,11 @@ class ReflectionClosure extends ReflectionFunction
     }
 
     /**
+<<<<<<< HEAD
      * The the hash of the current file name.
+=======
+     * The hash of the current file name.
+>>>>>>> main
      *
      * @return string
      */
@@ -1108,10 +1157,17 @@ class ReflectionClosure extends ReflectionFunction
                             if (--$open == 0) {
                                 if (! $structIgnore) {
                                     $structures[] = [
+<<<<<<< HEAD
                                         'type'  => $structType,
                                         'name'  => $structName,
                                         'start' => $startLine,
                                         'end'   => $endLine,
+=======
+                                        'type' => $structType,
+                                        'name' => $structName,
+                                        'start' => $startLine,
+                                        'end' => $endLine,
+>>>>>>> main
                                     ];
                                 }
                                 $structIgnore = false;

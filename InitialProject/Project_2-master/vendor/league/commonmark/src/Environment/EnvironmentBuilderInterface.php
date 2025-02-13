@@ -14,6 +14,10 @@ declare(strict_types=1);
 namespace League\CommonMark\Environment;
 
 use League\CommonMark\Delimiter\Processor\DelimiterProcessorInterface;
+<<<<<<< HEAD
+=======
+use League\CommonMark\Exception\AlreadyInitializedException;
+>>>>>>> main
 use League\CommonMark\Extension\ExtensionInterface;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Parser\Block\BlockStartParserInterface;
@@ -28,6 +32,11 @@ interface EnvironmentBuilderInterface extends ConfigurationProviderInterface
 {
     /**
      * Registers the given extension with the Environment
+<<<<<<< HEAD
+=======
+     *
+     * @throws AlreadyInitializedException if the Environment has already been initialized
+>>>>>>> main
      */
     public function addExtension(ExtensionInterface $extension): EnvironmentBuilderInterface;
 
@@ -38,6 +47,11 @@ interface EnvironmentBuilderInterface extends ConfigurationProviderInterface
      * @param int                       $priority Priority (a higher number will be executed earlier)
      *
      * @return $this
+<<<<<<< HEAD
+=======
+     *
+     * @throws AlreadyInitializedException if the Environment has already been initialized
+>>>>>>> main
      */
     public function addBlockStartParser(BlockStartParserInterface $parser, int $priority = 0): EnvironmentBuilderInterface;
 
@@ -48,6 +62,11 @@ interface EnvironmentBuilderInterface extends ConfigurationProviderInterface
      * @param int                   $priority Priority (a higher number will be executed earlier)
      *
      * @return $this
+<<<<<<< HEAD
+=======
+     *
+     * @throws AlreadyInitializedException if the Environment has already been initialized
+>>>>>>> main
      */
     public function addInlineParser(InlineParserInterface $parser, int $priority = 0): EnvironmentBuilderInterface;
 
@@ -55,6 +74,11 @@ interface EnvironmentBuilderInterface extends ConfigurationProviderInterface
      * Registers the given delimiter processor with the Environment
      *
      * @param DelimiterProcessorInterface $processor Delimiter processors instance
+<<<<<<< HEAD
+=======
+     *
+     * @throws AlreadyInitializedException if the Environment has already been initialized
+>>>>>>> main
      */
     public function addDelimiterProcessor(DelimiterProcessorInterface $processor): EnvironmentBuilderInterface;
 
@@ -68,6 +92,11 @@ interface EnvironmentBuilderInterface extends ConfigurationProviderInterface
      * @psalm-param class-string<Node> $nodeClass
      *
      * @return $this
+<<<<<<< HEAD
+=======
+     *
+     * @throws AlreadyInitializedException if the Environment has already been initialized
+>>>>>>> main
      */
     public function addRenderer(string $nodeClass, NodeRendererInterface $renderer, int $priority = 0): EnvironmentBuilderInterface;
 
@@ -79,6 +108,11 @@ interface EnvironmentBuilderInterface extends ConfigurationProviderInterface
      * @param int          $priority   Priority (a higher number will be executed earlier)
      *
      * @return $this
+<<<<<<< HEAD
+=======
+     *
+     * @throws AlreadyInitializedException if the Environment has already been initialized
+>>>>>>> main
      */
     public function addEventListener(string $eventClass, callable $listener, int $priority = 0): EnvironmentBuilderInterface;
 }

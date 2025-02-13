@@ -29,7 +29,11 @@ final class Json
     /**
      * Prettify json string.
      *
+<<<<<<< HEAD
      * @throws \PHPUnit\Framework\Exception
+=======
+     * @throws Exception
+>>>>>>> main
      */
     public static function prettify(string $json): string
     {
@@ -37,7 +41,11 @@ final class Json
 
         if (json_last_error()) {
             throw new Exception(
+<<<<<<< HEAD
                 'Cannot prettify invalid json'
+=======
+                'Cannot prettify invalid json',
+>>>>>>> main
             );
         }
 

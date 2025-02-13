@@ -5,6 +5,10 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\Engineering;
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class BitWise
 {
@@ -16,10 +20,19 @@ class BitWise
      * Split a number into upper and lower portions for full 32-bit support.
      *
      * @param float|int $number
+<<<<<<< HEAD
      */
     private static function splitNumber($number): array
     {
         return [floor($number / self::SPLIT_DIVISOR), fmod($number, self::SPLIT_DIVISOR)];
+=======
+     *
+     * @return int[]
+     */
+    private static function splitNumber($number): array
+    {
+        return [(int) floor($number / self::SPLIT_DIVISOR), (int) fmod($number, self::SPLIT_DIVISOR)];
+>>>>>>> main
     }
 
     /**
@@ -161,7 +174,11 @@ class BitWise
 
         $result = floor($number * (2 ** $shiftAmount));
         if ($result > 2 ** 48 - 1) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         return $result;
@@ -199,7 +216,11 @@ class BitWise
 
         $result = floor($number / (2 ** $shiftAmount));
         if ($result > 2 ** 48 - 1) { // possible because shiftAmount can be negative
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         return $result;
@@ -210,25 +231,43 @@ class BitWise
      *
      * @param mixed $value
      *
+<<<<<<< HEAD
      * @return float|int
+=======
+     * @return float
+>>>>>>> main
      */
     private static function validateBitwiseArgument($value)
     {
         $value = self::nullFalseTrueToNumber($value);
 
         if (is_numeric($value)) {
+<<<<<<< HEAD
             if ($value == floor($value)) {
                 if (($value > 2 ** 48 - 1) || ($value < 0)) {
                     throw new Exception(Functions::NAN());
+=======
+            $value = (float) $value;
+            if ($value == floor($value)) {
+                if (($value > 2 ** 48 - 1) || ($value < 0)) {
+                    throw new Exception(ExcelError::NAN());
+>>>>>>> main
                 }
 
                 return floor($value);
             }
 
+<<<<<<< HEAD
             throw new Exception(Functions::NAN());
         }
 
         throw new Exception(Functions::VALUE());
+=======
+            throw new Exception(ExcelError::NAN());
+        }
+
+        throw new Exception(ExcelError::VALUE());
+>>>>>>> main
     }
 
     /**
@@ -244,13 +283,21 @@ class BitWise
 
         if (is_numeric($value)) {
             if (abs($value) > 53) {
+<<<<<<< HEAD
                 throw new Exception(Functions::NAN());
+=======
+                throw new Exception(ExcelError::NAN());
+>>>>>>> main
             }
 
             return (int) $value;
         }
 
+<<<<<<< HEAD
         throw new Exception(Functions::VALUE());
+=======
+        throw new Exception(ExcelError::VALUE());
+>>>>>>> main
     }
 
     /**

@@ -6,6 +6,10 @@ use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 use PhpOffice\PhpSpreadsheet\Calculation\Financial\Constants as FinancialConstants;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class TreasuryBill
 {
@@ -38,7 +42,11 @@ class TreasuryBill
         }
 
         if ($discount <= 0) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         $daysBetweenSettlementAndMaturity = $maturity - $settlement;
@@ -48,7 +56,11 @@ class TreasuryBill
         );
 
         if ($daysBetweenSettlementAndMaturity > $daysPerYear || $daysBetweenSettlementAndMaturity < 0) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         return (365 * $discount) / (360 - $discount * $daysBetweenSettlementAndMaturity);
@@ -83,7 +95,11 @@ class TreasuryBill
         }
 
         if ($discount <= 0) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         $daysBetweenSettlementAndMaturity = $maturity - $settlement;
@@ -93,12 +109,20 @@ class TreasuryBill
         );
 
         if ($daysBetweenSettlementAndMaturity > $daysPerYear || $daysBetweenSettlementAndMaturity < 0) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         $price = 100 * (1 - (($discount * $daysBetweenSettlementAndMaturity) / 360));
         if ($price < 0.0) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         return $price;
@@ -139,7 +163,11 @@ class TreasuryBill
         );
 
         if ($daysBetweenSettlementAndMaturity > $daysPerYear || $daysBetweenSettlementAndMaturity < 0) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         return ((100 - $price) / $price) * (360 / $daysBetweenSettlementAndMaturity);

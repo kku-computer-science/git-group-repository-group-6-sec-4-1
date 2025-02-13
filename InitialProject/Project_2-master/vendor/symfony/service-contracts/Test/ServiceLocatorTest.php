@@ -11,6 +11,7 @@
 
 namespace Symfony\Contracts\Service\Test;
 
+<<<<<<< HEAD
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Symfony\Contracts\Service\ServiceLocatorTrait;
@@ -91,5 +92,15 @@ abstract class ServiceLocatorTest extends TestCase
         ]);
 
         $locator->get('foo');
+=======
+class_alias(ServiceLocatorTestCase::class, ServiceLocatorTest::class);
+
+if (false) {
+    /**
+     * @deprecated since PHPUnit 9.6
+     */
+    class ServiceLocatorTest
+    {
+>>>>>>> main
     }
 }

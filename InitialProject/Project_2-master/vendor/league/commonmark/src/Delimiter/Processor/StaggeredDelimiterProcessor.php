@@ -17,6 +17,10 @@ declare(strict_types=1);
 namespace League\CommonMark\Delimiter\Processor;
 
 use League\CommonMark\Delimiter\DelimiterInterface;
+<<<<<<< HEAD
+=======
+use League\CommonMark\Exception\InvalidArgumentException;
+>>>>>>> main
 use League\CommonMark\Node\Inline\AbstractStringContainer;
 
 /**
@@ -65,13 +69,22 @@ final class StaggeredDelimiterProcessor implements DelimiterProcessorInterface
 
     /**
      * Adds the given processor to this staggered delimiter processor
+<<<<<<< HEAD
+=======
+     *
+     * @throws InvalidArgumentException if attempting to add another processors for the same character and minimum length
+>>>>>>> main
      */
     public function add(DelimiterProcessorInterface $processor): void
     {
         $len = $processor->getMinLength();
 
         if (isset($this->processors[$len])) {
+<<<<<<< HEAD
             throw new \InvalidArgumentException(\sprintf('Cannot add two delimiter processors for char "%s" and minimum length %d', $this->delimiterChar, $len));
+=======
+            throw new InvalidArgumentException(\sprintf('Cannot add two delimiter processors for char "%s" and minimum length %d', $this->delimiterChar, $len));
+>>>>>>> main
         }
 
         $this->processors[$len] = $processor;

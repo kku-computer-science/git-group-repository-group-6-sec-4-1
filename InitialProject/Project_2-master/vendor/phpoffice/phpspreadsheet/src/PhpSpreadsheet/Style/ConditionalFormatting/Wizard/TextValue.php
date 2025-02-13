@@ -67,9 +67,13 @@ class TextValue extends WizardAbstract implements WizardInterface
 
     protected function operand(string $operand, string $operandValueType = Wizard::VALUE_TYPE_LITERAL): void
     {
+<<<<<<< HEAD
         if (is_string($operand)) {
             $operand = $this->validateOperand($operand, $operandValueType);
         }
+=======
+        $operand = $this->validateOperand($operand, $operandValueType);
+>>>>>>> main
 
         $this->operand = $operand;
         $this->operandValueType = $operandValueType;
@@ -129,9 +133,13 @@ class TextValue extends WizardAbstract implements WizardInterface
         // Best-guess to try and identify if the text is a string literal, a cell reference or a formula?
         $wizard->operandValueType = Wizard::VALUE_TYPE_LITERAL;
         $condition = $conditional->getText();
+<<<<<<< HEAD
         if (is_string($condition) && array_key_exists($condition, Calculation::$excelConstants)) {
             $condition = Calculation::$excelConstants[$condition];
         } elseif (preg_match('/^' . Calculation::CALCULATION_REGEXP_CELLREF_RELATIVE . '$/i', $condition)) {
+=======
+        if (preg_match('/^' . Calculation::CALCULATION_REGEXP_CELLREF_RELATIVE . '$/i', $condition)) {
+>>>>>>> main
             $wizard->operandValueType = Wizard::VALUE_TYPE_CELL;
             $condition = self::reverseAdjustCellRef($condition, $cellRange);
         } elseif (
@@ -156,7 +164,16 @@ class TextValue extends WizardAbstract implements WizardInterface
         }
 
         $this->operator(self::MAGIC_OPERATIONS[$methodName]);
+<<<<<<< HEAD
         $this->operand(...$arguments);
+=======
+        //$this->operand(...$arguments);
+        if (count($arguments) < 2) {
+            $this->operand($arguments[0]);
+        } else {
+            $this->operand($arguments[0], $arguments[1]);
+        }
+>>>>>>> main
 
         return $this;
     }

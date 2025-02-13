@@ -47,7 +47,11 @@ final class Regex
      *
      * @return \GrahamCampbell\ResultType\Result<int,string>
      */
+<<<<<<< HEAD
     public static function occurences(string $pattern, string $subject)
+=======
+    public static function occurrences(string $pattern, string $subject)
+>>>>>>> main
     {
         return self::pregAndWrap(static function (string $subject) use ($pattern) {
             return (int) @\preg_match_all($pattern, $subject);
@@ -64,7 +68,11 @@ final class Regex
      *
      * @return \GrahamCampbell\ResultType\Result<string,string>
      */
+<<<<<<< HEAD
     public static function replaceCallback(string $pattern, callable $callback, string $subject, int $limit = null)
+=======
+    public static function replaceCallback(string $pattern, callable $callback, string $subject, ?int $limit = null)
+>>>>>>> main
     {
         return self::pregAndWrap(static function (string $subject) use ($pattern, $callback, $limit) {
             return (string) @\preg_replace_callback($pattern, $callback, $subject, $limit ?? -1);
@@ -102,9 +110,17 @@ final class Regex
         $result = $operation($subject);
 
         if (\preg_last_error() !== \PREG_NO_ERROR) {
+<<<<<<< HEAD
             return Error::create(\preg_last_error_msg());
         }
 
+=======
+            /** @var \GrahamCampbell\ResultType\Result<V,string> */
+            return Error::create(\preg_last_error_msg());
+        }
+
+        /** @var \GrahamCampbell\ResultType\Result<V,string> */
+>>>>>>> main
         return Success::create($result);
     }
 }

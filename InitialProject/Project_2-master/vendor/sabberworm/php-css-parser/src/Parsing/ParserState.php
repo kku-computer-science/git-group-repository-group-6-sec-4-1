@@ -5,10 +5,21 @@ namespace Sabberworm\CSS\Parsing;
 use Sabberworm\CSS\Comment\Comment;
 use Sabberworm\CSS\Settings;
 
+<<<<<<< HEAD
+=======
+/**
+ * @internal since 8.7.0
+ */
+>>>>>>> main
 class ParserState
 {
     /**
      * @var null
+<<<<<<< HEAD
+=======
+     *
+     * @internal since 8.5.2
+>>>>>>> main
      */
     const EOF = null;
 
@@ -33,6 +44,11 @@ class ParserState
     private $iCurrentPosition;
 
     /**
+<<<<<<< HEAD
+=======
+     * will only be used if the CSS does not contain an `@charset` declaration
+     *
+>>>>>>> main
      * @var string
      */
     private $sCharset;
@@ -48,7 +64,11 @@ class ParserState
     private $iLineNo;
 
     /**
+<<<<<<< HEAD
      * @param string $sText
+=======
+     * @param string $sText the complete CSS as text (i.e., usually the contents of a CSS file)
+>>>>>>> main
      * @param int $iLineNo
      */
     public function __construct($sText, Settings $oParserSettings, $iLineNo = 1)
@@ -61,6 +81,11 @@ class ParserState
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Sets the charset to be used if the CSS does not contain an `@charset` declaration.
+     *
+>>>>>>> main
      * @param string $sCharset
      *
      * @return void
@@ -75,6 +100,11 @@ class ParserState
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Returns the charset that is used if the CSS does not contain an `@charset` declaration.
+     *
+>>>>>>> main
      * @return string
      */
     public function getCharset()
@@ -107,6 +137,27 @@ class ParserState
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * @return \Sabberworm\CSS\Parsing\Anchor
+     */
+    public function anchor()
+    {
+        return new Anchor($this->iCurrentPosition, $this);
+    }
+
+    /**
+     * @param int $iPosition
+     *
+     * @return void
+     */
+    public function setPosition($iPosition)
+    {
+        $this->iCurrentPosition = $iPosition;
+    }
+
+    /**
+>>>>>>> main
      * @param bool $bIgnoreCase
      *
      * @return string
@@ -115,12 +166,22 @@ class ParserState
      */
     public function parseIdentifier($bIgnoreCase = true)
     {
+<<<<<<< HEAD
+=======
+        if ($this->isEnd()) {
+            throw new UnexpectedEOFException('', '', 'identifier', $this->iLineNo);
+        }
+>>>>>>> main
         $sResult = $this->parseCharacter(true);
         if ($sResult === null) {
             throw new UnexpectedTokenException($sResult, $this->peek(5), 'identifier', $this->iLineNo);
         }
         $sCharacter = null;
+<<<<<<< HEAD
         while (($sCharacter = $this->parseCharacter(true)) !== null) {
+=======
+        while (!$this->isEnd() && ($sCharacter = $this->parseCharacter(true)) !== null) {
+>>>>>>> main
             if (preg_match('/[a-zA-Z0-9\x{00A0}-\x{FFFF}_-]/Sux', $sCharacter)) {
                 $sResult .= $sCharacter;
             } else {
@@ -204,7 +265,11 @@ class ParserState
      */
     public function consumeWhiteSpace()
     {
+<<<<<<< HEAD
         $comments = [];
+=======
+        $aComments = [];
+>>>>>>> main
         do {
             while (preg_match('/\\s/isSu', $this->peek()) === 1) {
                 $this->consume(1);
@@ -214,16 +279,27 @@ class ParserState
                     $oComment = $this->consumeComment();
                 } catch (UnexpectedEOFException $e) {
                     $this->iCurrentPosition = $this->iLength;
+<<<<<<< HEAD
                     return;
+=======
+                    return $aComments;
+>>>>>>> main
                 }
             } else {
                 $oComment = $this->consumeComment();
             }
             if ($oComment !== false) {
+<<<<<<< HEAD
                 $comments[] = $oComment;
             }
         } while ($oComment !== false);
         return $comments;
+=======
+                $aComments[] = $oComment;
+            }
+        } while ($oComment !== false);
+        return $aComments;
+>>>>>>> main
     }
 
     /**

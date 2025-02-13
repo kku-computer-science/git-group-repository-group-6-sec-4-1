@@ -13,6 +13,10 @@ use PHPUnit\TextUI\XmlConfiguration\File;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
+<<<<<<< HEAD
+=======
+ *
+>>>>>>> main
  * @psalm-immutable
  */
 final class Crap4j

@@ -2,7 +2,10 @@
 
 namespace Illuminate\Queue;
 
+<<<<<<< HEAD
 use Closure;
+=======
+>>>>>>> main
 use Laravel\SerializableClosure\SerializableClosure;
 use Opis\Closure\SerializableClosure as OpisSerializableClosure;
 

@@ -10,6 +10,13 @@
  * file that was distributed with this source code.
  */
 
+<<<<<<< HEAD
+=======
+if ('cli' !== \PHP_SAPI) {
+    throw new Exception('This script must be run from the command line.');
+}
+
+>>>>>>> main
 if (\in_array('-h', $argv) || \in_array('--help', $argv)) {
     echo implode(PHP_EOL, [
         ' Patches type declarations based on "@return" PHPDoc and triggers deprecations for',

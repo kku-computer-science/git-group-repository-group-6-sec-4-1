@@ -15,41 +15,54 @@ use Brick\Math\Internal\Calculator;
  */
 class BcMathCalculator extends Calculator
 {
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
+=======
+>>>>>>> main
     public function add(string $a, string $b) : string
     {
         return \bcadd($a, $b, 0);
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
+=======
+>>>>>>> main
     public function sub(string $a, string $b) : string
     {
         return \bcsub($a, $b, 0);
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
+=======
+>>>>>>> main
     public function mul(string $a, string $b) : string
     {
         return \bcmul($a, $b, 0);
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      *
      * @psalm-suppress InvalidNullableReturnType
      * @psalm-suppress NullableReturnStatement
      */
+=======
+>>>>>>> main
     public function divQ(string $a, string $b) : string
     {
         return \bcdiv($a, $b, 0);
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      *
@@ -80,35 +93,55 @@ class BcMathCalculator extends Calculator
 
         assert($q !== null);
         assert($r !== null);
+=======
+    public function divR(string $a, string $b) : string
+    {
+        return \bcmod($a, $b, 0);
+    }
+
+    public function divQR(string $a, string $b) : array
+    {
+        $q = \bcdiv($a, $b, 0);
+        $r = \bcmod($a, $b, 0);
+>>>>>>> main
 
         return [$q, $r];
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
+=======
+>>>>>>> main
     public function pow(string $a, int $e) : string
     {
         return \bcpow($a, (string) $e, 0);
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      *
      * @psalm-suppress InvalidNullableReturnType
      * @psalm-suppress NullableReturnStatement
      */
+=======
+>>>>>>> main
     public function modPow(string $base, string $exp, string $mod) : string
     {
         return \bcpowmod($base, $exp, $mod, 0);
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritDoc}
      *
      * @psalm-suppress NullableReturnStatement
      * @psalm-suppress InvalidNullableReturnType
      */
+=======
+>>>>>>> main
     public function sqrt(string $n) : string
     {
         return \bcsqrt($n, 0);

@@ -27,12 +27,21 @@ class TranslationReader implements TranslationReaderInterface
      *
      * @var array<string, LoaderInterface>
      */
+<<<<<<< HEAD
     private $loaders = [];
+=======
+    private array $loaders = [];
+>>>>>>> main
 
     /**
      * Adds a loader to the translation extractor.
      *
      * @param string $format The format of the loader
+<<<<<<< HEAD
+=======
+     *
+     * @return void
+>>>>>>> main
      */
     public function addLoader(string $format, LoaderInterface $loader)
     {
@@ -40,7 +49,11 @@ class TranslationReader implements TranslationReaderInterface
     }
 
     /**
+<<<<<<< HEAD
      * {@inheritdoc}
+=======
+     * @return void
+>>>>>>> main
      */
     public function read(string $directory, MessageCatalogue $catalogue)
     {

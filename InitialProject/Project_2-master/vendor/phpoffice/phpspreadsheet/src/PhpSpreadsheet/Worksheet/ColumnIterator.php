@@ -2,15 +2,25 @@
 
 namespace PhpOffice\PhpSpreadsheet\Worksheet;
 
+<<<<<<< HEAD
 use Iterator;
+=======
+use Iterator as NativeIterator;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Exception as PhpSpreadsheetException;
 
 /**
+<<<<<<< HEAD
  * @implements Iterator<string, Column>
  */
 class ColumnIterator implements Iterator
+=======
+ * @implements NativeIterator<string, Column>
+ */
+class ColumnIterator implements NativeIterator
+>>>>>>> main
 {
     /**
      * Worksheet to iterate.

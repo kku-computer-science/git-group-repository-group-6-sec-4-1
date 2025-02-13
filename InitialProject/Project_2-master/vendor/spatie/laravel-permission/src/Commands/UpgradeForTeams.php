@@ -23,7 +23,11 @@ class UpgradeForTeams extends Command
         }
 
         $this->line('');
+<<<<<<< HEAD
         $this->info("The teams feature setup is going to add a migration and a model");
+=======
+        $this->info('The teams feature setup is going to add a migration and a model');
+>>>>>>> main
 
         $existingMigrations = $this->alreadyExistingMigrations();
 
@@ -35,12 +39,17 @@ class UpgradeForTeams extends Command
 
         $this->line('');
 
+<<<<<<< HEAD
         if (! $this->confirm("Proceed with the migration creation?", "yes")) {
+=======
+        if (! $this->confirm('Proceed with the migration creation?', 'yes')) {
+>>>>>>> main
             return;
         }
 
         $this->line('');
 
+<<<<<<< HEAD
         $this->line("Creating migration");
 
         if ($this->createMigration()) {
@@ -49,6 +58,16 @@ class UpgradeForTeams extends Command
             $this->error(
                 "Couldn't create migration.\n".
                 "Check the write permissions within the database/migrations directory."
+=======
+        $this->line('Creating migration');
+
+        if ($this->createMigration()) {
+            $this->info('Migration created successfully.');
+        } else {
+            $this->error(
+                "Couldn't create migration.\n".
+                'Check the write permissions within the database/migrations directory.'
+>>>>>>> main
             );
         }
 
@@ -78,7 +97,10 @@ class UpgradeForTeams extends Command
      * Build a warning regarding possible duplication
      * due to already existing migrations.
      *
+<<<<<<< HEAD
      * @param  array $existingMigrations
+=======
+>>>>>>> main
      * @return string
      */
     protected function getExistingMigrationsWarning(array $existingMigrations)
@@ -89,8 +111,13 @@ class UpgradeForTeams extends Command
             $base = "Setup teams migration already exists.\nFollowing file was found: ";
         }
 
+<<<<<<< HEAD
         return $base . array_reduce($existingMigrations, function ($carry, $fileName) {
             return $carry . "\n - " . $fileName;
+=======
+        return $base.array_reduce($existingMigrations, function ($carry, $fileName) {
+            return $carry."\n - ".$fileName;
+>>>>>>> main
         });
     }
 
@@ -115,13 +142,21 @@ class UpgradeForTeams extends Command
      * The date parameter is optional for ability
      * to provide a custom value or a wildcard.
      *
+<<<<<<< HEAD
      * @param  string|null $date
+=======
+     * @param  string|null  $date
+>>>>>>> main
      * @return string
      */
     protected function getMigrationPath($date = null)
     {
         $date = $date ?: date('Y_m_d_His');
 
+<<<<<<< HEAD
         return database_path("migrations/${date}_{$this->migrationSuffix}");
+=======
+        return database_path("migrations/{$date}_{$this->migrationSuffix}");
+>>>>>>> main
     }
 }

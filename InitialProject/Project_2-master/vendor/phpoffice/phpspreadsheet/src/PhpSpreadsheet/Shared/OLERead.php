@@ -6,6 +6,10 @@ use PhpOffice\PhpSpreadsheet\Reader\Exception as ReaderException;
 
 class OLERead
 {
+<<<<<<< HEAD
+=======
+    /** @var string */
+>>>>>>> main
     private $data = '';
 
     // Size of a sector = 512 bytes
@@ -34,10 +38,20 @@ class OLERead
     const START_BLOCK_POS = 0x74;
     const SIZE_POS = 0x78;
 
+<<<<<<< HEAD
     public $wrkbook;
 
     public $summaryInformation;
 
+=======
+    /** @var int */
+    public $wrkbook;
+
+    /** @var int */
+    public $summaryInformation;
+
+    /** @var int */
+>>>>>>> main
     public $documentSummaryInformation;
 
     /**
@@ -99,7 +113,11 @@ class OLERead
 
         // Get the file identifier
         // Don't bother reading the whole file until we know it's a valid OLE file
+<<<<<<< HEAD
         $this->data = file_get_contents($filename, false, null, 0, 8);
+=======
+        $this->data = (string) file_get_contents($filename, false, null, 0, 8);
+>>>>>>> main
 
         // Check OLE identifier
         $identifierOle = pack('CCCCCCCC', 0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1);
@@ -108,7 +126,11 @@ class OLERead
         }
 
         // Get the file data
+<<<<<<< HEAD
         $this->data = file_get_contents($filename);
+=======
+        $this->data = (string) file_get_contents($filename);
+>>>>>>> main
 
         // Total number of sectors used for the SAT
         $this->numBigBlockDepotBlocks = self::getInt4d($this->data, self::NUM_BIG_BLOCK_DEPOT_BLOCKS_POS);
@@ -130,7 +152,11 @@ class OLERead
 
         $bbdBlocks = $this->numBigBlockDepotBlocks;
 
+<<<<<<< HEAD
         if ($this->numExtensionBlocks != 0) {
+=======
+        if ($this->numExtensionBlocks !== 0) {
+>>>>>>> main
             $bbdBlocks = (self::BIG_BLOCK_SIZE - self::BIG_BLOCK_DEPOT_BLOCKS_POS) / 4;
         }
 
@@ -164,7 +190,10 @@ class OLERead
             $pos += 4 * $bbs;
         }
 
+<<<<<<< HEAD
         $pos = 0;
+=======
+>>>>>>> main
         $sbdBlock = $this->sbdStartBlock;
         $this->smallBlockChain = '';
         while ($sbdBlock != -2) {
@@ -186,7 +215,11 @@ class OLERead
     /**
      * Extract binary stream data.
      *
+<<<<<<< HEAD
      * @param int $stream
+=======
+     * @param ?int $stream
+>>>>>>> main
      *
      * @return null|string
      */

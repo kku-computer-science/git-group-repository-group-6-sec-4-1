@@ -52,21 +52,33 @@ class MockHandler implements \Countable
      * @param callable|null $onFulfilled Callback to invoke when the return value is fulfilled.
      * @param callable|null $onRejected  Callback to invoke when the return value is rejected.
      */
+<<<<<<< HEAD
     public static function createWithMiddleware(array $queue = null, callable $onFulfilled = null, callable $onRejected = null): HandlerStack
+=======
+    public static function createWithMiddleware(?array $queue = null, ?callable $onFulfilled = null, ?callable $onRejected = null): HandlerStack
+>>>>>>> main
     {
         return HandlerStack::create(new self($queue, $onFulfilled, $onRejected));
     }
 
     /**
      * The passed in value must be an array of
+<<<<<<< HEAD
      * {@see \Psr\Http\Message\ResponseInterface} objects, Exceptions,
+=======
+     * {@see ResponseInterface} objects, Exceptions,
+>>>>>>> main
      * callables, or Promises.
      *
      * @param array<int, mixed>|null $queue       The parameters to be passed to the append function, as an indexed array.
      * @param callable|null          $onFulfilled Callback to invoke when the return value is fulfilled.
      * @param callable|null          $onRejected  Callback to invoke when the return value is rejected.
      */
+<<<<<<< HEAD
     public function __construct(array $queue = null, callable $onFulfilled = null, callable $onRejected = null)
+=======
+    public function __construct(?array $queue = null, ?callable $onFulfilled = null, ?callable $onRejected = null)
+>>>>>>> main
     {
         $this->onFulfilled = $onFulfilled;
         $this->onRejected = $onRejected;
@@ -138,6 +150,10 @@ class MockHandler implements \Countable
                 if ($this->onRejected) {
                     ($this->onRejected)($reason);
                 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
                 return P\Create::rejectionFor($reason);
             }
         );
@@ -159,7 +175,11 @@ class MockHandler implements \Countable
             ) {
                 $this->queue[] = $value;
             } else {
+<<<<<<< HEAD
                 throw new \TypeError('Expected a Response, Promise, Throwable or callable. Found ' . Utils::describeType($value));
+=======
+                throw new \TypeError('Expected a Response, Promise, Throwable or callable. Found '.Utils::describeType($value));
+>>>>>>> main
             }
         }
     }
@@ -199,7 +219,11 @@ class MockHandler implements \Countable
     private function invokeStats(
         RequestInterface $request,
         array $options,
+<<<<<<< HEAD
         ResponseInterface $response = null,
+=======
+        ?ResponseInterface $response = null,
+>>>>>>> main
         $reason = null
     ): void {
         if (isset($options['on_stats'])) {

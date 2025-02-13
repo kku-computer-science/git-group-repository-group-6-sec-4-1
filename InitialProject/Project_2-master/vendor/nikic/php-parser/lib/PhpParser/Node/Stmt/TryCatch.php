@@ -4,6 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
+<<<<<<< HEAD
 class TryCatch extends Node\Stmt
 {
     /** @var Node\Stmt[] Statements */
@@ -12,27 +13,53 @@ class TryCatch extends Node\Stmt
     public $catches;
     /** @var null|Finally_ Optional finally node */
     public $finally;
+=======
+class TryCatch extends Node\Stmt {
+    /** @var Node\Stmt[] Statements */
+    public array $stmts;
+    /** @var Catch_[] Catches */
+    public array $catches;
+    /** @var null|Finally_ Optional finally node */
+    public ?Finally_ $finally;
+>>>>>>> main
 
     /**
      * Constructs a try catch node.
      *
+<<<<<<< HEAD
      * @param Node\Stmt[]   $stmts      Statements
      * @param Catch_[]      $catches    Catches
      * @param null|Finally_ $finally    Optional finally node
      * @param array         $attributes Additional attributes
      */
     public function __construct(array $stmts, array $catches, Finally_ $finally = null, array $attributes = []) {
+=======
+     * @param Node\Stmt[] $stmts Statements
+     * @param Catch_[] $catches Catches
+     * @param null|Finally_ $finally Optional finally node
+     * @param array<string, mixed> $attributes Additional attributes
+     */
+    public function __construct(array $stmts, array $catches, ?Finally_ $finally = null, array $attributes = []) {
+>>>>>>> main
         $this->attributes = $attributes;
         $this->stmts = $stmts;
         $this->catches = $catches;
         $this->finally = $finally;
     }
 
+<<<<<<< HEAD
     public function getSubNodeNames() : array {
         return ['stmts', 'catches', 'finally'];
     }
 
     public function getType() : string {
+=======
+    public function getSubNodeNames(): array {
+        return ['stmts', 'catches', 'finally'];
+    }
+
+    public function getType(): string {
+>>>>>>> main
         return 'Stmt_TryCatch';
     }
 }

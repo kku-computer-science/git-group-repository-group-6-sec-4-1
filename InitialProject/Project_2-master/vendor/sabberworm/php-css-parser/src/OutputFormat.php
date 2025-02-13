@@ -144,6 +144,16 @@ class OutputFormat
     public $bIgnoreExceptions = false;
 
     /**
+<<<<<<< HEAD
+=======
+     * Render comments for lists and RuleSets
+     *
+     * @var bool
+     */
+    public $bRenderComments = false;
+
+    /**
+>>>>>>> main
      * @var OutputFormatter|null
      */
     private $oFormatter = null;
@@ -314,8 +324,17 @@ class OutputFormat
     public static function createCompact()
     {
         $format = self::create();
+<<<<<<< HEAD
         $format->set('Space*Rules', "")->set('Space*Blocks', "")->setSpaceAfterRuleName('')
             ->setSpaceBeforeOpeningBrace('')->setSpaceAfterSelectorSeparator('');
+=======
+        $format->set('Space*Rules', "")
+            ->set('Space*Blocks', "")
+            ->setSpaceAfterRuleName('')
+            ->setSpaceBeforeOpeningBrace('')
+            ->setSpaceAfterSelectorSeparator('')
+            ->setRenderComments(false);
+>>>>>>> main
         return $format;
     }
 
@@ -327,8 +346,16 @@ class OutputFormat
     public static function createPretty()
     {
         $format = self::create();
+<<<<<<< HEAD
         $format->set('Space*Rules', "\n")->set('Space*Blocks', "\n")
             ->setSpaceBetweenBlocks("\n\n")->set('SpaceAfterListArgumentSeparator', ['default' => '', ',' => ' ']);
+=======
+        $format->set('Space*Rules', "\n")
+            ->set('Space*Blocks', "\n")
+            ->setSpaceBetweenBlocks("\n\n")
+            ->set('SpaceAfterListArgumentSeparator', ['default' => '', ',' => ' '])
+            ->setRenderComments(true);
+>>>>>>> main
         return $format;
     }
 }

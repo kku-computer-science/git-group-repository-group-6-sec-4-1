@@ -18,6 +18,10 @@ use PHPUnit\Framework\Constraint\IsAnything;
 use PHPUnit\Framework\Constraint\IsEqual;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\MockObject\Invocation as BaseInvocation;
+<<<<<<< HEAD
+=======
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+>>>>>>> main
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
@@ -47,7 +51,11 @@ final class Parameters implements ParametersRule
         foreach ($parameters as $parameter) {
             if (!($parameter instanceof Constraint)) {
                 $parameter = new IsEqual(
+<<<<<<< HEAD
                     $parameter
+=======
+                    $parameter,
+>>>>>>> main
                 );
             }
 
@@ -92,8 +100,13 @@ final class Parameters implements ParametersRule
      * does the rule will get the invoked() method called which should check
      * if an expectation is met.
      *
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws ExpectationFailedException
+=======
+     * @throws ExpectationFailedException
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     public function verify(): void
     {
@@ -101,8 +114,13 @@ final class Parameters implements ParametersRule
     }
 
     /**
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws ExpectationFailedException
+=======
+     * @throws ExpectationFailedException
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     private function doVerify(): bool
     {
@@ -127,7 +145,11 @@ final class Parameters implements ParametersRule
             }
 
             throw new ExpectationFailedException(
+<<<<<<< HEAD
                 sprintf($message, $this->invocation->toString())
+=======
+                sprintf($message, $this->invocation->toString()),
+>>>>>>> main
             );
         }
 
@@ -138,8 +160,13 @@ final class Parameters implements ParametersRule
                     'Parameter %s for invocation %s does not match expected ' .
                     'value.',
                     $i,
+<<<<<<< HEAD
                     $this->invocation->toString()
                 )
+=======
+                    $this->invocation->toString(),
+                ),
+>>>>>>> main
             );
         }
 

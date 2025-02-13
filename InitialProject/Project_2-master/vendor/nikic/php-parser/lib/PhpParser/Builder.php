@@ -2,12 +2,20 @@
 
 namespace PhpParser;
 
+<<<<<<< HEAD
 interface Builder
 {
+=======
+interface Builder {
+>>>>>>> main
     /**
      * Returns the built node.
      *
      * @return Node The built node
      */
+<<<<<<< HEAD
     public function getNode() : Node;
+=======
+    public function getNode(): Node;
+>>>>>>> main
 }

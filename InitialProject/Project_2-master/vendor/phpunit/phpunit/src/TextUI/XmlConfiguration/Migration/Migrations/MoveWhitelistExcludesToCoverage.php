@@ -9,6 +9,11 @@
  */
 namespace PHPUnit\TextUI\XmlConfiguration;
 
+<<<<<<< HEAD
+=======
+use function assert;
+use function in_array;
+>>>>>>> main
 use DOMDocument;
 use DOMElement;
 use PHPUnit\Util\Xml\SnapshotNodeList;
@@ -45,7 +50,11 @@ final class MoveWhitelistExcludesToCoverage implements Migration
 
         if ($targetExclude === null) {
             $targetExclude = $coverage->appendChild(
+<<<<<<< HEAD
                 $document->createElement('exclude')
+=======
+                $document->createElement('exclude'),
+>>>>>>> main
             );
         }
 

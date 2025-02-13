@@ -2,6 +2,7 @@
 
 namespace PhpParser\Node\Scalar;
 
+<<<<<<< HEAD
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar;
 
@@ -27,5 +28,12 @@ class Encapsed extends Scalar
     
     public function getType() : string {
         return 'Scalar_Encapsed';
+=======
+require __DIR__ . '/InterpolatedString.php';
+
+if (false) {
+    // For classmap-authoritative support.
+    class Encapsed extends InterpolatedString {
+>>>>>>> main
     }
 }

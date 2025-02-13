@@ -7,6 +7,10 @@ use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 use PhpOffice\PhpSpreadsheet\Calculation\Financial\Constants as FinancialConstants;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class Coupons
@@ -66,7 +70,11 @@ class Coupons
 
         $daysPerYear = Helpers::daysPerYear(Functions::scalar(DateTimeExcel\DateParts::year($settlement)), $basis);
         if (is_string($daysPerYear)) {
+<<<<<<< HEAD
             return Functions::VALUE();
+=======
+            return ExcelError::VALUE();
+>>>>>>> main
         }
         $prev = self::couponFirstPeriodDate($settlement, $maturity, $frequency, self::PERIOD_DATE_PREVIOUS);
 
@@ -198,7 +206,12 @@ class Coupons
             return $e->getMessage();
         }
 
+<<<<<<< HEAD
         $daysPerYear = Helpers::daysPerYear(DateTimeExcel\DateParts::year($settlement), $basis);
+=======
+        /** @var int */
+        $daysPerYear = Helpers::daysPerYear(Functions::Scalar(DateTimeExcel\DateParts::year($settlement)), $basis);
+>>>>>>> main
         $next = self::couponFirstPeriodDate($settlement, $maturity, $frequency, self::PERIOD_DATE_NEXT);
 
         if ($basis === FinancialConstants::BASIS_DAYS_PER_YEAR_NASD) {
@@ -259,6 +272,10 @@ class Coupons
             self::validateCouponPeriod($settlement, $maturity);
             $frequency = FinancialValidations::validateFrequency($frequency);
             $basis = FinancialValidations::validateBasis($basis);
+<<<<<<< HEAD
+=======
+            self::doNothing($basis);
+>>>>>>> main
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -313,6 +330,10 @@ class Coupons
             self::validateCouponPeriod($settlement, $maturity);
             $frequency = FinancialValidations::validateFrequency($frequency);
             $basis = FinancialValidations::validateBasis($basis);
+<<<<<<< HEAD
+=======
+            self::doNothing($basis);
+>>>>>>> main
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -373,6 +394,10 @@ class Coupons
             self::validateCouponPeriod($settlement, $maturity);
             $frequency = FinancialValidations::validateFrequency($frequency);
             $basis = FinancialValidations::validateBasis($basis);
+<<<<<<< HEAD
+=======
+            self::doNothing($basis);
+>>>>>>> main
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -409,7 +434,19 @@ class Coupons
     private static function validateCouponPeriod(float $settlement, float $maturity): void
     {
         if ($settlement >= $maturity) {
+<<<<<<< HEAD
             throw new Exception(Functions::NAN());
         }
     }
+=======
+            throw new Exception(ExcelError::NAN());
+        }
+    }
+
+    /** @param mixed $basis */
+    private static function doNothing($basis): bool
+    {
+        return $basis;
+    }
+>>>>>>> main
 }

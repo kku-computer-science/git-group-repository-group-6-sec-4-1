@@ -23,6 +23,7 @@ use DeepCopy\DeepCopy;
 use Doctrine\Instantiator\Instantiator;
 use PharIo\Manifest\Manifest;
 use PharIo\Version\Version as PharIoVersion;
+<<<<<<< HEAD
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Project;
 use phpDocumentor\Reflection\Type;
@@ -31,6 +32,11 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Prophet;
 use ReflectionClass;
 use ReflectionException;
+=======
+use PhpParser\Parser;
+use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+>>>>>>> main
 use SebastianBergmann\CliParser\Parser as CliParser;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeUnit\CodeUnit;
@@ -45,15 +51,23 @@ use SebastianBergmann\GlobalState\Snapshot;
 use SebastianBergmann\Invoker\Invoker;
 use SebastianBergmann\LinesOfCode\Counter;
 use SebastianBergmann\ObjectEnumerator\Enumerator;
+<<<<<<< HEAD
+=======
+use SebastianBergmann\ObjectReflector\ObjectReflector;
+>>>>>>> main
 use SebastianBergmann\RecursionContext\Context;
 use SebastianBergmann\ResourceOperations\ResourceOperations;
 use SebastianBergmann\Template\Template;
 use SebastianBergmann\Timer\Timer;
 use SebastianBergmann\Type\TypeName;
 use SebastianBergmann\Version;
+<<<<<<< HEAD
 use Symfony\Polyfill\Ctype\Ctype;
 use TheSeer\Tokenizer\Tokenizer;
 use Webmozart\Assert\Assert;
+=======
+use TheSeer\Tokenizer\Tokenizer;
+>>>>>>> main
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
@@ -82,6 +96,7 @@ final class ExcludeList
         // phar-io/version
         PharIoVersion::class => 1,
 
+<<<<<<< HEAD
         // phpdocumentor/reflection-common
         Project::class => 1,
 
@@ -94,6 +109,11 @@ final class ExcludeList
         // phpspec/prophecy
         Prophet::class => 1,
 
+=======
+        // phpdocumentor/type-resolver
+        Type::class => 1,
+
+>>>>>>> main
         // phpunit/phpunit
         TestCase::class => 2,
 
@@ -145,6 +165,12 @@ final class ExcludeList
         // sebastian/object-enumerator
         Enumerator::class => 1,
 
+<<<<<<< HEAD
+=======
+        // sebastian/object-reflector
+        ObjectReflector::class => 1,
+
+>>>>>>> main
         // sebastian/recursion-context
         Context::class => 1,
 
@@ -157,6 +183,7 @@ final class ExcludeList
         // sebastian/version
         Version::class => 1,
 
+<<<<<<< HEAD
         // symfony/polyfill-ctype
         Ctype::class => 1,
 
@@ -165,12 +192,25 @@ final class ExcludeList
 
         // webmozart/assert
         Assert::class => 1,
+=======
+        // theseer/tokenizer
+        Tokenizer::class => 1,
+>>>>>>> main
     ];
 
     /**
      * @var string[]
      */
+<<<<<<< HEAD
     private static $directories;
+=======
+    private static $directories = [];
+
+    /**
+     * @var bool
+     */
+    private static $initialized = false;
+>>>>>>> main
 
     public static function addDirectory(string $directory): void
     {
@@ -178,8 +218,13 @@ final class ExcludeList
             throw new Exception(
                 sprintf(
                     '"%s" is not a directory',
+<<<<<<< HEAD
                     $directory
                 )
+=======
+                    $directory,
+                ),
+>>>>>>> main
             );
         }
 
@@ -223,6 +268,7 @@ final class ExcludeList
      */
     private function initialize(): void
     {
+<<<<<<< HEAD
         if (self::$directories === null) {
             self::$directories = [];
 
@@ -257,5 +303,33 @@ final class ExcludeList
                 self::$directories[] = sys_get_temp_dir() . '\\PHP';
             }
         }
+=======
+        if (self::$initialized) {
+            return;
+        }
+
+        foreach (self::EXCLUDED_CLASS_NAMES as $className => $parent) {
+            if (!class_exists($className)) {
+                continue;
+            }
+
+            $directory = (new ReflectionClass($className))->getFileName();
+
+            for ($i = 0; $i < $parent; $i++) {
+                $directory = dirname($directory);
+            }
+
+            self::$directories[] = $directory;
+        }
+
+        // Hide process isolation workaround on Windows.
+        if (DIRECTORY_SEPARATOR === '\\') {
+            // tempnam() prefix is limited to first 3 chars.
+            // @see https://php.net/manual/en/function.tempnam.php
+            self::$directories[] = sys_get_temp_dir() . '\\PHP';
+        }
+
+        self::$initialized = true;
+>>>>>>> main
     }
 }

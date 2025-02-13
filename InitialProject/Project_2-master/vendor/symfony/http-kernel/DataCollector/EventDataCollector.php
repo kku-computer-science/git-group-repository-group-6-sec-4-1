@@ -30,7 +30,11 @@ class EventDataCollector extends DataCollector implements LateDataCollectorInter
     private $requestStack;
     private $currentRequest;
 
+<<<<<<< HEAD
     public function __construct(EventDispatcherInterface $dispatcher = null, RequestStack $requestStack = null)
+=======
+    public function __construct(?EventDispatcherInterface $dispatcher = null, ?RequestStack $requestStack = null)
+>>>>>>> main
     {
         $this->dispatcher = $dispatcher;
         $this->requestStack = $requestStack;
@@ -39,7 +43,11 @@ class EventDataCollector extends DataCollector implements LateDataCollectorInter
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function collect(Request $request, Response $response, \Throwable $exception = null)
+=======
+    public function collect(Request $request, Response $response, ?\Throwable $exception = null)
+>>>>>>> main
     {
         $this->currentRequest = $this->requestStack && $this->requestStack->getMainRequest() !== $request ? $request : null;
         $this->data = [

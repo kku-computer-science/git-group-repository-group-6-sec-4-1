@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+<<<<<<< HEAD
+=======
+## [3.0.3] - 2024-07-08
+
+### Fixed
+
+ - Fixed PHP 8.4 deprecation notices (#47)
+
+## [3.0.2] - 2022-10-27
+
+### Fixed
+
+ - Added missing return types to docblocks (#44, #45)
+
+>>>>>>> main
 ## [3.0.1] - 2021-08-13
 
 ### Added
@@ -51,7 +66,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Initial release!**
 
+<<<<<<< HEAD
 [Unreleased]: https://github.com/dflydev/dflydev-dot-access-data/compare/v3.0.0...main
+=======
+[Unreleased]: https://github.com/dflydev/dflydev-dot-access-data/compare/v3.0.3...main
+[3.0.3]: https://github.com/dflydev/dflydev-dot-access-data/compare/v3.0.2...v3.0.3
+[3.0.2]: https://github.com/dflydev/dflydev-dot-access-data/compare/v3.0.1...v3.0.2
+[3.0.1]: https://github.com/dflydev/dflydev-dot-access-data/compare/v3.0.0...v3.0.1
+>>>>>>> main
 [3.0.0]: https://github.com/dflydev/dflydev-dot-access-data/compare/v2.0.0...v3.0.0
 [2.0.0]: https://github.com/dflydev/dflydev-dot-access-data/compare/v1.1.0...v2.0.0
 [1.1.0]: https://github.com/dflydev/dflydev-dot-access-data/compare/v1.0.1...v1.1.0

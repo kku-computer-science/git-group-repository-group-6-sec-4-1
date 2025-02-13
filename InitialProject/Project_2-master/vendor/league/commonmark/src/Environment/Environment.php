@@ -21,6 +21,10 @@ use League\CommonMark\Delimiter\Processor\DelimiterProcessorCollection;
 use League\CommonMark\Delimiter\Processor\DelimiterProcessorInterface;
 use League\CommonMark\Event\DocumentParsedEvent;
 use League\CommonMark\Event\ListenerData;
+<<<<<<< HEAD
+=======
+use League\CommonMark\Exception\AlreadyInitializedException;
+>>>>>>> main
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\ConfigurableExtensionInterface;
 use League\CommonMark\Extension\ExtensionInterface;
@@ -416,12 +420,20 @@ final class Environment implements EnvironmentInterface, EnvironmentBuilderInter
     }
 
     /**
+<<<<<<< HEAD
      * @throws \RuntimeException
+=======
+     * @throws AlreadyInitializedException
+>>>>>>> main
      */
     private function assertUninitialized(string $message): void
     {
         if ($this->extensionsInitialized) {
+<<<<<<< HEAD
             throw new \RuntimeException($message . ' Extensions have already been initialized.');
+=======
+            throw new AlreadyInitializedException($message . ' Extensions have already been initialized.');
+>>>>>>> main
         }
     }
 
@@ -431,6 +443,10 @@ final class Environment implements EnvironmentInterface, EnvironmentBuilderInter
             'html_input' => Expect::anyOf(HtmlFilter::STRIP, HtmlFilter::ALLOW, HtmlFilter::ESCAPE)->default(HtmlFilter::ALLOW),
             'allow_unsafe_links' => Expect::bool(true),
             'max_nesting_level' => Expect::type('int')->default(PHP_INT_MAX),
+<<<<<<< HEAD
+=======
+            'max_delimiters_per_line' => Expect::type('int')->default(PHP_INT_MAX),
+>>>>>>> main
             'renderer' => Expect::structure([
                 'block_separator' => Expect::string("\n"),
                 'inner_separator' => Expect::string("\n"),

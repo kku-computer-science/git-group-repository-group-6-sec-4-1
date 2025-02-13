@@ -88,7 +88,11 @@ class ResponseHeaderBag extends HeaderBag
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function all(string $key = null)
+=======
+    public function all(?string $key = null)
+>>>>>>> main
     {
         $headers = parent::all();
 
@@ -186,7 +190,11 @@ class ResponseHeaderBag extends HeaderBag
     /**
      * Removes a cookie from the array, but does not unset it in the browser.
      */
+<<<<<<< HEAD
     public function removeCookie(string $name, ?string $path = '/', string $domain = null)
+=======
+    public function removeCookie(string $name, ?string $path = '/', ?string $domain = null)
+>>>>>>> main
     {
         if (null === $path) {
             $path = '/';
@@ -239,7 +247,11 @@ class ResponseHeaderBag extends HeaderBag
     /**
      * Clears a cookie in the browser.
      */
+<<<<<<< HEAD
     public function clearCookie(string $name, ?string $path = '/', string $domain = null, bool $secure = false, bool $httpOnly = true, string $sameSite = null)
+=======
+    public function clearCookie(string $name, ?string $path = '/', ?string $domain = null, bool $secure = false, bool $httpOnly = true, ?string $sameSite = null)
+>>>>>>> main
     {
         $this->setCookie(new Cookie($name, null, 1, $path, $domain, $secure, $httpOnly, false, $sameSite));
     }

@@ -16,6 +16,10 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Runner\PhptTestCase;
 use RecursiveIteratorIterator;
+<<<<<<< HEAD
+=======
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+>>>>>>> main
 use XMLWriter;
 
 /**
@@ -24,7 +28,11 @@ use XMLWriter;
 final class XmlTestListRenderer
 {
     /**
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     public function render(TestSuite $suite): string
     {
@@ -32,7 +40,11 @@ final class XmlTestListRenderer
 
         $writer->openMemory();
         $writer->setIndent(true);
+<<<<<<< HEAD
         $writer->startDocument();
+=======
+        $writer->startDocument('1.0', 'UTF-8');
+>>>>>>> main
         $writer->startElement('tests');
 
         $currentTestCase = null;
@@ -60,8 +72,13 @@ final class XmlTestListRenderer
                         str_replace(
                             ' with data set ',
                             '',
+<<<<<<< HEAD
                             $test->getDataSetAsString(false)
                         )
+=======
+                            $test->getDataSetAsString(false),
+                        ),
+>>>>>>> main
                     );
                 }
 
@@ -84,6 +101,10 @@ final class XmlTestListRenderer
         }
 
         $writer->endElement();
+<<<<<<< HEAD
+=======
+        $writer->endDocument();
+>>>>>>> main
 
         return $writer->outputMemory();
     }

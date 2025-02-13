@@ -5,6 +5,12 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\Logical;
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ErrorValue;
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+use PhpOffice\PhpSpreadsheet\Calculation\Information\Value;
+>>>>>>> main
 
 class Conditional
 {
@@ -45,6 +51,7 @@ class Conditional
      */
     public static function statementIf($condition = true, $returnIfTrue = 0, $returnIfFalse = false)
     {
+<<<<<<< HEAD
         if (Functions::isError($condition)) {
             return $condition;
         }
@@ -54,6 +61,18 @@ class Conditional
         $returnIfFalse = $returnIfFalse ?? false;
 
         return ($condition) ? $returnIfTrue : $returnIfFalse;
+=======
+        $condition = ($condition === null) ? true : Functions::flattenSingleValue($condition);
+
+        if (ErrorValue::isError($condition)) {
+            return $condition;
+        }
+
+        $returnIfTrue = $returnIfTrue ?? 0;
+        $returnIfFalse = $returnIfFalse ?? false;
+
+        return ((bool) $condition) ? $returnIfTrue : $returnIfFalse;
+>>>>>>> main
     }
 
     /**
@@ -84,7 +103,11 @@ class Conditional
      */
     public static function statementSwitch(...$arguments)
     {
+<<<<<<< HEAD
         $result = Functions::VALUE();
+=======
+        $result = ExcelError::VALUE();
+>>>>>>> main
 
         if (count($arguments) > 0) {
             $targetValue = Functions::flattenSingleValue($arguments[0]);
@@ -96,7 +119,11 @@ class Conditional
             $switchSatisfied = false;
             if ($switchCount > 0) {
                 for ($index = 0; $index < $switchCount; ++$index) {
+<<<<<<< HEAD
                     if ($targetValue == $arguments[$index * 2 + 1]) {
+=======
+                    if ($targetValue == Functions::flattenSingleValue($arguments[$index * 2 + 1])) {
+>>>>>>> main
                         $result = $arguments[$index * 2 + 2];
                         $switchSatisfied = true;
 
@@ -106,7 +133,11 @@ class Conditional
             }
 
             if ($switchSatisfied !== true) {
+<<<<<<< HEAD
                 $result = $hasDefaultClause ? $defaultClause : Functions::NA();
+=======
+                $result = $hasDefaultClause ? $defaultClause : ExcelError::NA();
+>>>>>>> main
             }
         }
 
@@ -135,8 +166,14 @@ class Conditional
         }
 
         $errorpart = $errorpart ?? '';
+<<<<<<< HEAD
 
         return self::statementIf(Functions::isError($testValue), $errorpart, $testValue);
+=======
+        $testValue = $testValue ?? 0; // this is how Excel handles empty cell
+
+        return self::statementIf(ErrorValue::isError($testValue), $errorpart, $testValue);
+>>>>>>> main
     }
 
     /**
@@ -161,8 +198,14 @@ class Conditional
         }
 
         $napart = $napart ?? '';
+<<<<<<< HEAD
 
         return self::statementIf(Functions::isNa($testValue), $napart, $testValue);
+=======
+        $testValue = $testValue ?? 0; // this is how Excel handles empty cell
+
+        return self::statementIf(ErrorValue::isNa($testValue), $napart, $testValue);
+>>>>>>> main
     }
 
     /**
@@ -186,7 +229,11 @@ class Conditional
         $argumentCount = count($arguments);
 
         if ($argumentCount % 2 != 0) {
+<<<<<<< HEAD
             return Functions::NA();
+=======
+            return ExcelError::NA();
+>>>>>>> main
         }
         // We use instance of Exception as a falseValue in order to prevent string collision with value in cell
         $falseValueException = new Exception();
@@ -200,6 +247,10 @@ class Conditional
             }
         }
 
+<<<<<<< HEAD
         return Functions::NA();
+=======
+        return ExcelError::NA();
+>>>>>>> main
     }
 }

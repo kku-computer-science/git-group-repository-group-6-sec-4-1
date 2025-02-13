@@ -27,7 +27,11 @@ Please make sure:
 - Function `GuzzleHttp\Exception\RequestException::getResponseBodySummary` is removed.
   Use `\GuzzleHttp\Psr7\get_message_body_summary` as an alternative.
 - Function `GuzzleHttp\Cookie\CookieJar::getCookieValue` is removed.
+<<<<<<< HEAD
 - Request option `exception` is removed. Please use `http_errors`.
+=======
+- Request option `exceptions` is removed. Please use `http_errors`.
+>>>>>>> main
 - Request option `save_to` is removed. Please use `sink`.
 - Pool option `pool_size` is removed. Please use `concurrency`.
 - We now look for environment variables in the `$_SERVER` super global, due to thread safety issues with `getenv`. We continue to fallback to `getenv` in CLI environments, for maximum compatibility.
@@ -189,11 +193,19 @@ $client = new GuzzleHttp\Client(['handler' => $handler]);
 
 ## POST Requests
 
+<<<<<<< HEAD
 This version added the [`form_params`](http://guzzle.readthedocs.org/en/latest/request-options.html#form_params)
 and `multipart` request options. `form_params` is an associative array of
 strings or array of strings and is used to serialize an
 `application/x-www-form-urlencoded` POST request. The
 [`multipart`](http://guzzle.readthedocs.org/en/latest/request-options.html#multipart)
+=======
+This version added the [`form_params`](https://docs.guzzlephp.org/en/latest/request-options.html#form_params)
+and `multipart` request options. `form_params` is an associative array of
+strings or array of strings and is used to serialize an
+`application/x-www-form-urlencoded` POST request. The
+[`multipart`](https://docs.guzzlephp.org/en/latest/request-options.html#multipart)
+>>>>>>> main
 option is now used to send a multipart/form-data POST request.
 
 `GuzzleHttp\Post\PostFile` has been removed. Use the `multipart` option to add
@@ -209,7 +221,11 @@ The `base_url` option has been renamed to `base_uri`.
 
 ## Rewritten Adapter Layer
 
+<<<<<<< HEAD
 Guzzle now uses [RingPHP](http://ringphp.readthedocs.org/en/latest) to send
+=======
+Guzzle now uses [RingPHP](https://ringphp.readthedocs.org/en/latest) to send
+>>>>>>> main
 HTTP requests. The `adapter` option in a `GuzzleHttp\Client` constructor
 is still supported, but it has now been renamed to `handler`. Instead of
 passing a `GuzzleHttp\Adapter\AdapterInterface`, you must now pass a PHP
@@ -575,7 +591,11 @@ You can intercept a request and inject a response using the `intercept()` event
 of a `GuzzleHttp\Event\BeforeEvent`, `GuzzleHttp\Event\CompleteEvent`, and
 `GuzzleHttp\Event\ErrorEvent` event.
 
+<<<<<<< HEAD
 See: http://docs.guzzlephp.org/en/latest/events.html
+=======
+See: https://docs.guzzlephp.org/en/latest/events.html
+>>>>>>> main
 
 ## Inflection
 
@@ -668,9 +688,15 @@ in separate repositories:
 
 The service description layer of Guzzle has moved into two separate packages:
 
+<<<<<<< HEAD
 - http://github.com/guzzle/command Provides a high level abstraction over web
   services by representing web service operations using commands.
 - http://github.com/guzzle/guzzle-services Provides an implementation of
+=======
+- https://github.com/guzzle/command Provides a high level abstraction over web
+  services by representing web service operations using commands.
+- https://github.com/guzzle/guzzle-services Provides an implementation of
+>>>>>>> main
   guzzle/command that provides request serialization and response parsing using
   Guzzle service descriptions.
 
@@ -870,7 +896,11 @@ HeaderInterface (e.g. toArray(), getAll(), etc.).
 3.3 to 3.4
 ----------
 
+<<<<<<< HEAD
 Base URLs of a client now follow the rules of https://tools.ietf.org/html/rfc3986#section-5.2.2 when merging URLs.
+=======
+Base URLs of a client now follow the rules of https://datatracker.ietf.org/doc/html/rfc3986#section-5.2.2 when merging URLs.
+>>>>>>> main
 
 3.2 to 3.3
 ----------

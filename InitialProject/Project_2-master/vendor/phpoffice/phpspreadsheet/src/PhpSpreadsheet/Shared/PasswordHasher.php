@@ -99,7 +99,11 @@ class PasswordHasher
         $saltValue = base64_decode($salt);
         $encodedPassword = mb_convert_encoding($password, 'UCS-2LE', 'UTF-8');
 
+<<<<<<< HEAD
         $hashValue = hash($phpAlgorithm, $saltValue . $encodedPassword, true);
+=======
+        $hashValue = hash($phpAlgorithm, $saltValue . /** @scrutinizer ignore-type */ $encodedPassword, true);
+>>>>>>> main
         for ($i = 0; $i < $spinCount; ++$i) {
             $hashValue = hash($phpAlgorithm, $hashValue . pack('L', $i), true);
         }

@@ -16,6 +16,10 @@ namespace League\CommonMark\Extension\Embed;
 use League\CommonMark\Event\DocumentParsedEvent;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
 use League\CommonMark\Node\Block\Paragraph;
+<<<<<<< HEAD
+=======
+use League\CommonMark\Node\Inline\Text;
+>>>>>>> main
 use League\CommonMark\Node\NodeIterator;
 
 final class EmbedProcessor
@@ -34,9 +38,24 @@ final class EmbedProcessor
 
     public function __invoke(DocumentParsedEvent $event): void
     {
+<<<<<<< HEAD
         $embeds = [];
         foreach (new NodeIterator($event->getDocument()) as $node) {
             if ($node instanceof Embed) {
+=======
+        $document = $event->getDocument();
+        $embeds   = [];
+        foreach (new NodeIterator($document) as $node) {
+            if (! ($node instanceof Embed)) {
+                continue;
+            }
+
+            if ($node->parent() !== $document) {
+                $replacement = new Paragraph();
+                $replacement->appendChild(new Text($node->getUrl()));
+                $node->replaceWith($replacement);
+            } else {
+>>>>>>> main
                 $embeds[] = $node;
             }
         }

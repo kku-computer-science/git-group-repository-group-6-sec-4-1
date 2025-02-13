@@ -2,6 +2,10 @@
 
 namespace PhpOffice\PhpSpreadsheet\Calculation\Database;
 
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Calculation\MathTrig;
 
 class DProduct extends DatabaseAbstract
@@ -29,13 +33,21 @@ class DProduct extends DatabaseAbstract
      *                                        the column label in which you specify a condition for the
      *                                        column.
      *
+<<<<<<< HEAD
      * @return null|float|string
+=======
+     * @return float|string
+>>>>>>> main
      */
     public static function evaluate($database, $field, $criteria)
     {
         $field = self::fieldExtract($database, $field);
         if ($field === null) {
+<<<<<<< HEAD
             return null;
+=======
+            return ExcelError::VALUE();
+>>>>>>> main
         }
 
         return MathTrig\Operations::product(

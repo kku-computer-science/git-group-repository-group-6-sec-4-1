@@ -14,6 +14,10 @@ declare(strict_types=1);
 namespace League\Config;
 
 use Dflydev\DotAccessData\Data;
+<<<<<<< HEAD
+=======
+use Dflydev\DotAccessData\DataInterface;
+>>>>>>> main
 use Dflydev\DotAccessData\Exception\DataException;
 use Dflydev\DotAccessData\Exception\InvalidPathException;
 use Dflydev\DotAccessData\Exception\MissingPathException;
@@ -37,7 +41,11 @@ final class Configuration implements ConfigurationBuilderInterface, Configuratio
     private array $configSchemas = [];
 
     /** @psalm-allow-private-mutation */
+<<<<<<< HEAD
     private ?Data $finalConfig = null;
+=======
+    private Data $finalConfig;
+>>>>>>> main
 
     /**
      * @var array<string, mixed>
@@ -56,6 +64,10 @@ final class Configuration implements ConfigurationBuilderInterface, Configuratio
     {
         $this->configSchemas = $baseSchemas;
         $this->userConfig    = new Data();
+<<<<<<< HEAD
+=======
+        $this->finalConfig   = new Data();
+>>>>>>> main
 
         $this->reader = new ReadOnlyConfiguration($this);
     }
@@ -81,7 +93,11 @@ final class Configuration implements ConfigurationBuilderInterface, Configuratio
     {
         $this->invalidate();
 
+<<<<<<< HEAD
         $this->userConfig->import($config, Data::REPLACE);
+=======
+        $this->userConfig->import($config, DataInterface::REPLACE);
+>>>>>>> main
     }
 
     /**
@@ -107,13 +123,22 @@ final class Configuration implements ConfigurationBuilderInterface, Configuratio
      */
     public function get(string $key)
     {
+<<<<<<< HEAD
         if ($this->finalConfig === null) {
             $this->finalConfig = $this->build();
         } elseif (\array_key_exists($key, $this->cache)) {
+=======
+        if (\array_key_exists($key, $this->cache)) {
+>>>>>>> main
             return $this->cache[$key];
         }
 
         try {
+<<<<<<< HEAD
+=======
+            $this->build(self::getTopLevelKey($key));
+
+>>>>>>> main
             return $this->cache[$key] = $this->finalConfig->get($key);
         } catch (InvalidPathException | MissingPathException $ex) {
             throw new UnknownOptionException($ex->getMessage(), $key, (int) $ex->getCode(), $ex);
@@ -127,15 +152,26 @@ final class Configuration implements ConfigurationBuilderInterface, Configuratio
      */
     public function exists(string $key): bool
     {
+<<<<<<< HEAD
         if ($this->finalConfig === null) {
             $this->finalConfig = $this->build();
         } elseif (\array_key_exists($key, $this->cache)) {
+=======
+        if (\array_key_exists($key, $this->cache)) {
+>>>>>>> main
             return true;
         }
 
         try {
+<<<<<<< HEAD
             return $this->finalConfig->has($key);
         } catch (InvalidPathException $ex) {
+=======
+            $this->build(self::getTopLevelKey($key));
+
+            return $this->finalConfig->has($key);
+        } catch (InvalidPathException | UnknownOptionException $ex) {
+>>>>>>> main
             return false;
         }
     }
@@ -154,12 +190,17 @@ final class Configuration implements ConfigurationBuilderInterface, Configuratio
     private function invalidate(): void
     {
         $this->cache       = [];
+<<<<<<< HEAD
         $this->finalConfig = null;
+=======
+        $this->finalConfig = new Data();
+>>>>>>> main
     }
 
     /**
      * Applies the schema against the configuration to return the final configuration
      *
+<<<<<<< HEAD
      * @throws ValidationException
      *
      * @psalm-allow-private-mutation
@@ -174,6 +215,37 @@ final class Configuration implements ConfigurationBuilderInterface, Configuratio
             $this->raiseAnyDeprecationNotices($processor->getWarnings());
 
             return $this->finalConfig = new Data(self::convertStdClassesToArrays($processed));
+=======
+     * @throws ValidationException|UnknownOptionException|InvalidPathException
+     *
+     * @psalm-allow-private-mutation
+     */
+    private function build(string $topLevelKey): void
+    {
+        if ($this->finalConfig->has($topLevelKey)) {
+            return;
+        }
+
+        if (! isset($this->configSchemas[$topLevelKey])) {
+            throw new UnknownOptionException(\sprintf('Missing config schema for "%s"', $topLevelKey), $topLevelKey);
+        }
+
+        try {
+            $userData = [$topLevelKey => $this->userConfig->get($topLevelKey)];
+        } catch (DataException $ex) {
+            $userData = [];
+        }
+
+        try {
+            $schema    = $this->configSchemas[$topLevelKey];
+            $processor = new Processor();
+
+            $processed = $processor->process(Expect::structure([$topLevelKey => $schema]), $userData);
+
+            $this->raiseAnyDeprecationNotices($processor->getWarnings());
+
+            $this->finalConfig->import((array) self::convertStdClassesToArrays($processed));
+>>>>>>> main
         } catch (NetteValidationException $ex) {
             throw new ValidationException($ex);
         }
@@ -182,10 +254,21 @@ final class Configuration implements ConfigurationBuilderInterface, Configuratio
     /**
      * Recursively converts stdClass instances to arrays
      *
+<<<<<<< HEAD
      * @param mixed $data
      *
      * @return mixed
      *
+=======
+     * @phpstan-template T
+     *
+     * @param T $data
+     *
+     * @return mixed
+     *
+     * @phpstan-return ($data is \stdClass ? array<string, mixed> : T)
+     *
+>>>>>>> main
      * @psalm-pure
      */
     private static function convertStdClassesToArrays($data)
@@ -212,4 +295,26 @@ final class Configuration implements ConfigurationBuilderInterface, Configuratio
             @\trigger_error($warning, \E_USER_DEPRECATED);
         }
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * @throws InvalidPathException
+     */
+    private static function getTopLevelKey(string $path): string
+    {
+        if (\strlen($path) === 0) {
+            throw new InvalidPathException('Path cannot be an empty string');
+        }
+
+        $path = \str_replace(['.', '/'], '.', $path);
+
+        $firstDelimiter = \strpos($path, '.');
+        if ($firstDelimiter === false) {
+            return $path;
+        }
+
+        return \substr($path, 0, $firstDelimiter);
+    }
+>>>>>>> main
 }

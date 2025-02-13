@@ -29,10 +29,14 @@ use Ramsey\Uuid\Type\Time;
  */
 class BigNumberTimeConverter implements TimeConverterInterface
 {
+<<<<<<< HEAD
     /**
      * @var TimeConverterInterface
      */
     private $converter;
+=======
+    private TimeConverterInterface $converter;
+>>>>>>> main
 
     public function __construct()
     {

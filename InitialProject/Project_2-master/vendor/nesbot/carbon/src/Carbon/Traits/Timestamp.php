@@ -63,7 +63,11 @@ trait Timestamp
     public static function createFromTimestampMsUTC($timestamp)
     {
         [$milliseconds, $microseconds] = self::getIntegerAndDecimalParts($timestamp, 3);
+<<<<<<< HEAD
         $sign = $milliseconds < 0 || $milliseconds === 0.0 && $microseconds < 0 ? -1 : 1;
+=======
+        $sign = $milliseconds < 0 || ($milliseconds === 0.0 && $microseconds < 0) ? -1 : 1;
+>>>>>>> main
         $milliseconds = abs($milliseconds);
         $microseconds = $sign * abs($microseconds) + static::MICROSECONDS_PER_MILLISECOND * ($milliseconds % static::MILLISECONDS_PER_SECOND);
         $seconds = $sign * floor($milliseconds / static::MILLISECONDS_PER_SECOND);
@@ -125,7 +129,11 @@ trait Timestamp
      */
     public function getPreciseTimestamp($precision = 6)
     {
+<<<<<<< HEAD
         return round($this->rawFormat('Uu') / pow(10, 6 - $precision));
+=======
+        return round(((float) $this->rawFormat('Uu')) / pow(10, 6 - $precision));
+>>>>>>> main
     }
 
     /**
@@ -182,7 +190,11 @@ trait Timestamp
         $integer = 0;
         $decimal = 0;
 
+<<<<<<< HEAD
         foreach (preg_split('`[^0-9.]+`', $numbers) as $chunk) {
+=======
+        foreach (preg_split('`[^\d.]+`', $numbers) as $chunk) {
+>>>>>>> main
             [$integerPart, $decimalPart] = explode('.', "$chunk.");
 
             $integer += (int) $integerPart;

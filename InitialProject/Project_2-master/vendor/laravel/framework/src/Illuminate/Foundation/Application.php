@@ -33,7 +33,11 @@ class Application extends Container implements ApplicationContract, CachesConfig
      *
      * @var string
      */
+<<<<<<< HEAD
     const VERSION = '8.83.8';
+=======
+    const VERSION = '8.83.29';
+>>>>>>> main
 
     /**
      * The base path for the Laravel installation.
@@ -602,7 +606,13 @@ class Application extends Container implements ApplicationContract, CachesConfig
      */
     public function detectEnvironment(Closure $callback)
     {
+<<<<<<< HEAD
         $args = $_SERVER['argv'] ?? null;
+=======
+        $args = $this->runningInConsole() && $_SERVER['argv']
+            ? $_SERVER['argv']
+            : null;
+>>>>>>> main
 
         return $this['env'] = (new EnvironmentDetector)->detect($callback, $args);
     }

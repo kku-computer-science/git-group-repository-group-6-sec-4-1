@@ -45,8 +45,13 @@ final class ImmutableWriter implements WriterInterface
     /**
      * Write to an environment variable, if possible.
      *
+<<<<<<< HEAD
      * @param string $name
      * @param string $value
+=======
+     * @param non-empty-string $name
+     * @param string           $value
+>>>>>>> main
      *
      * @return bool
      */
@@ -72,7 +77,11 @@ final class ImmutableWriter implements WriterInterface
     /**
      * Delete an environment variable, if possible.
      *
+<<<<<<< HEAD
      * @param string $name
+=======
+     * @param non-empty-string $name
+>>>>>>> main
      *
      * @return bool
      */
@@ -99,7 +108,11 @@ final class ImmutableWriter implements WriterInterface
      *
      * That is, is it an "existing" variable.
      *
+<<<<<<< HEAD
      * @param string $name
+=======
+     * @param non-empty-string $name
+>>>>>>> main
      *
      * @return bool
      */

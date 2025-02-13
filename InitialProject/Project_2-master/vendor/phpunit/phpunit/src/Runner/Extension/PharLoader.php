@@ -9,6 +9,14 @@
  */
 namespace PHPUnit\Runner\Extension;
 
+<<<<<<< HEAD
+=======
+use function count;
+use function explode;
+use function implode;
+use function is_file;
+use function strpos;
+>>>>>>> main
 use PharIo\Manifest\ApplicationName;
 use PharIo\Manifest\Exception as ManifestException;
 use PharIo\Manifest\ManifestLoader;
@@ -38,7 +46,11 @@ final class PharLoader
 
             try {
                 $applicationName = new ApplicationName('phpunit/phpunit');
+<<<<<<< HEAD
                 $version         = new PharIoVersion(Version::series());
+=======
+                $version         = new PharIoVersion($this->phpunitVersion());
+>>>>>>> main
                 $manifest        = ManifestLoader::fromFile('phar://' . $file . '/manifest.xml');
 
                 if (!$manifest->isExtensionFor($applicationName)) {
@@ -60,6 +72,10 @@ final class PharLoader
 
             /**
              * @noinspection PhpIncludeInspection
+<<<<<<< HEAD
+=======
+             *
+>>>>>>> main
              * @psalm-suppress UnresolvableInclude
              */
             require $file;
@@ -72,4 +88,24 @@ final class PharLoader
             'notLoadedExtensions' => $notLoadedExtensions,
         ];
     }
+<<<<<<< HEAD
+=======
+
+    private function phpunitVersion(): string
+    {
+        $version = Version::id();
+
+        if (strpos($version, '-') === false) {
+            return $version;
+        }
+
+        $parts = explode('.', explode('-', $version)[0]);
+
+        if (count($parts) === 2) {
+            $parts[] = 0;
+        }
+
+        return implode('.', $parts);
+    }
+>>>>>>> main
 }

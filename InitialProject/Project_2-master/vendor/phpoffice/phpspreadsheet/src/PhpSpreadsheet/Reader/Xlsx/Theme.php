@@ -41,9 +41,17 @@ class Theme
     }
 
     /**
+<<<<<<< HEAD
      * Get Theme Name.
      *
      * @return string
+=======
+     * Not called by Reader, never accessible any other time.
+     *
+     * @return string
+     *
+     * @codeCoverageIgnore
+>>>>>>> main
      */
     public function getThemeName()
     {
@@ -51,9 +59,17 @@ class Theme
     }
 
     /**
+<<<<<<< HEAD
      * Get colour Scheme Name.
      *
      * @return string
+=======
+     * Not called by Reader, never accessible any other time.
+     *
+     * @return string
+     *
+     * @codeCoverageIgnore
+>>>>>>> main
      */
     public function getColourSchemeName()
     {
@@ -69,6 +85,7 @@ class Theme
      */
     public function getColourByIndex($index)
     {
+<<<<<<< HEAD
         if (isset($this->colourMap[$index])) {
             return $this->colourMap[$index];
         }
@@ -89,5 +106,8 @@ class Theme
                 $this->$key = $value;
             }
         }
+=======
+        return $this->colourMap[$index] ?? null;
+>>>>>>> main
     }
 }

@@ -13,4 +13,8 @@ namespace Carbon\Exceptions;
 
 interface Exception
 {
+<<<<<<< HEAD
+=======
+    //
+>>>>>>> main
 }

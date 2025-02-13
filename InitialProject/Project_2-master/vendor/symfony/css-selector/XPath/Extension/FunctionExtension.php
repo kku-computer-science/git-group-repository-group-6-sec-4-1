@@ -30,6 +30,7 @@ use Symfony\Component\CssSelector\XPath\XPathExpr;
  */
 class FunctionExtension extends AbstractExtension
 {
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
@@ -42,6 +43,17 @@ class FunctionExtension extends AbstractExtension
             'nth-last-of-type' => [$this, 'translateNthLastOfType'],
             'contains' => [$this, 'translateContains'],
             'lang' => [$this, 'translateLang'],
+=======
+    public function getFunctionTranslators(): array
+    {
+        return [
+            'nth-child' => $this->translateNthChild(...),
+            'nth-last-child' => $this->translateNthLastChild(...),
+            'nth-of-type' => $this->translateNthOfType(...),
+            'nth-last-of-type' => $this->translateNthLastOfType(...),
+            'contains' => $this->translateContains(...),
+            'lang' => $this->translateLang(...),
+>>>>>>> main
         ];
     }
 
@@ -53,7 +65,11 @@ class FunctionExtension extends AbstractExtension
         try {
             [$a, $b] = Parser::parseSeries($function->getArguments());
         } catch (SyntaxErrorException $e) {
+<<<<<<< HEAD
             throw new ExpressionErrorException(sprintf('Invalid series: "%s".', implode('", "', $function->getArguments())), 0, $e);
+=======
+            throw new ExpressionErrorException(\sprintf('Invalid series: "%s".', implode('", "', $function->getArguments())), 0, $e);
+>>>>>>> main
         }
 
         $xpath->addStarPrefix();
@@ -86,10 +102,17 @@ class FunctionExtension extends AbstractExtension
             $expr .= ' - '.$b;
         }
 
+<<<<<<< HEAD
         $conditions = [sprintf('%s %s 0', $expr, $sign)];
 
         if (1 !== $a && -1 !== $a) {
             $conditions[] = sprintf('(%s) mod %d = 0', $expr, $a);
+=======
+        $conditions = [\sprintf('%s %s 0', $expr, $sign)];
+
+        if (1 !== $a && -1 !== $a) {
+            $conditions[] = \sprintf('(%s) mod %d = 0', $expr, $a);
+>>>>>>> main
         }
 
         return $xpath->addCondition(implode(' and ', $conditions));
@@ -137,7 +160,11 @@ class FunctionExtension extends AbstractExtension
             }
         }
 
+<<<<<<< HEAD
         return $xpath->addCondition(sprintf(
+=======
+        return $xpath->addCondition(\sprintf(
+>>>>>>> main
             'contains(string(.), %s)',
             Translator::getXpathLiteral($arguments[0]->getValue())
         ));
@@ -155,15 +182,22 @@ class FunctionExtension extends AbstractExtension
             }
         }
 
+<<<<<<< HEAD
         return $xpath->addCondition(sprintf(
+=======
+        return $xpath->addCondition(\sprintf(
+>>>>>>> main
             'lang(%s)',
             Translator::getXpathLiteral($arguments[0]->getValue())
         ));
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
+=======
+>>>>>>> main
     public function getName(): string
     {
         return 'function';

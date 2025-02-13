@@ -59,9 +59,13 @@ final class ParagraphParser extends AbstractBlockContinueParser implements Block
 
     public function closeBlock(): void
     {
+<<<<<<< HEAD
         if ($this->referenceParser->hasReferences() && $this->referenceParser->getParagraphContent() === '') {
             $this->block->detach();
         }
+=======
+        $this->block->onlyContainsLinkReferenceDefinitions = $this->referenceParser->hasReferences() && $this->referenceParser->getParagraphContent() === '';
+>>>>>>> main
     }
 
     public function parseInlines(InlineParserEngineInterface $inlineParser): void

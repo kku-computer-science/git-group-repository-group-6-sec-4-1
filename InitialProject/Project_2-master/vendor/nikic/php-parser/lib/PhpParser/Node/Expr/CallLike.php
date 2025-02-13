@@ -19,12 +19,17 @@ abstract class CallLike extends Expr {
      * Returns whether this call expression is actually a first class callable.
      */
     public function isFirstClassCallable(): bool {
+<<<<<<< HEAD
         foreach ($this->getRawArgs() as $arg) {
             if ($arg instanceof VariadicPlaceholder) {
                 return true;
             }
         }
         return false;
+=======
+        $rawArgs = $this->getRawArgs();
+        return count($rawArgs) === 1 && current($rawArgs) instanceof VariadicPlaceholder;
+>>>>>>> main
     }
 
     /**
@@ -36,4 +41,8 @@ abstract class CallLike extends Expr {
         assert(!$this->isFirstClassCallable());
         return $this->getRawArgs();
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> main

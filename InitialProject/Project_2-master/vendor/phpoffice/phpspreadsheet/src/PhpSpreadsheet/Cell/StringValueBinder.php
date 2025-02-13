@@ -117,7 +117,11 @@ class StringValueBinder implements IValueBinder
             return true;
         }
 
+<<<<<<< HEAD
         $cell->setValueExplicit((string) $value, DataType::TYPE_STRING);
+=======
+        $cell->setValueExplicit((string) $value, DataType::TYPE_STRING); // @phpstan-ignore-line
+>>>>>>> main
 
         return true;
     }

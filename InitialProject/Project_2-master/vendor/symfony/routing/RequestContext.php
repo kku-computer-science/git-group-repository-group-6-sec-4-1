@@ -98,7 +98,11 @@ class RequestContext
      */
     public function setBaseUrl(string $baseUrl)
     {
+<<<<<<< HEAD
         $this->baseUrl = $baseUrl;
+=======
+        $this->baseUrl = rtrim($baseUrl, '/');
+>>>>>>> main
 
         return $this;
     }

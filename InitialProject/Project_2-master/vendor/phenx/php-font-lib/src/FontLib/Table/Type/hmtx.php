@@ -1,7 +1,11 @@
 <?php
 /**
  * @package php-font-lib
+<<<<<<< HEAD
  * @link    https://github.com/PhenX/php-font-lib
+=======
+ * @link    https://github.com/dompdf/php-font-lib
+>>>>>>> main
  * @author  Fabien Ménager <fabien.menager@gmail.com>
  * @license http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
  */
@@ -35,8 +39,19 @@ class hmtx extends Table {
     }
 
     if ($numOfLongHorMetrics < $numGlyphs) {
+<<<<<<< HEAD
       $lastWidth = end($data);
       $data      = array_pad($data, $numGlyphs, $lastWidth);
+=======
+      $lastWidth = end($data)[0];
+      $numLeft   = $numGlyphs - $numOfLongHorMetrics;
+      $metrics   = $font->readUInt16Many($numLeft);
+      for($i = 0; $i < $numLeft; $i++) {
+        $gid             = $numOfLongHorMetrics + $i;
+        $leftSideBearing = isset($metrics[$i]) ? $metrics[$i] : 0;
+        $data[$gid]      = array($lastWidth, $leftSideBearing);
+      }
+>>>>>>> main
     }
 
     $this->data = $data;

@@ -9,11 +9,19 @@
  */
 namespace PHPUnit\Framework;
 
+<<<<<<< HEAD
+=======
+use const PHP_VERSION_ID;
+>>>>>>> main
 use function array_keys;
 use function get_class;
 use function spl_object_hash;
 use PHPUnit\Util\Filter;
 use Throwable;
+<<<<<<< HEAD
+=======
+use WeakReference;
+>>>>>>> main
 
 /**
  * Wraps Exceptions thrown by code under test.
@@ -38,6 +46,14 @@ final class ExceptionWrapper extends Exception
      */
     protected $previous;
 
+<<<<<<< HEAD
+=======
+    /**
+     * @var null|WeakReference<Throwable>
+     */
+    private $originalException;
+
+>>>>>>> main
     public function __construct(Throwable $t)
     {
         // PDOException::getCode() is a string.
@@ -107,6 +123,7 @@ final class ExceptionWrapper extends Exception
      *
      * Approach works both for var_dump() and var_export() and print_r().
      */
+<<<<<<< HEAD
     private function originalException(Throwable $exceptionToStore = null): ?Throwable
     {
         static $originalExceptions;
@@ -118,5 +135,27 @@ final class ExceptionWrapper extends Exception
         }
 
         return $originalExceptions[$instanceId] ?? null;
+=======
+    private function originalException(?Throwable $exceptionToStore = null): ?Throwable
+    {
+        // drop once PHP 7.3 support is removed
+        if (PHP_VERSION_ID < 70400) {
+            static $originalExceptions;
+
+            $instanceId = spl_object_hash($this);
+
+            if ($exceptionToStore) {
+                $originalExceptions[$instanceId] = $exceptionToStore;
+            }
+
+            return $originalExceptions[$instanceId] ?? null;
+        }
+
+        if ($exceptionToStore) {
+            $this->originalException = WeakReference::create($exceptionToStore);
+        }
+
+        return $this->originalException !== null ? $this->originalException->get() : null;
+>>>>>>> main
     }
 }

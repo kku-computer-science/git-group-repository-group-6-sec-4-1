@@ -28,8 +28,13 @@ final class MultiWriter implements WriterInterface
     /**
      * Write to an environment variable, if possible.
      *
+<<<<<<< HEAD
      * @param string $name
      * @param string $value
+=======
+     * @param non-empty-string $name
+     * @param string           $value
+>>>>>>> main
      *
      * @return bool
      */
@@ -47,7 +52,11 @@ final class MultiWriter implements WriterInterface
     /**
      * Delete an environment variable, if possible.
      *
+<<<<<<< HEAD
      * @param string $name
+=======
+     * @param non-empty-string $name
+>>>>>>> main
      *
      * @return bool
      */

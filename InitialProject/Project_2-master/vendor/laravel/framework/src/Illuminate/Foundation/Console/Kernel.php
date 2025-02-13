@@ -172,7 +172,11 @@ class Kernel implements KernelContract
     }
 
     /**
+<<<<<<< HEAD
      * Register the Closure based commands for the application.
+=======
+     * Register the commands for the application.
+>>>>>>> main
      *
      * @return void
      */

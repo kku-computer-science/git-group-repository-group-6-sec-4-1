@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +19,10 @@ use Psy\Shell;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Helper\Table;
+<<<<<<< HEAD
 use Symfony\Component\Console\Helper\TableHelper;
+=======
+>>>>>>> main
 use Symfony\Component\Console\Helper\TableStyle;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -31,13 +38,34 @@ abstract class Command extends BaseCommand
      *
      * @api
      */
+<<<<<<< HEAD
     public function setApplication(Application $application = null)
+=======
+    public function setApplication(?Application $application = null): void
+>>>>>>> main
     {
         if ($application !== null && !$application instanceof Shell) {
             throw new \InvalidArgumentException('PsySH Commands require an instance of Psy\Shell');
         }
 
+<<<<<<< HEAD
         return parent::setApplication($application);
+=======
+        parent::setApplication($application);
+    }
+
+    /**
+     * getApplication, but is guaranteed to return a Shell instance.
+     */
+    protected function getShell(): Shell
+    {
+        $shell = $this->getApplication();
+        if (!$shell instanceof Shell) {
+            throw new \RuntimeException('PsySH Commands require an instance of Psy\Shell');
+        }
+
+        return $shell;
+>>>>>>> main
     }
 
     /**
@@ -86,7 +114,11 @@ abstract class Command extends BaseCommand
     /**
      * These arguments will be excluded from help output.
      *
+<<<<<<< HEAD
      * @return array
+=======
+     * @return string[]
+>>>>>>> main
      */
     protected function getHiddenArguments(): array
     {
@@ -108,7 +140,11 @@ abstract class Command extends BaseCommand
     /**
      * These options will be excluded from help output.
      *
+<<<<<<< HEAD
      * @return array
+=======
+     * @return string[]
+>>>>>>> main
      */
     protected function getHiddenOptions(): array
     {
@@ -117,8 +153,11 @@ abstract class Command extends BaseCommand
 
     /**
      * Format command aliases as text..
+<<<<<<< HEAD
      *
      * @return string
+=======
+>>>>>>> main
      */
     private function aliasesAsText(): string
     {
@@ -127,8 +166,11 @@ abstract class Command extends BaseCommand
 
     /**
      * Format command arguments as text.
+<<<<<<< HEAD
      *
      * @return string
+=======
+>>>>>>> main
      */
     private function argumentsAsText(): string
     {
@@ -145,9 +187,17 @@ abstract class Command extends BaseCommand
                     $default = '';
                 }
 
+<<<<<<< HEAD
                 $description = \str_replace("\n", "\n".\str_pad('', $max + 2, ' '), $argument->getDescription());
 
                 $messages[] = \sprintf(" <info>%-${max}s</info> %s%s", $argument->getName(), $description, $default);
+=======
+                $name = $argument->getName();
+                $pad = \str_pad('', $max - \strlen($name));
+                $description = \str_replace("\n", "\n".\str_pad('', $max + 2, ' '), $argument->getDescription());
+
+                $messages[] = \sprintf(' <info>%s</info>%s %s%s', $name, $pad, $description, $default);
+>>>>>>> main
             }
 
             $messages[] = '';
@@ -158,8 +208,11 @@ abstract class Command extends BaseCommand
 
     /**
      * Format options as text.
+<<<<<<< HEAD
      *
      * @return string
+=======
+>>>>>>> main
      */
     private function optionsAsText(): string
     {
@@ -182,7 +235,11 @@ abstract class Command extends BaseCommand
 
                 $optionMax = $max - \strlen($option->getName()) - 2;
                 $messages[] = \sprintf(
+<<<<<<< HEAD
                     " <info>%s</info> %-${optionMax}s%s%s%s",
+=======
+                    " <info>%s</info> %-{$optionMax}s%s%s%s",
+>>>>>>> main
                     '--'.$option->getName(),
                     $option->getShortcut() ? \sprintf('(-%s) ', $option->getShortcut()) : '',
                     $description,
@@ -199,8 +256,11 @@ abstract class Command extends BaseCommand
 
     /**
      * Calculate the maximum padding width for a set of lines.
+<<<<<<< HEAD
      *
      * @return int
+=======
+>>>>>>> main
      */
     private function getMaxWidth(): int
     {
@@ -226,8 +286,11 @@ abstract class Command extends BaseCommand
      * Format an option default as text.
      *
      * @param mixed $default
+<<<<<<< HEAD
      *
      * @return string
+=======
+>>>>>>> main
      */
     private function formatDefaultValue($default): string
     {
@@ -241,6 +304,7 @@ abstract class Command extends BaseCommand
     /**
      * Get a Table instance.
      *
+<<<<<<< HEAD
      * Falls back to legacy TableHelper.
      *
      * @return Table|TableHelper
@@ -251,6 +315,12 @@ abstract class Command extends BaseCommand
             return $this->getTableHelper();
         }
 
+=======
+     * @return Table
+     */
+    protected function getTable(OutputInterface $output)
+    {
+>>>>>>> main
         $style = new TableStyle();
 
         // Symfony 4.1 deprecated single-argument style setters.
@@ -270,6 +340,7 @@ abstract class Command extends BaseCommand
             ->setRows([])
             ->setStyle($style);
     }
+<<<<<<< HEAD
 
     /**
      * Legacy fallback for getTable.
@@ -286,4 +357,6 @@ abstract class Command extends BaseCommand
             ->setHorizontalBorderChar('')
             ->setCrossingChar('');
     }
+=======
+>>>>>>> main
 }

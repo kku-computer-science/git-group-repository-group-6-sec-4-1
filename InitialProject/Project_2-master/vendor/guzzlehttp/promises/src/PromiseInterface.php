@@ -1,5 +1,10 @@
 <?php
 
+<<<<<<< HEAD
+=======
+declare(strict_types=1);
+
+>>>>>>> main
 namespace GuzzleHttp\Promise;
 
 /**
@@ -9,6 +14,7 @@ namespace GuzzleHttp\Promise;
  * which registers callbacks to receive either a promise’s eventual value or
  * the reason why the promise cannot be fulfilled.
  *
+<<<<<<< HEAD
  * @link https://promisesaplus.com/
  */
 interface PromiseInterface
@@ -16,6 +22,15 @@ interface PromiseInterface
     const PENDING = 'pending';
     const FULFILLED = 'fulfilled';
     const REJECTED = 'rejected';
+=======
+ * @see https://promisesaplus.com/
+ */
+interface PromiseInterface
+{
+    public const PENDING = 'pending';
+    public const FULFILLED = 'fulfilled';
+    public const REJECTED = 'rejected';
+>>>>>>> main
 
     /**
      * Appends fulfillment and rejection handlers to the promise, and returns
@@ -23,6 +38,7 @@ interface PromiseInterface
      *
      * @param callable $onFulfilled Invoked when the promise fulfills.
      * @param callable $onRejected  Invoked when the promise is rejected.
+<<<<<<< HEAD
      *
      * @return PromiseInterface
      */
@@ -30,6 +46,13 @@ interface PromiseInterface
         callable $onFulfilled = null,
         callable $onRejected = null
     );
+=======
+     */
+    public function then(
+        ?callable $onFulfilled = null,
+        ?callable $onRejected = null
+    ): PromiseInterface;
+>>>>>>> main
 
     /**
      * Appends a rejection handler callback to the promise, and returns a new
@@ -38,20 +61,30 @@ interface PromiseInterface
      * fulfilled.
      *
      * @param callable $onRejected Invoked when the promise is rejected.
+<<<<<<< HEAD
      *
      * @return PromiseInterface
      */
     public function otherwise(callable $onRejected);
+=======
+     */
+    public function otherwise(callable $onRejected): PromiseInterface;
+>>>>>>> main
 
     /**
      * Get the state of the promise ("pending", "rejected", or "fulfilled").
      *
      * The three states can be checked against the constants defined on
      * PromiseInterface: PENDING, FULFILLED, and REJECTED.
+<<<<<<< HEAD
      *
      * @return string
      */
     public function getState();
+=======
+     */
+    public function getState(): string;
+>>>>>>> main
 
     /**
      * Resolve the promise with the given value.
@@ -60,7 +93,11 @@ interface PromiseInterface
      *
      * @throws \RuntimeException if the promise is already resolved.
      */
+<<<<<<< HEAD
     public function resolve($value);
+=======
+    public function resolve($value): void;
+>>>>>>> main
 
     /**
      * Reject the promise with the given reason.
@@ -69,14 +106,24 @@ interface PromiseInterface
      *
      * @throws \RuntimeException if the promise is already resolved.
      */
+<<<<<<< HEAD
     public function reject($reason);
+=======
+    public function reject($reason): void;
+>>>>>>> main
 
     /**
      * Cancels the promise if possible.
      *
+<<<<<<< HEAD
      * @link https://github.com/promises-aplus/cancellation-spec/issues/7
      */
     public function cancel();
+=======
+     * @see https://github.com/promises-aplus/cancellation-spec/issues/7
+     */
+    public function cancel(): void;
+>>>>>>> main
 
     /**
      * Waits until the promise completes if possible.
@@ -86,12 +133,19 @@ interface PromiseInterface
      *
      * If the promise cannot be waited on, then the promise will be rejected.
      *
+<<<<<<< HEAD
      * @param bool $unwrap
      *
+=======
+>>>>>>> main
      * @return mixed
      *
      * @throws \LogicException if the promise has no wait function or if the
      *                         promise does not settle after waiting.
      */
+<<<<<<< HEAD
     public function wait($unwrap = true);
+=======
+    public function wait(bool $unwrap = true);
+>>>>>>> main
 }

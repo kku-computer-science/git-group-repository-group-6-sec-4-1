@@ -36,12 +36,20 @@ class Root extends PPS
     private $fileHandle;
 
     /**
+<<<<<<< HEAD
      * @var int
+=======
+     * @var ?int
+>>>>>>> main
      */
     private $smallBlockSize;
 
     /**
+<<<<<<< HEAD
      * @var int
+=======
+     * @var ?int
+>>>>>>> main
      */
     private $bigBlockSize;
 
@@ -84,17 +92,29 @@ class Root extends PPS
         // calculate values for header
         [$iSBDcnt, $iBBcnt, $iPPScnt] = $this->calcSize($aList); //, $rhInfo);
         // Save Header
+<<<<<<< HEAD
         $this->saveHeader($iSBDcnt, $iBBcnt, $iPPScnt);
+=======
+        $this->saveHeader((int) $iSBDcnt, (int) $iBBcnt, (int) $iPPScnt);
+>>>>>>> main
 
         // Make Small Data string (write SBD)
         $this->_data = $this->makeSmallData($aList);
 
         // Write BB
+<<<<<<< HEAD
         $this->saveBigData($iSBDcnt, $aList);
         // Write PPS
         $this->savePps($aList);
         // Write Big Block Depot and BDList and Adding Header informations
         $this->saveBbd($iSBDcnt, $iBBcnt, $iPPScnt);
+=======
+        $this->saveBigData((int) $iSBDcnt, $aList);
+        // Write PPS
+        $this->savePps($aList);
+        // Write Big Block Depot and BDList and Adding Header informations
+        $this->saveBbd((int) $iSBDcnt, (int) $iBBcnt, (int) $iPPScnt);
+>>>>>>> main
 
         return true;
     }
@@ -110,7 +130,10 @@ class Root extends PPS
     {
         // Calculate Basic Setting
         [$iSBDcnt, $iBBcnt, $iPPScnt] = [0, 0, 0];
+<<<<<<< HEAD
         $iSmallLen = 0;
+=======
+>>>>>>> main
         $iSBcnt = 0;
         $iCount = count($raList);
         for ($i = 0; $i < $iCount; ++$i) {

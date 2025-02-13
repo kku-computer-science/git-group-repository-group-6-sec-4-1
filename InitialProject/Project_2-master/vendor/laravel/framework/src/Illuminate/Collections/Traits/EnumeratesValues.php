@@ -16,6 +16,10 @@ use JsonSerializable;
 use Symfony\Component\VarDumper\VarDumper;
 use Traversable;
 use UnexpectedValueException;
+<<<<<<< HEAD
+=======
+use UnitEnum;
+>>>>>>> main
 
 /**
  * @property-read HigherOrderCollectionProxy $average
@@ -991,6 +995,11 @@ trait EnumeratesValues
             return (array) $items->jsonSerialize();
         } elseif ($items instanceof Traversable) {
             return iterator_to_array($items);
+<<<<<<< HEAD
+=======
+        } elseif ($items instanceof UnitEnum) {
+            return [$items];
+>>>>>>> main
         }
 
         return (array) $items;

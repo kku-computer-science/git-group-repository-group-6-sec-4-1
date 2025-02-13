@@ -105,7 +105,11 @@ class ColumnTypeGuesser
             case PropelTypes::OBJECT:
             case PropelTypes::PHP_ARRAY:
             default:
+<<<<<<< HEAD
             // no smart way to guess what the user expects here
+=======
+                // no smart way to guess what the user expects here
+>>>>>>> main
                 return null;
         }
     }

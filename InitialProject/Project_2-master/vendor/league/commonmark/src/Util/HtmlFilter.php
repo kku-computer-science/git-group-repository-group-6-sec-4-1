@@ -13,6 +13,11 @@ declare(strict_types=1);
 
 namespace League\CommonMark\Util;
 
+<<<<<<< HEAD
+=======
+use League\CommonMark\Exception\InvalidArgumentException;
+
+>>>>>>> main
 /**
  * @psalm-immutable
  */
@@ -33,7 +38,11 @@ final class HtmlFilter
      *
      * @return string Filtered HTML
      *
+<<<<<<< HEAD
      * @throws \InvalidArgumentException when an invalid $filter is given
+=======
+     * @throws InvalidArgumentException when an invalid $filter is given
+>>>>>>> main
      *
      * @psalm-pure
      */
@@ -47,7 +56,11 @@ final class HtmlFilter
             case self::ALLOW:
                 return $html;
             default:
+<<<<<<< HEAD
                 throw new \InvalidArgumentException(\sprintf('Invalid filter provided: "%s"', $filter));
+=======
+                throw new InvalidArgumentException(\sprintf('Invalid filter provided: "%s"', $filter));
+>>>>>>> main
         }
     }
 }

@@ -18,6 +18,12 @@ use Symfony\Component\Mime\Exception\LogicException;
  */
 class RawMessage implements \Serializable
 {
+<<<<<<< HEAD
+=======
+    /**
+     * @var iterable|string
+     */
+>>>>>>> main
     private $message;
 
     /**

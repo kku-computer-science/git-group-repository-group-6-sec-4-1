@@ -9,23 +9,40 @@
  */
 namespace PHPUnit\Framework;
 
+<<<<<<< HEAD
+=======
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+
+>>>>>>> main
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
 final class SkippedTestCase extends TestCase
 {
     /**
+<<<<<<< HEAD
      * @var bool
+=======
+     * @var ?bool
+>>>>>>> main
      */
     protected $backupGlobals = false;
 
     /**
+<<<<<<< HEAD
      * @var bool
+=======
+     * @var ?bool
+>>>>>>> main
      */
     protected $backupStaticAttributes = false;
 
     /**
+<<<<<<< HEAD
      * @var bool
+=======
+     * @var ?bool
+>>>>>>> main
      */
     protected $runTestInSeparateProcess = false;
 
@@ -49,7 +66,11 @@ final class SkippedTestCase extends TestCase
     /**
      * Returns a string representation of the test case.
      *
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     public function toString(): string
     {

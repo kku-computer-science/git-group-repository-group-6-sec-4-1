@@ -4,13 +4,25 @@ namespace DeepCopy;
 
 use ArrayObject;
 use DateInterval;
+<<<<<<< HEAD
 use DateTimeInterface;
 use DateTimeZone;
 use DeepCopy\Exception\CloneException;
+=======
+use DatePeriod;
+use DateTimeInterface;
+use DateTimeZone;
+use DeepCopy\Exception\CloneException;
+use DeepCopy\Filter\ChainableFilter;
+>>>>>>> main
 use DeepCopy\Filter\Filter;
 use DeepCopy\Matcher\Matcher;
 use DeepCopy\Reflection\ReflectionHelper;
 use DeepCopy\TypeFilter\Date\DateIntervalFilter;
+<<<<<<< HEAD
+=======
+use DeepCopy\TypeFilter\Date\DatePeriodFilter;
+>>>>>>> main
 use DeepCopy\TypeFilter\Spl\ArrayObjectFilter;
 use DeepCopy\TypeFilter\Spl\SplDoublyLinkedListFilter;
 use DeepCopy\TypeFilter\TypeFilter;
@@ -63,6 +75,10 @@ class DeepCopy
 
         $this->addTypeFilter(new ArrayObjectFilter($this), new TypeMatcher(ArrayObject::class));
         $this->addTypeFilter(new DateIntervalFilter(), new TypeMatcher(DateInterval::class));
+<<<<<<< HEAD
+=======
+        $this->addTypeFilter(new DatePeriodFilter(), new TypeMatcher(DatePeriod::class));
+>>>>>>> main
         $this->addTypeFilter(new SplDoublyLinkedListFilter($this), new TypeMatcher(SplDoublyLinkedList::class));
     }
 
@@ -223,6 +239,14 @@ class DeepCopy
             return;
         }
 
+<<<<<<< HEAD
+=======
+        // Ignore readonly properties
+        if (method_exists($property, 'isReadOnly') && $property->isReadOnly()) {
+            return;
+        }
+
+>>>>>>> main
         // Apply the filters
         foreach ($this->filters as $item) {
             /** @var Matcher $matcher */
@@ -239,6 +263,13 @@ class DeepCopy
                     }
                 );
 
+<<<<<<< HEAD
+=======
+                if ($filter instanceof ChainableFilter) {
+                    continue;
+                }
+
+>>>>>>> main
                 // If a filter matches, we stop processing this property
                 return;
             }

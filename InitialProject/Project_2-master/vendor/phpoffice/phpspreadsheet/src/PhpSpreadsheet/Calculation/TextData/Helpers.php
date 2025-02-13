@@ -5,6 +5,11 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\TextData;
 use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception as CalcExp;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ErrorValue;
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class Helpers
 {
@@ -20,11 +25,21 @@ class Helpers
     /**
      * @param mixed $value String value from which to extract characters
      */
+<<<<<<< HEAD
     public static function extractString($value): string
+=======
+    public static function extractString($value, bool $throwIfError = false): string
+>>>>>>> main
     {
         if (is_bool($value)) {
             return self::convertBooleanValue($value);
         }
+<<<<<<< HEAD
+=======
+        if ($throwIfError && is_string($value) && ErrorValue::isError($value)) {
+            throw new CalcExp($value);
+        }
+>>>>>>> main
 
         return (string) $value;
     }
@@ -42,11 +57,19 @@ class Helpers
             $value = (int) $value;
         }
         if (!is_numeric($value)) {
+<<<<<<< HEAD
             throw new CalcExp(Functions::VALUE());
         }
         $value = (int) $value;
         if ($value < $minValue) {
             throw new CalcExp(Functions::VALUE());
+=======
+            throw new CalcExp(ExcelError::VALUE());
+        }
+        $value = (int) $value;
+        if ($value < $minValue) {
+            throw new CalcExp(ExcelError::VALUE());
+>>>>>>> main
         }
 
         return (int) $value;
@@ -64,7 +87,11 @@ class Helpers
             $value = (float) $value;
         }
         if (!is_numeric($value)) {
+<<<<<<< HEAD
             throw new CalcExp(Functions::VALUE());
+=======
+            throw new CalcExp(ExcelError::VALUE());
+>>>>>>> main
         }
 
         return (float) $value;

@@ -40,7 +40,11 @@ class Payment extends \Faker\Provider\Payment
             '%s%d%d',
             $prefix,
             self::randomNumber(5, true), // workaround for mt_getrandmax() limitation
+<<<<<<< HEAD
             self::randomNumber(self::randomElement([4, 5]), true)
+=======
+            self::randomNumber(self::randomElement([4, 5]), true),
+>>>>>>> main
         );
     }
 }

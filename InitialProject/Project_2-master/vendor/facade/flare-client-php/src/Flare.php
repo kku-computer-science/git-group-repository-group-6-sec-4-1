@@ -59,6 +59,12 @@ class Flare
     /** @var callable|null */
     protected $filterExceptionsCallable;
 
+<<<<<<< HEAD
+=======
+    /** @var callable|null */
+    protected $filterReportsCallable;
+
+>>>>>>> main
     public static function register(string $apiKey, string $apiSecret = null, ContextDetectorInterface $contextDetector = null, Container $container = null)
     {
         $client = new Client($apiKey, $apiSecret);
@@ -81,6 +87,14 @@ class Flare
         $this->filterExceptionsCallable = $filterExceptionsCallable;
     }
 
+<<<<<<< HEAD
+=======
+    public function filterReportsUsing(callable $filterReportsCallable)
+    {
+        $this->filterReportsCallable = $filterReportsCallable;
+    }
+
+>>>>>>> main
     /**
      * @return null|string
      */
@@ -242,6 +256,15 @@ class Flare
 
     private function sendReportToApi(Report $report)
     {
+<<<<<<< HEAD
+=======
+        if ($this->filterReportsCallable) {
+            if (! call_user_func($this->filterReportsCallable, $report)) {
+                return;
+            }
+        }
+
+>>>>>>> main
         try {
             $this->api->report($report);
         } catch (Exception $exception) {

@@ -11,6 +11,10 @@
 
 namespace Carbon;
 
+<<<<<<< HEAD
+=======
+use Carbon\MessageFormatter\MessageFormatterMapper;
+>>>>>>> main
 use Closure;
 use ReflectionException;
 use ReflectionFunction;
@@ -51,7 +55,11 @@ abstract class AbstractTranslator extends Translation\Translator
     /**
      * List of locales aliases.
      *
+<<<<<<< HEAD
      * @var string[]
+=======
+     * @var array<string, string>
+>>>>>>> main
      */
     protected $aliases = [
         'me' => 'sr_Latn_ME',
@@ -83,7 +91,11 @@ abstract class AbstractTranslator extends Translation\Translator
         $this->initializing = true;
         $this->directories = [__DIR__.'/Lang'];
         $this->addLoader('array', new ArrayLoader());
+<<<<<<< HEAD
         parent::__construct($locale, $formatter, $cacheDir, $debug);
+=======
+        parent::__construct($locale, new MessageFormatterMapper($formatter), $cacheDir, $debug);
+>>>>>>> main
         $this->initializing = false;
     }
 
@@ -158,6 +170,11 @@ abstract class AbstractTranslator extends Translation\Translator
             return true;
         }
 
+<<<<<<< HEAD
+=======
+        $this->assertValidLocale($locale);
+
+>>>>>>> main
         foreach ($this->getDirectories() as $directory) {
             $data = @include sprintf('%s/%s.php', rtrim($directory, '\\/'), $locale);
 
@@ -220,8 +237,13 @@ abstract class AbstractTranslator extends Translation\Translator
 
         $catalogue = $this->getCatalogue($locale);
         $format = $this instanceof TranslatorStrongTypeInterface
+<<<<<<< HEAD
             ? $this->getFromCatalogue($catalogue, (string) $id, $domain) // @codeCoverageIgnore
             : $this->getCatalogue($locale)->get((string) $id, $domain);
+=======
+            ? $this->getFromCatalogue($catalogue, (string) $id, $domain)
+            : $this->getCatalogue($locale)->get((string) $id, $domain); // @codeCoverageIgnore
+>>>>>>> main
 
         if ($format instanceof Closure) {
             // @codeCoverageIgnoreStart
@@ -250,11 +272,15 @@ abstract class AbstractTranslator extends Translation\Translator
      */
     protected function loadMessagesFromFile($locale)
     {
+<<<<<<< HEAD
         if (isset($this->messages[$locale])) {
             return true;
         }
 
         return $this->resetMessages($locale);
+=======
+        return isset($this->messages[$locale]) || $this->resetMessages($locale);
+>>>>>>> main
     }
 
     /**
@@ -311,7 +337,11 @@ abstract class AbstractTranslator extends Translation\Translator
      */
     public function setLocale($locale)
     {
+<<<<<<< HEAD
         $locale = preg_replace_callback('/[-_]([a-z]{2,}|[0-9]{2,})/', function ($matches) {
+=======
+        $locale = preg_replace_callback('/[-_]([a-z]{2,}|\d{2,})/', function ($matches) {
+>>>>>>> main
             // _2-letters or YUE is a region, _3+-letters is a variant
             $upper = strtoupper($matches[1]);
 
@@ -359,6 +389,7 @@ abstract class AbstractTranslator extends Translation\Translator
             parent::setLocale($macroLocale);
         }
 
+<<<<<<< HEAD
         if ($this->loadMessagesFromFile($locale) || $this->initializing) {
             parent::setLocale($locale);
 
@@ -366,6 +397,15 @@ abstract class AbstractTranslator extends Translation\Translator
         }
 
         return false;
+=======
+        if (!$this->loadMessagesFromFile($locale) && !$this->initializing) {
+            return false;
+        }
+
+        parent::setLocale($locale);
+
+        return true;
+>>>>>>> main
     }
 
     /**

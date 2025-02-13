@@ -24,6 +24,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Terminal;
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 use function Symfony\Component\String\s;
 
 /**
@@ -127,7 +131,22 @@ class QuestionHelper extends Helper
             }
 
             if (false === $ret) {
+<<<<<<< HEAD
                 $ret = $this->readInput($inputStream, $question);
+=======
+                $isBlocked = stream_get_meta_data($inputStream)['blocked'] ?? true;
+
+                if (!$isBlocked) {
+                    stream_set_blocking($inputStream, true);
+                }
+
+                $ret = $this->readInput($inputStream, $question);
+
+                if (!$isBlocked) {
+                    stream_set_blocking($inputStream, false);
+                }
+
+>>>>>>> main
                 if (false === $ret) {
                     throw new MissingInputException('Aborted.');
                 }
@@ -491,6 +510,7 @@ class QuestionHelper extends Helper
             return self::$stdinIsInteractive;
         }
 
+<<<<<<< HEAD
         if (\function_exists('stream_isatty')) {
             return self::$stdinIsInteractive = @stream_isatty(fopen('php://stdin', 'r'));
         }
@@ -506,6 +526,9 @@ class QuestionHelper extends Helper
         exec('stty 2> /dev/null', $output, $status);
 
         return self::$stdinIsInteractive = 1 !== $status;
+=======
+        return self::$stdinIsInteractive = @stream_isatty(fopen('php://stdin', 'r'));
+>>>>>>> main
     }
 
     /**

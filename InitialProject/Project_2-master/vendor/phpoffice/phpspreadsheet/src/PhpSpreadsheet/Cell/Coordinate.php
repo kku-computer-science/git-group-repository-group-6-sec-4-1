@@ -2,6 +2,10 @@
 
 namespace PhpOffice\PhpSpreadsheet\Cell;
 
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
@@ -13,7 +17,11 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
  */
 abstract class Coordinate
 {
+<<<<<<< HEAD
     public const A1_COORDINATE_REGEX = '/^(?<absolute_col>\$?)(?<col_ref>[A-Z]{1,3})(?<absolute_row>\$?)(?<row_ref>\d{1,7})$/i';
+=======
+    public const A1_COORDINATE_REGEX = '/^(?<col>\$?[A-Z]{1,3})(?<row>\$?\d{1,7})$/i';
+>>>>>>> main
 
     /**
      * Default range variable constant.
@@ -23,16 +31,27 @@ abstract class Coordinate
     const DEFAULT_RANGE = 'A1:A1';
 
     /**
+<<<<<<< HEAD
      * Coordinate from string.
+=======
+     * Convert string coordinate to [0 => int column index, 1 => int row index].
+>>>>>>> main
      *
      * @param string $cellAddress eg: 'A1'
      *
      * @return array{0: string, 1: string} Array containing column and row (indexes 0 and 1)
      */
+<<<<<<< HEAD
     public static function coordinateFromString($cellAddress)
     {
         if (preg_match(self::A1_COORDINATE_REGEX, $cellAddress, $matches)) {
             return [$matches['absolute_col'] . $matches['col_ref'], $matches['absolute_row'] . $matches['row_ref']];
+=======
+    public static function coordinateFromString($cellAddress): array
+    {
+        if (preg_match(self::A1_COORDINATE_REGEX, $cellAddress, $matches)) {
+            return [$matches['col'], $matches['row']];
+>>>>>>> main
         } elseif (self::coordinateIsRange($cellAddress)) {
             throw new Exception('Cell coordinate string can not be a range of cells');
         } elseif ($cellAddress == '') {
@@ -43,6 +62,7 @@ abstract class Coordinate
     }
 
     /**
+<<<<<<< HEAD
      * Get indexes from a string coordinates.
      *
      * @param string $coordinates eg: 'A1', '$B$12'
@@ -56,6 +76,23 @@ abstract class Coordinate
         return [
             self::columnIndexFromString(ltrim($col, '$')),
             (int) ltrim($row, '$'),
+=======
+     * Convert string coordinate to [0 => int column index, 1 => int row index, 2 => string column string].
+     *
+     * @param string $coordinates eg: 'A1', '$B$12'
+     *
+     * @return array{0: int, 1: int, 2: string} Array containing column and row index, and column string
+     */
+    public static function indexesFromString(string $coordinates): array
+    {
+        [$column, $row] = self::coordinateFromString($coordinates);
+        $column = ltrim($column, '$');
+
+        return [
+            self::columnIndexFromString($column),
+            (int) ltrim($row, '$'),
+            $column,
+>>>>>>> main
         ];
     }
 
@@ -92,6 +129,10 @@ abstract class Coordinate
         }
 
         // Create absolute coordinate
+<<<<<<< HEAD
+=======
+        $cellAddress = "$cellAddress";
+>>>>>>> main
         if (ctype_digit($cellAddress)) {
             return $worksheet . '$' . $cellAddress;
         } elseif (ctype_alpha($cellAddress)) {
@@ -147,6 +188,10 @@ abstract class Coordinate
         $exploded = explode(',', $range);
         $counter = count($exploded);
         for ($i = 0; $i < $counter; ++$i) {
+<<<<<<< HEAD
+=======
+            // @phpstan-ignore-next-line
+>>>>>>> main
             $exploded[$i] = explode(':', $exploded[$i]);
         }
 
@@ -179,12 +224,20 @@ abstract class Coordinate
     /**
      * Calculate range boundaries.
      *
+<<<<<<< HEAD
      * @param string $range Cell range (e.g. A1:A1)
+=======
+     * @param string $range Cell range, Single Cell, Row/Column Range (e.g. A1:A1, B2, B:C, 2:3)
+>>>>>>> main
      *
      * @return array Range coordinates [Start Cell, End Cell]
      *                    where Start Cell and End Cell are arrays (Column Number, Row Number)
      */
+<<<<<<< HEAD
     public static function rangeBoundaries($range)
+=======
+    public static function rangeBoundaries(string $range): array
+>>>>>>> main
     {
         // Ensure $pRange is a valid range
         if (empty($range)) {
@@ -201,6 +254,19 @@ abstract class Coordinate
             [$rangeA, $rangeB] = explode(':', $range);
         }
 
+<<<<<<< HEAD
+=======
+        if (is_numeric($rangeA) && is_numeric($rangeB)) {
+            $rangeA = 'A' . $rangeA;
+            $rangeB = AddressRange::MAX_COLUMN . $rangeB;
+        }
+
+        if (ctype_alpha($rangeA) && ctype_alpha($rangeB)) {
+            $rangeA = $rangeA . '1';
+            $rangeB = $rangeB . AddressRange::MAX_ROW;
+        }
+
+>>>>>>> main
         // Calculate range outer borders
         $rangeStart = self::coordinateFromString($rangeA);
         $rangeEnd = self::coordinateFromString($rangeB);
@@ -215,7 +281,11 @@ abstract class Coordinate
     /**
      * Calculate range dimension.
      *
+<<<<<<< HEAD
      * @param string $range Cell range (e.g. A1:A1)
+=======
+     * @param string $range Cell range, Single Cell, Row/Column Range (e.g. A1:A1, B2, B:C, 2:3)
+>>>>>>> main
      *
      * @return array Range dimension (width, height)
      */
@@ -230,13 +300,18 @@ abstract class Coordinate
     /**
      * Calculate range boundaries.
      *
+<<<<<<< HEAD
      * @param string $range Cell range (e.g. A1:A1)
+=======
+     * @param string $range Cell range, Single Cell, Row/Column Range (e.g. A1:A1, B2, B:C, 2:3)
+>>>>>>> main
      *
      * @return array Range coordinates [Start Cell, End Cell]
      *                    where Start Cell and End Cell are arrays [Column ID, Row Number]
      */
     public static function getRangeBoundaries($range)
     {
+<<<<<<< HEAD
         // Ensure $pRange is a valid range
         if (empty($range)) {
             $range = self::DEFAULT_RANGE;
@@ -253,12 +328,24 @@ abstract class Coordinate
         }
 
         return [self::coordinateFromString($rangeA), self::coordinateFromString($rangeB)];
+=======
+        [$rangeA, $rangeB] = self::rangeBoundaries($range);
+
+        return [
+            [self::stringFromColumnIndex($rangeA[0]), $rangeA[1]],
+            [self::stringFromColumnIndex($rangeB[0]), $rangeB[1]],
+        ];
+>>>>>>> main
     }
 
     /**
      * Column index from string.
      *
+<<<<<<< HEAD
      * @param string $columnAddress eg 'A'
+=======
+     * @param ?string $columnAddress eg 'A'
+>>>>>>> main
      *
      * @return int Column index (A = 1)
      */
@@ -268,10 +355,15 @@ abstract class Coordinate
         //    caching using a static within the method is faster than a class static,
         //        though it's additional memory overhead
         static $indexCache = [];
+<<<<<<< HEAD
+=======
+        $columnAddress = $columnAddress ?? '';
+>>>>>>> main
 
         if (isset($indexCache[$columnAddress])) {
             return $indexCache[$columnAddress];
         }
+<<<<<<< HEAD
         //    It's surprising how costly the strtoupper() and ord() calls actually are, so we use a lookup array rather than use ord()
         //        and make it case insensitive to get rid of the strtoupper() as well. Because it's a static, there's no significant
         //        memory overhead either
@@ -284,23 +376,56 @@ abstract class Coordinate
 
         //    We also use the language construct isset() rather than the more costly strlen() function to match the length of $columnAddress
         //        for improved performance
+=======
+        //    It's surprising how costly the strtoupper() and ord() calls actually are, so we use a lookup array
+        //        rather than use ord() and make it case insensitive to get rid of the strtoupper() as well.
+        //        Because it's a static, there's no significant memory overhead either.
+        static $columnLookup = [
+            'A' => 1, 'B' => 2, 'C' => 3, 'D' => 4, 'E' => 5, 'F' => 6, 'G' => 7, 'H' => 8, 'I' => 9, 'J' => 10,
+            'K' => 11, 'L' => 12, 'M' => 13, 'N' => 14, 'O' => 15, 'P' => 16, 'Q' => 17, 'R' => 18, 'S' => 19,
+            'T' => 20, 'U' => 21, 'V' => 22, 'W' => 23, 'X' => 24, 'Y' => 25, 'Z' => 26,
+            'a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5, 'f' => 6, 'g' => 7, 'h' => 8, 'i' => 9, 'j' => 10,
+            'k' => 11, 'l' => 12, 'm' => 13, 'n' => 14, 'o' => 15, 'p' => 16, 'q' => 17, 'r' => 18, 's' => 19,
+            't' => 20, 'u' => 21, 'v' => 22, 'w' => 23, 'x' => 24, 'y' => 25, 'z' => 26,
+        ];
+
+        //    We also use the language construct isset() rather than the more costly strlen() function to match the
+        //       length of $columnAddress for improved performance
+>>>>>>> main
         if (isset($columnAddress[0])) {
             if (!isset($columnAddress[1])) {
                 $indexCache[$columnAddress] = $columnLookup[$columnAddress];
 
                 return $indexCache[$columnAddress];
             } elseif (!isset($columnAddress[2])) {
+<<<<<<< HEAD
                 $indexCache[$columnAddress] = $columnLookup[$columnAddress[0]] * 26 + $columnLookup[$columnAddress[1]];
 
                 return $indexCache[$columnAddress];
             } elseif (!isset($columnAddress[3])) {
                 $indexCache[$columnAddress] = $columnLookup[$columnAddress[0]] * 676 + $columnLookup[$columnAddress[1]] * 26 + $columnLookup[$columnAddress[2]];
+=======
+                $indexCache[$columnAddress] = $columnLookup[$columnAddress[0]] * 26
+                    + $columnLookup[$columnAddress[1]];
+
+                return $indexCache[$columnAddress];
+            } elseif (!isset($columnAddress[3])) {
+                $indexCache[$columnAddress] = $columnLookup[$columnAddress[0]] * 676
+                    + $columnLookup[$columnAddress[1]] * 26
+                    + $columnLookup[$columnAddress[2]];
+>>>>>>> main
 
                 return $indexCache[$columnAddress];
             }
         }
 
+<<<<<<< HEAD
         throw new Exception('Column string index can not be ' . ((isset($columnAddress[0])) ? 'longer than 3 characters' : 'empty'));
+=======
+        throw new Exception(
+            'Column string index can not be ' . ((isset($columnAddress[0])) ? 'longer than 3 characters' : 'empty')
+        );
+>>>>>>> main
     }
 
     /**
@@ -313,6 +438,7 @@ abstract class Coordinate
     public static function stringFromColumnIndex($columnIndex)
     {
         static $indexCache = [];
+<<<<<<< HEAD
 
         if (!isset($indexCache[$columnIndex])) {
             $indexValue = $columnIndex;
@@ -321,6 +447,17 @@ abstract class Coordinate
                 $characterValue = ($indexValue % 26) ?: 26;
                 $indexValue = ($indexValue - $characterValue) / 26;
                 $base26 = chr($characterValue + 64) . ($base26 ?: '');
+=======
+        static $lookupCache = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        if (!isset($indexCache[$columnIndex])) {
+            $indexValue = $columnIndex;
+            $base26 = '';
+            do {
+                $characterValue = ($indexValue % 26) ?: 26;
+                $indexValue = ($indexValue - $characterValue) / 26;
+                $base26 = $lookupCache[$characterValue] . $base26;
+>>>>>>> main
             } while ($indexValue > 0);
             $indexCache[$columnIndex] = $base26;
         }
@@ -337,6 +474,22 @@ abstract class Coordinate
      */
     public static function extractAllCellReferencesInRange($cellRange): array
     {
+<<<<<<< HEAD
+=======
+        if (substr_count($cellRange, '!') > 1) {
+            throw new Exception('3-D Range References are not supported');
+        }
+
+        [$worksheet, $cellRange] = Worksheet::extractSheetTitle($cellRange, true);
+        $quoted = '';
+        if ($worksheet > '') {
+            $quoted = Worksheet::nameRequiresQuotes($worksheet) ? "'" : '';
+            if (substr($worksheet, 0, 1) === "'" && substr($worksheet, -1, 1) === "'") {
+                $worksheet = substr($worksheet, 1, -1);
+            }
+            $worksheet = str_replace("'", "''", $worksheet);
+        }
+>>>>>>> main
         [$ranges, $operators] = self::getCellBlocksFromRangeString($cellRange);
 
         $cells = [];
@@ -351,9 +504,19 @@ abstract class Coordinate
         }
 
         $cellList = array_merge(...$cells);
+<<<<<<< HEAD
         $cellList = self::sortCellReferenceArray($cellList);
 
         return $cellList;
+=======
+
+        return array_map(
+            function ($cellAddress) use ($worksheet, $quoted) {
+                return ($worksheet !== '') ? "{$quoted}{$worksheet}{$quoted}!{$cellAddress}" : $cellAddress;
+            },
+            self::sortCellReferenceArray($cellList)
+        );
+>>>>>>> main
     }
 
     private static function processRangeSetOperators(array $operators, array $cells): array
@@ -380,9 +543,18 @@ abstract class Coordinate
     {
         //    Sort the result by column and row
         $sortKeys = [];
+<<<<<<< HEAD
         foreach ($cellList as $coord) {
             [$column, $row] = sscanf($coord, '%[A-Z]%d');
             $sortKeys[sprintf('%3s%09d', $column, $row)] = $coord;
+=======
+        foreach ($cellList as $coordinate) {
+            $column = '';
+            $row = 0;
+            sscanf($coordinate, '%[A-Z]%d', $column, $row);
+            $key = (--$row * 16384) + self::columnIndexFromString((string) $column);
+            $sortKeys[$key] = $coordinate;
+>>>>>>> main
         }
         ksort($sortKeys);
 
@@ -427,7 +599,11 @@ abstract class Coordinate
             $currentColumnIndex = $startColumnIndex;
             $currentRow = $startRow;
 
+<<<<<<< HEAD
             self::validateRange($cellBlock, $startColumnIndex, $endColumnIndex, $currentRow, $endRow);
+=======
+            self::validateRange($cellBlock, $startColumnIndex, $endColumnIndex, (int) $currentRow, (int) $endRow);
+>>>>>>> main
 
             // Loop cells
             while ($currentColumnIndex < $endColumnIndex) {
@@ -474,7 +650,11 @@ abstract class Coordinate
 
             [$column, $row] = self::coordinateFromString($coord);
             $row = (int) (ltrim($row, '$'));
+<<<<<<< HEAD
             $hashCode = $column . '-' . (is_object($value) ? $value->getHashCode() : $value);
+=======
+            $hashCode = $column . '-' . ((is_object($value) && method_exists($value, 'getHashCode')) ? $value->getHashCode() : $value);
+>>>>>>> main
 
             if (!isset($hashedValues[$hashCode])) {
                 $hashedValues[$hashCode] = (object) [
@@ -543,7 +723,11 @@ abstract class Coordinate
 
         // split range sets on intersection (space) or union (,) operators
         $tokens = preg_split('/([ ,])/', $rangeString, -1, PREG_SPLIT_DELIM_CAPTURE);
+<<<<<<< HEAD
         // separate the range sets and the operators into arrays
+=======
+        /** @phpstan-ignore-next-line */
+>>>>>>> main
         $split = array_chunk($tokens, 2);
         $ranges = array_column($split, 0);
         $operators = array_column($split, 1);

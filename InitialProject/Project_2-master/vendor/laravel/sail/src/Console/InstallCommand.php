@@ -3,9 +3,19 @@
 namespace Laravel\Sail\Console;
 
 use Illuminate\Console\Command;
+<<<<<<< HEAD
 
 class InstallCommand extends Command
 {
+=======
+use RuntimeException;
+use Symfony\Component\Process\Process;
+
+class InstallCommand extends Command
+{
+    use Concerns\InteractsWithDockerComposeServices;
+
+>>>>>>> main
     /**
      * The name and signature of the console command.
      *
@@ -25,26 +35,47 @@ class InstallCommand extends Command
     /**
      * Execute the console command.
      *
+<<<<<<< HEAD
      * @return void
+=======
+     * @return int|null
+>>>>>>> main
      */
     public function handle()
     {
         if ($this->option('with')) {
             $services = $this->option('with') == 'none' ? [] : explode(',', $this->option('with'));
         } elseif ($this->option('no-interaction')) {
+<<<<<<< HEAD
             $services = ['mysql', 'redis', 'selenium', 'mailhog'];
         } else {
             $services = $this->gatherServicesWithSymfonyMenu();
+=======
+            $services = $this->defaultServices;
+        } else {
+            $services = $this->gatherServicesInteractively();
+        }
+
+        if ($invalidServices = array_diff($services, $this->services)) {
+            $this->error('Invalid services ['.implode(',', $invalidServices).'].');
+
+            return 1;
+>>>>>>> main
         }
 
         $this->buildDockerCompose($services);
         $this->replaceEnvVariables($services);
+<<<<<<< HEAD
+=======
+        $this->configurePhpUnit();
+>>>>>>> main
 
         if ($this->option('devcontainer')) {
             $this->installDevContainer();
         }
 
         $this->info('Sail scaffolding installed successfully.');
+<<<<<<< HEAD
     }
 
     /**
@@ -170,5 +201,9 @@ class InstallCommand extends Command
         $environment .= "\nWWWUSER=1000\n";
 
         file_put_contents($this->laravel->basePath('.env'), $environment);
+=======
+
+        $this->prepareInstallation($services);
+>>>>>>> main
     }
 }

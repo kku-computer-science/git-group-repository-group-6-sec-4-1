@@ -33,7 +33,15 @@ class HTMLPurifier_AttrTransform_TargetBlank extends HTMLPurifier_AttrTransform
 
         // XXX Kind of inefficient
         $url = $this->parser->parse($attr['href']);
+<<<<<<< HEAD
         $scheme = $url->getSchemeObj($config, $context);
+=======
+        
+        // Ignore invalid schemes (e.g. `javascript:`)
+        if (!($scheme = $url->getSchemeObj($config, $context))) {
+            return $attr;
+        }
+>>>>>>> main
 
         if ($scheme->browsable && !$url->isBenign($config, $context)) {
             $attr['target'] = '_blank';

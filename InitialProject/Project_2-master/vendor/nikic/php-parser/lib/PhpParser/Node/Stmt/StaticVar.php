@@ -2,6 +2,7 @@
 
 namespace PhpParser\Node\Stmt;
 
+<<<<<<< HEAD
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 
@@ -33,5 +34,12 @@ class StaticVar extends Node\Stmt
     
     public function getType() : string {
         return 'Stmt_StaticVar';
+=======
+require __DIR__ . '/../StaticVar.php';
+
+if (false) {
+    // For classmap-authoritative support.
+    class StaticVar extends \PhpParser\Node\StaticVar {
+>>>>>>> main
     }
 }

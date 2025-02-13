@@ -1,5 +1,10 @@
 <?php
 
+<<<<<<< HEAD
+=======
+declare(strict_types=1);
+
+>>>>>>> main
 namespace GuzzleHttp\Promise;
 
 /**
@@ -9,8 +14,13 @@ interface PromisorInterface
 {
     /**
      * Returns a promise.
+<<<<<<< HEAD
      *
      * @return PromiseInterface
      */
     public function promise();
+=======
+     */
+    public function promise(): PromiseInterface;
+>>>>>>> main
 }

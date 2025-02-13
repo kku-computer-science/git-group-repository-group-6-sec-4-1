@@ -25,7 +25,11 @@ class ContainerControllerResolver extends ControllerResolver
 {
     protected $container;
 
+<<<<<<< HEAD
     public function __construct(ContainerInterface $container, LoggerInterface $logger = null)
+=======
+    public function __construct(ContainerInterface $container, ?LoggerInterface $logger = null)
+>>>>>>> main
     {
         $this->container = $container;
 

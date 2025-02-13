@@ -6,6 +6,10 @@ use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 use PhpOffice\PhpSpreadsheet\Calculation\Financial\CashFlow\CashFlowValidations;
 use PhpOffice\PhpSpreadsheet\Calculation\Financial\Constants as FinancialConstants;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class Periodic
 {
@@ -94,7 +98,11 @@ class Periodic
 
         // Validate parameters
         if ($numberOfPeriods < 0) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         return self::calculatePresentValue($rate, $numberOfPeriods, $payment, $futureValue, $type);
@@ -138,7 +146,11 @@ class Periodic
 
         // Validate parameters
         if ($payment == 0.0) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         return self::calculatePeriods($rate, $payment, $presentValue, $futureValue, $type);
@@ -187,7 +199,11 @@ class Periodic
     ) {
         if ($rate != 0.0) {
             if ($presentValue == 0.0) {
+<<<<<<< HEAD
                 return Functions::NAN();
+=======
+                return ExcelError::NAN();
+>>>>>>> main
             }
 
             return log(($payment * (1 + $rate * $type) / $rate - $futureValue) /

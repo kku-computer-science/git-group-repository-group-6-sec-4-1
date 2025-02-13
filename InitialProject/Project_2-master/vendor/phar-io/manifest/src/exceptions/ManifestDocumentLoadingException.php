@@ -2,14 +2,26 @@
 /*
  * This file is part of PharIo\Manifest.
  *
+<<<<<<< HEAD
  * (c) Arne Blankerts <arne@blankerts.de>, Sebastian Heuer <sebastian@phpeople.de>, Sebastian Bergmann <sebastian@phpunit.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+=======
+ * Copyright (c) Arne Blankerts <arne@blankerts.de>, Sebastian Heuer <sebastian@phpeople.de>, Sebastian Bergmann <sebastian@phpunit.de> and contributors
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+>>>>>>> main
  */
 namespace PharIo\Manifest;
 
 use LibXMLError;
+<<<<<<< HEAD
+=======
+use function sprintf;
+>>>>>>> main
 
 class ManifestDocumentLoadingException extends \Exception implements Exception {
     /** @var LibXMLError[] */
@@ -25,7 +37,11 @@ class ManifestDocumentLoadingException extends \Exception implements Exception {
         $first              = $this->libxmlErrors[0];
 
         parent::__construct(
+<<<<<<< HEAD
             \sprintf(
+=======
+            sprintf(
+>>>>>>> main
                 '%s (Line: %d / Column: %d / File: %s)',
                 $first->message,
                 $first->line,

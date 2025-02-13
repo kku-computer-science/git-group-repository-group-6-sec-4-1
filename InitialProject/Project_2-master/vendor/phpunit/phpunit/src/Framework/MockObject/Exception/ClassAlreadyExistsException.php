@@ -21,8 +21,13 @@ final class ClassAlreadyExistsException extends \PHPUnit\Framework\Exception imp
         parent::__construct(
             sprintf(
                 'Class "%s" already exists',
+<<<<<<< HEAD
                 $className
             )
+=======
+                $className,
+            ),
+>>>>>>> main
         );
     }
 }

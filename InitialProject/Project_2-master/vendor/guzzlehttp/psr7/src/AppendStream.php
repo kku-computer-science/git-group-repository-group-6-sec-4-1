@@ -40,12 +40,20 @@ final class AppendStream implements StreamInterface
     {
         try {
             $this->rewind();
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
             return $this->getContents();
         } catch (\Throwable $e) {
             if (\PHP_VERSION_ID >= 70400) {
                 throw $e;
             }
             trigger_error(sprintf('%s::__toString exception: %s', self::class, (string) $e), E_USER_ERROR);
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
             return '';
         }
     }
@@ -138,9 +146,15 @@ final class AppendStream implements StreamInterface
 
     public function eof(): bool
     {
+<<<<<<< HEAD
         return !$this->streams ||
             ($this->current >= count($this->streams) - 1 &&
              $this->streams[$this->current]->eof());
+=======
+        return !$this->streams
+            || ($this->current >= count($this->streams) - 1
+             && $this->streams[$this->current]->eof());
+>>>>>>> main
     }
 
     public function rewind(): void
@@ -167,7 +181,11 @@ final class AppendStream implements StreamInterface
                 $stream->rewind();
             } catch (\Exception $e) {
                 throw new \RuntimeException('Unable to seek stream '
+<<<<<<< HEAD
                     . $i . ' of the AppendStream', 0, $e);
+=======
+                    .$i.' of the AppendStream', 0, $e);
+>>>>>>> main
             }
         }
 
@@ -191,14 +209,21 @@ final class AppendStream implements StreamInterface
         $progressToNext = false;
 
         while ($remaining > 0) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
             // Progress to the next stream if needed.
             if ($progressToNext || $this->streams[$this->current]->eof()) {
                 $progressToNext = false;
                 if ($this->current === $total) {
                     break;
                 }
+<<<<<<< HEAD
                 $this->current++;
+=======
+                ++$this->current;
+>>>>>>> main
             }
 
             $result = $this->streams[$this->current]->read($remaining);
@@ -238,8 +263,11 @@ final class AppendStream implements StreamInterface
     }
 
     /**
+<<<<<<< HEAD
      * {@inheritdoc}
      *
+=======
+>>>>>>> main
      * @return mixed
      */
     public function getMetadata($key = null)

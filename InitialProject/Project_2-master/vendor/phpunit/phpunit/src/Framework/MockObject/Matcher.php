@@ -16,11 +16,19 @@ use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\MockObject\Rule\AnyInvokedCount;
 use PHPUnit\Framework\MockObject\Rule\AnyParameters;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
+<<<<<<< HEAD
+=======
+use PHPUnit\Framework\MockObject\Rule\InvokedAtMostCount;
+>>>>>>> main
 use PHPUnit\Framework\MockObject\Rule\InvokedCount;
 use PHPUnit\Framework\MockObject\Rule\MethodName;
 use PHPUnit\Framework\MockObject\Rule\ParametersRule;
 use PHPUnit\Framework\MockObject\Stub\Stub;
 use PHPUnit\Framework\TestFailure;
+<<<<<<< HEAD
+=======
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+>>>>>>> main
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
@@ -116,8 +124,13 @@ final class Matcher
 
         if ($this->afterMatchBuilderId !== null) {
             $matcher = $invocation->getObject()
+<<<<<<< HEAD
                                   ->__phpunit_getInvocationHandler()
                                   ->lookupMatcher($this->afterMatchBuilderId);
+=======
+                ->__phpunit_getInvocationHandler()
+                ->lookupMatcher($this->afterMatchBuilderId);
+>>>>>>> main
 
             if (!$matcher) {
                 throw new MatchBuilderNotFoundException($this->afterMatchBuilderId);
@@ -142,9 +155,15 @@ final class Matcher
                     "Expectation failed for %s when %s\n%s",
                     $this->methodNameRule->toString(),
                     $this->invocationRule->toString(),
+<<<<<<< HEAD
                     $e->getMessage()
                 ),
                 $e->getComparisonFailure()
+=======
+                    $e->getMessage(),
+                ),
+                $e->getComparisonFailure(),
+>>>>>>> main
             );
         }
 
@@ -156,8 +175,13 @@ final class Matcher
     }
 
     /**
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws ExpectationFailedException
+=======
+     * @throws ExpectationFailedException
+     * @throws InvalidArgumentException
+>>>>>>> main
      * @throws MatchBuilderNotFoundException
      * @throws MethodNameNotConfiguredException
      * @throws RuntimeException
@@ -166,8 +190,13 @@ final class Matcher
     {
         if ($this->afterMatchBuilderId !== null) {
             $matcher = $invocation->getObject()
+<<<<<<< HEAD
                                   ->__phpunit_getInvocationHandler()
                                   ->lookupMatcher($this->afterMatchBuilderId);
+=======
+                ->__phpunit_getInvocationHandler()
+                ->lookupMatcher($this->afterMatchBuilderId);
+>>>>>>> main
 
             if (!$matcher) {
                 throw new MatchBuilderNotFoundException($this->afterMatchBuilderId);
@@ -198,9 +227,15 @@ final class Matcher
                     "Expectation failed for %s when %s\n%s",
                     $this->methodNameRule->toString(),
                     $this->invocationRule->toString(),
+<<<<<<< HEAD
                     $e->getMessage()
                 ),
                 $e->getComparisonFailure()
+=======
+                    $e->getMessage(),
+                ),
+                $e->getComparisonFailure(),
+>>>>>>> main
             );
         }
 
@@ -208,8 +243,13 @@ final class Matcher
     }
 
     /**
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws ExpectationFailedException
+=======
+     * @throws ExpectationFailedException
+     * @throws InvalidArgumentException
+>>>>>>> main
      * @throws MethodNameNotConfiguredException
      */
     public function verify(): void
@@ -225,10 +265,18 @@ final class Matcher
                 $this->parametersRule = new AnyParameters;
             }
 
+<<<<<<< HEAD
             $invocationIsAny   = $this->invocationRule instanceof AnyInvokedCount;
             $invocationIsNever = $this->invocationRule instanceof InvokedCount && $this->invocationRule->isNever();
 
             if (!$invocationIsAny && !$invocationIsNever) {
+=======
+            $invocationIsAny    = $this->invocationRule instanceof AnyInvokedCount;
+            $invocationIsNever  = $this->invocationRule instanceof InvokedCount && $this->invocationRule->isNever();
+            $invocationIsAtMost = $this->invocationRule instanceof InvokedAtMostCount;
+
+            if (!$invocationIsAny && !$invocationIsNever && !$invocationIsAtMost) {
+>>>>>>> main
                 $this->parametersRule->verify();
             }
         } catch (ExpectationFailedException $e) {
@@ -237,8 +285,13 @@ final class Matcher
                     "Expectation failed for %s when %s.\n%s",
                     $this->methodNameRule->toString(),
                     $this->invocationRule->toString(),
+<<<<<<< HEAD
                     TestFailure::exceptionToString($e)
                 )
+=======
+                    TestFailure::exceptionToString($e),
+                ),
+>>>>>>> main
             );
         }
     }

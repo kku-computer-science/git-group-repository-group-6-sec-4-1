@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 /**
  * Mockery
  *
@@ -16,6 +17,15 @@
  * @package    Mockery
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+=======
+
+/**
+ * Mockery (https://docs.mockery.io/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
+>>>>>>> main
  */
 
 namespace Mockery\Matcher;
@@ -23,6 +33,7 @@ namespace Mockery\Matcher;
 class Closure extends MatcherAbstract
 {
     /**
+<<<<<<< HEAD
      * Check if the actual value matches the expected.
      *
      * @param mixed $actual
@@ -36,6 +47,8 @@ class Closure extends MatcherAbstract
     }
 
     /**
+=======
+>>>>>>> main
      * Return a string representation of this Matcher
      *
      * @return string
@@ -44,4 +57,21 @@ class Closure extends MatcherAbstract
     {
         return '<Closure===true>';
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * Check if the actual value matches the expected.
+     *
+     * @template TMixed
+     *
+     * @param TMixed $actual
+     *
+     * @return bool
+     */
+    public function match(&$actual)
+    {
+        return ($this->_expected)($actual) === true;
+    }
+>>>>>>> main
 }

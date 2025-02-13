@@ -17,6 +17,10 @@ class HTMLPurifier_HTMLModule_CommonAttributes extends HTMLPurifier_HTMLModule
             'class' => 'Class',
             'id' => 'ID',
             'title' => 'CDATA',
+<<<<<<< HEAD
+=======
+            'contenteditable' => 'ContentEditable',
+>>>>>>> main
         ),
         'Lang' => array(),
         'I18N' => array(

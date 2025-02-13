@@ -15,12 +15,25 @@ use function is_iterable;
 use function sprintf;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\IsEqual;
+<<<<<<< HEAD
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\InvalidParameterGroupException;
 use PHPUnit\Framework\MockObject\Invocation as BaseInvocation;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
+=======
+use PHPUnit\Framework\Exception;
+use PHPUnit\Framework\ExpectationFailedException;
+use PHPUnit\Framework\InvalidParameterGroupException;
+use PHPUnit\Framework\MockObject\Invocation as BaseInvocation;
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ *
+ * @deprecated
+>>>>>>> main
  */
 final class ConsecutiveParameters implements ParametersRule
 {
@@ -35,7 +48,11 @@ final class ConsecutiveParameters implements ParametersRule
     private $invocations = [];
 
     /**
+<<<<<<< HEAD
      * @throws \PHPUnit\Framework\Exception
+=======
+     * @throws Exception
+>>>>>>> main
      */
     public function __construct(array $parameterGroups)
     {
@@ -45,8 +62,13 @@ final class ConsecutiveParameters implements ParametersRule
                     sprintf(
                         'Parameter group #%d must be an array or Traversable, got %s',
                         $index,
+<<<<<<< HEAD
                         gettype($parameters)
                     )
+=======
+                        gettype($parameters),
+                    ),
+>>>>>>> main
                 );
             }
 
@@ -66,8 +88,13 @@ final class ConsecutiveParameters implements ParametersRule
     }
 
     /**
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws ExpectationFailedException
+=======
+     * @throws ExpectationFailedException
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     public function apply(BaseInvocation $invocation): void
     {
@@ -78,8 +105,13 @@ final class ConsecutiveParameters implements ParametersRule
     }
 
     /**
+<<<<<<< HEAD
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws ExpectationFailedException
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     public function verify(): void
     {
@@ -93,8 +125,13 @@ final class ConsecutiveParameters implements ParametersRule
      *
      * @param int $callIndex
      *
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws ExpectationFailedException
+=======
+     * @throws ExpectationFailedException
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     private function verifyInvocation(BaseInvocation $invocation, $callIndex): void
     {
@@ -109,8 +146,13 @@ final class ConsecutiveParameters implements ParametersRule
             throw new ExpectationFailedException(
                 sprintf(
                     'Parameter count for invocation %s is too low.',
+<<<<<<< HEAD
                     $invocation->toString()
                 )
+=======
+                    $invocation->toString(),
+                ),
+>>>>>>> main
             );
         }
 
@@ -122,8 +164,13 @@ final class ConsecutiveParameters implements ParametersRule
                     'value.',
                     $i,
                     $callIndex,
+<<<<<<< HEAD
                     $invocation->toString()
                 )
+=======
+                    $invocation->toString(),
+                ),
+>>>>>>> main
             );
         }
     }

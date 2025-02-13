@@ -48,7 +48,11 @@ class YamlFileLoader extends FileLoader
      *
      * @throws \InvalidArgumentException When a route can't be parsed because YAML is invalid
      */
+<<<<<<< HEAD
     public function load($file, string $type = null)
+=======
+    public function load($file, ?string $type = null)
+>>>>>>> main
     {
         $path = $this->locator->locate($file);
 
@@ -117,7 +121,11 @@ class YamlFileLoader extends FileLoader
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function supports($resource, string $type = null)
+=======
+    public function supports($resource, ?string $type = null)
+>>>>>>> main
     {
         return \is_string($resource) && \in_array(pathinfo($resource, \PATHINFO_EXTENSION), ['yml', 'yaml'], true) && (!$type || 'yaml' === $type);
     }

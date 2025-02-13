@@ -28,7 +28,11 @@ class CollectionConfigurator
     private $parentPrefixes;
     private $host;
 
+<<<<<<< HEAD
     public function __construct(RouteCollection $parent, string $name, self $parentConfigurator = null, array $parentPrefixes = null)
+=======
+    public function __construct(RouteCollection $parent, string $name, ?self $parentConfigurator = null, ?array $parentPrefixes = null)
+>>>>>>> main
     {
         $this->parent = $parent;
         $this->name = $name;

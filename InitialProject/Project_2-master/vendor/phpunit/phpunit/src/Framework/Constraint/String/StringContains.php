@@ -48,7 +48,11 @@ final class StringContains extends Constraint
 
         return sprintf(
             'contains "%s"',
+<<<<<<< HEAD
             $string
+=======
+            $string,
+>>>>>>> main
         );
     }
 

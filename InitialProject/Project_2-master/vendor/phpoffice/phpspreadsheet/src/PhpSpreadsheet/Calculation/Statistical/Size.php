@@ -3,6 +3,10 @@
 namespace PhpOffice\PhpSpreadsheet\Calculation\Statistical;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class Size
 {
@@ -30,15 +34,24 @@ class Size
             $mArgs = self::filter($aArgs);
             $count = Counts::COUNT($mArgs);
             --$entry;
+<<<<<<< HEAD
             if (($entry < 0) || ($entry >= $count) || ($count == 0)) {
                 return Functions::NAN();
+=======
+            if ($count === 0 || $entry < 0 || $entry >= $count) {
+                return ExcelError::NAN();
+>>>>>>> main
             }
             rsort($mArgs);
 
             return $mArgs[$entry];
         }
 
+<<<<<<< HEAD
         return Functions::VALUE();
+=======
+        return ExcelError::VALUE();
+>>>>>>> main
     }
 
     /**
@@ -66,15 +79,24 @@ class Size
             $mArgs = self::filter($aArgs);
             $count = Counts::COUNT($mArgs);
             --$entry;
+<<<<<<< HEAD
             if (($entry < 0) || ($entry >= $count) || ($count == 0)) {
                 return Functions::NAN();
+=======
+            if ($count === 0 || $entry < 0 || $entry >= $count) {
+                return ExcelError::NAN();
+>>>>>>> main
             }
             sort($mArgs);
 
             return $mArgs[$entry];
         }
 
+<<<<<<< HEAD
         return Functions::VALUE();
+=======
+        return ExcelError::VALUE();
+>>>>>>> main
     }
 
     /**

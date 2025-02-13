@@ -2,6 +2,7 @@
 
 namespace PhpParser\Node\Expr;
 
+<<<<<<< HEAD
 use PhpParser\Node\Expr;
 
 class ArrayItem extends Expr
@@ -37,5 +38,12 @@ class ArrayItem extends Expr
 
     public function getType() : string {
         return 'Expr_ArrayItem';
+=======
+require __DIR__ . '/../ArrayItem.php';
+
+if (false) {
+    // For classmap-authoritative support.
+    class ArrayItem extends \PhpParser\Node\ArrayItem {
+>>>>>>> main
     }
 }

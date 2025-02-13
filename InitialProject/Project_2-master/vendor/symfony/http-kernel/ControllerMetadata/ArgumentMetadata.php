@@ -107,9 +107,15 @@ class ArgumentMetadata
     /**
      * Returns the default value of the argument.
      *
+<<<<<<< HEAD
      * @throws \LogicException if no default value is present; {@see self::hasDefaultValue()}
      *
      * @return mixed
+=======
+     * @return mixed
+     *
+     * @throws \LogicException if no default value is present; {@see self::hasDefaultValue()}
+>>>>>>> main
      */
     public function getDefaultValue()
     {
@@ -137,7 +143,11 @@ class ArgumentMetadata
     /**
      * @return object[]
      */
+<<<<<<< HEAD
     public function getAttributes(string $name = null, int $flags = 0): array
+=======
+    public function getAttributes(?string $name = null, int $flags = 0): array
+>>>>>>> main
     {
         if (!$name) {
             return $this->attributes;

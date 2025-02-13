@@ -15,10 +15,17 @@ interface UploadedFileFactoryInterface
      *
      * @param StreamInterface $stream Underlying stream representing the
      *     uploaded file content.
+<<<<<<< HEAD
      * @param int $size in bytes
      * @param int $error PHP file upload error
      * @param string $clientFilename Filename as provided by the client, if any.
      * @param string $clientMediaType Media type as provided by the client, if any.
+=======
+     * @param int|null $size in bytes
+     * @param int $error PHP file upload error
+     * @param string|null $clientFilename Filename as provided by the client, if any.
+     * @param string|null $clientMediaType Media type as provided by the client, if any.
+>>>>>>> main
      *
      * @return UploadedFileInterface
      *
@@ -26,9 +33,16 @@ interface UploadedFileFactoryInterface
      */
     public function createUploadedFile(
         StreamInterface $stream,
+<<<<<<< HEAD
         int $size = null,
         int $error = \UPLOAD_ERR_OK,
         string $clientFilename = null,
         string $clientMediaType = null
+=======
+        ?int $size = null,
+        int $error = \UPLOAD_ERR_OK,
+        ?string $clientFilename = null,
+        ?string $clientMediaType = null
+>>>>>>> main
     ): UploadedFileInterface;
 }

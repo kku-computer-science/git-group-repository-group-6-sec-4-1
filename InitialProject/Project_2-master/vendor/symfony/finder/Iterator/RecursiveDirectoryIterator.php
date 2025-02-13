@@ -29,7 +29,11 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
     /**
      * @var bool
      */
+<<<<<<< HEAD
     private $rewindable;
+=======
+    private $ignoreFirstRewind = true;
+>>>>>>> main
 
     // these 3 properties take part of the performance optimization to avoid redoing the same work in all iterations
     private $rootPath;
@@ -70,8 +74,14 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
             $subPathname .= $this->directorySeparator;
         }
         $subPathname .= $this->getFilename();
+<<<<<<< HEAD
 
         if ('/' !== $basePath = $this->rootPath) {
+=======
+        $basePath = $this->rootPath;
+
+        if ('/' !== $basePath && !str_ends_with($basePath, $this->directorySeparator) && !str_ends_with($basePath, '/')) {
+>>>>>>> main
             $basePath .= $this->directorySeparator;
         }
 
@@ -118,7 +128,10 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
                 $children->ignoreUnreadableDirs = $this->ignoreUnreadableDirs;
 
                 // performance optimization to avoid redoing the same work in all children
+<<<<<<< HEAD
                 $children->rewindable = &$this->rewindable;
+=======
+>>>>>>> main
                 $children->rootPath = $this->rootPath;
             }
 
@@ -129,19 +142,42 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
     }
 
     /**
+<<<<<<< HEAD
      * Do nothing for non rewindable stream.
      *
+=======
+     * @return void
+     */
+    #[\ReturnTypeWillChange]
+    public function next()
+    {
+        $this->ignoreFirstRewind = false;
+
+        parent::next();
+    }
+
+    /**
+>>>>>>> main
      * @return void
      */
     #[\ReturnTypeWillChange]
     public function rewind()
     {
+<<<<<<< HEAD
         if (false === $this->isRewindable()) {
+=======
+        // some streams like FTP are not rewindable, ignore the first rewind after creation,
+        // as newly created DirectoryIterator does not need to be rewound
+        if ($this->ignoreFirstRewind) {
+            $this->ignoreFirstRewind = false;
+
+>>>>>>> main
             return;
         }
 
         parent::rewind();
     }
+<<<<<<< HEAD
 
     /**
      * Checks if the stream is rewindable.
@@ -165,4 +201,6 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
 
         return $this->rewindable = false;
     }
+=======
+>>>>>>> main
 }

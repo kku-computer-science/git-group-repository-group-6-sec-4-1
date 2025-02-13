@@ -191,6 +191,7 @@ class Slk extends BaseReader
 
     /**
      * Loads PhpSpreadsheet from file.
+<<<<<<< HEAD
      *
      * @return Spreadsheet
      */
@@ -198,6 +199,11 @@ class Slk extends BaseReader
     {
         $this->processFlags($flags);
 
+=======
+     */
+    protected function loadSpreadsheetFromFile(string $filename): Spreadsheet
+    {
+>>>>>>> main
         // Create new Spreadsheet
         $spreadsheet = new Spreadsheet();
 
@@ -230,7 +236,11 @@ class Slk extends BaseReader
         $key = false;
         foreach ($temp as &$value) {
             //    Only count/replace in alternate array entries
+<<<<<<< HEAD
             $key = !$key;
+=======
+            $key = $key === false;
+>>>>>>> main
             if ($key) {
                 preg_match_all('/(R(\[?-?\d*\]?))(C(\[?-?\d*\]?))/', $value, $cellReferences, PREG_SET_ORDER + PREG_OFFSET_CAPTURE);
                 //    Reverse the matches array, otherwise all our offsets will become incorrect if we modify our way
@@ -258,7 +268,11 @@ class Slk extends BaseReader
                     if ($columnReference[0] == '[') {
                         $columnReference = (int) $column + (int) trim($columnReference, '[]');
                     }
+<<<<<<< HEAD
                     $A1CellReference = Coordinate::stringFromColumnIndex($columnReference) . $rowReference;
+=======
+                    $A1CellReference = Coordinate::stringFromColumnIndex((int) $columnReference) . $rowReference;
+>>>>>>> main
 
                     $value = substr_replace($value, $A1CellReference, $cellReference[0][1], strlen($cellReference[0][0]));
                 }
@@ -454,7 +468,11 @@ class Slk extends BaseReader
 
                     break;
                 case 'M':
+<<<<<<< HEAD
                     $formatArray['font']['size'] = substr($rowDatum, 1) / 20;
+=======
+                    $formatArray['font']['size'] = ((float) substr($rowDatum, 1)) / 20;
+>>>>>>> main
 
                     break;
                 case 'L':

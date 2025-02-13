@@ -220,7 +220,11 @@ class Shadow implements IComparable
      *
      * @return $this
      */
+<<<<<<< HEAD
     public function setColor(?Color $color = null)
+=======
+    public function setColor(Color $color)
+>>>>>>> main
     {
         $this->color = $color;
 

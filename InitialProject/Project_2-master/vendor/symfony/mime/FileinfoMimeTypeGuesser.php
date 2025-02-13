@@ -24,11 +24,19 @@ class FileinfoMimeTypeGuesser implements MimeTypeGuesserInterface
     private $magicFile;
 
     /**
+<<<<<<< HEAD
      * @param string $magicFile A magic file to use with the finfo instance
      *
      * @see http://www.php.net/manual/en/function.finfo-open.php
      */
     public function __construct(string $magicFile = null)
+=======
+     * @param string|null $magicFile A magic file to use with the finfo instance
+     *
+     * @see http://www.php.net/manual/en/function.finfo-open.php
+     */
+    public function __construct(?string $magicFile = null)
+>>>>>>> main
     {
         $this->magicFile = $magicFile;
     }

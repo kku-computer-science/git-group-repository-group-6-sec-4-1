@@ -9,6 +9,13 @@
  * file that was distributed with this source code.
  */
 
+<<<<<<< HEAD
+=======
+if ('cli' !== \PHP_SAPI) {
+    throw new Exception('This script must be run from the command line.');
+}
+
+>>>>>>> main
 $usageInstructions = <<<END
 
   Usage instructions
@@ -62,7 +69,11 @@ foreach (array_slice($argv, 1) as $argumentOrOption) {
         continue;
     }
 
+<<<<<<< HEAD
     if (0 === strpos($argumentOrOption, '-')) {
+=======
+    if (str_starts_with($argumentOrOption, '-')) {
+>>>>>>> main
         $config['verbose_output'] = true;
     } else {
         $config['locale_to_analyze'] = $argumentOrOption;
@@ -83,19 +94,28 @@ foreach ($config['original_files'] as $originalFilePath) {
     $translationFilePaths = findTranslationFiles($originalFilePath, $config['locale_to_analyze']);
     $translationStatus = calculateTranslationStatus($originalFilePath, $translationFilePaths);
 
+<<<<<<< HEAD
     $totalMissingTranslations += array_sum(array_map(function ($translation) {
         return count($translation['missingKeys']);
     }, array_values($translationStatus)));
     $totalTranslationMismatches += array_sum(array_map(function ($translation) {
         return count($translation['mismatches']);
     }, array_values($translationStatus)));
+=======
+    $totalMissingTranslations += array_sum(array_map(fn ($translation) => count($translation['missingKeys']), array_values($translationStatus)));
+    $totalTranslationMismatches += array_sum(array_map(fn ($translation) => count($translation['mismatches']), array_values($translationStatus)));
+>>>>>>> main
 
     printTranslationStatus($originalFilePath, $translationStatus, $config['verbose_output'], $config['include_completed_languages']);
 }
 
 exit($totalTranslationMismatches > 0 ? 1 : 0);
 
+<<<<<<< HEAD
 function findTranslationFiles($originalFilePath, $localeToAnalyze)
+=======
+function findTranslationFiles($originalFilePath, $localeToAnalyze): array
+>>>>>>> main
 {
     $translations = [];
 
@@ -118,7 +138,11 @@ function findTranslationFiles($originalFilePath, $localeToAnalyze)
     return $translations;
 }
 
+<<<<<<< HEAD
 function calculateTranslationStatus($originalFilePath, $translationFilePaths)
+=======
+function calculateTranslationStatus($originalFilePath, $translationFilePaths): array
+>>>>>>> main
 {
     $translationStatus = [];
     $allTranslationKeys = extractTranslationKeys($originalFilePath);
@@ -159,6 +183,7 @@ function extractLocaleFromFilePath($filePath)
     return $parts[count($parts) - 2];
 }
 
+<<<<<<< HEAD
 function extractTranslationKeys($filePath)
 {
     $translationKeys = [];
@@ -167,6 +192,16 @@ function extractTranslationKeys($filePath)
     foreach ($contents->file->body->{'trans-unit'} as $translationKey) {
         $translationId = (string) $translationKey['id'];
         $translationKey = (string) $translationKey->source;
+=======
+function extractTranslationKeys($filePath): array
+{
+    $translationKeys = [];
+    $contents = new SimpleXMLElement(file_get_contents($filePath));
+
+    foreach ($contents->file->body->{'trans-unit'} as $translationKey) {
+        $translationId = (string) $translationKey['id'];
+        $translationKey = (string) ($translationKey['resname'] ?? $translationKey->source);
+>>>>>>> main
 
         $translationKeys[$translationId] = $translationKey;
     }

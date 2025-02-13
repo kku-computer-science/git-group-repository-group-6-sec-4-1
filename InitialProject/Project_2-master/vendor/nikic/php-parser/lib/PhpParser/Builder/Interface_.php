@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 
+<<<<<<< HEAD
 class Interface_ extends Declaration
 {
     protected $name;
@@ -17,6 +18,18 @@ class Interface_ extends Declaration
 
     /** @var Node\AttributeGroup[] */
     protected $attributeGroups = [];
+=======
+class Interface_ extends Declaration {
+    protected string $name;
+    /** @var list<Name> */
+    protected array $extends = [];
+    /** @var list<Stmt\ClassConst> */
+    protected array $constants = [];
+    /** @var list<Stmt\ClassMethod> */
+    protected array $methods = [];
+    /** @var list<Node\AttributeGroup> */
+    protected array $attributeGroups = [];
+>>>>>>> main
 
     /**
      * Creates an interface builder.
@@ -83,7 +96,11 @@ class Interface_ extends Declaration
      *
      * @return Stmt\Interface_ The built interface node
      */
+<<<<<<< HEAD
     public function getNode() : PhpParser\Node {
+=======
+    public function getNode(): PhpParser\Node {
+>>>>>>> main
         return new Stmt\Interface_($this->name, [
             'extends' => $this->extends,
             'stmts' => array_merge($this->constants, $this->methods),

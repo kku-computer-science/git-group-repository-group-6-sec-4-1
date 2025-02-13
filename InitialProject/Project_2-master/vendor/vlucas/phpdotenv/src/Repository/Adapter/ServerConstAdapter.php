@@ -33,7 +33,11 @@ final class ServerConstAdapter implements AdapterInterface
     /**
      * Read an environment variable, if it exists.
      *
+<<<<<<< HEAD
      * @param string $name
+=======
+     * @param non-empty-string $name
+>>>>>>> main
      *
      * @return \PhpOption\Option<string>
      */
@@ -41,6 +45,12 @@ final class ServerConstAdapter implements AdapterInterface
     {
         /** @var \PhpOption\Option<string> */
         return Option::fromArraysValue($_SERVER, $name)
+<<<<<<< HEAD
+=======
+            ->filter(static function ($value) {
+                return \is_scalar($value);
+            })
+>>>>>>> main
             ->map(static function ($value) {
                 if ($value === false) {
                     return 'false';
@@ -50,17 +60,27 @@ final class ServerConstAdapter implements AdapterInterface
                     return 'true';
                 }
 
+<<<<<<< HEAD
                 return $value;
             })->filter(static function ($value) {
                 return \is_string($value);
+=======
+                /** @psalm-suppress PossiblyInvalidCast */
+                return (string) $value;
+>>>>>>> main
             });
     }
 
     /**
      * Write to an environment variable, if possible.
      *
+<<<<<<< HEAD
      * @param string $name
      * @param string $value
+=======
+     * @param non-empty-string $name
+     * @param string           $value
+>>>>>>> main
      *
      * @return bool
      */
@@ -74,7 +94,11 @@ final class ServerConstAdapter implements AdapterInterface
     /**
      * Delete an environment variable, if possible.
      *
+<<<<<<< HEAD
      * @param string $name
+=======
+     * @param non-empty-string $name
+>>>>>>> main
      *
      * @return bool
      */

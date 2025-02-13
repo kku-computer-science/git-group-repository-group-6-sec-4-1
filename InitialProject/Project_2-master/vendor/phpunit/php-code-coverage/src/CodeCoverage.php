@@ -20,7 +20,10 @@ use function count;
 use function explode;
 use function get_class;
 use function is_array;
+<<<<<<< HEAD
 use function is_file;
+=======
+>>>>>>> main
 use function sort;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Runner\PhptTestCase;
@@ -77,7 +80,11 @@ final class CodeCoverage
     private $ignoreDeprecatedCode = false;
 
     /**
+<<<<<<< HEAD
      * @var PhptTestCase|string|TestCase
+=======
+     * @var null|PhptTestCase|string|TestCase
+>>>>>>> main
      */
     private $currentId;
 
@@ -115,6 +122,14 @@ final class CodeCoverage
      */
     private $cacheDirectory;
 
+<<<<<<< HEAD
+=======
+    /**
+     * @var ?Directory
+     */
+    private $cachedReport;
+
+>>>>>>> main
     public function __construct(Driver $driver, Filter $filter)
     {
         $this->driver = $driver;
@@ -128,7 +143,15 @@ final class CodeCoverage
      */
     public function getReport(): Directory
     {
+<<<<<<< HEAD
         return (new Builder($this->analyser()))->build($this);
+=======
+        if ($this->cachedReport === null) {
+            $this->cachedReport = (new Builder($this->analyser()))->build($this);
+        }
+
+        return $this->cachedReport;
+>>>>>>> main
     }
 
     /**
@@ -136,9 +159,24 @@ final class CodeCoverage
      */
     public function clear(): void
     {
+<<<<<<< HEAD
         $this->currentId = null;
         $this->data      = new ProcessedCodeCoverageData;
         $this->tests     = [];
+=======
+        $this->currentId    = null;
+        $this->data         = new ProcessedCodeCoverageData;
+        $this->tests        = [];
+        $this->cachedReport = null;
+    }
+
+    /**
+     * @internal
+     */
+    public function clearCache(): void
+    {
+        $this->cachedReport = null;
+>>>>>>> main
     }
 
     /**
@@ -203,6 +241,11 @@ final class CodeCoverage
         $this->currentId = $id;
 
         $this->driver->start();
+<<<<<<< HEAD
+=======
+
+        $this->cachedReport = null;
+>>>>>>> main
     }
 
     /**
@@ -221,7 +264,12 @@ final class CodeCoverage
         $data = $this->driver->stop();
         $this->append($data, null, $append, $linesToBeCovered, $linesToBeUsed);
 
+<<<<<<< HEAD
         $this->currentId = null;
+=======
+        $this->currentId    = null;
+        $this->cachedReport = null;
+>>>>>>> main
 
         return $data;
     }
@@ -246,6 +294,11 @@ final class CodeCoverage
             throw new TestIdMissingException;
         }
 
+<<<<<<< HEAD
+=======
+        $this->cachedReport = null;
+
+>>>>>>> main
         $this->applyFilter($rawData);
 
         $this->applyExecutableLinesFilter($rawData);
@@ -313,6 +366,11 @@ final class CodeCoverage
         $this->data->merge($that->data);
 
         $this->tests = array_merge($this->tests, $that->getTests());
+<<<<<<< HEAD
+=======
+
+        $this->cachedReport = null;
+>>>>>>> main
     }
 
     public function enableCheckForUnintentionallyCoveredCode(): void
@@ -486,9 +544,22 @@ final class CodeCoverage
                 continue;
             }
 
+<<<<<<< HEAD
             $data->keepLineCoverageDataOnlyForLines(
                 $filename,
                 $this->analyser()->executableLinesIn($filename)
+=======
+            $linesToBranchMap = $this->analyser()->executableLinesIn($filename);
+
+            $data->keepLineCoverageDataOnlyForLines(
+                $filename,
+                array_keys($linesToBranchMap)
+            );
+
+            $data->markExecutableLineByBranch(
+                $filename,
+                $linesToBranchMap
+>>>>>>> main
             );
         }
     }
@@ -518,7 +589,11 @@ final class CodeCoverage
         );
 
         foreach ($uncoveredFiles as $uncoveredFile) {
+<<<<<<< HEAD
             if (is_file($uncoveredFile)) {
+=======
+            if ($this->filter->isFile($uncoveredFile)) {
+>>>>>>> main
                 $this->append(
                     RawCodeCoverageData::fromUncoveredFile(
                         $uncoveredFile,
@@ -543,7 +618,11 @@ final class CodeCoverage
         $this->driver->start();
 
         foreach ($uncoveredFiles as $uncoveredFile) {
+<<<<<<< HEAD
             if (is_file($uncoveredFile)) {
+=======
+            if ($this->filter->isFile($uncoveredFile)) {
+>>>>>>> main
                 include_once $uncoveredFile;
             }
         }
@@ -644,7 +723,11 @@ final class CodeCoverage
             } catch (\ReflectionException $e) {
                 throw new ReflectionException(
                     $e->getMessage(),
+<<<<<<< HEAD
                     (int) $e->getCode(),
+=======
+                    $e->getCode(),
+>>>>>>> main
                     $e
                 );
             }
@@ -667,7 +750,13 @@ final class CodeCoverage
         if ($this->cachesStaticAnalysis()) {
             $this->analyser = new CachingFileAnalyser(
                 $this->cacheDirectory,
+<<<<<<< HEAD
                 $this->analyser
+=======
+                $this->analyser,
+                $this->useAnnotationsForIgnoringCode,
+                $this->ignoreDeprecatedCode
+>>>>>>> main
             );
         }
 

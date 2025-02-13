@@ -59,7 +59,11 @@ class InputOption
      *
      * @throws InvalidArgumentException If option mode is invalid or incompatible
      */
+<<<<<<< HEAD
     public function __construct(string $name, $shortcut = null, int $mode = null, string $description = '', $default = null)
+=======
+    public function __construct(string $name, $shortcut = null, ?int $mode = null, string $description = '', $default = null)
+>>>>>>> main
     {
         if (str_starts_with($name, '--')) {
             $name = substr($name, 2);
@@ -69,7 +73,11 @@ class InputOption
             throw new InvalidArgumentException('An option name cannot be empty.');
         }
 
+<<<<<<< HEAD
         if (empty($shortcut)) {
+=======
+        if ('' === $shortcut || [] === $shortcut || false === $shortcut) {
+>>>>>>> main
             $shortcut = null;
         }
 
@@ -78,10 +86,17 @@ class InputOption
                 $shortcut = implode('|', $shortcut);
             }
             $shortcuts = preg_split('{(\|)-?}', ltrim($shortcut, '-'));
+<<<<<<< HEAD
             $shortcuts = array_filter($shortcuts);
             $shortcut = implode('|', $shortcuts);
 
             if (empty($shortcut)) {
+=======
+            $shortcuts = array_filter($shortcuts, 'strlen');
+            $shortcut = implode('|', $shortcuts);
+
+            if ('' === $shortcut) {
+>>>>>>> main
                 throw new InvalidArgumentException('An option shortcut cannot be empty.');
             }
         }

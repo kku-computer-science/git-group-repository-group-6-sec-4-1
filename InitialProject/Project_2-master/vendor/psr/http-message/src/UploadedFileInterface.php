@@ -28,7 +28,11 @@ interface UploadedFileInterface
      * @throws \RuntimeException in cases when no stream is available or can be
      *     created.
      */
+<<<<<<< HEAD
     public function getStream();
+=======
+    public function getStream(): StreamInterface;
+>>>>>>> main
 
     /**
      * Move the uploaded file to a new location.
@@ -62,7 +66,11 @@ interface UploadedFileInterface
      * @throws \RuntimeException on any error during the move operation, or on
      *     the second or subsequent call to the method.
      */
+<<<<<<< HEAD
     public function moveTo($targetPath);
+=======
+    public function moveTo(string $targetPath): void;
+>>>>>>> main
     
     /**
      * Retrieve the file size.
@@ -73,7 +81,11 @@ interface UploadedFileInterface
      *
      * @return int|null The file size in bytes or null if unknown.
      */
+<<<<<<< HEAD
     public function getSize();
+=======
+    public function getSize(): ?int;
+>>>>>>> main
     
     /**
      * Retrieve the error associated with the uploaded file.
@@ -89,7 +101,11 @@ interface UploadedFileInterface
      * @see http://php.net/manual/en/features.file-upload.errors.php
      * @return int One of PHP's UPLOAD_ERR_XXX constants.
      */
+<<<<<<< HEAD
     public function getError();
+=======
+    public function getError(): int;
+>>>>>>> main
     
     /**
      * Retrieve the filename sent by the client.
@@ -104,7 +120,11 @@ interface UploadedFileInterface
      * @return string|null The filename sent by the client or null if none
      *     was provided.
      */
+<<<<<<< HEAD
     public function getClientFilename();
+=======
+    public function getClientFilename(): ?string;
+>>>>>>> main
     
     /**
      * Retrieve the media type sent by the client.
@@ -119,5 +139,9 @@ interface UploadedFileInterface
      * @return string|null The media type sent by the client or null if none
      *     was provided.
      */
+<<<<<<< HEAD
     public function getClientMediaType();
+=======
+    public function getClientMediaType(): ?string;
+>>>>>>> main
 }

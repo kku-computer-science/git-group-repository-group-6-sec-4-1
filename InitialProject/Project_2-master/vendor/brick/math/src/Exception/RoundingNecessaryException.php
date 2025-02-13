@@ -10,8 +10,11 @@ namespace Brick\Math\Exception;
 class RoundingNecessaryException extends MathException
 {
     /**
+<<<<<<< HEAD
      * @return RoundingNecessaryException
      *
+=======
+>>>>>>> main
      * @psalm-pure
      */
     public static function roundingNecessary() : RoundingNecessaryException

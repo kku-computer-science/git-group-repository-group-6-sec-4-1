@@ -24,7 +24,11 @@ class TooManyRequestsHttpException extends HttpException
      * @param \Throwable|null $previous   The previous exception
      * @param int|null        $code       The internal exception code
      */
+<<<<<<< HEAD
     public function __construct($retryAfter = null, ?string $message = '', \Throwable $previous = null, ?int $code = 0, array $headers = [])
+=======
+    public function __construct($retryAfter = null, ?string $message = '', ?\Throwable $previous = null, ?int $code = 0, array $headers = [])
+>>>>>>> main
     {
         if (null === $message) {
             trigger_deprecation('symfony/http-kernel', '5.3', 'Passing null as $message to "%s()" is deprecated, pass an empty string instead.', __METHOD__);

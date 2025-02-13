@@ -22,8 +22,13 @@ final class CannotUseAddMethodsException extends \PHPUnit\Framework\Exception im
             sprintf(
                 'Trying to configure method "%s" with addMethods(), but it exists in class "%s". Use onlyMethods() for methods that exist in the class',
                 $methodName,
+<<<<<<< HEAD
                 $type
             )
+=======
+                $type,
+            ),
+>>>>>>> main
         );
     }
 }

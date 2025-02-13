@@ -243,6 +243,10 @@ ROWS = ZEILEN
 RTD = RTD
 TRANSPOSE = MTRANS
 VLOOKUP = SVERWEIS
+<<<<<<< HEAD
+=======
+*RC = ZS
+>>>>>>> main
 
 ##
 ## Mathematische und trigonometrische Funktionen (Math & Trig Functions)

@@ -42,7 +42,11 @@ class ReflectionCaster
 
         $a = static::castFunctionAbstract($c, $a, $stub, $isNested, $filter);
 
+<<<<<<< HEAD
         if (!str_contains($c->name, '{closure}')) {
+=======
+        if (!str_contains($c->name, '{closure')) {
+>>>>>>> main
             $stub->class = isset($a[$prefix.'class']) ? $a[$prefix.'class']->value.'::'.$c->name : $c->name;
             unset($a[$prefix.'class']);
         }
@@ -83,13 +87,21 @@ class ReflectionCaster
         // Cannot create ReflectionGenerator based on a terminated Generator
         try {
             $reflectionGenerator = new \ReflectionGenerator($c);
+<<<<<<< HEAD
+=======
+
+            return self::castReflectionGenerator($reflectionGenerator, $a, $stub, $isNested);
+>>>>>>> main
         } catch (\Exception $e) {
             $a[Caster::PREFIX_VIRTUAL.'closed'] = true;
 
             return $a;
         }
+<<<<<<< HEAD
 
         return self::castReflectionGenerator($reflectionGenerator, $a, $stub, $isNested);
+=======
+>>>>>>> main
     }
 
     public static function castType(\ReflectionType $c, array $a, Stub $stub, bool $isNested)
@@ -116,10 +128,23 @@ class ReflectionCaster
 
     public static function castAttribute(\ReflectionAttribute $c, array $a, Stub $stub, bool $isNested)
     {
+<<<<<<< HEAD
         self::addMap($a, $c, [
             'name' => 'getName',
             'arguments' => 'getArguments',
         ]);
+=======
+        $map = [
+            'name' => 'getName',
+            'arguments' => 'getArguments',
+        ];
+
+        if (\PHP_VERSION_ID >= 80400) {
+            unset($map['name']);
+        }
+
+        self::addMap($a, $c, $map);
+>>>>>>> main
 
         return $a;
     }
@@ -197,7 +222,11 @@ class ReflectionCaster
         self::addMap($a, $c, [
             'returnsReference' => 'returnsReference',
             'returnType' => 'getReturnType',
+<<<<<<< HEAD
             'class' => 'getClosureScopeClass',
+=======
+            'class' => \PHP_VERSION_ID >= 80111 ? 'getClosureCalledClass' : 'getClosureScopeClass',
+>>>>>>> main
             'this' => 'getClosureThis',
         ]);
 
@@ -292,7 +321,11 @@ class ReflectionCaster
         if ($c->isOptional()) {
             try {
                 $a[$prefix.'default'] = $v = $c->getDefaultValue();
+<<<<<<< HEAD
                 if ($c->isDefaultValueConstant()) {
+=======
+                if ($c->isDefaultValueConstant() && !\is_object($v)) {
+>>>>>>> main
                     $a[$prefix.'default'] = new ConstStub($c->getDefaultValueConstantName(), $v);
                 }
                 if (null === $v) {
@@ -362,7 +395,11 @@ class ReflectionCaster
                     if (!$type instanceof \ReflectionNamedType) {
                         $signature .= $type.' ';
                     } else {
+<<<<<<< HEAD
                         if (!$param->isOptional() && $param->allowsNull() && 'mixed' !== $type->getName()) {
+=======
+                        if ($param->allowsNull() && 'mixed' !== $type->getName()) {
+>>>>>>> main
                             $signature .= '?';
                         }
                         $signature .= substr(strrchr('\\'.$type->getName(), '\\'), 1).' ';

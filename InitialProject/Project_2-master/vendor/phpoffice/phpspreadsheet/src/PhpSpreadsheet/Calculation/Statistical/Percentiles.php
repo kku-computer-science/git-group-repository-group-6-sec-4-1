@@ -4,6 +4,10 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\Statistical;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+>>>>>>> main
 
 class Percentiles
 {
@@ -37,7 +41,11 @@ class Percentiles
         }
 
         if (($entry < 0) || ($entry > 1)) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         $mArgs = self::percentileFilterValues($aArgs);
@@ -56,7 +64,11 @@ class Percentiles
             return $mArgs[$iBase] + (($mArgs[$iNext] - $mArgs[$iBase]) * $iProportion);
         }
 
+<<<<<<< HEAD
         return Functions::NAN();
+=======
+        return ExcelError::NAN();
+>>>>>>> main
     }
 
     /**
@@ -89,13 +101,21 @@ class Percentiles
         $valueSet = self::rankFilterValues($valueSet);
         $valueCount = count($valueSet);
         if ($valueCount == 0) {
+<<<<<<< HEAD
             return Functions::NA();
+=======
+            return ExcelError::NA();
+>>>>>>> main
         }
         sort($valueSet, SORT_NUMERIC);
 
         $valueAdjustor = $valueCount - 1;
         if (($value < $valueSet[0]) || ($value > $valueSet[$valueAdjustor])) {
+<<<<<<< HEAD
             return Functions::NA();
+=======
+            return ExcelError::NA();
+>>>>>>> main
         }
 
         $pos = array_search($value, $valueSet);
@@ -109,7 +129,11 @@ class Percentiles
             $pos += (($value - $valueSet[$pos]) / ($testValue - $valueSet[$pos]));
         }
 
+<<<<<<< HEAD
         return round($pos / $valueAdjustor, $significance);
+=======
+        return round(((float) $pos) / $valueAdjustor, $significance);
+>>>>>>> main
     }
 
     /**
@@ -138,7 +162,11 @@ class Percentiles
         $entry = floor($entry);
         $entry /= 4;
         if (($entry < 0) || ($entry > 1)) {
+<<<<<<< HEAD
             return Functions::NAN();
+=======
+            return ExcelError::NAN();
+>>>>>>> main
         }
 
         return self::PERCENTILE($aArgs, $entry);
@@ -177,13 +205,21 @@ class Percentiles
 
         $pos = array_search($value, $valueSet);
         if ($pos === false) {
+<<<<<<< HEAD
             return Functions::NA();
+=======
+            return ExcelError::NA();
+>>>>>>> main
         }
 
         return ++$pos;
     }
 
+<<<<<<< HEAD
     protected static function percentileFilterValues(array $dataSet)
+=======
+    protected static function percentileFilterValues(array $dataSet): array
+>>>>>>> main
     {
         return array_filter(
             $dataSet,
@@ -193,7 +229,11 @@ class Percentiles
         );
     }
 
+<<<<<<< HEAD
     protected static function rankFilterValues(array $dataSet)
+=======
+    protected static function rankFilterValues(array $dataSet): array
+>>>>>>> main
     {
         return array_filter(
             $dataSet,

@@ -116,6 +116,10 @@ class HashTable
      */
     public function getIndexForHashCode(string $hashCode)
     {
+<<<<<<< HEAD
+=======
+        // Scrutinizer thinks the following could return string. It is wrong.
+>>>>>>> main
         return array_search($hashCode, $this->keyMap, true);
     }
 

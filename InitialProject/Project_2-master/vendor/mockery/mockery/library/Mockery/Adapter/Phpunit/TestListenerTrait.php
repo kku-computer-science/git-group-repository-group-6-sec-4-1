@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 /**
  * Mockery
  *
@@ -16,15 +17,39 @@
  * @package   Mockery
  * @copyright Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license   http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+=======
+
+/**
+ * Mockery (https://docs.mockery.io/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
+>>>>>>> main
  */
 
 namespace Mockery\Adapter\Phpunit;
 
+<<<<<<< HEAD
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Util\Blacklist;
 use PHPUnit\Runner\BaseTestRunner;
+=======
+use LogicException;
+use Mockery;
+use PHPUnit\Framework\ExpectationFailedException;
+use PHPUnit\Framework\Test;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Runner\BaseTestRunner;
+use PHPUnit\Util\Blacklist;
+use ReflectionClass;
+
+use function dirname;
+use function method_exists;
+use function sprintf;
+>>>>>>> main
 
 class TestListenerTrait
 {
@@ -37,7 +62,11 @@ class TestListenerTrait
      */
     public function endTest(Test $test, $time)
     {
+<<<<<<< HEAD
         if (!$test instanceof TestCase) {
+=======
+        if (! $test instanceof TestCase) {
+>>>>>>> main
             // We need the getTestResultObject and getStatus methods which are
             // not part of the interface.
             return;
@@ -54,13 +83,22 @@ class TestListenerTrait
         try {
             // The self() call is used as a sentinel. Anything that throws if
             // the container is closed already will do.
+<<<<<<< HEAD
             \Mockery::self();
         } catch (\LogicException $_) {
+=======
+            Mockery::self();
+        } catch (LogicException $logicException) {
+>>>>>>> main
             return;
         }
 
         $e = new ExpectationFailedException(
+<<<<<<< HEAD
             \sprintf(
+=======
+            sprintf(
+>>>>>>> main
                 "Mockery's expectations have not been verified. Make sure that \Mockery::close() is called at the end of the test. Consider using %s\MockeryPHPUnitIntegration or extending %s\MockeryTestCase.",
                 __NAMESPACE__,
                 __NAMESPACE__
@@ -78,10 +116,17 @@ class TestListenerTrait
     public function startTestSuite()
     {
         if (method_exists(Blacklist::class, 'addDirectory')) {
+<<<<<<< HEAD
             (new BlackList())->getBlacklistedDirectories();
             Blacklist::addDirectory(\dirname((new \ReflectionClass(\Mockery::class))->getFileName()));
         } else {
             Blacklist::$blacklistedClassNames[\Mockery::class] = 1;
+=======
+            (new Blacklist())->getBlacklistedDirectories();
+            Blacklist::addDirectory(dirname((new ReflectionClass(Mockery::class))->getFileName()));
+        } else {
+            Blacklist::$blacklistedClassNames[Mockery::class] = 1;
+>>>>>>> main
         }
     }
 }

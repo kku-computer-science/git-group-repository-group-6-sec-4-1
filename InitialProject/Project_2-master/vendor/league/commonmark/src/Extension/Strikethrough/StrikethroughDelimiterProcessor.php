@@ -14,10 +14,17 @@ declare(strict_types=1);
 namespace League\CommonMark\Extension\Strikethrough;
 
 use League\CommonMark\Delimiter\DelimiterInterface;
+<<<<<<< HEAD
 use League\CommonMark\Delimiter\Processor\DelimiterProcessorInterface;
 use League\CommonMark\Node\Inline\AbstractStringContainer;
 
 final class StrikethroughDelimiterProcessor implements DelimiterProcessorInterface
+=======
+use League\CommonMark\Delimiter\Processor\CacheableDelimiterProcessorInterface;
+use League\CommonMark\Node\Inline\AbstractStringContainer;
+
+final class StrikethroughDelimiterProcessor implements CacheableDelimiterProcessorInterface
+>>>>>>> main
 {
     public function getOpeningCharacter(): string
     {
@@ -31,14 +38,31 @@ final class StrikethroughDelimiterProcessor implements DelimiterProcessorInterfa
 
     public function getMinLength(): int
     {
+<<<<<<< HEAD
         return 2;
+=======
+        return 1;
+>>>>>>> main
     }
 
     public function getDelimiterUse(DelimiterInterface $opener, DelimiterInterface $closer): int
     {
+<<<<<<< HEAD
         $min = \min($opener->getLength(), $closer->getLength());
 
         return $min >= 2 ? $min : 0;
+=======
+        if ($opener->getLength() > 2 && $closer->getLength() > 2) {
+            return 0;
+        }
+
+        if ($opener->getLength() !== $closer->getLength()) {
+            return 0;
+        }
+
+        // $opener and $closer are the same length so we just return one of them
+        return $opener->getLength();
+>>>>>>> main
     }
 
     public function process(AbstractStringContainer $opener, AbstractStringContainer $closer, int $delimiterUse): void
@@ -54,4 +78,12 @@ final class StrikethroughDelimiterProcessor implements DelimiterProcessorInterfa
 
         $opener->insertAfter($strikethrough);
     }
+<<<<<<< HEAD
+=======
+
+    public function getCacheKey(DelimiterInterface $closer): string
+    {
+        return '~' . $closer->getLength();
+    }
+>>>>>>> main
 }

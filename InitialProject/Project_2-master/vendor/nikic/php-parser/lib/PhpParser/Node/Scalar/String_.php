@@ -5,6 +5,7 @@ namespace PhpParser\Node\Scalar;
 use PhpParser\Error;
 use PhpParser\Node\Scalar;
 
+<<<<<<< HEAD
 class String_ extends Scalar
 {
     /* For use in "kind" attribute */
@@ -17,6 +18,20 @@ class String_ extends Scalar
     public $value;
 
     protected static $replacements = [
+=======
+class String_ extends Scalar {
+    /* For use in "kind" attribute */
+    public const KIND_SINGLE_QUOTED = 1;
+    public const KIND_DOUBLE_QUOTED = 2;
+    public const KIND_HEREDOC = 3;
+    public const KIND_NOWDOC = 4;
+
+    /** @var string String value */
+    public string $value;
+
+    /** @var array<string, string> Escaped character to its decoded value */
+    protected static array $replacements = [
+>>>>>>> main
         '\\' => '\\',
         '$'  =>  '$',
         'n'  => "\n",
@@ -30,19 +45,47 @@ class String_ extends Scalar
     /**
      * Constructs a string scalar node.
      *
+<<<<<<< HEAD
      * @param string $value      Value of the string
      * @param array  $attributes Additional attributes
+=======
+     * @param string $value Value of the string
+     * @param array<string, mixed> $attributes Additional attributes
+>>>>>>> main
      */
     public function __construct(string $value, array $attributes = []) {
         $this->attributes = $attributes;
         $this->value = $value;
     }
 
+<<<<<<< HEAD
     public function getSubNodeNames() : array {
+=======
+    public function getSubNodeNames(): array {
+>>>>>>> main
         return ['value'];
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * @param array<string, mixed> $attributes
+     * @param bool $parseUnicodeEscape Whether to parse PHP 7 \u escapes
+     */
+    public static function fromString(string $str, array $attributes = [], bool $parseUnicodeEscape = true): self {
+        $attributes['kind'] = ($str[0] === "'" || ($str[1] === "'" && ($str[0] === 'b' || $str[0] === 'B')))
+            ? Scalar\String_::KIND_SINGLE_QUOTED
+            : Scalar\String_::KIND_DOUBLE_QUOTED;
+
+        $attributes['rawValue'] = $str;
+
+        $string = self::parse($str, $parseUnicodeEscape);
+
+        return new self($string, $attributes);
+    }
+
+    /**
+>>>>>>> main
      * @internal
      *
      * Parses a string token.
@@ -52,7 +95,11 @@ class String_ extends Scalar
      *
      * @return string The parsed string
      */
+<<<<<<< HEAD
     public static function parse(string $str, bool $parseUnicodeEscape = true) : string {
+=======
+    public static function parse(string $str, bool $parseUnicodeEscape = true): string {
+>>>>>>> main
         $bLength = 0;
         if ('b' === $str[0] || 'B' === $str[0]) {
             $bLength = 1;
@@ -76,13 +123,21 @@ class String_ extends Scalar
      *
      * Parses escape sequences in strings (all string types apart from single quoted).
      *
+<<<<<<< HEAD
      * @param string      $str   String without quotes
+=======
+     * @param string $str String without quotes
+>>>>>>> main
      * @param null|string $quote Quote type
      * @param bool $parseUnicodeEscape Whether to parse PHP 7 \u escapes
      *
      * @return string String with escape sequences parsed
      */
+<<<<<<< HEAD
     public static function parseEscapeSequences(string $str, $quote, bool $parseUnicodeEscape = true) : string {
+=======
+    public static function parseEscapeSequences(string $str, ?string $quote, bool $parseUnicodeEscape = true): string {
+>>>>>>> main
         if (null !== $quote) {
             $str = str_replace('\\' . $quote, $quote, $str);
         }
@@ -94,15 +149,30 @@ class String_ extends Scalar
 
         return preg_replace_callback(
             '~\\\\([\\\\$nrtfve]|[xX][0-9a-fA-F]{1,2}|[0-7]{1,3}' . $extra . ')~',
+<<<<<<< HEAD
             function($matches) {
+=======
+            function ($matches) {
+>>>>>>> main
                 $str = $matches[1];
 
                 if (isset(self::$replacements[$str])) {
                     return self::$replacements[$str];
+<<<<<<< HEAD
                 } elseif ('x' === $str[0] || 'X' === $str[0]) {
                     return chr(hexdec(substr($str, 1)));
                 } elseif ('u' === $str[0]) {
                     return self::codePointToUtf8(hexdec($matches[2]));
+=======
+                }
+                if ('x' === $str[0] || 'X' === $str[0]) {
+                    return chr(hexdec(substr($str, 1)));
+                }
+                if ('u' === $str[0]) {
+                    $dec = hexdec($matches[2]);
+                    // If it overflowed to float, treat as INT_MAX, it will throw an error anyway.
+                    return self::codePointToUtf8(\is_int($dec) ? $dec : \PHP_INT_MAX);
+>>>>>>> main
                 } else {
                     return chr(octdec($str));
                 }
@@ -118,11 +188,16 @@ class String_ extends Scalar
      *
      * @return string UTF-8 representation of code point
      */
+<<<<<<< HEAD
     private static function codePointToUtf8(int $num) : string {
+=======
+    private static function codePointToUtf8(int $num): string {
+>>>>>>> main
         if ($num <= 0x7F) {
             return chr($num);
         }
         if ($num <= 0x7FF) {
+<<<<<<< HEAD
             return chr(($num>>6) + 0xC0) . chr(($num&0x3F) + 0x80);
         }
         if ($num <= 0xFFFF) {
@@ -131,11 +206,25 @@ class String_ extends Scalar
         if ($num <= 0x1FFFFF) {
             return chr(($num>>18) + 0xF0) . chr((($num>>12)&0x3F) + 0x80)
                  . chr((($num>>6)&0x3F) + 0x80) . chr(($num&0x3F) + 0x80);
+=======
+            return chr(($num >> 6) + 0xC0) . chr(($num & 0x3F) + 0x80);
+        }
+        if ($num <= 0xFFFF) {
+            return chr(($num >> 12) + 0xE0) . chr((($num >> 6) & 0x3F) + 0x80) . chr(($num & 0x3F) + 0x80);
+        }
+        if ($num <= 0x1FFFFF) {
+            return chr(($num >> 18) + 0xF0) . chr((($num >> 12) & 0x3F) + 0x80)
+                 . chr((($num >> 6) & 0x3F) + 0x80) . chr(($num & 0x3F) + 0x80);
+>>>>>>> main
         }
         throw new Error('Invalid UTF-8 codepoint escape sequence: Codepoint too large');
     }
 
+<<<<<<< HEAD
     public function getType() : string {
+=======
+    public function getType(): string {
+>>>>>>> main
         return 'Scalar_String';
     }
 }

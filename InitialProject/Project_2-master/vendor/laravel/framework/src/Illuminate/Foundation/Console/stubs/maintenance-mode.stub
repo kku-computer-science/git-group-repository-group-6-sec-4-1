@@ -69,6 +69,13 @@ if (isset($data['retry'])) {
     header('Retry-After: '.$data['retry']);
 }
 
+<<<<<<< HEAD
+=======
+if (isset($data['refresh'])) {
+    header('Refresh: '.$data['refresh']);
+}
+
+>>>>>>> main
 echo $data['template'];
 
 exit;

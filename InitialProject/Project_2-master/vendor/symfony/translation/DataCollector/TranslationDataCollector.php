@@ -25,17 +25,25 @@ use Symfony\Component\VarDumper\Cloner\Data;
  */
 class TranslationDataCollector extends DataCollector implements LateDataCollectorInterface
 {
+<<<<<<< HEAD
     private $translator;
+=======
+    private DataCollectorTranslator $translator;
+>>>>>>> main
 
     public function __construct(DataCollectorTranslator $translator)
     {
         $this->translator = $translator;
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
     public function lateCollect()
+=======
+    public function lateCollect(): void
+>>>>>>> main
     {
         $messages = $this->sanitizeCollectedMessages($this->translator->getCollectedMessages());
 
@@ -45,27 +53,39 @@ class TranslationDataCollector extends DataCollector implements LateDataCollecto
         $this->data = $this->cloneVar($this->data);
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
     public function collect(Request $request, Response $response, \Throwable $exception = null)
+=======
+    public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
+>>>>>>> main
     {
         $this->data['locale'] = $this->translator->getLocale();
         $this->data['fallback_locales'] = $this->translator->getFallbackLocales();
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
     public function reset()
+=======
+    public function reset(): void
+>>>>>>> main
     {
         $this->data = [];
     }
 
+<<<<<<< HEAD
     /**
      * @return array|Data
      */
     public function getMessages()
+=======
+    public function getMessages(): array|Data
+>>>>>>> main
     {
         return $this->data['messages'] ?? [];
     }
@@ -85,7 +105,11 @@ class TranslationDataCollector extends DataCollector implements LateDataCollecto
         return $this->data[DataCollectorTranslator::MESSAGE_DEFINED] ?? 0;
     }
 
+<<<<<<< HEAD
     public function getLocale()
+=======
+    public function getLocale(): ?string
+>>>>>>> main
     {
         return !empty($this->data['locale']) ? $this->data['locale'] : null;
     }
@@ -93,20 +117,31 @@ class TranslationDataCollector extends DataCollector implements LateDataCollecto
     /**
      * @internal
      */
+<<<<<<< HEAD
     public function getFallbackLocales()
+=======
+    public function getFallbackLocales(): Data|array
+>>>>>>> main
     {
         return (isset($this->data['fallback_locales']) && \count($this->data['fallback_locales']) > 0) ? $this->data['fallback_locales'] : [];
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
+=======
+>>>>>>> main
     public function getName(): string
     {
         return 'translation';
     }
 
+<<<<<<< HEAD
     private function sanitizeCollectedMessages(array $messages)
+=======
+    private function sanitizeCollectedMessages(array $messages): array
+>>>>>>> main
     {
         $result = [];
         foreach ($messages as $key => $message) {
@@ -131,7 +166,11 @@ class TranslationDataCollector extends DataCollector implements LateDataCollecto
         return $result;
     }
 
+<<<<<<< HEAD
     private function computeCount(array $messages)
+=======
+    private function computeCount(array $messages): array
+>>>>>>> main
     {
         $count = [
             DataCollectorTranslator::MESSAGE_DEFINED => 0,
@@ -146,7 +185,11 @@ class TranslationDataCollector extends DataCollector implements LateDataCollecto
         return $count;
     }
 
+<<<<<<< HEAD
     private function sanitizeString(string $string, int $length = 80)
+=======
+    private function sanitizeString(string $string, int $length = 80): string
+>>>>>>> main
     {
         $string = trim(preg_replace('/\s+/', ' ', $string));
 

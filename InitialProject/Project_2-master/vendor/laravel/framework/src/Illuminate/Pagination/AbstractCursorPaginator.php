@@ -155,6 +155,13 @@ abstract class AbstractCursorPaginator implements Htmlable
             return null;
         }
 
+<<<<<<< HEAD
+=======
+        if ($this->items->isEmpty()) {
+            return null;
+        }
+
+>>>>>>> main
         return $this->getCursorForItem($this->items->first(), false);
     }
 
@@ -170,6 +177,13 @@ abstract class AbstractCursorPaginator implements Htmlable
             return null;
         }
 
+<<<<<<< HEAD
+=======
+        if ($this->items->isEmpty()) {
+            return null;
+        }
+
+>>>>>>> main
         return $this->getCursorForItem($this->items->last(), true);
     }
 

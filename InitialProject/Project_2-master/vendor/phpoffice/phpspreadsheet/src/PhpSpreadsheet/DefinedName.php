@@ -18,7 +18,11 @@ abstract class DefinedName
     /**
      * Worksheet on which the defined name can be resolved.
      *
+<<<<<<< HEAD
      * @var Worksheet
+=======
+     * @var ?Worksheet
+>>>>>>> main
      */
     protected $worksheet;
 
@@ -39,7 +43,11 @@ abstract class DefinedName
     /**
      * Scope.
      *
+<<<<<<< HEAD
      * @var Worksheet
+=======
+     * @var ?Worksheet
+>>>>>>> main
      */
     protected $scope;
 
@@ -110,8 +118,14 @@ abstract class DefinedName
         $segMatcher = false;
         foreach (explode("'", $value) as $subVal) {
             //    Only test in alternate array entries (the non-quoted blocks)
+<<<<<<< HEAD
             if (
                 ($segMatcher = !$segMatcher) &&
+=======
+            $segMatcher = $segMatcher === false;
+            if (
+                $segMatcher &&
+>>>>>>> main
                 (preg_match('/' . self::REGEXP_IDENTIFY_FORMULA . '/miu', $subVal))
             ) {
                 return true;
@@ -140,17 +154,32 @@ abstract class DefinedName
 
             // Re-attach
             if ($this->worksheet !== null) {
+<<<<<<< HEAD
                 $this->worksheet->getParent()->removeNamedRange($this->name, $this->worksheet);
+=======
+                $this->worksheet->getParentOrThrow()->removeNamedRange($this->name, $this->worksheet);
+>>>>>>> main
             }
             $this->name = $name;
 
             if ($this->worksheet !== null) {
+<<<<<<< HEAD
                 $this->worksheet->getParent()->addNamedRange($this);
             }
 
             // New title
             $newTitle = $this->name;
             ReferenceHelper::getInstance()->updateNamedFormulas($this->worksheet->getParent(), $oldTitle, $newTitle);
+=======
+                $this->worksheet->getParentOrThrow()->addDefinedName($this);
+            }
+
+            if ($this->worksheet !== null) {
+                // New title
+                $newTitle = $this->name;
+                ReferenceHelper::getInstance()->updateNamedFormulae($this->worksheet->getParentOrThrow(), $oldTitle, $newTitle);
+            }
+>>>>>>> main
         }
 
         return $this;
@@ -246,13 +275,21 @@ abstract class DefinedName
         if ($sheetName === '') {
             $worksheet2 = $worksheet;
         } else {
+<<<<<<< HEAD
             $worksheet2 = $worksheet->getParent()->getSheetByName($sheetName);
+=======
+            $worksheet2 = $worksheet->getParentOrThrow()->getSheetByName($sheetName);
+>>>>>>> main
             if ($worksheet2 === null) {
                 return null;
             }
         }
 
+<<<<<<< HEAD
         return $worksheet->getParent()->getDefinedName($definedName, $worksheet2);
+=======
+        return $worksheet->getParentOrThrow()->getDefinedName($definedName, $worksheet2);
+>>>>>>> main
     }
 
     /**

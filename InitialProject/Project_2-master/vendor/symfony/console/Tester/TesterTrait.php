@@ -35,9 +35,15 @@ trait TesterTrait
     /**
      * Gets the display returned by the last execution of the command or application.
      *
+<<<<<<< HEAD
      * @throws \RuntimeException If it's called before the execute method
      *
      * @return string
+=======
+     * @return string
+     *
+     * @throws \RuntimeException If it's called before the execute method
+>>>>>>> main
      */
     public function getDisplay(bool $normalize = false)
     {
@@ -103,9 +109,15 @@ trait TesterTrait
     /**
      * Gets the status code returned by the last execution of the command or application.
      *
+<<<<<<< HEAD
      * @throws \RuntimeException If it's called before the execute method
      *
      * @return int
+=======
+     * @return int
+     *
+     * @throws \RuntimeException If it's called before the execute method
+>>>>>>> main
      */
     public function getStatusCode()
     {

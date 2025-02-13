@@ -22,6 +22,10 @@ use Symfony\Component\Translation\Formatter\MessageFormatter;
 use Symfony\Component\Translation\Formatter\MessageFormatterInterface;
 use Symfony\Component\Translation\Loader\LoaderInterface;
 use Symfony\Contracts\Translation\LocaleAwareInterface;
+<<<<<<< HEAD
+=======
+use Symfony\Contracts\Translation\TranslatableInterface;
+>>>>>>> main
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 // Help opcache.preload discover always-needed symbols
@@ -37,19 +41,28 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
      */
     protected $catalogues = [];
 
+<<<<<<< HEAD
     /**
      * @var string
      */
     private $locale;
+=======
+    private string $locale;
+>>>>>>> main
 
     /**
      * @var string[]
      */
+<<<<<<< HEAD
     private $fallbackLocales = [];
+=======
+    private array $fallbackLocales = [];
+>>>>>>> main
 
     /**
      * @var LoaderInterface[]
      */
+<<<<<<< HEAD
     private $loaders = [];
 
     /**
@@ -85,10 +98,30 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
     private $parentLocales;
 
     private $hasIntlFormatter;
+=======
+    private array $loaders = [];
+
+    private array $resources = [];
+
+    private MessageFormatterInterface $formatter;
+
+    private ?string $cacheDir;
+
+    private bool $debug;
+
+    private array $cacheVary;
+
+    private ?ConfigCacheFactoryInterface $configCacheFactory;
+
+    private array $parentLocales;
+
+    private bool $hasIntlFormatter;
+>>>>>>> main
 
     /**
      * @throws InvalidArgumentException If a locale contains invalid characters
      */
+<<<<<<< HEAD
     public function __construct(string $locale, MessageFormatterInterface $formatter = null, string $cacheDir = null, bool $debug = false, array $cacheVary = [])
     {
         $this->setLocale($locale);
@@ -98,12 +131,25 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
         }
 
         $this->formatter = $formatter;
+=======
+    public function __construct(string $locale, ?MessageFormatterInterface $formatter = null, ?string $cacheDir = null, bool $debug = false, array $cacheVary = [])
+    {
+        $this->setLocale($locale);
+
+        $this->formatter = $formatter ??= new MessageFormatter();
+>>>>>>> main
         $this->cacheDir = $cacheDir;
         $this->debug = $debug;
         $this->cacheVary = $cacheVary;
         $this->hasIntlFormatter = $formatter instanceof IntlFormatterInterface;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @return void
+     */
+>>>>>>> main
     public function setConfigCacheFactory(ConfigCacheFactoryInterface $configCacheFactory)
     {
         $this->configCacheFactory = $configCacheFactory;
@@ -113,6 +159,11 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
      * Adds a Loader.
      *
      * @param string $format The name of the loader (@see addResource())
+<<<<<<< HEAD
+=======
+     *
+     * @return void
+>>>>>>> main
      */
     public function addLoader(string $format, LoaderInterface $loader)
     {
@@ -125,6 +176,7 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
      * @param string $format   The name of the loader (@see addLoader())
      * @param mixed  $resource The resource name
      *
+<<<<<<< HEAD
      * @throws InvalidArgumentException If the locale contains invalid characters
      */
     public function addResource(string $format, $resource, string $locale, string $domain = null)
@@ -132,6 +184,15 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
         if (null === $domain) {
             $domain = 'messages';
         }
+=======
+     * @return void
+     *
+     * @throws InvalidArgumentException If the locale contains invalid characters
+     */
+    public function addResource(string $format, mixed $resource, string $locale, ?string $domain = null)
+    {
+        $domain ??= 'messages';
+>>>>>>> main
 
         $this->assertValidLocale($locale);
         $locale ?: $locale = class_exists(\Locale::class) ? \Locale::getDefault() : 'en';
@@ -146,7 +207,11 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
     }
 
     /**
+<<<<<<< HEAD
      * {@inheritdoc}
+=======
+     * @return void
+>>>>>>> main
      */
     public function setLocale(string $locale)
     {
@@ -154,10 +219,14 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
         $this->locale = $locale;
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
     public function getLocale()
+=======
+    public function getLocale(): string
+>>>>>>> main
     {
         return $this->locale ?: (class_exists(\Locale::class) ? \Locale::getDefault() : 'en');
     }
@@ -167,6 +236,11 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
      *
      * @param string[] $locales
      *
+<<<<<<< HEAD
+=======
+     * @return void
+     *
+>>>>>>> main
      * @throws InvalidArgumentException If a locale contains invalid characters
      */
     public function setFallbackLocales(array $locales)
@@ -191,18 +265,26 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
         return $this->fallbackLocales;
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
     public function trans(?string $id, array $parameters = [], string $domain = null, string $locale = null)
+=======
+    public function trans(?string $id, array $parameters = [], ?string $domain = null, ?string $locale = null): string
+>>>>>>> main
     {
         if (null === $id || '' === $id) {
             return '';
         }
 
+<<<<<<< HEAD
         if (null === $domain) {
             $domain = 'messages';
         }
+=======
+        $domain ??= 'messages';
+>>>>>>> main
 
         $catalogue = $this->getCatalogue($locale);
         $locale = $catalogue->getLocale();
@@ -215,6 +297,11 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
             }
         }
 
+<<<<<<< HEAD
+=======
+        $parameters = array_map(fn ($parameter) => $parameter instanceof TranslatableInterface ? $parameter->trans($this, $locale) : $parameter, $parameters);
+
+>>>>>>> main
         $len = \strlen(MessageCatalogue::INTL_DOMAIN_SUFFIX);
         if ($this->hasIntlFormatter
             && ($catalogue->defines($id, $domain.MessageCatalogue::INTL_DOMAIN_SUFFIX)
@@ -226,10 +313,14 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
         return $this->formatter->format($catalogue->get($id, $domain), $locale, $parameters);
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
     public function getCatalogue(string $locale = null)
+=======
+    public function getCatalogue(?string $locale = null): MessageCatalogueInterface
+>>>>>>> main
     {
         if (!$locale) {
             $locale = $this->getLocale();
@@ -244,9 +335,12 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
         return $this->catalogues[$locale];
     }
 
+<<<<<<< HEAD
     /**
      * {@inheritdoc}
      */
+=======
+>>>>>>> main
     public function getCatalogues(): array
     {
         return array_values($this->catalogues);
@@ -257,11 +351,21 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
      *
      * @return LoaderInterface[]
      */
+<<<<<<< HEAD
     protected function getLoaders()
+=======
+    protected function getLoaders(): array
+>>>>>>> main
     {
         return $this->loaders;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @return void
+     */
+>>>>>>> main
     protected function loadCatalogue(string $locale)
     {
         if (null === $this->cacheDir) {
@@ -271,6 +375,12 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
         }
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @return void
+     */
+>>>>>>> main
     protected function initializeCatalogue(string $locale)
     {
         $this->assertValidLocale($locale);
@@ -407,11 +517,20 @@ EOF
         }
     }
 
+<<<<<<< HEAD
     protected function computeFallbackLocales(string $locale)
     {
         if (null === $this->parentLocales) {
             $this->parentLocales = json_decode(file_get_contents(__DIR__.'/Resources/data/parents.json'), true);
         }
+=======
+    /**
+     * @return array
+     */
+    protected function computeFallbackLocales(string $locale)
+    {
+        $this->parentLocales ??= json_decode(file_get_contents(__DIR__.'/Resources/data/parents.json'), true);
+>>>>>>> main
 
         $originLocale = $locale;
         $locales = [];
@@ -453,6 +572,11 @@ EOF
     /**
      * Asserts that the locale is valid, throws an Exception if not.
      *
+<<<<<<< HEAD
+=======
+     * @return void
+     *
+>>>>>>> main
      * @throws InvalidArgumentException If the locale contains invalid characters
      */
     protected function assertValidLocale(string $locale)
@@ -468,9 +592,13 @@ EOF
      */
     private function getConfigCacheFactory(): ConfigCacheFactoryInterface
     {
+<<<<<<< HEAD
         if (!$this->configCacheFactory) {
             $this->configCacheFactory = new ConfigCacheFactory($this->debug);
         }
+=======
+        $this->configCacheFactory ??= new ConfigCacheFactory($this->debug);
+>>>>>>> main
 
         return $this->configCacheFactory;
     }

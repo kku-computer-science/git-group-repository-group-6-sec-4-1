@@ -3,7 +3,11 @@
 /*
  * This file is part of Psy Shell.
  *
+<<<<<<< HEAD
  * (c) 2012-2022 Justin Hileman
+=======
+ * (c) 2012-2023 Justin Hileman
+>>>>>>> main
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -20,7 +24,11 @@ use Symfony\Component\Console\Input\InputInterface;
 class ConstantEnumerator extends Enumerator
 {
     // Because `Json` is ugly.
+<<<<<<< HEAD
     private static $categoryLabels = [
+=======
+    private const CATEGORY_LABELS = [
+>>>>>>> main
         'libxml'   => 'libxml',
         'openssl'  => 'OpenSSL',
         'pcre'     => 'PCRE',
@@ -49,7 +57,11 @@ class ConstantEnumerator extends Enumerator
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     protected function listItems(InputInterface $input, \Reflector $reflector = null, $target = null): array
+=======
+    protected function listItems(InputInterface $input, ?\Reflector $reflector = null, $target = null): array
+>>>>>>> main
     {
         // if we have a reflector, ensure that it's a namespace reflector
         if (($target !== null || $reflector !== null) && !$reflector instanceof ReflectionNamespace) {
@@ -88,7 +100,11 @@ class ConstantEnumerator extends Enumerator
         }
 
         if ($category) {
+<<<<<<< HEAD
             $caseCategory = \array_key_exists($category, self::$categoryLabels) ? self::$categoryLabels[$category] : \ucfirst($category);
+=======
+            $caseCategory = \array_key_exists($category, self::CATEGORY_LABELS) ? self::CATEGORY_LABELS[$category] : \ucfirst($category);
+>>>>>>> main
             $label = $caseCategory.' Constants';
             $ret[$label] = $this->getConstants($category);
         }
@@ -122,7 +138,11 @@ class ConstantEnumerator extends Enumerator
      *
      * @return array
      */
+<<<<<<< HEAD
     protected function getConstants(string $category = null): array
+=======
+    protected function getConstants(?string $category = null): array
+>>>>>>> main
     {
         if (!$category) {
             return \get_defined_constants();
@@ -133,7 +153,11 @@ class ConstantEnumerator extends Enumerator
         if ($category === 'internal') {
             unset($consts['user']);
 
+<<<<<<< HEAD
             return \call_user_func_array('array_merge', \array_values($consts));
+=======
+            return \array_merge(...\array_values($consts));
+>>>>>>> main
         }
 
         foreach ($consts as $key => $value) {

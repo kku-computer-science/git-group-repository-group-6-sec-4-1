@@ -74,6 +74,12 @@ final class IterableType extends Type
         return $this->allowsNull;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true IterableType $this
+     */
+>>>>>>> main
     public function isIterable(): bool
     {
         return true;

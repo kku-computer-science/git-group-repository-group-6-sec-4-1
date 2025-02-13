@@ -19,8 +19,15 @@ use PHPUnit\Framework\ErrorTestCase;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\WarningTestCase;
 use PHPUnit\Util\RegularExpression;
+<<<<<<< HEAD
 use RecursiveFilterIterator;
 use RecursiveIterator;
+=======
+use PHPUnit\Util\Test;
+use RecursiveFilterIterator;
+use RecursiveIterator;
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+>>>>>>> main
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
@@ -53,7 +60,11 @@ final class NameFilterIterator extends RecursiveFilterIterator
     }
 
     /**
+<<<<<<< HEAD
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+=======
+     * @throws InvalidArgumentException
+>>>>>>> main
      */
     public function accept(): bool
     {
@@ -63,7 +74,11 @@ final class NameFilterIterator extends RecursiveFilterIterator
             return true;
         }
 
+<<<<<<< HEAD
         $tmp = \PHPUnit\Util\Test::describe($test);
+=======
+        $tmp = Test::describe($test);
+>>>>>>> main
 
         if ($test instanceof ErrorTestCase || $test instanceof WarningTestCase) {
             $name = $test->getMessage();
@@ -96,7 +111,11 @@ final class NameFilterIterator extends RecursiveFilterIterator
                 if (isset($matches[3]) && $matches[2] < $matches[3]) {
                     $filter = sprintf(
                         '%s.*with data set #(\d+)$',
+<<<<<<< HEAD
                         $matches[1]
+=======
+                        $matches[1],
+>>>>>>> main
                     );
 
                     $this->filterMin = (int) $matches[2];
@@ -105,7 +124,11 @@ final class NameFilterIterator extends RecursiveFilterIterator
                     $filter = sprintf(
                         '%s.*with data set #%s$',
                         $matches[1],
+<<<<<<< HEAD
                         $matches[2]
+=======
+                        $matches[2],
+>>>>>>> main
                     );
                 }
             } // Handles:
@@ -115,7 +138,11 @@ final class NameFilterIterator extends RecursiveFilterIterator
                 $filter = sprintf(
                     '%s.*with data set "%s"$',
                     $matches[1],
+<<<<<<< HEAD
                     $matches[2]
+=======
+                    $matches[2],
+>>>>>>> main
                 );
             }
 
@@ -126,8 +153,13 @@ final class NameFilterIterator extends RecursiveFilterIterator
                 str_replace(
                     '/',
                     '\\/',
+<<<<<<< HEAD
                     $filter
                 )
+=======
+                    $filter,
+                ),
+>>>>>>> main
             );
         }
 

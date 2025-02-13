@@ -49,6 +49,10 @@ class MinutesField extends AbstractField
         $current_minute = (int) $date->format('i');
 
         $parts = false !== strpos($parts, ',') ? explode(',', $parts) : [$parts];
+<<<<<<< HEAD
+=======
+        sort($parts);
+>>>>>>> main
         $minutes = [];
         foreach ($parts as $part) {
             $minutes = array_merge($minutes, $this->getRangeForExpression($part, 59));

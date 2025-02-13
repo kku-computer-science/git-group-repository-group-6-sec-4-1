@@ -6,6 +6,10 @@ namespace Dotenv\Repository;
 
 use Dotenv\Repository\Adapter\ReaderInterface;
 use Dotenv\Repository\Adapter\WriterInterface;
+<<<<<<< HEAD
+=======
+use InvalidArgumentException;
+>>>>>>> main
 
 final class AdapterRepository implements RepositoryInterface
 {
@@ -46,7 +50,11 @@ final class AdapterRepository implements RepositoryInterface
      */
     public function has(string $name)
     {
+<<<<<<< HEAD
         return $this->reader->read($name)->isDefined();
+=======
+        return '' !== $name && $this->reader->read($name)->isDefined();
+>>>>>>> main
     }
 
     /**
@@ -54,10 +62,22 @@ final class AdapterRepository implements RepositoryInterface
      *
      * @param string $name
      *
+<<<<<<< HEAD
+=======
+     * @throws \InvalidArgumentException
+     *
+>>>>>>> main
      * @return string|null
      */
     public function get(string $name)
     {
+<<<<<<< HEAD
+=======
+        if ('' === $name) {
+            throw new InvalidArgumentException('Expected name to be a non-empty string.');
+        }
+
+>>>>>>> main
         return $this->reader->read($name)->getOrElse(null);
     }
 
@@ -67,10 +87,22 @@ final class AdapterRepository implements RepositoryInterface
      * @param string $name
      * @param string $value
      *
+<<<<<<< HEAD
+=======
+     * @throws \InvalidArgumentException
+     *
+>>>>>>> main
      * @return bool
      */
     public function set(string $name, string $value)
     {
+<<<<<<< HEAD
+=======
+        if ('' === $name) {
+            throw new InvalidArgumentException('Expected name to be a non-empty string.');
+        }
+
+>>>>>>> main
         return $this->writer->write($name, $value);
     }
 
@@ -79,10 +111,22 @@ final class AdapterRepository implements RepositoryInterface
      *
      * @param string $name
      *
+<<<<<<< HEAD
+=======
+     * @throws \InvalidArgumentException
+     *
+>>>>>>> main
      * @return bool
      */
     public function clear(string $name)
     {
+<<<<<<< HEAD
+=======
+        if ('' === $name) {
+            throw new InvalidArgumentException('Expected name to be a non-empty string.');
+        }
+
+>>>>>>> main
         return $this->writer->delete($name);
     }
 }

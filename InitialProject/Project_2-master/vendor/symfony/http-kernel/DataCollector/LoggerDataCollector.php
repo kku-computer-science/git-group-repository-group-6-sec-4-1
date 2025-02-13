@@ -30,7 +30,11 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
     private $requestStack;
     private $processedLogs;
 
+<<<<<<< HEAD
     public function __construct(object $logger = null, string $containerPathPrefix = null, RequestStack $requestStack = null)
+=======
+    public function __construct(?object $logger = null, ?string $containerPathPrefix = null, ?RequestStack $requestStack = null)
+>>>>>>> main
     {
         if (null !== $logger && $logger instanceof DebugLoggerInterface) {
             $this->logger = $logger;
@@ -43,7 +47,11 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
     public function collect(Request $request, Response $response, \Throwable $exception = null)
+=======
+    public function collect(Request $request, Response $response, ?\Throwable $exception = null)
+>>>>>>> main
     {
         $this->currentRequest = $this->requestStack && $this->requestStack->getMainRequest() !== $request ? $request : null;
     }
@@ -144,7 +152,11 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
 
         $allChannels = [];
         foreach ($this->getProcessedLogs() as $log) {
+<<<<<<< HEAD
             if ('' === trim($log['channel'])) {
+=======
+            if ('' === trim($log['channel'] ?? '')) {
+>>>>>>> main
                 continue;
             }
 
@@ -222,9 +234,15 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
         return $logs;
     }
 
+<<<<<<< HEAD
     private function getContainerCompilerLogs(string $compilerLogsFilepath = null): array
     {
         if (!is_file($compilerLogsFilepath)) {
+=======
+    private function getContainerCompilerLogs(?string $compilerLogsFilepath = null): array
+    {
+        if (!$compilerLogsFilepath || !is_file($compilerLogsFilepath)) {
+>>>>>>> main
             return [];
         }
 

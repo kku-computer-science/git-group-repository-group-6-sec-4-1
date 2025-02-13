@@ -4,6 +4,10 @@ namespace PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Comment;
+<<<<<<< HEAD
+=======
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx\Namespaces;
+>>>>>>> main
 use PhpOffice\PhpSpreadsheet\Shared\XMLWriter;
 
 class Comments extends WriterPart
@@ -40,7 +44,11 @@ class Comments extends WriterPart
 
         // comments
         $objWriter->startElement('comments');
+<<<<<<< HEAD
         $objWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/spreadsheetml/2006/main');
+=======
+        $objWriter->writeAttribute('xmlns', Namespaces::MAIN);
+>>>>>>> main
 
         // Loop through authors
         $objWriter->startElement('authors');
@@ -107,9 +115,15 @@ class Comments extends WriterPart
 
         // xml
         $objWriter->startElement('xml');
+<<<<<<< HEAD
         $objWriter->writeAttribute('xmlns:v', 'urn:schemas-microsoft-com:vml');
         $objWriter->writeAttribute('xmlns:o', 'urn:schemas-microsoft-com:office:office');
         $objWriter->writeAttribute('xmlns:x', 'urn:schemas-microsoft-com:office:excel');
+=======
+        $objWriter->writeAttribute('xmlns:v', Namespaces::URN_VML);
+        $objWriter->writeAttribute('xmlns:o', Namespaces::URN_MSOFFICE);
+        $objWriter->writeAttribute('xmlns:x', Namespaces::URN_EXCEL);
+>>>>>>> main
 
         // o:shapelayout
         $objWriter->startElement('o:shapelayout');
@@ -165,7 +179,11 @@ class Comments extends WriterPart
         // Metadata
         [$column, $row] = Coordinate::indexesFromString($cellReference);
         $id = 1024 + $column + $row;
+<<<<<<< HEAD
         $id = substr($id, 0, 4);
+=======
+        $id = substr("$id", 0, 4);
+>>>>>>> main
 
         // v:shape
         $objWriter->startElement('v:shape');
@@ -223,10 +241,17 @@ class Comments extends WriterPart
         $objWriter->writeElement('x:AutoFill', 'False');
 
         // x:Row
+<<<<<<< HEAD
         $objWriter->writeElement('x:Row', ($row - 1));
 
         // x:Column
         $objWriter->writeElement('x:Column', ($column - 1));
+=======
+        $objWriter->writeElement('x:Row', (string) ($row - 1));
+
+        // x:Column
+        $objWriter->writeElement('x:Column', (string) ($column - 1));
+>>>>>>> main
 
         $objWriter->endElement();
 

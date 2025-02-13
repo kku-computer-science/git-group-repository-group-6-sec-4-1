@@ -41,6 +41,13 @@ final class SimpleType extends Type
             return true;
         }
 
+<<<<<<< HEAD
+=======
+        if ($this->name === 'bool' && $other->name() === 'true') {
+            return true;
+        }
+
+>>>>>>> main
         if ($this->name === 'bool' && $other->name() === 'false') {
             return true;
         }
@@ -67,6 +74,12 @@ final class SimpleType extends Type
         return $this->value;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @psalm-assert-if-true SimpleType $this
+     */
+>>>>>>> main
     public function isSimple(): bool
     {
         return true;

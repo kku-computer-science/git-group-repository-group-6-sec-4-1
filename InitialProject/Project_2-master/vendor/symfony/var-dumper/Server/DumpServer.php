@@ -32,7 +32,11 @@ class DumpServer
      */
     private $socket;
 
+<<<<<<< HEAD
     public function __construct(string $host, LoggerInterface $logger = null)
+=======
+    public function __construct(string $host, ?LoggerInterface $logger = null)
+>>>>>>> main
     {
         if (!str_contains($host, '://')) {
             $host = 'tcp://'.$host;

@@ -8,7 +8,11 @@ use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\DefinedName;
 use PhpOffice\PhpSpreadsheet\Shared\XMLWriter;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+<<<<<<< HEAD
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+=======
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet as ActualWorksheet;
+>>>>>>> main
 
 class DefinedNames
 {
@@ -72,7 +76,11 @@ class DefinedNames
         $local = -1;
         if ($definedName->getLocalOnly() && $definedName->getScope() !== null) {
             try {
+<<<<<<< HEAD
                 $local = $definedName->getScope()->getParent()->getIndex($definedName->getScope());
+=======
+                $local = $definedName->getScope()->getParentOrThrow()->getIndex($definedName->getScope());
+>>>>>>> main
             } catch (Exception $e) {
                 // See issue 2266 - deleting sheet which contains
                 //     defined names will cause Exception above.
@@ -98,7 +106,11 @@ class DefinedNames
     /**
      * Write Defined Name for autoFilter.
      */
+<<<<<<< HEAD
     private function writeNamedRangeForAutofilter(Worksheet $worksheet, int $worksheetId = 0): void
+=======
+    private function writeNamedRangeForAutofilter(ActualWorksheet $worksheet, int $worksheetId = 0): void
+>>>>>>> main
     {
         // NamedRange for autoFilter
         $autoFilterRange = $worksheet->getAutoFilter()->getRange();
@@ -112,6 +124,7 @@ class DefinedNames
             $range = Coordinate::splitRange($autoFilterRange);
             $range = $range[0];
             //    Strip any worksheet ref so we can make the cell ref absolute
+<<<<<<< HEAD
             [, $range[0]] = Worksheet::extractSheetTitle($range[0], true);
 
             $range[0] = Coordinate::absoluteCoordinate($range[0]);
@@ -119,6 +132,17 @@ class DefinedNames
             $range = implode(':', $range);
 
             $this->objWriter->writeRawData('\'' . str_replace("'", "''", $worksheet->getTitle() ?? '') . '\'!' . $range);
+=======
+            [, $range[0]] = ActualWorksheet::extractSheetTitle($range[0], true);
+
+            $range[0] = Coordinate::absoluteCoordinate($range[0]);
+            if (count($range) > 1) {
+                $range[1] = Coordinate::absoluteCoordinate($range[1]);
+            }
+            $range = implode(':', $range);
+
+            $this->objWriter->writeRawData('\'' . str_replace("'", "''", $worksheet->getTitle()) . '\'!' . $range);
+>>>>>>> main
 
             $this->objWriter->endElement();
         }
@@ -127,7 +151,11 @@ class DefinedNames
     /**
      * Write Defined Name for PrintTitles.
      */
+<<<<<<< HEAD
     private function writeNamedRangeForPrintTitles(Worksheet $worksheet, int $worksheetId = 0): void
+=======
+    private function writeNamedRangeForPrintTitles(ActualWorksheet $worksheet, int $worksheetId = 0): void
+>>>>>>> main
     {
         // NamedRange for PrintTitles
         if ($worksheet->getPageSetup()->isColumnsToRepeatAtLeftSet() || $worksheet->getPageSetup()->isRowsToRepeatAtTopSet()) {
@@ -165,7 +193,11 @@ class DefinedNames
     /**
      * Write Defined Name for PrintTitles.
      */
+<<<<<<< HEAD
     private function writeNamedRangeForPrintArea(Worksheet $worksheet, int $worksheetId = 0): void
+=======
+    private function writeNamedRangeForPrintArea(ActualWorksheet $worksheet, int $worksheetId = 0): void
+>>>>>>> main
     {
         // NamedRange for PrintArea
         if ($worksheet->getPageSetup()->isPrintAreaSet()) {

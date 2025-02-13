@@ -20,7 +20,11 @@ class FatalError extends \Error
      *
      * @param array $error An array as returned by error_get_last()
      */
+<<<<<<< HEAD
     public function __construct(string $message, int $code, array $error, int $traceOffset = null, bool $traceArgs = true, array $trace = null)
+=======
+    public function __construct(string $message, int $code, array $error, ?int $traceOffset = null, bool $traceArgs = true, ?array $trace = null)
+>>>>>>> main
     {
         parent::__construct($message, $code);
 
@@ -33,7 +37,11 @@ class FatalError extends \Error
                 }
             }
         } elseif (null !== $traceOffset) {
+<<<<<<< HEAD
             if (\function_exists('xdebug_get_function_stack') && $trace = @xdebug_get_function_stack()) {
+=======
+            if (\function_exists('xdebug_get_function_stack') && \in_array(\ini_get('xdebug.mode'), ['develop', false], true) && $trace = @xdebug_get_function_stack()) {
+>>>>>>> main
                 if (0 < $traceOffset) {
                     array_splice($trace, -$traceOffset);
                 }
