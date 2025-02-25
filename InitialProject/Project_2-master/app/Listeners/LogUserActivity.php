@@ -7,36 +7,30 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Support\Facades\Log;
+use App\Events\UserActionEvent;
 
 class LogUserActivity
 {
-    /**
-     * Create the event listener.
-     * @param  mixed  $event
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Handle the event.
-     *
-     * @param  object  $event
-     * @return void
-     */
     public function handle($event)
     {
         $ip = request()->ip();
         $timestamp = now();
-        
+        $user = null;
+        $action = null;
+        $details = [];
+
         if ($event instanceof Login) {
-            $action = 'logged in';
+            $action = 'login';
             $user = $event->user;
+            $details = ['target' => 'session'];
         } elseif ($event instanceof Logout) {
-            $action = 'logged out';
-            $user = $event->user ?? session('last_user'); // ใช้ค่า user จาก session ถ้ามี
+            $action = 'logout';
+            $user = $event->user ?? session('last_user');
+            $details = ['target' => 'session'];
+        } elseif ($event instanceof UserActionEvent) {
+            $action = $event->action; // "insert", "update", "delete"
+            $user = $event->user;
+            $details = $event->details;
         } else {
             return;
         }
@@ -53,11 +47,13 @@ class LogUserActivity
         $userId = $user->id ?? 'Unknown';
         $email = $user->email ?? 'Unknown';
 
-        Log::channel('activity')->info("User {$userId} ({$email}) has {$action}.", [
+        Log::channel('activity')->info(json_encode([
             'user_id' => $userId,
             'email' => $email,
-            'timestamp' => $timestamp,
+            'action' => $action,
+            'details' => $details,
+            'timestamp' => $timestamp->toDateTimeString(),
             'ip' => $ip,
-        ]);
+        ]));
     }
 }

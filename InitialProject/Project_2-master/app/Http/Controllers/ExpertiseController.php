@@ -3,13 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Expertise;
-use App\Models\Fund;
 use App\Models\User;
+use App\Events\UserActionEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class ExpertiseController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -47,38 +53,34 @@ class ExpertiseController extends Controller
      */
     public function store(Request $request)
     {
-        $r = $request->validate([
-            'expert_name' => 'required',
-
+        $validator = Validator::make($request->all(), [
+            'expert_name' => 'required|string|max:255',
         ]);
-        $exp = Expertise::find($request->exp_id);
-        //return $exp;
-        $exp_id = $request->exp_id;
-        //dd($custId);
-        if (auth()->user()->hasRole('admin')) {
-            $exp->update($request->all());
+
+        if (!$validator->passes()) {
+            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
         } else {
-            $user = User::find(Auth::user()->id);
-            $user->expertise()->updateOrCreate(['id' => $exp_id], ['expert_name' => $request->expert_name]);
+            $expertise = Expertise::create([
+                'expert_name' => $request->expert_name,
+                'user_id' => Auth::user()->id, // เก็บ user_id ของผู้ใช้ที่ล็อกอิน
+            ]);
+
+            if ($expertise) {
+                event(new UserActionEvent(
+                    Auth::user(),
+                    'insert',
+                    ['target' => 'expertise', 'expert_name' => $request->expert_name, 'expertise_id' => $expertise->id]
+                ));
+                if (auth()->user()->hasRole('admin')) {
+                    return redirect()->route('experts.index')->with('success', 'Expertise entry created successfully.');
+                } else {
+                    return back()->withInput(['tab' => 'expertise'])->with('success', 'Your expertise info has been created successfully.');
+                }
+            } else {
+                return response()->json(['status' => 0, 'msg' => 'Something went wrong.']);
+            }
         }
-
-        if (empty($request->exp_id))
-            $msg = 'Expertise entry created successfully.';
-        else
-            $msg = 'Expertise data is updated successfully';
-
-        if (auth()->user()->hasRole('admin')) {
-            return redirect()->route('experts.index')->with('success', $msg);
-        } else {
-            //return response()->json(['status'=>1,'msg'=>'Your expertise info has been update successfuly.']);
-            //return redirect()->back() ->with('alert', 'Updated!');
-            return back()->withInput(['tab' => 'expertise']);
-            //return response()->json(['status'=>1,'msg'=>'Your expertise info has been update successfuly.']);
-        }
-
-        //return redirect()->route('experts.index')->with('success',$msg);
     }
-
 
     /**
      * Display the specified resource.
@@ -88,9 +90,6 @@ class ExpertiseController extends Controller
      */
     public function show(Expertise $expertise)
     {
-        //return view('expertise.show',compact('expertise'));
-        //$where = array('id' => $id);
-        //$exp = Expertise::where($where)->first();
         return response()->json($expertise);
     }
 
@@ -116,7 +115,52 @@ class ExpertiseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'expert_name' => 'required|string|max:255',
+        ]);
+
+        if (!$validator->passes()) {
+            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
+        } else {
+            $expertise = Expertise::find($id);
+
+            if (!$expertise || ($expertise->user_id !== Auth::user()->id && !auth()->user()->hasRole('admin'))) {
+                return response()->json(['status' => 0, 'msg' => 'Expertise not found or unauthorized.']);
+            }
+
+            // เก็บข้อมูลก่อนอัปเดต
+            $before = $expertise->only(['expert_name']);
+            $update = $expertise->update([
+                'expert_name' => $request->expert_name,
+            ]);
+
+            if ($update) {
+                // เก็บข้อมูลหลังอัปเดต
+                $after = $expertise->only(['expert_name']);
+                // เปรียบเทียบและเก็บเฉพาะฟิลด์ที่มีการเปลี่ยนแปลง
+                $changes = [];
+                foreach ($before as $key => $value) {
+                    if (isset($after[$key]) && $value !== $after[$key]) {
+                        $changes['before'][$key] = $value;
+                        $changes['after'][$key] = $after[$key];
+                    }
+                }
+                if (!empty($changes)) {
+                    event(new UserActionEvent(
+                        Auth::user(),
+                        'update',
+                        ['target' => 'expertise', 'changes' => $changes, 'expertise_id' => $expertise->id]
+                    ));
+                }
+                if (auth()->user()->hasRole('admin')) {
+                    return redirect()->route('experts.index')->with('success', 'Expertise data is updated successfully.');
+                } else {
+                    return back()->withInput(['tab' => 'expertise'])->with('success', 'Your expertise info has been updated successfully.');
+                }
+            } else {
+                return response()->json(['status' => 0, 'msg' => 'Something went wrong.']);
+            }
+        }
     }
 
     /**
@@ -127,17 +171,25 @@ class ExpertiseController extends Controller
      */
     public function destroy($id)
     {
-        //dd($id);
-        $exp = Expertise::where('id', $id)->delete();
-        $msg = 'Expertise entry created successfully.';
-        if (auth()->user()->hasRole('admin')) {
-            return redirect()->route('experts.index')->with('success', $msg);
-        } else {
-            //return response()->json(['status'=>1,'msg'=>'Your expertise info has been update successfuly.']);
-            //return redirect()->back() ->with('alert', 'Updated!');
-            return back()->withInput(['tab' => 'expertise']);
-            //return response()->json(['status'=>1,'msg'=>'Your expertise info has been update successfuly.']);
+        $expertise = Expertise::find($id);
+
+        if (!$expertise || ($expertise->user_id !== Auth::user()->id && !auth()->user()->hasRole('admin'))) {
+            return response()->json(['status' => 0, 'msg' => 'Expertise not found or unauthorized.']);
         }
-        //return response()->json($exp);
+
+        $expertName = $expertise->expert_name;
+        $expertise->delete();
+
+        event(new UserActionEvent(
+            Auth::user(),
+            'delete',
+            ['target' => 'expertise', 'expert_name' => $expertName, 'expertise_id' => $id]
+        ));
+
+        if (auth()->user()->hasRole('admin')) {
+            return redirect()->route('experts.index')->with('success', 'Expertise entry deleted successfully.');
+        } else {
+            return back()->withInput(['tab' => 'expertise'])->with('success', 'Your expertise info has been deleted successfully.');
+        }
     }
 }
