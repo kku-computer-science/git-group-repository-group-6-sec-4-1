@@ -211,6 +211,7 @@ class ProfileuserController extends Controller
         }
     }
 
+<<<<<<< HEAD
     function logs()
     {
         $logPath = storage_path('logs/laravel.log'); // ระบุไฟล์ log
@@ -234,4 +235,90 @@ class ProfileuserController extends Controller
     
         return view('logs.index', compact('pagedLogs'));
     }
+=======
+    public function logs(Request $request)
+    {
+        $logType = $request->query('type'); // ถ้ามี type จะกรองเฉพาะไฟล์นั้น
+        $logDir = storage_path('logs');
+        $allLogs = [];
+
+        // ดึงไฟล์ log ทั้งหมด
+        $logFiles = File::files($logDir);
+
+        foreach ($logFiles as $file) {
+            $fileName = $file->getFilename();
+            if ($logType && $fileName !== "{$logType}.log") {
+                continue; // กรองเฉพาะ logType ถ้ามีการระบุ
+            }
+
+            $content = array_reverse(explode("\n", File::get($file->getPathname())));
+            foreach ($content as $line) {
+                if (trim($line)) {
+                    // เพิ่มชื่อไฟล์และบรรทัด log เข้าไป
+                    $allLogs[] = [
+                        'file' => $fileName,
+                        'line' => $line,
+                        'timestamp' => $this->extractTimestamp($line) ?: null,
+                    ];
+                }
+            }
+        }
+
+        // เรียงลำดับตาม timestamp (ถ้ามี) หรือตามลำดับไฟล์
+        usort($allLogs, function ($a, $b) {
+            if ($a['timestamp'] && $b['timestamp']) {
+                return strcmp($b['timestamp'], $a['timestamp']); // เรียงจากใหม่ไปเก่า
+            }
+            return strcmp($a['file'], $b['file']); // ถ้าไม่มี timestamp ให้เรียงตามชื่อไฟล์
+        });
+
+        // แบ่งหน้า
+        $perPage = 20;
+        $currentPage = $request->get('page', 1);
+        $pagedLogs = new LengthAwarePaginator(
+            array_slice($allLogs, ($currentPage - 1) * $perPage, $perPage),
+            count($allLogs),
+            $perPage,
+            $currentPage,
+            ['path' => url('/logs') . ($logType ? "?type={$logType}" : '')]
+        );
+
+        return view('logs.index', compact('pagedLogs', 'logType'));
+    }
+
+    // ฟังก์ชันช่วยดึง timestamp จาก log
+    private function extractTimestamp($logLine)
+    {
+        if (preg_match('/^\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\]/', $logLine, $matches)) {
+            return $matches[1];
+        }
+        return null;
+    }
+
+    public function exportLogs(Request $request)
+    {
+        $logType = $request->query('type'); // ถ้ามี type จะส่งออกเฉพาะไฟล์นั้น
+        $logDir = storage_path('logs');
+        $exportContent = '';
+
+        $logFiles = File::files($logDir);
+        foreach ($logFiles as $file) {
+            $fileName = $file->getFilename();
+            if ($logType && $fileName !== "{$logType}.log") {
+                continue;
+            }
+            $exportContent .= "=== {$fileName} ===\n" . File::get($file->getPathname()) . "\n\n";
+        }
+
+        if (empty($exportContent)) {
+            return redirect()->back()->with('error', 'ไม่มีไฟล์ Log ให้ดาวน์โหลด');
+        }
+
+        $fileName = ($logType ? $logType : 'all_logs') . "_" . now()->format('Ymd_His') . ".txt";
+        return response($exportContent)
+            ->header('Content-Type', 'text/plain')
+            ->header('Content-Disposition', "attachment; filename={$fileName}");
+    }
+
+>>>>>>> origin/main
 }
