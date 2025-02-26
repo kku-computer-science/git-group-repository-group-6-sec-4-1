@@ -14,9 +14,6 @@ use Illuminate\Support\Facades\Storage;
 
 class ResearchGroupController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function __construct()
     {
         $this->middleware('permission:groups-list|groups-create|groups-edit|groups-delete', ['only' => ['index', 'show']]);
@@ -31,9 +28,6 @@ class ResearchGroupController extends Controller
         return view('research_groups.index', compact('researchGroups'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $users = User::role(['teacher', 'student'])->get();
@@ -41,9 +35,6 @@ class ResearchGroupController extends Controller
         return view('research_groups.create', compact('users', 'funds'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -72,32 +63,27 @@ class ResearchGroupController extends Controller
             }
         }
 
-        // Log all validated input data for the research group with custom labels
         $logDetails = [
             'target' => 'research_group',
             'research_group_id' => $researchGroup->id,
         ];
 
-        // Define custom labels for fields
         $fieldLabels = [
             'group_name_th' => 'ชื่อกลุ่มวิจัย',
             'group_name_en' => 'Group Name (English)',
             'group_desc_th' => 'คำอธิบายกลุ่ม (ไทย)',
             'group_desc_en' => 'Group Description (English)',
             'group_detail_en' => 'Group Detail (English)',
-            'head_name' => 'หัวหน้า',
             'moreFields' => 'สมาชิก',
             'group_image' => 'ภาพกลุ่ม',
+            'head_name' => 'หัวหน้า',
         ];
 
-        // Add all validated request data (except _token and sensitive fields)
-        $validatedData = $request->except(['_token']); // Exclude CSRF token
+        $validatedData = $request->except(['_token', 'group_image']);
         foreach ($validatedData as $key => $value) {
             if ($key === 'head') {
-                // Skip logging the head ID since we have head_name
                 continue;
             } elseif ($key === 'moreFields' && is_array($value)) {
-                // Transform moreFields into a list of member full names
                 $memberNames = [];
                 foreach ($value as $member) {
                     if (isset($member['userid']) && !empty($member['userid'])) {
@@ -109,19 +95,14 @@ class ResearchGroupController extends Controller
                 }
                 $logDetails[$fieldLabels[$key] ?? $key] = $memberNames ? implode(', ', $memberNames) : 'ไม่มีสมาชิก';
             } else {
-                // Handle other fields with custom labels
                 $logDetails[$fieldLabels[$key] ?? $key] = is_array($value) ? json_encode($value) : $value;
             }
         }
 
-        // Add head name (full name)
         $headUser = User::find($head);
-        $logDetails['head_name'] = trim($headUser->fname_en . ' ' . $headUser->lname_en);
+        $logDetails[$fieldLabels['head_name']] = trim($headUser->fname_en . ' ' . $headUser->lname_en);
+        $logDetails[$fieldLabels['group_image']] = $input['group_image'] ?? null;
 
-        // Include group_image if uploaded
-        $logDetails['group_image'] = $input['group_image'] ?? null;
-
-        // If there’s a fund field, include its name (though it’s not validated, check if it exists)
         if ($request->has('fund')) {
             $fund = Fund::find($request->fund);
             $logDetails['fund_name'] = $fund->fund_name ?? 'Unknown';
@@ -136,17 +117,11 @@ class ResearchGroupController extends Controller
         return redirect()->route('researchGroups.index')->with('success', 'Research group created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(ResearchGroup $researchGroup)
     {
         return view('research_groups.show', compact('researchGroup'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(ResearchGroup $researchGroup)
     {
         $researchGroup = ResearchGroup::find($researchGroup->id);
@@ -156,9 +131,6 @@ class ResearchGroupController extends Controller
         return view('research_groups.edit', compact('researchGroup', 'users'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, ResearchGroup $researchGroup)
     {
         $request->validate([
@@ -169,7 +141,28 @@ class ResearchGroupController extends Controller
         $user = Auth::user();
         $this->authorize('update', $researchGroup);
 
-        $before = $researchGroup->only(['group_name_th', 'group_name_en', 'group_image']);
+        // Define custom labels for fields (same as store)
+        $fieldLabels = [
+            'group_name_th' => 'ชื่อกลุ่มวิจัย',
+            'group_name_en' => 'Group Name (English)',
+            'group_desc_th' => 'คำอธิบายกลุ่ม (ไทย)',
+            'group_desc_en' => 'Group Description (English)',
+            'group_detail_en' => 'Group Detail (English)',
+            'moreFields' => 'สมาชิก',
+            'group_image' => 'ภาพกลุ่ม',
+            'head_name' => 'หัวหน้า',
+        ];
+
+        // Capture the before state
+        $before = $researchGroup->only(['group_name_th', 'group_name_en', 'group_desc_th', 'group_desc_en', 'group_detail_en', 'group_image']);
+        $beforeUsers = $researchGroup->user()->get()->map(function ($user) {
+            return [
+                'userid' => $user->id,
+                'name' => trim($user->fname_en . ' ' . $user->lname_en),
+                'role' => $user->pivot->role
+            ];
+        })->toArray();
+
         $input = $request->all();
 
         if ($request->group_image) {
@@ -190,26 +183,86 @@ class ResearchGroupController extends Controller
             }
         }
 
-        $after = $researchGroup->only(['group_name_th', 'group_name_en', 'group_image']);
-
-        $changes = [];
-        foreach ($before as $key => $value) {
-            if ($value != $after[$key]) {
-                $changes['before'][$key] = $value;
-                $changes['after'][$key] = $after[$key];
+        // Capture the after state
+        $after = $researchGroup->only(['group_name_th', 'group_name_en', 'group_desc_th', 'group_desc_en', 'group_detail_en', 'group_image']);
+        $afterUsers = [];
+        $headUser = User::find($head);
+        if ($headUser) {
+            $afterUsers[] = [
+                'userid' => $headUser->id,
+                'name' => trim($headUser->fname_en . ' ' . $headUser->lname_en),
+                'role' => 1
+            ];
+        }
+        if ($request->moreFields) {
+            foreach ($request->moreFields as $value) {
+                if ($value['userid'] != null) {
+                    $memberUser = User::find($value['userid']);
+                    if ($memberUser) {
+                        $afterUsers[] = [
+                            'userid' => $memberUser->id,
+                            'name' => trim($memberUser->fname_en . ' ' . $memberUser->lname_en),
+                            'role' => 2
+                        ];
+                    }
+                }
             }
         }
 
-        $headUser = User::find($head);
+        // Build log details
+        $logDetails = [
+            'target' => 'research_group',
+            'research_group_id' => $researchGroup->id,
+        ];
+
+        // Compare tracked fields
+        $changes = [];
+        foreach ($before as $key => $value) {
+            if ($value != $after[$key]) {
+                $changes['before'][$fieldLabels[$key] ?? $key] = $value;
+                $changes['after'][$fieldLabels[$key] ?? $key] = $after[$key];
+            }
+        }
+
+        // Compare members
+        $beforeUserIds = array_column($beforeUsers, 'userid');
+        $afterUserIds = array_column($afterUsers, 'userid');
+        $memberChanges = [];
+
+        // Head change
+        $beforeHead = array_filter($beforeUsers, fn($user) => $user['role'] == 1);
+        $afterHead = array_filter($afterUsers, fn($user) => $user['role'] == 1);
+        $beforeHeadName = !empty($beforeHead) ? reset($beforeHead)['name'] : null;
+        $afterHeadName = !empty($afterHead) ? reset($afterHead)['name'] : null;
+        if ($beforeHeadName !== $afterHeadName) {
+            $logDetails[$fieldLabels['head_name']] = [
+                'before' => $beforeHeadName,
+                'after' => $afterHeadName
+            ];
+        }
+
+        // Members change
+        $beforeMembers = array_filter($beforeUsers, fn($user) => $user['role'] == 2);
+        $afterMembers = array_filter($afterUsers, fn($user) => $user['role'] == 2);
+        $beforeMemberNames = array_column($beforeMembers, 'name');
+        $afterMemberNames = array_column($afterMembers, 'name');
+        if ($beforeMemberNames != $afterMemberNames) {
+            $memberChanges['before'] = $beforeMemberNames ? implode(', ', $beforeMemberNames) : 'ไม่มีสมาชิก';
+            $memberChanges['after'] = $afterMemberNames ? implode(', ', $afterMemberNames) : 'ไม่มีสมาชิก';
+            $logDetails[$fieldLabels['moreFields']] = $memberChanges;
+        }
+
+        // Add changes to log details
         if (!empty($changes)) {
+            $logDetails['changes'] = $changes;
+        }
+
+        // Trigger event if there are any changes
+        if (!empty($changes) || isset($logDetails[$fieldLabels['head_name']]) || isset($logDetails[$fieldLabels['moreFields']])) {
             event(new UserActionEvent(
                 $user,
                 'update',
-                [
-                    'target' => 'research_group',
-                    'changes' => $changes,
-                    'research_group_id' => $researchGroup->id,
-                ]
+                $logDetails
             ));
         }
 
@@ -217,32 +270,35 @@ class ResearchGroupController extends Controller
             ->with('success', 'Research group updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(ResearchGroup $researchGroup)
-    {
-        $user = Auth::user();
-        $this->authorize('delete', $researchGroup);
+{
+    $user = Auth::user();
+    $this->authorize('delete', $researchGroup);
 
-        $groupNameTh = $researchGroup->group_name_th;
-        $groupNameEn = $researchGroup->group_name_en;
-        $headUser = $researchGroup->user()->wherePivot('role', 1)->first(); // Assuming head has role 1
-        $groupId = $researchGroup->id;
-        $researchGroup->delete();
+    // Define custom labels for fields (only essentials)
+    $fieldLabels = [
+        'group_name_th' => 'ชื่อกลุ่มวิจัย',
+        'group_name_en' => 'Group Name (English)',
+    ];
 
-        event(new UserActionEvent(
-            $user,
-            'delete',
-            [
-                'target' => 'research_group',
-                'group_name_th' => $groupNameTh,
-                'group_name_en' => $groupNameEn,
-                'research_group_id' => $groupId,
-            ]
-        ));
+    // Capture essential data before deletion
+    $logDetails = [
+        'target' => 'research_group',
+        'research_group_id' => $researchGroup->id,
+    ];
 
-        return redirect()->route('researchGroups.index')
-            ->with('success', 'Research group deleted successfully');
-    }
+    $logDetails[$fieldLabels['group_name_th']] = $researchGroup->group_name_th;
+    $logDetails[$fieldLabels['group_name_en']] = $researchGroup->group_name_en;
+
+    $researchGroup->delete();
+
+    event(new UserActionEvent(
+        $user,
+        'delete',
+        $logDetails
+    ));
+
+    return redirect()->route('researchGroups.index')
+        ->with('success', 'Research group deleted successfully');
+}
 }
