@@ -5,52 +5,52 @@
 
 <h3 style="padding-top: 10px;">ยินดีต้อนรับเข้าสู่ระบบจัดการข้อมูลวิจัยของสาขาวิชาวิทยาการคอมพิวเตอร์</h3>
 <br>
-<h4>สวัสดี {{ Auth::user()->position_th }} {{ Auth::user()->fname_th }} {{ Auth::user()->lname_th }}</h4>
+<h4>สวัสดี {{ Auth::user()->position_th }} {{ Auth::user()->fname_th }} {{ Auth::user()->lname_th }}</h4><br>
 
 @if(Auth::user()->hasRole('admin'))
-
-<div class="mb-3">
-    <form method="GET" action="{{ url('/dashboard') }}" class="d-flex gap-3 align-items-end" id="logFilterForm">
-        <div class="form-group">
-            <label for="user_id">Filter by User:</label>
-            <select name="user_id" id="user_id" class="form-control">
-                <option value="">All Users</option>
-                @foreach($users as $user)
-                    <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
-                        {{ $user->email }} (ID: {{ $user->id }})
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="search">Search:</label>
-            <input type="text" name="search" id="search" class="form-control" 
-                   value="{{ request('search') }}" placeholder="Search actions or details...">
-        </div>
-        <button type="submit" class="btn btn-primary">Filter</button>
-        <a href="{{ url('/dashboard') }}" class="btn btn-secondary">Reset</a>
-    </form>
-</div>
 
 <!-- Tab Navigation -->
 <ul class="nav nav-tabs mb-4" id="logTabs" role="tablist">
     <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="activity-tab" data-bs-toggle="tab" data-bs-target="#activity" type="button" role="tab" aria-controls="activity" aria-selected="true">User Activity Logs</button>
+        <a class="nav-link {{ $activeTab == 'activity' ? 'active' : '' }}" href="{{ url('/dashboard') }}">User Activity Logs</a>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="http-tab" data-bs-toggle="tab" data-bs-target="#http" type="button" role="tab" aria-controls="http" aria-selected="false">HTTP Error Logs</button>
+        <a class="nav-link {{ $activeTab == 'http' ? 'active' : '' }}" href="{{ url('/dashboard/http') }}">HTTP Error Logs</a>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="system-tab" data-bs-toggle="tab" data-bs-target="#system" type="button" role="tab" aria-controls="system" aria-selected="false">System Error Logs</button>
+        <a class="nav-link {{ $activeTab == 'system' ? 'active' : '' }}" href="{{ url('/dashboard/system') }}">System Error Logs</a>
     </li>
 </ul>
 
 <!-- Tab Content -->
 <div class="tab-content" id="logTabContent">
     <!-- User Activity Logs Tab -->
-    <div class="tab-pane fade show active" id="activity" role="tabpanel" aria-labelledby="activity-tab">
+    <div class="tab-pane fade {{ $activeTab == 'activity' ? 'show active' : '' }}" id="activity" role="tabpanel">
         <h3>User Activity Logs</h3>
-        @if (!empty($pagedLogs) && count($pagedLogs) > 0)
+        <div class="mb-3">
+            <form method="GET" action="{{ url('/dashboard') }}" class="d-flex gap-3 align-items-end" id="activityFilterForm">
+                <div class="form-group">
+                    <label for="user_id">Filter by User:</label>
+                    <select name="user_id" id="user_id" class="form-control">
+                        <option value="">All Users</option>
+                        @foreach($users as $user)
+                            <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
+                                {{ $user->email }} (ID: {{ $user->id }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="activity_search">Search:</label>
+                    <input type="text" name="activity_search" id="activity_search" class="form-control" 
+                           value="{{ request('activity_search') }}" placeholder="Search actions or details...">
+                </div>
+                <button type="submit" class="btn btn-primary">Filter</button>
+                <a href="{{ url('/dashboard') }}" class="btn btn-secondary">Reset</a>
+            </form>
+        </div>
+
+        @if($pagedLogs && $pagedLogs->count() > 0)
             <div class="card shadow-sm mb-4">
                 <div class="card-header">Activity Logs</div>
                 <div class="card-body">
@@ -132,8 +132,19 @@
     </div>
 
     <!-- HTTP Error Logs Tab -->
-    <div class="tab-pane fade" id="http" role="tabpanel" aria-labelledby="http-tab">
+    <div class="tab-pane fade {{ $activeTab == 'http' ? 'show active' : '' }}" id="http" role="tabpanel">
         <h3 class="text-danger">HTTP Error Logs</h3>
+        <div class="mb-3">
+            <form method="GET" action="{{ url('/dashboard/http') }}" class="d-flex gap-3 align-items-end" id="httpFilterForm">
+                <div class="form-group">
+                    <label for="http_search">Search:</label>
+                    <input type="text" name="http_search" id="http_search" class="form-control" 
+                           value="{{ request('http_search') }}" placeholder="Search HTTP errors...">
+                </div>
+                <button type="submit" class="btn btn-primary">Filter</button>
+                <a href="{{ url('/dashboard/http') }}" class="btn btn-secondary">Reset</a>
+            </form>
+        </div>
         <div class="card shadow-sm mb-4">
             <div class="card-body">
                 <div class="table-responsive">
@@ -148,17 +159,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($httpErrorLogs as $log)
-                                <tr>
-                                    <td>{{ $log->timestamp }}</td>
-                                    <td>{{ $log->ip }}</td>
-                                    <td>{{ $log->method }}</td>
-                                    <td class="text-danger fw-bold">{{ $log->status }}</td>
-                                    <td>{{ $log->url }}</td>
-                                </tr>
-                            @empty
+                            @if($httpErrorLogs && $httpErrorLogs->count() > 0)
+                                @foreach($httpErrorLogs as $log)
+                                    <tr>
+                                        <td>{{ $log->timestamp }}</td>
+                                        <td>{{ $log->ip }}</td>
+                                        <td>{{ $log->method }}</td>
+                                        <td class="text-danger fw-bold">{{ $log->status }}</td>
+                                        <td>{{ $log->url }}</td>
+                                    </tr>
+                                @endforeach
+                            @else
                                 <tr><td colspan="5" class="text-center text-muted">No HTTP error logs found.</td></tr>
-                            @endforelse
+                            @endif
                         </tbody>
                     </table>
                 </div>
@@ -167,8 +180,19 @@
     </div>
 
     <!-- System Error Logs Tab -->
-    <div class="tab-pane fade" id="system" role="tabpanel" aria-labelledby="system-tab">
+    <div class="tab-pane fade {{ $activeTab == 'system' ? 'show active' : '' }}" id="system" role="tabpanel">
         <h3 class="text-warning">System Error Logs</h3>
+        <div class="mb-3">
+            <form method="GET" action="{{ url('/dashboard/system') }}" class="d-flex gap-3 align-items-end" id="systemFilterForm">
+                <div class="form-group">
+                    <label for="system_search">Search:</label>
+                    <input type="text" name="system_search" id="system_search" class="form-control" 
+                           value="{{ request('system_search') }}" placeholder="Search system errors...">
+                </div>
+                <button type="submit" class="btn btn-primary">Filter</button>
+                <a href="{{ url('/dashboard/system') }}" class="btn btn-secondary">Reset</a>
+            </form>
+        </div>
         <div class="card shadow-sm mb-4">
             <div class="card-body">
                 <div class="table-responsive">
@@ -180,14 +204,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($systemErrorLogs as $log)
-                                <tr>
-                                    <td>{{ $log->timestamp }}</td>
-                                    <td>{{ $log->message }}</td>
-                                </tr>
-                            @empty
+                            @if($systemErrorLogs && $systemErrorLogs->count() > 0)
+                                @foreach($systemErrorLogs as $log)
+                                    <tr>
+                                        <td>{{ $log->timestamp }}</td>
+                                        <td>{{ $log->message }}</td>
+                                    </tr>
+                                @endforeach
+                            @else
                                 <tr><td colspan="2" class="text-center text-muted">No system error logs found.</td></tr>
-                            @endforelse
+                            @endif
                         </tbody>
                     </table>
                 </div>
@@ -240,15 +266,15 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const searchInput = document.querySelector('input[name="search"]');
-        if (searchInput) {
-            searchInput.addEventListener('keypress', function (e) {
+        const searchInputs = document.querySelectorAll('input[name="activity_search"], input[name="http_search"], input[name="system_search"]');
+        searchInputs.forEach(input => {
+            input.addEventListener('keypress', function (e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     this.form.submit();
                 }
             });
-        }
+        });
     });
 </script>
 @endpush

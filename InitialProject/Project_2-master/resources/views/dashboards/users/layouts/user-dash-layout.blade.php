@@ -147,15 +147,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
-                    @can('view-logs')
-                    <li class="nav-item">
-                        <a class="nav-link {{ (request()->is('dashboard*')) ? 'active' : '' }}"
-                            href="{{ route('admin.logs') }}">
-                            <i class="menu-icon mdi mdi-server"></i>
-                            <span class="menu-title">View System Logs</span>
-                        </a>
-                    </li>
-                    @endcan
                     <li class="nav-item nav-category">Profile</li>
                     <li class="nav-item">
                         <a class="nav-link {{ (request()->is('admin/profile*')) ? 'active' : '' }}"

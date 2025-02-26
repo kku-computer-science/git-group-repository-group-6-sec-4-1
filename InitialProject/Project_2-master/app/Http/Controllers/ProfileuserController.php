@@ -26,10 +26,9 @@ class ProfileuserController extends Controller
         $users = User::all();
         $user = Auth::user();
 
-        // Activity Logs
         $logPath = storage_path('logs/activity.log');
         $userFilter = $request->query('user_id');
-        $search = $request->query('search');
+        $activitySearch = $request->query('activity_search');
 
         if (!File::exists($logPath)) {
             $pagedLogs = null;
@@ -68,7 +67,7 @@ class ProfileuserController extends Controller
                     if ($userFilter && $userId != $userFilter) {
                         continue;
                     }
-                    if ($search && !str_contains(strtolower($log), strtolower($search))) {
+                    if ($activitySearch && !str_contains(strtolower($log), strtolower($activitySearch))) {
                         continue;
                     }
 
@@ -97,30 +96,62 @@ class ProfileuserController extends Controller
             );
         }
 
-        // Fetch log files like LogsController
-        $files = $this->getLogFiles();
-        $latestAccessLog = $files->first(fn(SplFileInfo $file) => str_contains($file->getFilename(), 'access'));
-        $latestLaravelLog = $files->first(fn(SplFileInfo $file) => str_contains($file->getFilename(), 'laravel'));
-
-        // HTTP Error Logs
-        $httpErrorLogs = $this->parseHttpErrors($latestAccessLog);
-        if ($search) {
-            $httpErrorLogs = $httpErrorLogs->filter(fn($log) => $this->filterLogs($log, strtolower($search)))->values();
-        }
-        $httpErrorLogs = $httpErrorLogs->take(10); // Limit to 10 entries
-
-        // System Error Logs
-        $systemErrorLogs = $this->parseSystemErrors($latestLaravelLog);
-        if ($search) {
-            $systemErrorLogs = $systemErrorLogs->filter(fn($log) => $this->filterLogs($log, strtolower($search)))->values();
-        }
-        $systemErrorLogs = $systemErrorLogs->take(10); // Limit to 10 entries
-
         return view('dashboards.users.index', [
             'users' => $users,
             'pagedLogs' => $pagedLogs,
+            'httpErrorLogs' => null, // Null for other tabs
+            'systemErrorLogs' => null,
+            'activeTab' => 'activity'
+        ]);
+    }
+
+    // HTTP Error Logs
+    function httpLogs(Request $request)
+    {
+        $users = User::all();
+        $user = Auth::user();
+
+        $files = $this->getLogFiles();
+        $latestAccessLog = $files->first(fn(SplFileInfo $file) => str_contains($file->getFilename(), 'access'));
+
+        $httpSearch = $request->query('http_search');
+        $httpErrorLogs = $this->parseHttpErrors($latestAccessLog);
+        if ($httpSearch) {
+            $httpErrorLogs = $httpErrorLogs->filter(fn($log) => $this->filterLogs($log, strtolower($httpSearch)))->values();
+        }
+        $httpErrorLogs = $httpErrorLogs->take(10);
+
+        return view('dashboards.users.index', [
+            'users' => $users,
+            'pagedLogs' => null,
             'httpErrorLogs' => $httpErrorLogs,
-            'systemErrorLogs' => $systemErrorLogs
+            'systemErrorLogs' => null,
+            'activeTab' => 'http'
+        ]);
+    }
+
+    // System Error Logs
+    function systemLogs(Request $request)
+    {
+        $users = User::all();
+        $user = Auth::user();
+
+        $files = $this->getLogFiles();
+        $latestLaravelLog = $files->first(fn(SplFileInfo $file) => str_contains($file->getFilename(), 'laravel'));
+
+        $systemSearch = $request->query('system_search');
+        $systemErrorLogs = $this->parseSystemErrors($latestLaravelLog);
+        if ($systemSearch) {
+            $systemErrorLogs = $systemErrorLogs->filter(fn($log) => $this->filterLogs($log, strtolower($systemSearch)))->values();
+        }
+        $systemErrorLogs = $systemErrorLogs->take(10);
+
+        return view('dashboards.users.index', [
+            'users' => $users,
+            'pagedLogs' => null,
+            'httpErrorLogs' => null,
+            'systemErrorLogs' => $systemErrorLogs,
+            'activeTab' => 'system'
         ]);
     }
 
@@ -142,7 +173,7 @@ class ProfileuserController extends Controller
             $pattern = '/\[(.*?)\] .*?"ip":"([\d\.]+)".*?"status":(\d+).*?"method":"(\w+)".*?"url":"([^"]+)"/';
             if (!preg_match($pattern, $line, $matches)) return null;
 
-            if ((int)$matches[3] >= 400) { // Filter only HTTP errors (>= 400)
+            if ((int)$matches[3] >= 400) {
                 return (object) [
                     'timestamp' => $matches[1],
                     'ip' => $matches[2],
@@ -499,4 +530,6 @@ class ProfileuserController extends Controller
         }
         return null;
     }
+
+    
 }

@@ -158,6 +158,8 @@ Route::group(['middleware' => ['auth', 'PreventBackHistory']], function () {
     Route::post('change-profile-picture', [UserController::class, 'updatePicture'])->name('adminPictureUpdate');
     Route::post('change-password', [ProfileuserController::class, 'changePassword'])->name('adminChangePassword');
     Route::get('dashboard', [ProfileuserController::class, 'index'])->name('dashboard');
+    Route::get('dashboard/http', [ProfileuserController::class, 'httpLogs'])->name('dashboard.http');
+    Route::get('dashboard/system', [ProfileuserController::class, 'systemLogs'])->name('dashboard.system');
     Route::get('profile', [ProfileuserController::class, 'profile'])->name('profile');
     Route::get('settings', [ProfileuserController::class, 'settings'])->name('settings');
     Route::resource('funds', FundController::class);
