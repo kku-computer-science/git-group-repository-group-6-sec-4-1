@@ -1,152 +1,164 @@
 <?php
-  
+
 namespace App\Http\Controllers;
-   
+
 use App\Models\Fund;
-use Illuminate\Http\Request;
 use App\Models\User;
+use App\Events\UserActionEvent;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
-class FundController extends Controller
 
+class FundController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //$funds = Fund::latest()->paginate(5);
         $id = auth()->user()->id;
-        if( auth()->user()->HasRole('admin') ){
+        if (auth()->user()->hasRole('admin')) {
             $funds = Fund::with('User')->get();
-        }
-        elseif( auth()->user()->HasRole('headproject') ){
+        } elseif (auth()->user()->hasRole('headproject')) {
             $funds = Fund::with('User')->get();
-            
-        }
-        elseif( auth()->user()->HasRole('staff') ){
+        } elseif (auth()->user()->hasRole('staff')) {
             $funds = Fund::with('User')->get();
-            
-        }
-        else{
-            $funds=User::find($id)->fund()->get();
-            //$researchProjects=User::find($id)->researchProject()->latest()->paginate(5);
-            
-            //$researchProjects = ResearchProject::with('User')->latest()->paginate(5);
+        } else {
+            $funds = User::find($id)->fund()->get();
         }
 
-        return view('funds.index',compact('funds'));
+        return view('funds.index', compact('funds'));
     }
-     
+
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
         return view('funds.create');
     }
-    
+
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $request->validate([
             'fund_name' => 'required',
             'fund_type' => 'required',
-            'support_resource'=> 'required',
+            'support_resource' => 'required',
         ]);
-    //return $request->all();
-        //Fund::create($request->all());
-        $user = User::find(Auth::user()->id);
-        //return $request->all();
-        // if($request->has('pos')){
-        //     $fund_type = $request->fund_type_etc ;
-            
-        // }else{
-        //     $fund_type = $request->fund_type;
-            
-        // }
 
-        //$fund = $request->all();
-        //$fund['fund_type'] = $fund_type;
-        //return $fund ;
-        $input=$request->all();
-        if($request->fund_type == 'ทุนภายนอก'){
-            $input['fund_level']=null;
+        $user = Auth::user();
+        $input = $request->all();
+
+        if ($request->fund_type == 'ทุนภายนอก') {
+            $input['fund_level'] = null;
         }
-        $user->fund()->Create($input);
-        return redirect()->route('funds.index')->with('success','fund created successfully.');
+
+        $fund = $user->fund()->create($input);
+
+        event(new UserActionEvent(
+            $user,
+            'insert',
+            [
+                'target' => 'fund',
+                'fund_name' => $fund->fund_name,
+                'fund_type' => $fund->fund_type,
+                'support_resource' => $fund->support_resource,
+                'fund_id' => $fund->id
+            ]
+        ));
+
+        return redirect()->route('funds.index')->with('success', 'Fund created successfully.');
     }
-     
+
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Fund  $fund
-     * @return \Illuminate\Http\Response
      */
     public function show(Fund $fund)
     {
-        return view('funds.show',compact('fund'));
-    } 
-     
+        return view('funds.show', compact('fund'));
+    }
+
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Fund  $fund
-     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //return $id;
-        $fu_id = Crypt::decrypt($id);  
-        $fund=Fund::find($fu_id);
+        $fu_id = Crypt::decrypt($id);
+        $fund = Fund::find($fu_id);
         $this->authorize('update', $fund);
-        return view('funds.edit',compact('fund'));
+        return view('funds.edit', compact('fund'));
     }
-    
+
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Fund  $fund
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Fund $fund)
     {
-        // $request->validate([
-        //     'name' => 'required',
-        //     'detail' => 'required',
-        // ]);
-    //return $request->all();
-        $input=$request->all();
-        if($request->fund_type == 'ทุนภายนอก'){
-            $input['fund_level']=null;
+        $request->validate([
+            'fund_name' => 'required',
+            'fund_type' => 'required',
+            'support_resource' => 'required',
+        ]);
+
+        $user = Auth::user();
+        $this->authorize('update', $fund);
+
+        $before = $fund->only(['fund_name', 'fund_type', 'support_resource', 'fund_level']);
+        $input = $request->all();
+
+        if ($request->fund_type == 'ทุนภายนอก') {
+            $input['fund_level'] = null;
         }
+
         $fund->update($input);
-        return redirect()->route('funds.index')
-                        ->with('success','Fund updated successfully');
+        $after = $fund->only(['fund_name', 'fund_type', 'support_resource', 'fund_level']);
+
+        $changes = [];
+        foreach ($before as $key => $value) {
+            if ($value !== $after[$key]) {
+                $changes['before'][$key] = $value;
+                $changes['after'][$key] = $after[$key];
+            }
+        }
+
+        if (!empty($changes)) {
+            event(new UserActionEvent(
+                $user,
+                'update',
+                ['target' => 'fund', 'changes' => $changes, 'fund_id' => $fund->id]
+            ));
+        }
+
+        return redirect()->route('funds.index')->with('success', 'Fund updated successfully');
     }
-    
+
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Fund  $fund
-     * @return \Illuminate\Http\Response
      */
     public function destroy(Fund $fund)
     {
+        $user = Auth::user();
+        $this->authorize('delete', $fund);
+
+        $fundName = $fund->fund_name;
+        $fundId = $fund->id;
         $fund->delete();
-    
-        return redirect()->route('funds.index')
-                        ->with('success','Fund deleted successfully');
+
+        event(new UserActionEvent(
+            $user,
+            'delete',
+            ['target' => 'fund', 'fund_name' => $fundName, 'fund_id' => $fundId]
+        ));
+
+        return redirect()->route('funds.index')->with('success', 'Fund deleted successfully');
     }
 }

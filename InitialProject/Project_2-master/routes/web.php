@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
@@ -137,6 +138,20 @@ Route::group(['middleware' => ['isAdmin', 'auth', 'PreventBackHistory']], functi
     Route::get('/logs', 'LogsController@index')->name('logs');
     Route::get('/logs/{index}', 'LogsController@show')->name('logs.show');
     Route::get('/logs', [ProfileuserController::class, 'logs'])->name('admin.logs');
+    Route::get('/logs/{type}', function ($type) {
+        $logPath = storage_path("logs/{$type}.log");
+    
+        if (!File::exists($logPath)) {
+            return response()->json(['error' => 'Log file not found'], 404);
+        }
+    
+        return response()->json([
+            'filename' => "{$type}.log",
+            'content' => File::get($logPath)
+        ]);
+    });
+    
+    Route::get('/export-logs', [ProfileuserController::class, 'exportLogs'])->name('export.logs');
 
 });
 
