@@ -7,6 +7,7 @@
 <br>
 <h4>สวัสดี {{Auth::user()->position_th}} {{Auth::user()->fname_th}} {{Auth::user()->lname_th}}</h4>
 
+@if(Auth::user()->role === 'admin')
 <!-- เพิ่มส่วนของ Logs -->
 <h3>User Activity Logs</h3>
 
@@ -112,7 +113,7 @@
         <strong>⚠ No Logs Found!</strong> No activity logs available or filtered results are empty.
     </div>
 @endif
-
+@endif
 @endsection
 
 @push('styles')
