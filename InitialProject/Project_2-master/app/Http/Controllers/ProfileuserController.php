@@ -117,114 +117,111 @@ class ProfileuserController extends Controller
     }
 
     function updateInfo(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'fname_en' => 'required',
-            'lname_en' => 'required',
-            'fname_th' => 'required',
-            'lname_th' => 'required',
-            'email' => 'required|email|unique:users,email,' . Auth::user()->id,
-        ]);
+{
+    $validator = Validator::make($request->all(), [
+        'fname_en' => 'required',
+        'lname_en' => 'required',
+        'fname_th' => 'required',
+        'lname_th' => 'required',
+        'email' => 'required|email|unique:users,email,' . Auth::user()->id,
+    ]);
 
-        if (!$validator->passes()) {
-            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
+    if (!$validator->passes()) {
+        return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
+    } else {
+        $id = Auth::user()->id;
+        $user = User::find($id);
+
+        if ($request->title_name_en == "Mr.") {
+            $title_name_th = 'นาย';
+        }
+        if ($request->title_name_en == "Miss") {
+            $title_name_th = 'นางสาว';
+        }
+        if ($request->title_name_en == "Mrs.") {
+            $title_name_th = 'นาง';
+        }
+        $pos_eng = '';
+        $pos_thai = '';
+        $doctoral = null;
+        if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('student')) {
+            $request->academic_ranks_en = null;
+            $request->academic_ranks_th = null;
+            $pos_eng = null;
+            $pos_thai = null;
         } else {
-            $id = Auth::user()->id;
-            $user = User::find($id);
-
-            if ($request->title_name_en == "Mr.") {
-                $title_name_th = 'นาย';
+            if ($request->academic_ranks_en == "Professor") {
+                $pos_en = 'Prof.';
+                $pos_th = 'ศ.';
             }
-            if ($request->title_name_en == "Miss") {
-                $title_name_th = 'นางสาว';
+            if ($request->academic_ranks_en == "Associate Professo") {
+                $pos_en = 'Assoc. Prof.';
+                $pos_th = 'รศ.';
             }
-            if ($request->title_name_en == "Mrs.") {
-                $title_name_th = 'นาง';
+            if ($request->academic_ranks_en == "Assistant Professor") {
+                $pos_en = 'Asst. Prof.';
+                $pos_th = 'ผศ.';
             }
-            $pos_eng = '';
-            $pos_thai = '';
-            $doctoral = null;
-            if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('student')) {
-                $request->academic_ranks_en = null;
-                $request->academic_ranks_th = null;
-                $pos_eng = null;
-                $pos_thai = null;
+            if ($request->academic_ranks_en == "Lecturer") {
+                $pos_en = 'Lecturer';
+                $pos_th = 'อ.';
+            }
+            if ($request->has('pos')) {
+                $pos_eng = $pos_en;
+                $pos_thai = $pos_th;
             } else {
-                if ($request->academic_ranks_en == "Professor") {
-                    $pos_en = 'Prof.';
-                    $pos_th = 'ศ.';
-                }
-                if ($request->academic_ranks_en == "Associate Professo") {
-                    $pos_en = 'Assoc. Prof.';
-                    $pos_th = 'รศ.';
-                }
-                if ($request->academic_ranks_en == "Assistant Professor") {
-                    $pos_en = 'Asst. Prof.';
-                    $pos_th = 'ผศ.';
-                }
-                if ($request->academic_ranks_en == "Lecturer") {
-                    $pos_en = 'Lecturer';
-                    $pos_th = 'อ.';
-                }
-                if ($request->has('pos')) {
+                if ($pos_en == "Lecturer") {
                     $pos_eng = $pos_en;
-                    $pos_thai = $pos_th;
+                    $pos_thai = $pos_th . 'ดร.';
+                    $doctoral = 'Ph.D.';
                 } else {
-                    if ($pos_en == "Lecturer") {
-                        $pos_eng = $pos_en;
-                        $pos_thai = $pos_th . 'ดร.';
-                        $doctoral = 'Ph.D.';
-                    } else {
-                        $pos_eng = $pos_en . ' Dr.';
-                        $pos_thai = $pos_th . 'ดร.';
-                        $doctoral = 'Ph.D.';
-                    }
+                    $pos_eng = $pos_en . ' Dr.';
+                    $pos_thai = $pos_th . 'ดร.';
+                    $doctoral = 'Ph.D.';
                 }
-            }
-
-            // เก็บข้อมูลก่อนอัปเดต (รวม fname_th และ lname_th)
-            $before = $user->only(['fname_en', 'lname_en', 'email', 'title_name_en', 'academic_ranks_en', 'position_en', 'title_name_th', 'doctoral_degree', 'fname_th', 'lname_th']);
-            $query = $user->update([
-                'fname_en' => $request->fname_en,
-                'lname_en' => $request->lname_en,
-                'fname_th' => $request->fname_th,
-                'lname_th' => $request->lname_th,
-                'email' => $request->email,
-                'academic_ranks_en' => $request->academic_ranks_en,
-                'academic_ranks_th' => $request->academic_ranks_th,
-                'position_en' => $pos_eng,
-                'position_th' => $pos_thai,
-                'title_name_en' => $request->title_name_en,
-                'title_name_th' => $title_name_th,
-                'doctoral_degree' => $doctoral,
-            ]);
-
-            if (!$query) {
-                return response()->json(['status' => 0, 'msg' => 'Something went wrong.']);
-            } else {
-                // เก็บข้อมูลหลังอัปเดต (รวม fname_th และ lname_th)
-                $after = $user->only(['fname_en', 'lname_en', 'email', 'title_name_en', 'academic_ranks_en', 'position_en', 'title_name_th', 'doctoral_degree', 'fname_th', 'lname_th']);
-                // ฟิลด์ที่ไม่ต้องการแสดง (เช่น fname_en)
-                $excludedFields = ['fname_en']; // สามารถปรับได้ตามต้องการ
-                // เปรียบเทียบและเก็บเฉพาะฟิลด์ที่มีการเปลี่ยนแปลง และไม่รวมฟิลด์ที่ระบุใน $excludedFields
-                $changes = [];
-                foreach ($before as $key => $value) {
-                    if (!in_array($key, $excludedFields) && isset($after[$key]) && $this->compareValues($value, $after[$key])) {
-                        $changes['before'][$key] = $value;
-                        $changes['after'][$key] = $after[$key];
-                    }
-                }
-                if (!empty($changes)) {
-                    event(new UserActionEvent(
-                        Auth::user(),
-                        'update',
-                        ['target' => 'profile', 'changes' => $changes]
-                    ));
-                }
-                return response()->json(['status' => 1, 'msg' => 'success']);
             }
         }
+
+        $before = $user->only(['fname_en', 'lname_en', 'email', 'title_name_en', 'academic_ranks_en', 'position_en', 'title_name_th', 'doctoral_degree', 'fname_th', 'lname_th']);
+        $query = $user->update([
+            'fname_en' => $request->fname_en,
+            'lname_en' => $request->lname_en,
+            'fname_th' => $request->fname_th,
+            'lname_th' => $request->lname_th,
+            'email' => $request->email,
+            'academic_ranks_en' => $request->academic_ranks_en,
+            'academic_ranks_th' => $request->academic_ranks_th,
+            'position_en' => $pos_eng,
+            'position_th' => $pos_thai,
+            'title_name_en' => $request->title_name_en,
+            'title_name_th' => $title_name_th,
+            'doctoral_degree' => $doctoral,
+        ]);
+
+        if (!$query) {
+            return response()->json(['status' => 0, 'msg' => 'Something went wrong.']);
+        } else {
+            $after = $user->only(['fname_en', 'lname_en', 'email', 'title_name_en', 'academic_ranks_en', 'position_en', 'title_name_th', 'doctoral_degree', 'fname_th', 'lname_th']);
+            $excludedFields = []; // Remove fname_en exclusion
+
+            $changes = [];
+            foreach ($before as $key => $value) {
+                if (!in_array($key, $excludedFields) && isset($after[$key]) && $this->compareValues($value, $after[$key])) {
+                    $changes['before'][$key] = $value;
+                    $changes['after'][$key] = $after[$key];
+                }
+            }
+            if (!empty($changes)) {
+                event(new UserActionEvent(
+                    Auth::user(),
+                    'update',
+                    ['target' => 'profile', 'changes' => $changes]
+                ));
+            }
+            return response()->json(['status' => 1, 'msg' => 'success']);
+        }
     }
+}
 
     // ฟังก์ชันช่วยเปรียบเทียบค่า (รองรับภาษาไทยและ Unicode)
     private function compareValues($value1, $value2)

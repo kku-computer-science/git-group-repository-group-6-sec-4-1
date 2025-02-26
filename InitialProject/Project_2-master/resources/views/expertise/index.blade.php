@@ -51,8 +51,15 @@
                     <tr id="expert_id_{{ $expert->id }}">
                         <td>{{ $i+1 }}</td>
                         @if(Auth::user()->hasRole('admin'))
-                        <td>{{ $expert->user->fname_en }} {{ $expert->user->lname_en }}</td>
-                        @endif
+    <td>
+        @if($expert->user)
+            {{ $expert->user->fname_en }} {{ $expert->user->lname_en }}
+        @else
+            <span class="text-danger">User not found</span>
+        @endif
+    </td>
+@endif
+
                         <td>{{ $expert->expert_name }}</td>
 
                         <td>

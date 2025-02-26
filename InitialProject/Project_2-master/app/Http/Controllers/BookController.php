@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserActionEvent;
 use App\Models\Academicwork;
 use App\Models\Paper;
 use App\Models\User;
@@ -10,97 +11,73 @@ use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $id = auth()->user()->id;
-        //$papers=User::find($id)->paper()->latest()->paginate(5);
-
-        //$papers = Paper::with('teacher')->get();
-        /*$user = User::find($id);
-        $papers = $user->paper()->get();
-        return response()->json($papers);*/
-        if (auth()->user()->hasRole('admin') or auth()->user()->hasRole('staff')) {
-            // $books = Paper::whereHas('source', function ($query) {
-            //     return $query->where('source_data_id', '=', 4);
-            // })->paginate(10);
+        if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('staff')) {
             $books = Academicwork::where('ac_type', '=', 'book')->get();
-            //$books = Academicwork::paginate(10);
         } else {
-            // $books = Paper::with('teacher')->whereHas('teacher', function ($query) use ($id) {
-            //     $query->where('users.id', '=', $id);
-            // })->whereHas('source', function ($query) {
-            //     return $query->where('source_data_id', '=', 4);
-            // })->paginate(10);
             $books = Academicwork::with('user')->whereHas('user', function ($query) use ($id) {
-                 $query->where('users.id', '=', $id);
+                $query->where('users.id', '=', $id);
             })->paginate(10);
         }
-
-        // $papers = Paper::with('teacher','author')->whereHas('teacher', function($query) use($id) {
-        //     $query->where('users.id', '=', $id);
-        //  })->paginate(10);
-        //return $books;
-        //return response()->json($papers);
         return view('books.index', compact('books'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('books.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
             'ac_name' => 'required',
-            //'ac_sourcetitle' => 'required',
             'ac_year' => 'required',
         ]);
 
         $input = $request->except(['_token']);
         $input['ac_type'] = 'book';
         $acw = Academicwork::create($input);
-        //$acw->source()->attach(4);
         $id = auth()->user()->id;
         $user = User::find($id);
         $user->academicworks()->attach($acw);
-        return redirect()->route('books.index')->with('success', 'book created successfully.');
+
+        // Logging
+        $logDetails = [
+            'target' => 'book',
+            'book_id' => $acw->id,
+        ];
+
+        $fieldLabels = [
+            'ac_name' => 'ชื่อหนังสือ',
+            'ac_year' => 'ปีที่ตีพิมพ์',
+            'ac_sourcetitle' => 'สถานที่ตีพิมพ์',
+            'ac_page' => 'จำนวนหน้า',
+            'ac_issue' => 'ฉบับที่'
+        ];
+
+        foreach ($input as $key => $value) {
+            if (array_key_exists($key, $fieldLabels)) {
+                $logDetails[$fieldLabels[$key]] = is_array($value) ? json_encode($value) : $value;
+            }
+        }
+
+        event(new UserActionEvent(
+            Auth::user(),
+            'insert',
+            $logDetails
+        ));
+
+        return redirect()->route('books.index')->with('success', 'Book created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $paper = Academicwork::find($id);
         return view('books.show', compact('paper'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $book = Academicwork::find($id);
@@ -108,46 +85,94 @@ class BookController extends Controller
         return view('books.edit', compact('book'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //return $id;
         $book = Academicwork::find($id);
-        //return $book;
+
         $this->validate($request, [
             'ac_name' => 'required',
-            //'ac_sourcetitle' => 'required',
             'ac_year' => 'required',
         ]);
 
+        // Capture before state
+        $before = $book->only(['ac_name', 'ac_year', 'ac_sourcetitle', 'ac_page', 'ac_issue']);
+
         $input = $request->except(['_token']);
         $input['ac_type'] = 'book';
-
         $book->update($input);
-    
-        return redirect()->route('books.index')
-                        ->with('success','Book updated successfully');
+
+        // Capture after state
+        $after = $book->only(['ac_name', 'ac_year', 'ac_sourcetitle', 'ac_page', 'ac_issue']);
+
+        // Logging
+        $logDetails = [
+            'target' => 'book',
+            'book_id' => $book->id,
+        ];
+
+        $fieldLabels = [
+            'ac_name' => 'ชื่อหนังสือ',
+            'ac_year' => 'ปีที่ตีพิมพ์',
+            'ac_sourcetitle' => 'สถานที่ตีพิมพ์',
+            'ac_page' => 'จำนวนหน้า',
+            'ac_issue' => 'ฉบับที่'
+        ];
+
+        // Compare fields
+        $changes = [];
+        foreach ($before as $key => $value) {
+            if (isset($after[$key]) && $value != $after[$key]) {
+                $changes['before'][$fieldLabels[$key]] = $value;
+                $changes['after'][$fieldLabels[$key]] = $after[$key];
+            }
+        }
+
+        if (!empty($changes)) {
+            $logDetails['changes'] = $changes;
+            event(new UserActionEvent(
+                Auth::user(),
+                'update',
+                $logDetails
+            ));
+        }
+
+        return redirect()->route('books.index')->with('success', 'Book updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $book = Academicwork::find($id);
         $this->authorize('delete', $book);
+
+        // Logging
+        $logDetails = [
+            'target' => 'book',
+            'book_id' => $book->id,
+        ];
+
+        $fieldLabels = [
+            'ac_name' => 'ชื่อหนังสือ',
+            'ac_year' => 'ปีที่ตีพิมพ์',
+            'ac_sourcetitle' => 'สถานที่ตีพิมพ์',
+            'ac_page' => 'จำนวนหน้า',
+            'ac_issue' => 'ฉบับที่'
+        ];
+
+        $logDetails[$fieldLabels['ac_name']] = $book->ac_name;
+        $logDetails[$fieldLabels['ac_year']] = $book->ac_year;
+        // Include optional fields if they exist
+        if ($book->ac_sourcetitle) $logDetails[$fieldLabels['ac_sourcetitle']] = $book->ac_sourcetitle;
+        if ($book->ac_page) $logDetails[$fieldLabels['ac_page']] = $book->ac_page;
+        if ($book->ac_issue) $logDetails[$fieldLabels['ac_issue']] = $book->ac_issue;
+
         $book->delete();
 
-        return redirect()->route('books.index')
-            ->with('success', 'Product deleted successfully');
+        event(new UserActionEvent(
+            Auth::user(),
+            'delete',
+            $logDetails
+        ));
+
+        return redirect()->route('books.index')->with('success', 'Book deleted successfully');
     }
 }

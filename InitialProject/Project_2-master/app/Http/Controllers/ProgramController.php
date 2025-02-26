@@ -2,27 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserActionEvent;
 use App\Models\Degree;
 use App\Models\Department;
 use App\Models\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use SebastianBergmann\Environment\Console;
+use Illuminate\Support\Facades\Auth;
 
 class ProgramController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     function __construct()
     {
-         $this->middleware('permission:programs-list|programs-create|programs-edit|programs-delete', ['only' => ['index','store']]);
-         $this->middleware('permission:programs-create', ['only' => ['create','store']]);
-         $this->middleware('permission:programs-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:programs-delete', ['only' => ['destroy']]);
-         //Redirect::to('dashboard')->send();
+        $this->middleware('permission:programs-list|programs-create|programs-edit|programs-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:programs-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:programs-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:programs-delete', ['only' => ['destroy']]);
     }
 
     public function index()
@@ -30,102 +25,126 @@ class ProgramController extends Controller
         $programs = Program::all();
         $degree = Degree::all();
         $department = Department::all();
-        //return $programs;
         return view('programs.index', compact('programs', 'degree', 'department'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('programs.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $r = $request->validate([
+        $request->validate([
             'program_name_th' => 'required',
             'program_name_en' => 'required',
             'degree' => 'required',
             'department' => 'required',
-
         ]);
 
         $proId = $request->pro_id;
-        $pro = Program::find($proId);
         $degree = Degree::find($request->degree);
         $department = Department::find($request->department);
 
-        //return $degree;
-        //$degree -> program() -> sync($pro);
-        if (!$pro) {
-            $pro2 = new Program;
-            //$pro2->department()->associate($department);
-            //$pro2->degree()->associate($degree);
-            $pro2 = $pro2->degree()->associate($degree);
-            $pro2 = $pro2->department()->associate($department);
-
-            $pro2->program_name_en = $request->program_name_en;
-            $pro2->program_name_th = $request->program_name_th;
-            $pro2->save();
-            //$pro2::Create(['program_name_en' => $request->program_name_en, 'program_name_th' => $request->program_name_th]);
-            //$pro2->department()->associate($department);
-            // $pro2 = $pro2->department()->save($department);
-            // $pro2 = $pro2->degree()->save($degree);
-
-
-            //$pro2->degree()->associate($degree)->save();
-            //$pro2->department()->associate($department)->save();
-            //return $pro;
-            //$pro->save();
-        } else {
-            //$pro->degree()->associate($degree);
-            //$pro->comment = "Hi ItSolutionStuff.com";
-            $pro = $pro->degree()->associate($degree);
-            $pro = $pro->department()->associate($department);
+        if (empty($proId)) {
+            // Create new program
+            $pro = new Program;
+            $pro->program_name_en = $request->program_name_en;
+            $pro->program_name_th = $request->program_name_th;
+            $pro->degree()->associate($degree);
+            $pro->department()->associate($department);
             $pro->save();
-            $pro::updateOrCreate(['id' => $proId], ['program_name_en' => $request->program_name_en, 'program_name_th' => $request->program_name_th]);
-        
-            
-        }
-        
-        //$pro->save();
-        //$pro2::updateOrCreate(['id' => $proId], ['program_name_en' => $request->program_name_en, 'program_name_th' => $request->program_name_th]);
-        
-
-        if (empty($request->pro_id))
             $msg = 'Program entry created successfully.';
-        else
+        } else {
+            // Update existing program
+            $pro = Program::find($proId);
+
+            // Capture before state for logging
+            $before = $pro->only(['program_name_th', 'program_name_en']);
+            $beforeDegree = $pro->degree ? $pro->degree->degree_name_EN : null;
+            $beforeDepartment = $pro->department ? $pro->department->department_name_en : null;
+
+            $pro->program_name_en = $request->program_name_en;
+            $pro->program_name_th = $request->program_name_th;
+            $pro->degree()->associate($degree);
+            $pro->department()->associate($department);
+            $pro->save();
             $msg = 'Program data is updated successfully';
+        }
+
+        // Logging
+        $logDetails = [
+            'target' => 'program',
+            'program_id' => $pro->id,
+        ];
+
+        $fieldLabels = [
+            'program_name_th' => 'ชื่อหลักสูตร (ไทย)',
+            'program_name_en' => 'ชื่อหลักสูตร (อังกฤษ)',
+            'degree' => 'ระดับปริญญา',
+            'department' => 'ภาควิชา'
+        ];
+
+        if (empty($proId)) {
+            // Insert action
+            $logDetails[$fieldLabels['program_name_th']] = $pro->program_name_th;
+            $logDetails[$fieldLabels['program_name_en']] = $pro->program_name_en;
+            $logDetails[$fieldLabels['degree']] = $degree->degree_name_EN;
+            $logDetails[$fieldLabels['department']] = $department->department_name_en;
+
+            event(new UserActionEvent(
+                Auth::user(),
+                'insert',
+                $logDetails
+            ));
+        } else {
+            // Update action
+            $after = $pro->only(['program_name_th', 'program_name_en']);
+            $afterDegree = $pro->degree ? $pro->degree->degree_name_EN : null;
+            $afterDepartment = $pro->department ? $pro->department->department_name_en : null;
+
+            $changes = [];
+            foreach ($before as $key => $value) {
+                if (isset($after[$key]) && $value != $after[$key]) {
+                    $changes['before'][$fieldLabels[$key]] = $value;
+                    $changes['after'][$fieldLabels[$key]] = $after[$key];
+                }
+            }
+
+            if ($beforeDegree != $afterDegree) {
+                $logDetails[$fieldLabels['degree']] = [
+                    'before' => $beforeDegree,
+                    'after' => $afterDegree
+                ];
+            }
+
+            if ($beforeDepartment != $afterDepartment) {
+                $logDetails[$fieldLabels['department']] = [
+                    'before' => $beforeDepartment,
+                    'after' => $afterDepartment
+                ];
+            }
+
+            if (!empty($changes) || isset($logDetails[$fieldLabels['degree']]) || isset($logDetails[$fieldLabels['department']])) {
+                if (!empty($changes)) {
+                    $logDetails['changes'] = $changes;
+                }
+                event(new UserActionEvent(
+                    Auth::user(),
+                    'update',
+                    $logDetails
+                ));
+            }
+        }
+
         return redirect()->route('programs.index')->with('success', $msg);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $where = array('id' => $id);
@@ -133,26 +152,111 @@ class ProgramController extends Controller
         return response()->json($pro);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
+        // Placeholder for update logic if implemented later
+        $pro = Program::find($id);
+        if (!$pro) {
+            return response()->json(['error' => 'Program not found'], 404);
+        }
+
+        // Capture before state
+        $before = $pro->only(['program_name_th', 'program_name_en']);
+        $beforeDegree = $pro->degree ? $pro->degree->degree_name_EN : null;
+        $beforeDepartment = $pro->department ? $pro->department->department_name_en : null;
+
+        // Update logic (example, adjust as needed)
+        $pro->update($request->all());
+        if ($request->degree) {
+            $degree = Degree::find($request->degree);
+            $pro->degree()->associate($degree);
+        }
+        if ($request->department) {
+            $department = Department::find($request->department);
+            $pro->department()->associate($department);
+        }
+        $pro->save();
+
+        // Capture after state
+        $after = $pro->only(['program_name_th', 'program_name_en']);
+        $afterDegree = $pro->degree ? $pro->degree->degree_name_EN : null;
+        $afterDepartment = $pro->department ? $pro->department->department_name_en : null;
+
+        // Logging
+        $logDetails = [
+            'target' => 'program',
+            'program_id' => $pro->id,
+        ];
+
+        $fieldLabels = [
+            'program_name_th' => 'ชื่อหลักสูตร (ไทย)',
+            'program_name_en' => 'ชื่อหลักสูตร (อังกฤษ)',
+            'degree' => 'ระดับปริญญา',
+            'department' => 'ภาควิชา'
+        ];
+
+        $changes = [];
+        foreach ($before as $key => $value) {
+            if (isset($after[$key]) && $value != $after[$key]) {
+                $changes['before'][$fieldLabels[$key]] = $value;
+                $changes['after'][$fieldLabels[$key]] = $after[$key];
+            }
+        }
+
+        if ($beforeDegree != $afterDegree) {
+            $logDetails[$fieldLabels['degree']] = [
+                'before' => $beforeDegree,
+                'after' => $afterDegree
+            ];
+        }
+
+        if ($beforeDepartment != $afterDepartment) {
+            $logDetails[$fieldLabels['department']] = [
+                'before' => $beforeDepartment,
+                'after' => $afterDepartment
+            ];
+        }
+
+        if (!empty($changes) || isset($logDetails[$fieldLabels['degree']]) || isset($logDetails[$fieldLabels['department']])) {
+            if (!empty($changes)) {
+                $logDetails['changes'] = $changes;
+            }
+            event(new UserActionEvent(
+                Auth::user(),
+                'update',
+                $logDetails
+            ));
+        }
+
+        return response()->json(['success' => 'Program updated successfully']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        $pro = Program::where('id', $id)->delete();
-        return response()->json($pro);
+        $pro = Program::find($id);
+
+        // Logging
+        $logDetails = [
+            'target' => 'program',
+            'program_id' => $pro->id,
+        ];
+
+        $fieldLabels = [
+            'program_name_th' => 'ชื่อหลักสูตร (ไทย)',
+            'program_name_en' => 'ชื่อหลักสูตร (อังกฤษ)'
+        ];
+
+        $logDetails[$fieldLabels['program_name_th']] = $pro->program_name_th;
+        $logDetails[$fieldLabels['program_name_en']] = $pro->program_name_en;
+
+        $pro->delete();
+
+        event(new UserActionEvent(
+            Auth::user(),
+            'delete',
+            $logDetails
+        ));
+
+        return response()->json(['success' => 'Program deleted successfully']);
     }
 }

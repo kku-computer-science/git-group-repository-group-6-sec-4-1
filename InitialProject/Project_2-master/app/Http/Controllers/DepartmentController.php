@@ -2,113 +2,147 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserActionEvent;
 use App\Models\Department;
 use App\Models\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 
 class DepartmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     function __construct()
     {
-         $this->middleware('permission:departments-list|departments-create|departments-edit|departments-delete', ['only' => ['index','store']]);
-         $this->middleware('permission:departments-create', ['only' => ['create','store']]);
-         $this->middleware('permission:departments-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:departments-delete', ['only' => ['destroy']]);
-         //Redirect::to('dashboard')->send();
+        $this->middleware('permission:departments-list|departments-create|departments-edit|departments-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:departments-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:departments-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:departments-delete', ['only' => ['destroy']]);
     }
 
     public function index(Request $request)
     {
         $data = Department::latest()->paginate(5);
-
-        return view('departments.index',compact('data'));
+        return view('departments.index', compact('data'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('departments.create');
     }
 
-    
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
             'department_name_th' => 'required',
-            'department_name_th' => 'required',
+            'department_name_en' => 'required', // Corrected from duplicate 'department_name_th'
         ]);
+
         $input = $request->except(['_token']);
-    
-        Department::create($input);
-    
-        return redirect()->route('departments.index')
-            ->with('success','departments created successfully.');
+        $department = Department::create($input);
+
+        // Logging
+        $logDetails = [
+            'target' => 'department',
+            'department_id' => $department->id,
+        ];
+
+        $fieldLabels = [
+            'department_name_th' => 'ชื่อภาควิชา (ไทย)',
+            'department_name_en' => 'ชื่อภาควิชา (อังกฤษ)'
+        ];
+
+        foreach ($input as $key => $value) {
+            if (array_key_exists($key, $fieldLabels)) {
+                $logDetails[$fieldLabels[$key]] = $value;
+            }
+        }
+
+        event(new UserActionEvent(
+            Auth::user(),
+            'insert',
+            $logDetails
+        ));
+
+        return redirect()->route('departments.index')->with('success', 'Department created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Department $department)
     {
-        return view('departments.show',compact('department'));
+        return view('departments.show', compact('department'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Department $department)
     {
-        $department=Department::find($department->id);
-       
-        return view('departments.edit',compact('department'));
+        $department = Department::find($department->id);
+        return view('departments.edit', compact('department'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Department $department)
     {
+        // Capture before state
+        $before = $department->only(['department_name_th', 'department_name_en']);
+
         $department->update($request->all());
-        return redirect()->route('departments.index')
-                        ->with('success','Department updated successfully');
+
+        // Capture after state
+        $after = $department->only(['department_name_th', 'department_name_en']);
+
+        // Logging
+        $logDetails = [
+            'target' => 'department',
+            'department_id' => $department->id,
+        ];
+
+        $fieldLabels = [
+            'department_name_th' => 'ชื่อภาควิชา (ไทย)',
+            'department_name_en' => 'ชื่อภาควิชา (อังกฤษ)'
+        ];
+
+        // Compare fields
+        $changes = [];
+        foreach ($before as $key => $value) {
+            if (isset($after[$key]) && $value != $after[$key]) {
+                $changes['before'][$fieldLabels[$key]] = $value;
+                $changes['after'][$fieldLabels[$key]] = $after[$key];
+            }
+        }
+
+        if (!empty($changes)) {
+            $logDetails['changes'] = $changes;
+            event(new UserActionEvent(
+                Auth::user(),
+                'update',
+                $logDetails
+            ));
+        }
+
+        return redirect()->route('departments.index')->with('success', 'Department updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Department $department)
     {
+        // Logging
+        $logDetails = [
+            'target' => 'department',
+            'department_id' => $department->id,
+        ];
+
+        $fieldLabels = [
+            'department_name_th' => 'ชื่อภาควิชา (ไทย)',
+            'department_name_en' => 'ชื่อภาควิชา (อังกฤษ)'
+        ];
+
+        $logDetails[$fieldLabels['department_name_th']] = $department->department_name_th;
+        $logDetails[$fieldLabels['department_name_en']] = $department->department_name_en;
+
         $department->delete();
-        return redirect()->route('departments.index')
-                        ->with('success','Department delete successfully');
+
+        event(new UserActionEvent(
+            Auth::user(),
+            'delete',
+            $logDetails
+        ));
+
+        return redirect()->route('departments.index')->with('success', 'Department deleted successfully');
     }
 }

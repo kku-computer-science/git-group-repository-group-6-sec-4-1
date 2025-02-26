@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserActionEvent;
 use App\Models\Expertise;
 use App\Models\User;
-use App\Events\UserActionEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,9 +15,6 @@ class ExpertiseController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $id = auth()->user()->id;
@@ -32,17 +29,11 @@ class ExpertiseController extends Controller
         return view('expertise.index', compact('experts'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('expertise.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -59,15 +50,29 @@ class ExpertiseController extends Controller
                 'user_id' => $user->id,
             ]);
 
+            // Logging
+            $logDetails = [
+                'target' => 'expertise',
+                'expertise_id' => $expertise->id,
+            ];
+
+            $fieldLabels = [
+                'expert_name' => 'ความเชี่ยวชาญ',
+                'user_id' => 'ผู้ใช้'
+            ];
+
+            $logDetails[$fieldLabels['expert_name']] = $expertise->expert_name;
+            $logDetails[$fieldLabels['user_id']] = trim($user->fname_en . ' ' . $user->lname_en);
+
             event(new UserActionEvent(
                 $user,
                 'insert',
-                ['target' => 'expertise', 'expert_name' => $request->expert_name, 'expertise_id' => $expertise->id]
+                $logDetails
             ));
 
             $msg = 'Expertise entry created successfully.';
         } else {
-            // This should ideally be handled by the update method, but we'll keep it here for now
+            // Update existing expertise (handled here as per original logic)
             $expertise = Expertise::find($exp_id);
 
             if (!$expertise || ($expertise->user_id !== $user->id && !$user->hasRole('admin'))) {
@@ -78,19 +83,30 @@ class ExpertiseController extends Controller
             $expertise->update(['expert_name' => $request->expert_name]);
             $after = $expertise->only(['expert_name']);
 
+            // Logging
+            $logDetails = [
+                'target' => 'expertise',
+                'expertise_id' => $expertise->id,
+            ];
+
+            $fieldLabels = [
+                'expert_name' => 'ความเชี่ยวชาญ'
+            ];
+
             $changes = [];
             foreach ($before as $key => $value) {
                 if ($value !== $after[$key]) {
-                    $changes['before'][$key] = $value;
-                    $changes['after'][$key] = $after[$key];
+                    $changes['before'][$fieldLabels[$key]] = $value;
+                    $changes['after'][$fieldLabels[$key]] = $after[$key];
                 }
             }
 
             if (!empty($changes)) {
+                $logDetails['changes'] = $changes;
                 event(new UserActionEvent(
                     $user,
                     'update',
-                    ['target' => 'expertise', 'changes' => $changes, 'expertise_id' => $expertise->id]
+                    $logDetails
                 ));
             }
 
@@ -104,17 +120,11 @@ class ExpertiseController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Expertise $expertise)
     {
         return response()->json($expertise);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
         $expertise = Expertise::find($id);
@@ -124,9 +134,6 @@ class ExpertiseController extends Controller
         return response()->json($expertise);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -144,19 +151,30 @@ class ExpertiseController extends Controller
         $expertise->update(['expert_name' => $request->expert_name]);
         $after = $expertise->only(['expert_name']);
 
+        // Logging
+        $logDetails = [
+            'target' => 'expertise',
+            'expertise_id' => $expertise->id,
+        ];
+
+        $fieldLabels = [
+            'expert_name' => 'ความเชี่ยวชาญ'
+        ];
+
         $changes = [];
         foreach ($before as $key => $value) {
             if ($value !== $after[$key]) {
-                $changes['before'][$key] = $value;
-                $changes['after'][$key] = $after[$key];
+                $changes['before'][$fieldLabels[$key]] = $value;
+                $changes['after'][$fieldLabels[$key]] = $after[$key];
             }
         }
 
         if (!empty($changes)) {
+            $logDetails['changes'] = $changes;
             event(new UserActionEvent(
                 $user,
                 'update',
-                ['target' => 'expertise', 'changes' => $changes, 'expertise_id' => $expertise->id]
+                $logDetails
             ));
         }
 
@@ -168,9 +186,6 @@ class ExpertiseController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $expertise = Expertise::find($id);
@@ -181,12 +196,25 @@ class ExpertiseController extends Controller
         }
 
         $expertName = $expertise->expert_name;
+
+        // Logging
+        $logDetails = [
+            'target' => 'expertise',
+            'expertise_id' => $expertise->id,
+        ];
+
+        $fieldLabels = [
+            'expert_name' => 'ความเชี่ยวชาญ'
+        ];
+
+        $logDetails[$fieldLabels['expert_name']] = $expertName;
+
         $expertise->delete();
 
         event(new UserActionEvent(
             $user,
             'delete',
-            ['target' => 'expertise', 'expert_name' => $expertName, 'expertise_id' => $id]
+            $logDetails
         ));
 
         $msg = 'Expertise entry deleted successfully.';
