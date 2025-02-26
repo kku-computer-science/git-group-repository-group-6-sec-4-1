@@ -16,7 +16,7 @@ class EducationController extends Controller
         $this->middleware('auth');
     }
 
-    function updateEdInfo(Request $request)
+    public function updateEdInfo(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'b_uname' => 'required',
@@ -32,64 +32,122 @@ class EducationController extends Controller
 
         if (!$validator->passes()) {
             return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
+        }
+
+        $user = Auth::user();
+        $id = $user->id;
+
+        // Level 1: Bachelor's
+        $bachelorData = [
+            'uname' => $request->b_uname,
+            'qua_name' => $request->b_qua_name,
+            'year' => $request->b_year,
+            'level' => 1,
+        ];
+        $bachelorBefore = Education::where('user_id', $id)->where('level', 1)->first();
+        $bachelor = $user->education()->updateOrCreate(['level' => 1], $bachelorData);
+
+        if (!$bachelorBefore) {
+            // Insert
+            event(new UserActionEvent(
+                $user,
+                'insert',
+                ['target' => 'education', 'level' => 1, 'details' => $bachelorData, 'education_id' => $bachelor->id]
+            ));
         } else {
-            $id = Auth::user()->id;
-            $user = User::find($id);
-
-            // เก็บข้อมูลก่อนอัปเดตสำหรับแต่ละ level
-            $levels = [1 => 'b_', 2 => 'm_', 3 => 'd_'];
+            // Update
+            $bachelorAfter = $bachelor->refresh()->only(['uname', 'qua_name', 'year']);
+            $bachelorBeforeData = $bachelorBefore->only(['uname', 'qua_name', 'year']);
             $changes = [];
-
-            foreach ($levels as $level => $prefix) {
-                $existingEducation = $user->education()->where('level', $level)->first();
-
-                // เก็บข้อมูลก่อนอัปเดต (รวมทุกฟิลด์) และแปลงเป็นสตริงสำหรับเปรียบเทียบ
-                $before = $existingEducation ? $existingEducation->only(['uname', 'qua_name', 'year']) : ['uname' => null, 'qua_name' => null, 'year' => null];
-                $beforeString = json_encode($before); // แปลงเป็น JSON เพื่อเปรียบเทียบ
-
-                // ข้อมูลใหม่จาก request
-                $newData = [
-                    'uname' => $request->{$prefix . 'uname'},
-                    'qua_name' => $request->{$prefix . 'qua_name'},
-                    'year' => $request->{$prefix . 'year'},
-                    'level' => $level,
-                    'user_id' => $id,
-                ];
-
-                // อัปเดตหรือสร้างข้อมูลใหม่
-                $education = $user->education()->updateOrCreate(
-                    ['level' => $level],
-                    $newData
-                );
-
-                // เก็บข้อมูลหลังอัปเดต (รวมทุกฟิลด์)
-                $after = $education->only(['uname', 'qua_name', 'year']);
-                $afterString = json_encode($after); // แปลงเป็น JSON เพื่อเปรียบเทียบ
-
-                // เพิ่มการ debug เพื่อตรวจสอบข้อมูล
-                \Log::debug('Education Update Comparison', ['level' => $level, 'before' => $before, 'after' => $after, 'beforeString' => $beforeString, 'afterString' => $afterString]);
-
-                // เปรียบเทียบข้อมูลก่อนและหลัง (ใช้ JSON เพื่อตรวจสอบการเปลี่ยนแปลงอย่างละเอียด)
-                if ($beforeString !== $afterString) {
-                    $changes[$level] = [
-                        'before' => $before,
-                        'after' => $after,
-                    ];
+            foreach ($bachelorBeforeData as $key => $value) {
+                if ($value !== $bachelorAfter[$key]) {
+                    $changes['before'][$key] = $value;
+                    $changes['after'][$key] = $bachelorAfter[$key];
                 }
             }
-
-            // บันทึก log ถ้ามีการเปลี่ยนแปลง
             if (!empty($changes)) {
                 event(new UserActionEvent(
-                    Auth::user(),
+                    $user,
                     'update',
-                    ['target' => 'education', 'changes' => $changes]
+                    ['target' => 'education', 'level' => 1, 'changes' => $changes, 'education_id' => $bachelor->id]
                 ));
-            } else {
-                \Log::warning('No changes detected in education update for user ' . $id);
             }
-
-            return response()->json(['status' => 1, 'msg' => 'Your profile info has been updated successfully.']);
         }
+
+        // Level 2: Master's
+        $masterData = [
+            'uname' => $request->m_uname,
+            'qua_name' => $request->m_qua_name,
+            'year' => $request->m_year,
+            'level' => 2,
+        ];
+        $masterBefore = Education::where('user_id', $id)->where('level', 2)->first();
+        $master = $user->education()->updateOrCreate(['level' => 2], $masterData);
+
+        if (!$masterBefore) {
+            // Insert
+            event(new UserActionEvent(
+                $user,
+                'insert',
+                ['target' => 'education', 'level' => 2, 'details' => $masterData, 'education_id' => $master->id]
+            ));
+        } else {
+            // Update
+            $masterAfter = $master->refresh()->only(['uname', 'qua_name', 'year']);
+            $masterBeforeData = $masterBefore->only(['uname', 'qua_name', 'year']);
+            $changes = [];
+            foreach ($masterBeforeData as $key => $value) {
+                if ($value !== $masterAfter[$key]) {
+                    $changes['before'][$key] = $value;
+                    $changes['after'][$key] = $masterAfter[$key];
+                }
+            }
+            if (!empty($changes)) {
+                event(new UserActionEvent(
+                    $user,
+                    'update',
+                    ['target' => 'education', 'level' => 2, 'changes' => $changes, 'education_id' => $master->id]
+                ));
+            }
+        }
+
+        // Level 3: Doctoral
+        $doctoralData = [
+            'uname' => $request->d_uname,
+            'qua_name' => $request->d_qua_name,
+            'year' => $request->d_year,
+            'level' => 3,
+        ];
+        $doctoralBefore = Education::where('user_id', $id)->where('level', 3)->first();
+        $doctoral = $user->education()->updateOrCreate(['level' => 3], $doctoralData);
+
+        if (!$doctoralBefore) {
+            // Insert
+            event(new UserActionEvent(
+                $user,
+                'insert',
+                ['target' => 'education', 'level' => 3, 'details' => $doctoralData, 'education_id' => $doctoral->id]
+            ));
+        } else {
+            // Update
+            $doctoralAfter = $doctoral->refresh()->only(['uname', 'qua_name', 'year']);
+            $doctoralBeforeData = $doctoralBefore->only(['uname', 'qua_name', 'year']);
+            $changes = [];
+            foreach ($doctoralBeforeData as $key => $value) {
+                if ($value !== $doctoralAfter[$key]) {
+                    $changes['before'][$key] = $value;
+                    $changes['after'][$key] = $doctoralAfter[$key];
+                }
+            }
+            if (!empty($changes)) {
+                event(new UserActionEvent(
+                    $user,
+                    'update',
+                    ['target' => 'education', 'level' => 3, 'changes' => $changes, 'education_id' => $doctoral->id]
+                ));
+            }
+        }
+
+        return response()->json(['status' => 1, 'msg' => 'Your profile info has been updated successfully.']);
     }
 }

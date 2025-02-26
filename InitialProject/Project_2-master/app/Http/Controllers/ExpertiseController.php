@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Events\UserActionEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class ExpertiseController extends Controller
 {
@@ -18,8 +17,6 @@ class ExpertiseController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -37,8 +34,6 @@ class ExpertiseController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -47,46 +42,70 @@ class ExpertiseController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'expert_name' => 'required|string|max:255',
+        $request->validate([
+            'expert_name' => 'required',
         ]);
 
-        if (!$validator->passes()) {
-            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
-        } else {
+        $exp_id = $request->exp_id;
+        $user = Auth::user();
+
+        if (empty($exp_id)) {
+            // Create new expertise
             $expertise = Expertise::create([
                 'expert_name' => $request->expert_name,
-                'user_id' => Auth::user()->id, // เก็บ user_id ของผู้ใช้ที่ล็อกอิน
+                'user_id' => $user->id,
             ]);
 
-            if ($expertise) {
-                event(new UserActionEvent(
-                    Auth::user(),
-                    'insert',
-                    ['target' => 'expertise', 'expert_name' => $request->expert_name, 'expertise_id' => $expertise->id]
-                ));
-                if (auth()->user()->hasRole('admin')) {
-                    return redirect()->route('experts.index')->with('success', 'Expertise entry created successfully.');
-                } else {
-                    return back()->withInput(['tab' => 'expertise'])->with('success', 'Your expertise info has been created successfully.');
-                }
-            } else {
-                return response()->json(['status' => 0, 'msg' => 'Something went wrong.']);
+            event(new UserActionEvent(
+                $user,
+                'insert',
+                ['target' => 'expertise', 'expert_name' => $request->expert_name, 'expertise_id' => $expertise->id]
+            ));
+
+            $msg = 'Expertise entry created successfully.';
+        } else {
+            // This should ideally be handled by the update method, but we'll keep it here for now
+            $expertise = Expertise::find($exp_id);
+
+            if (!$expertise || ($expertise->user_id !== $user->id && !$user->hasRole('admin'))) {
+                return response()->json(['status' => 0, 'msg' => 'Expertise not found or unauthorized.']);
             }
+
+            $before = $expertise->only(['expert_name']);
+            $expertise->update(['expert_name' => $request->expert_name]);
+            $after = $expertise->only(['expert_name']);
+
+            $changes = [];
+            foreach ($before as $key => $value) {
+                if ($value !== $after[$key]) {
+                    $changes['before'][$key] = $value;
+                    $changes['after'][$key] = $after[$key];
+                }
+            }
+
+            if (!empty($changes)) {
+                event(new UserActionEvent(
+                    $user,
+                    'update',
+                    ['target' => 'expertise', 'changes' => $changes, 'expertise_id' => $expertise->id]
+                ));
+            }
+
+            $msg = 'Expertise data is updated successfully.';
+        }
+
+        if ($user->hasRole('admin')) {
+            return redirect()->route('experts.index')->with('success', $msg);
+        } else {
+            return back()->withInput(['tab' => 'expertise'])->with('success', $msg);
         }
     }
 
     /**
      * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function show(Expertise $expertise)
     {
@@ -95,101 +114,86 @@ class ExpertiseController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $where = array('id' => $id);
-        $exp = Expertise::where($where)->first();
-        return response()->json($exp);
+        $expertise = Expertise::find($id);
+        if (!$expertise || ($expertise->user_id !== Auth::user()->id && !Auth::user()->hasRole('admin'))) {
+            return response()->json(['status' => 0, 'msg' => 'Expertise not found or unauthorized.'], 403);
+        }
+        return response()->json($expertise);
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'expert_name' => 'required|string|max:255',
+        $request->validate([
+            'expert_name' => 'required',
         ]);
 
-        if (!$validator->passes()) {
-            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
+        $expertise = Expertise::find($id);
+        $user = Auth::user();
+
+        if (!$expertise || ($expertise->user_id !== $user->id && !$user->hasRole('admin'))) {
+            return response()->json(['status' => 0, 'msg' => 'Expertise not found or unauthorized.'], 403);
+        }
+
+        $before = $expertise->only(['expert_name']);
+        $expertise->update(['expert_name' => $request->expert_name]);
+        $after = $expertise->only(['expert_name']);
+
+        $changes = [];
+        foreach ($before as $key => $value) {
+            if ($value !== $after[$key]) {
+                $changes['before'][$key] = $value;
+                $changes['after'][$key] = $after[$key];
+            }
+        }
+
+        if (!empty($changes)) {
+            event(new UserActionEvent(
+                $user,
+                'update',
+                ['target' => 'expertise', 'changes' => $changes, 'expertise_id' => $expertise->id]
+            ));
+        }
+
+        $msg = 'Expertise data is updated successfully.';
+        if ($user->hasRole('admin')) {
+            return redirect()->route('experts.index')->with('success', $msg);
         } else {
-            $expertise = Expertise::find($id);
-
-            if (!$expertise || ($expertise->user_id !== Auth::user()->id && !auth()->user()->hasRole('admin'))) {
-                return response()->json(['status' => 0, 'msg' => 'Expertise not found or unauthorized.']);
-            }
-
-            // เก็บข้อมูลก่อนอัปเดต
-            $before = $expertise->only(['expert_name']);
-            $update = $expertise->update([
-                'expert_name' => $request->expert_name,
-            ]);
-
-            if ($update) {
-                // เก็บข้อมูลหลังอัปเดต
-                $after = $expertise->only(['expert_name']);
-                // เปรียบเทียบและเก็บเฉพาะฟิลด์ที่มีการเปลี่ยนแปลง
-                $changes = [];
-                foreach ($before as $key => $value) {
-                    if (isset($after[$key]) && $value !== $after[$key]) {
-                        $changes['before'][$key] = $value;
-                        $changes['after'][$key] = $after[$key];
-                    }
-                }
-                if (!empty($changes)) {
-                    event(new UserActionEvent(
-                        Auth::user(),
-                        'update',
-                        ['target' => 'expertise', 'changes' => $changes, 'expertise_id' => $expertise->id]
-                    ));
-                }
-                if (auth()->user()->hasRole('admin')) {
-                    return redirect()->route('experts.index')->with('success', 'Expertise data is updated successfully.');
-                } else {
-                    return back()->withInput(['tab' => 'expertise'])->with('success', 'Your expertise info has been updated successfully.');
-                }
-            } else {
-                return response()->json(['status' => 0, 'msg' => 'Something went wrong.']);
-            }
+            return back()->withInput(['tab' => 'expertise'])->with('success', $msg);
         }
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $expertise = Expertise::find($id);
+        $user = Auth::user();
 
-        if (!$expertise || ($expertise->user_id !== Auth::user()->id && !auth()->user()->hasRole('admin'))) {
-            return response()->json(['status' => 0, 'msg' => 'Expertise not found or unauthorized.']);
+        if (!$expertise || ($expertise->user_id !== $user->id && !$user->hasRole('admin'))) {
+            return response()->json(['status' => 0, 'msg' => 'Expertise not found or unauthorized.'], 403);
         }
 
         $expertName = $expertise->expert_name;
         $expertise->delete();
 
         event(new UserActionEvent(
-            Auth::user(),
+            $user,
             'delete',
             ['target' => 'expertise', 'expert_name' => $expertName, 'expertise_id' => $id]
         ));
 
-        if (auth()->user()->hasRole('admin')) {
-            return redirect()->route('experts.index')->with('success', 'Expertise entry deleted successfully.');
+        $msg = 'Expertise entry deleted successfully.';
+        if ($user->hasRole('admin')) {
+            return redirect()->route('experts.index')->with('success', $msg);
         } else {
-            return back()->withInput(['tab' => 'expertise'])->with('success', 'Your expertise info has been deleted successfully.');
+            return back()->withInput(['tab' => 'expertise'])->with('success', $msg);
         }
     }
 }
