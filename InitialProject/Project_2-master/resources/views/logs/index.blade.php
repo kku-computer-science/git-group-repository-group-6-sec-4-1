@@ -65,7 +65,7 @@
                                                     @if($key === 'changes')
                                                         @if(is_array($value) && isset($value['before']) && isset($value['after']))
                                                             @if(!empty($value['before']) || !empty($value['after']))
-                                                                <strong>Before:</strong><br>
+                                                                <br><strong>Before:</strong><br>
                                                                 @foreach($value['before'] as $field => $oldValue)
                                                                     {{ $field }}: {{ $oldValue }}<br>
                                                                 @endforeach

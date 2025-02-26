@@ -5,46 +5,40 @@ namespace App\Http\Controllers;
 use App\Models\Department;
 use App\Models\ResearchProject;
 use App\Models\User;
+use App\Events\UserActionEvent;
 use Illuminate\Http\Request;
-use SebastianBergmann\Environment\Console;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Fund;
 use App\Models\Outsider;
 
 class ResearchProjectController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-
-        $id = auth()->user()->id;
-        if (auth()->user()->HasRole('admin')) {
+        $id = Auth::user()->id;
+        if (Auth::user()->hasRole('admin')) {
             $researchProjects = ResearchProject::with('User')->get();
-        } elseif (auth()->user()->HasRole('headproject')) {
+        } elseif (Auth::user()->hasRole('headproject')) {
             $researchProjects = ResearchProject::with('User')->get();
-        } elseif (auth()->user()->HasRole('staff')) {
+        } elseif (Auth::user()->hasRole('staff')) {
             $researchProjects = ResearchProject::with('User')->get();
         } else {
             $researchProjects = User::find($id)->researchProject()->get();
-            //$researchProjects=User::find($id)->researchProject()->latest()->paginate(5);
-
-            //$researchProjects = ResearchProject::with('User')->latest()->paginate(5);
         }
-        //dd($id);
-        //$researchProjects = ResearchProject::latest()->paginate(5);
-        //$researchProjects = ResearchProject::with('User')->latest()->paginate(5);
-        //return $researchProjects;
 
         return view('research_projects.index', compact('researchProjects'));
     }
+
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -56,9 +50,6 @@ class ResearchProjectController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -68,86 +59,108 @@ class ResearchProjectController extends Controller
                 'budget' => 'required|numeric',
                 'project_year' => 'required',
                 'fund' => 'required',
-                //'note' => 'required',
                 'head' => 'required'
             ],
-
             [
                 'project_name.required' => 'ต้องใส่ข้อมูล ชื่อโครงการวิจัย',
                 'budget.required' => 'ต้องใส่ข้อมูล งบประมาณ',
-                'project_year.required' => 'ต้องใส่ข้อมูล ปีที่ปีที่ยื่นขอ',
+                'project_year.required' => 'ต้องใส่ข้อมูล ปีที่ยื่นขอ',
                 'fund.required' => 'ต้องใส่ข้อมูล ทุนวิจัย',
                 'head.required' => 'ต้องใส่ข้อมูล ผู้รับผิดชอบโครงการ',
             ]
         );
-        //return $request->fund; 
+
+        $user = Auth::user();
         $fund = Fund::find($request->fund);
+        $headUser = User::find($request->head);
         $req = $request->all();
-        //return $req;
-        //$req['project_year'] = $req['project_year'] - 543;
 
-        $researchProject = $fund->researchProject()->Create($req);
-        //$researchProject = $fund->researchProject()->save($fund);
-        //$fund = $request->fund;
-        //$researchProject = ResearchProject::create($request->all());
-
-        //$researchProject->fund()->create($fund);
+        $researchProject = $fund->researchProject()->create($req);
 
         $head = $request->head;
         $researchProject->user()->attach($head, ['role' => 1]);
-        //$user=auth()->user();
-        //$user=User::find($head);
-        //$user->givePermissionTo('editResearchProject','deleteResearchProject');
-
 
         if (isset($request->moreFields)) {
-            foreach ($request->moreFields as $key => $value) {
-                //dd($value);
+            foreach ($request->moreFields as $value) {
                 if ($value['userid'] != null) {
                     $researchProject->user()->attach($value, ['role' => 2]);
                 }
-                //$user->givePermissionTo('readResearchProject');
             }
         }
+
         $input = $request->except(['_token']);
-        //$x = 1;
-        //return isset($input['fname']);
-        //$length = count($request->input('fname'));
-        if (isset($input['fname'][0]) and (!empty($input['fname'][0]))){
+        if (isset($input['fname'][0]) && !empty($input['fname'][0])) {
             foreach ($request->input('fname') as $key => $value) {
-                $data['fname'] = $input['fname'][$key];
-                $data['lname'] = $input['lname'][$key];
-                $data['title_name'] = $input['title_name'][$key];
+                // Decode Unicode if necessary and ensure plain text
+                $titleName = $this->decodeUnicode($request->input('title_name')[$key] ?? '');
+                $firstName = $this->decodeUnicode($request->input('fname')[$key] ?? '');
+                $lastName = $this->decodeUnicode($request->input('lname')[$key] ?? '');
 
-                if (Outsider::where('fname', '=', $data['fname'])->orWhere('lname', '=', $data['lname'])->first() == null) {
-                    $author = new Outsider;
-                    $author->fname = $data['fname'];
-                    $author->lname = $data['lname'];
-                    $author->title_name = $data['title_name'];
-                    $author->save();
-                    $researchProject->outsider()->attach($author, ['role' => 2]);
-                } else {
-                    $author = Outsider::where('fname', '=', $data['fname'])->orWhere('lname', '=', $data['lname'])->first();
-                    $authorid = $author->id;
-                    $researchProject->outsider()->attach($authorid, ['role' => 2]);
+                $data = [
+                    'fname' => $firstName,
+                    'lname' => $lastName,
+                    'title_name' => $titleName,
+                ];
+
+                $outsider = Outsider::where([['fname', '=', $firstName], ['lname', '=', $lastName]])->first();
+                if (!$outsider) {
+                    $outsider = new Outsider;
+                    $outsider->fname = $firstName;
+                    $outsider->lname = $lastName;
+                    $outsider->title_name = $titleName;
+                    $outsider->save();
                 }
-                //$x++;
+                $researchProject->outsider()->attach($outsider->id, ['role' => 2]);
             }
         }
 
+        // Log all validated input data for the research project
+        $logDetails = [
+            'target' => 'research_project',
+            'research_project_id' => $researchProject->id,
+        ];
 
-        //$user = User::find(auth()->user()->id);
-        //$user->researchProject()->attach(2);
+        // Add all validated request data (except _token and any sensitive fields)
+        $validatedData = $request->except(['_token', 'moreFields']); // Exclude dynamic fields and token
+        foreach ($validatedData as $key => $value) {
+            if (is_array($value)) {
+                // Handle arrays like title_name, fname, and lname by taking the first element or decoding if needed
+                if (in_array($key, ['title_name', 'fname', 'lname'])) {
+                    $logDetails[$key] = $this->decodeUnicode($value[0] ?? '');
+                } else {
+                    $logDetails[$key] = json_encode($value); // Keep other arrays as JSON if needed
+                }
+            } else {
+                $logDetails[$key] = $value;
+            }
+        }
 
-        return redirect()->route('researchProjects.index')->with('success', 'research projects created successfully.');
+        // Add fund name and head name
+        $logDetails['fund_name'] = $fund->fund_name;
+        $logDetails['head_name'] = trim($headUser->fname_en . ' ' . $headUser->lname_en);
+
+        event(new UserActionEvent(
+            $user,
+            'insert',
+            $logDetails
+        ));
+
+        return redirect()->route('researchProjects.index')->with('success', 'Research project created successfully.');
     }
 
+    /**
+     * Helper method to decode Unicode escape sequences to readable text.
+     */
+    private function decodeUnicode($str)
+    {
+        if (is_string($str) && preg_match('/^\\\\u[0-9A-Fa-f]{4,5}$/', $str)) {
+            return json_decode('"' . $str . '"');
+        }
+        return $str; // Return as-is if not a Unicode escape sequence
+    }
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Models\ResearchProject  $researchProject
-     * @return \Illuminate\Http\Response
      */
     public function show(ResearchProject $researchProject)
     {
@@ -156,18 +169,11 @@ class ResearchProjectController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ResearchProject  $researchProject
-     * @return \Illuminate\Http\Response
      */
     public function edit(ResearchProject $researchProject)
     {
-
-        $researchProject = ResearchProject::find($researchProject->id);
         $this->authorize('update', $researchProject);
         $researchProject = ResearchProject::with(['user'])->where('id', $researchProject->id)->first();
-
-
         $users = User::role(['teacher', 'student'])->get();
         $funds = Fund::get();
         $deps = Department::get();
@@ -176,98 +182,117 @@ class ResearchProjectController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ResearchProject  $researchProject
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, ResearchProject $researchProject)
     {
-
         $request->validate(
             [
-                //'project_name' => 'required|max:200',
                 'project_name' => 'required',
                 'budget' => 'required|numeric',
                 'project_year' => 'required',
                 'fund' => 'required',
-                //'note' => 'required',
                 'head' => 'required'
             ],
             [
                 'project_name.required' => 'ต้องใส่ข้อมูล ชื่อโครงการวิจัย',
                 'budget.required' => 'ต้องใส่ข้อมูล งบประมาณ',
-                'project_year.required' => 'ต้องใส่ข้อมูล ปีที่ปีที่ยื่นขอ',
+                'project_year.required' => 'ต้องใส่ข้อมูล ปีที่ยื่นขอ',
                 'fund.required' => 'ต้องใส่ข้อมูล ทุนวิจัย',
                 'head.required' => 'ต้องใส่ข้อมูล ผู้รับผิดชอบโครงการ',
-
             ]
         );
-        $researchProject = ResearchProject::find($researchProject->id);
-        $this->authorize('update', $researchProject);
-        $req = $request->all();
-        //$req['project_year'] = $req['project_year'] - 543;
-        $researchProject->update($req);
-        $head = $request->head;
-        //$researchProject->user()->detach($head);
-        //dd($researchProject->user()->get());
-        $researchProject->user()->detach();
-        $researchProject->user()->attach(array(
-            $head => array('role' => 1),
-        ));
-        //$researchProject->user()->attach($head,['role' => 1]);
 
-        //$researchProject->update($this->validatePost());
+        $user = Auth::user();
+        $this->authorize('update', $researchProject);
+
+        $before = $researchProject->only(['project_name', 'budget', 'project_year', 'fund_id']);
+        $req = $request->all();
+        $researchProject->update($req);
+        $after = $researchProject->only(['project_name', 'budget', 'project_year', 'fund_id']);
+
+        $changes = [];
+        foreach ($before as $key => $value) {
+            if ($value != $after[$key]) {
+                $changes['before'][$key] = $value;
+                $changes['after'][$key] = $after[$key];
+            }
+        }
+
+        $researchProject->user()->detach();
+        $head = $request->head;
+        $headUser = User::find($head);
+        $fund = Fund::find($request->fund);
+        $researchProject->user()->attach($head, ['role' => 1]);
+
         if (isset($request->moreFields)) {
-            foreach ($request->moreFields as $key => $value) {
-                //dd($value);
+            foreach ($request->moreFields as $value) {
                 if ($value['userid'] != null) {
                     $researchProject->user()->attach($value, ['role' => 2]);
                 }
-                //$user->givePermissionTo('readResearchProject');
             }
         }
-        $input = $request->except(['_token']);
-        //$x = 1;
-        //$length = count($request->input('fname'));
-        $researchProject->outsider()->detach();
-        if (isset($input['fname'][0]) and (!empty($input['fname'][0]))){
-            foreach ($request->input('fname') as $key => $value) {
-                $data['fname'] = $input['fname'][$key];
-                $data['lname'] = $input['lname'][$key];
-                $data['title_name'] = $input['title_name'][$key];
 
-                if (Outsider::where([['fname', '=', $data['fname']],['lname', '=', $data['lname']]])->first() == null) {
-                    $author = new Outsider;
-                    $author->fname = $data['fname'];
-                    $author->lname = $data['lname'];
-                    $author->title_name = $data['title_name'];
-                    $author->save();
-                    $researchProject->outsider()->attach($author, ['role' => 2]);
-                } else {
-                    $author = Outsider::where([['fname', '=', $data['fname']],['lname', '=', $data['lname']]])->first();
-                    $authorid = $author->id;
-                    $researchProject->outsider()->attach($authorid, ['role' => 2]);
+        $input = $request->except(['_token']);
+        $researchProject->outsider()->detach();
+        if (isset($input['fname'][0]) && !empty($input['fname'][0])) {
+            foreach ($request->input('fname') as $key => $value) {
+                $data = [
+                    'fname' => $input['fname'][$key],
+                    'lname' => $input['lname'][$key],
+                    'title_name' => $input['title_name'][$key],
+                ];
+
+                $outsider = Outsider::where([['fname', '=', $data['fname']], ['lname', '=', $data['lname']]])->first();
+                if (!$outsider) {
+                    $outsider = new Outsider;
+                    $outsider->fname = $data['fname'];
+                    $outsider->lname = $data['lname'];
+                    $outsider->title_name = $data['title_name'];
+                    $outsider->save();
                 }
-                //$x++;
+                $researchProject->outsider()->attach($outsider->id, ['role' => 2]);
             }
         }
-        return redirect()->route('researchProjects.index')
-            ->with('success', 'Research Project updated successfully');
+
+        if (!empty($changes)) {
+            event(new UserActionEvent(
+                $user,
+                'update',
+                [
+                    'target' => 'research_project',
+                    'changes' => $changes,
+                    'research_project_id' => $researchProject->id
+                ]
+            ));
+        }
+
+        return redirect()->route('researchProjects.index')->with('success', 'Research Project updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\ResearchProject  $researchProject
-     * @return \Illuminate\Http\Response
      */
     public function destroy(ResearchProject $researchProject)
     {
-
+        $user = Auth::user();
         $this->authorize('delete', $researchProject);
+
+        $projectName = $researchProject->project_name;
+        $fund = Fund::find($researchProject->fund_id);
+        $headUser = $researchProject->user()->wherePivot('role', 1)->first(); // Assuming head has role 1
+        $projectId = $researchProject->id;
         $researchProject->delete();
-        return redirect()->route('researchProjects.index')
-            ->with('success', 'Research Project deleted successfully');
+
+        event(new UserActionEvent(
+            $user,
+            'delete',
+            [
+                'target' => 'research_project',
+                'project_name' => $projectName,
+                'research_project_id' => $projectId
+            ]
+        ));
+
+        return redirect()->route('researchProjects.index')->with('success', 'Research Project deleted successfully');
     }
 }
