@@ -37,7 +37,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['single', 'error'],
             'ignore_exceptions' => false,
         ],
 
@@ -92,6 +92,12 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 
+        'system' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/system.log'),
+            'level' => 'critical',
+        ],
+
         'null' => [
             'driver' => 'monolog',
             'handler' => NullHandler::class,
@@ -99,12 +105,19 @@ return [
 
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
+            'level'=> 'emergency',
         ],
 
         'activity' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/activity.log'),
+            'level' => 'info',
+        ],
+        'access' => [
         'driver' => 'single',
-        'path' => storage_path('logs/activity.log'),
-        'level' => 'info',
+        'path' => storage_path('logs/access.log'),
+        'level' => 'info', // Log all requests, including successful ones
+        //'tap' => [\App\Logging\AccessLogFormatter::class], // Custom formatter
     ],
     ],
 
