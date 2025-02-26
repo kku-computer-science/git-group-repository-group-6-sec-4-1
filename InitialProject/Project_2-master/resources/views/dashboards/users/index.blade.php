@@ -7,7 +7,7 @@
 <br>
 <h4>สวัสดี {{Auth::user()->position_th}} {{Auth::user()->fname_th}} {{Auth::user()->lname_th}}</h4>
 
-@if(Auth::user()->fname_th === 'ผู้ดูแลระบบ')
+@if(Auth::user()->hasRole('admin'))
 <!-- เพิ่มส่วนของ Logs -->
 <h3>User Activity Logs</h3>
 
