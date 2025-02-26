@@ -38,4 +38,20 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function report(Throwable $exception)
+{
+    if ($this->shouldReport($exception)) {
+        \Log::error('Error Occurred', [
+            'message' => $exception->getMessage(),
+            'url' => request()->fullUrl(),
+            'ip' => request()->ip(),
+            'user_id' => auth()->id(),
+        ]);
+
+
+        
+    }
+    parent::report($exception);
+}
 }

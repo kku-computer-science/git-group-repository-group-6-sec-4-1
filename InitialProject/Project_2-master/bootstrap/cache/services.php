@@ -45,6 +45,7 @@
     41 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
     42 => 'Collective\\Html\\HtmlServiceProvider',
     43 => 'Barryvdh\\DomPDF\\ServiceProvider',
+    44 => 'App\\Providers\\AccessLogServiceProvider',
   ),
   'eager' => 
   array (
@@ -76,6 +77,7 @@
     25 => 'Spatie\\Permission\\PermissionServiceProvider',
     26 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
     27 => 'Barryvdh\\DomPDF\\ServiceProvider',
+    28 => 'App\\Providers\\AccessLogServiceProvider',
   ),
   'deferred' => 
   array (

@@ -127,7 +127,7 @@ Route::get('/callscopus/{id}', [App\Http\Controllers\ScopuscallController::class
 
 Route::group(['middleware' => ['isAdmin', 'auth', 'PreventBackHistory']], function () {
     //Route::post('change-profile-picture',[ProfileuserController::class,'updatePicture'])->name('adminPictureUpdate');
-    
+
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
@@ -135,24 +135,20 @@ Route::group(['middleware' => ['isAdmin', 'auth', 'PreventBackHistory']], functi
     Route::get('importfiles', [ImportExportController::class, 'index'])->name('importfiles');
     Route::post('import', [ImportExportController::class, 'import']);
     // Route::get('export', [ImportExportController::class, 'export']);
-    Route::get('/logs', 'LogsController@index')->name('logs');
-    Route::get('/logs/{index}', 'LogsController@show')->name('logs.show');
-    Route::get('/logs', [ProfileuserController::class, 'logs'])->name('admin.logs');
-    Route::get('/logs/{type}', function ($type) {
-        $logPath = storage_path("logs/{$type}.log");
-    
-        if (!File::exists($logPath)) {
-            return response()->json(['error' => 'Log file not found'], 404);
-        }
-    
-        return response()->json([
-            'filename' => "{$type}.log",
-            'content' => File::get($logPath)
-        ]);
-    });
-    
-    Route::get('/export-logs', [ProfileuserController::class, 'exportLogs'])->name('export.logs');
-
+   Route::get('/logs', [LogsController::class, 'index'])->name('logs.index');
+Route::get('/logs/show', [LogsController::class, 'show'])->name('logs.show');
+Route::get('/admin/logs', [LogsController::class, 'index'])->name('admin.logs');
+Route::get('/logs/api/{type}', function ($type) {
+    $logPath = storage_path("logs/{$type}.log");
+    if (!File::exists($logPath)) {
+        return response()->json(['error' => 'Log file not found'], 404);
+    }
+    return response()->json([
+        'filename' => "{$type}.log",
+        'content' => File::get($logPath)
+    ]);
+})->name('logs.api');
+Route::get('/export-logs', [ProfileuserController::class, 'exportLogs'])->name('export.logs');
 });
 
 Route::group(['middleware' => ['auth', 'PreventBackHistory']], function () {
