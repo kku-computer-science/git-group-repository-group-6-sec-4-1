@@ -28,26 +28,27 @@ User Manual
 <br>
 <br>
 USERNAME : admin@gmail.com
+<br>
 PASSWORD : 123456789
 ![alt text](../Doc/img/img2.jpg)
+<br>
 
-3.ไปที่เมนู View System Logs
+3.ไปที่เมนู User Activity Logs
 <br>
 ![alt text](/Sprint2/img_sprint2/481118149_1795761087662605_1009661506568150375_n.png)
-
-
-
-4.สามารถดูรายละเอียดกิจกรรมของทุก User ได้
 <br>
-![alt text](../Doc/img/img6.jpg)
 
-5.สามารถดูรายละเอียดข้อผิดพลาดและข้อความที่เกี่ยวข้องกับระบบได้
-<br>
-![alt text](../Doc/img/img7.jpg)
 
-Change Log
+4.ไปที่เมนู HTTP Error Logs
 <br>
-![alt text](../Doc/img/img5.jpg)
+![alt text](Sprint2/img_sprint2/480936330_1408113837036351_6709346763318549623_n.png)
+<br>
+
+5.ไปที่เมนู System Error Logs
+<br>
+![alt text](Sprint2/img_sprint2/480320115_1815253882608357_110721298631210181_n.png)
+<br>
+
 
 
 
