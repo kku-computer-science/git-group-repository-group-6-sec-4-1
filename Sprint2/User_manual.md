@@ -9,6 +9,10 @@ User Manual
 
 
 วิธีการใช้งาน การตรวจสอบ Log
+
+Link Web : https://csgtesttest66.cpkkuhost.com/?fbclid=IwY2xjawIsleZleHRuA2FlbQIxMAABHTKYOo-5PRWo0hts-Z8UAlD3CpE0PrJwMQN_5zI6XCCscBPx_jifjmEDYA_aem_MJ7gveX68FPK_z1sAKDAkA
+
+<br>
 1.	คลิกเมนู Login เพื่อไปยังหน้าเข้าสู่ระบบ
 ![alt text](../Doc/img/img1.jpg)
 
