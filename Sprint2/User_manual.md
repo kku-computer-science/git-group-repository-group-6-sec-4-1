@@ -30,6 +30,7 @@ User Manual
 USERNAME : admin@gmail.com
 <br>
 PASSWORD : 123456789
+<br>
 ![alt text](../Doc/img/img2.jpg)
 <br>
 
