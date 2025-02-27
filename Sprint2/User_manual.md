@@ -33,7 +33,7 @@ PASSWORD : 123456789
 
 3.ไปที่เมนู View System Logs
 <br>
-![alt text](../Sprint2/img_sprint2/480320115_1815253882608357_110721298631210181_n.pn)
+![alt text](/Sprint2/img_sprint2/481118149_1795761087662605_1009661506568150375_n.png)
 
 
 
