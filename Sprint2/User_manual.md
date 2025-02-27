@@ -33,7 +33,9 @@ PASSWORD : 123456789
 
 3.ไปที่เมนู View System Logs
 <br>
-![alt text](../Doc/img/img4.jpg)
+![alt text](../Sprint2/img_sprint2/480320115_1815253882608357_110721298631210181_n.pn)
+
+
 
 4.สามารถดูรายละเอียดกิจกรรมของทุก User ได้
 <br>
