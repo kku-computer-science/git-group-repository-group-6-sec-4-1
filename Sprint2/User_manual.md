@@ -42,12 +42,12 @@ PASSWORD : 123456789
 
 4.ไปที่เมนู HTTP Error Logs
 <br>
-![alt text](Sprint2/img_sprint2/480936330_1408113837036351_6709346763318549623_n.png)
+![alt text](/Sprint2/img_sprint2/480936330_1408113837036351_6709346763318549623_n.png)
 <br>
 
 5.ไปที่เมนู System Error Logs
 <br>
-![alt text](Sprint2/img_sprint2/480320115_1815253882608357_110721298631210181_n.png)
+![alt text](/Sprint2/img_sprint2/480320115_1815253882608357_110721298631210181_n.png)
 <br>
 
 
