@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitdf12afa23ac71fe1005569e1ca54098b
+class ComposerStaticInitc13eb3802f38c750164eda05c5ef9115
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -629,6 +629,7 @@ class ComposerStaticInitdf12afa23ac71fe1005569e1ca54098b
     public static $classMap = array (
         'App\\Console\\Commands\\DemoCron' => __DIR__ . '/../..' . '/app/Console/Commands/DemoCron.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
+        'App\\Events\\UserActionEvent' => __DIR__ . '/../..' . '/app/Events/UserActionEvent.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Exports\\ExportUser' => __DIR__ . '/../..' . '/app/Exports/ExportUser.php',
         'App\\Exports\\UsersExport' => __DIR__ . '/../..' . '/app/Exports/UsersExport.php',
@@ -654,6 +655,7 @@ class ComposerStaticInitdf12afa23ac71fe1005569e1ca54098b
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\ImportExportController' => __DIR__ . '/../..' . '/app/Http/Controllers/ImportExportController.php',
         'App\\Http\\Controllers\\LocalizationController' => __DIR__ . '/../..' . '/app/Http/Controllers/LocalizationController.php',
+        'App\\Http\\Controllers\\LogsController' => __DIR__ . '/../..' . '/app/Http/Controllers/LogsController.php',
         'App\\Http\\Controllers\\PDFController' => __DIR__ . '/../..' . '/app/Http/Controllers/PDFController.php',
         'App\\Http\\Controllers\\PageController' => __DIR__ . '/../..' . '/app/Http/Controllers/PageController.php',
         'App\\Http\\Controllers\\PaperController' => __DIR__ . '/../..' . '/app/Http/Controllers/PaperController.php',
@@ -682,10 +684,12 @@ class ComposerStaticInitdf12afa23ac71fe1005569e1ca54098b
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
         'App\\Http\\Middleware\\Language' => __DIR__ . '/../..' . '/app/Http/Middleware/Language.php',
+        'App\\Http\\Middleware\\LogRequestMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/LogRequestMiddleware.php',
         'App\\Http\\Middleware\\PreventBackHistory' => __DIR__ . '/../..' . '/app/Http/Middleware/PreventBackHistory.php',
         'App\\Http\\Middleware\\PreventRequestsDuringMaintenance' => __DIR__ . '/../..' . '/app/Http/Middleware/PreventRequestsDuringMaintenance.php',
         'App\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',
         'App\\Http\\Middleware\\RoleMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/RoleMiddleware.php',
+        'App\\Http\\Middleware\\StoreLastUserMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/StoreLastUserMiddleware.php',
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
         'App\\Http\\Middleware\\TrustHosts' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustHosts.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
@@ -694,6 +698,8 @@ class ComposerStaticInitdf12afa23ac71fe1005569e1ca54098b
         'App\\Http\\Middleware\\isTeacherMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/isTeacherMiddleware.php',
         'App\\Http\\Middleware\\isUserMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/isUserMiddleware.php',
         'App\\Imports\\UsersImport' => __DIR__ . '/../..' . '/app/Imports/UsersImport.php',
+        'App\\Listeners\\LogUserActivity' => __DIR__ . '/../..' . '/app/Listeners/LogUserActivity.php',
+        'App\\Logging\\AccessLogFormatter' => __DIR__ . '/../..' . '/app/Logging/AccessLogFormatter.php',
         'App\\Models\\Academicwork' => __DIR__ . '/../..' . '/app/Models/Academicwork.php',
         'App\\Models\\Author' => __DIR__ . '/../..' . '/app/Models/Author.php',
         'App\\Models\\Category' => __DIR__ . '/../..' . '/app/Models/Category.php',
@@ -723,6 +729,7 @@ class ComposerStaticInitdf12afa23ac71fe1005569e1ca54098b
         'App\\Policies\\ResearchProjectPolicy' => __DIR__ . '/../..' . '/app/Policies/ResearchProjectPolicy.php',
         'App\\Policies\\UploadfileGroupPolicy' => __DIR__ . '/../..' . '/app/Policies/UploadfileGroupPolicy.php',
         'App\\Policies\\UploadfiletoGroupPolicy' => __DIR__ . '/../..' . '/app/Policies/UploadfiletoGroupPolicy.php',
+        'App\\Providers\\AccessLogServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AccessLogServiceProvider.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
@@ -4132,19 +4139,13 @@ class ComposerStaticInitdf12afa23ac71fe1005569e1ca54098b
         'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Laravel/CollisionServiceProvider.php',
         'NunoMaduro\\Collision\\Adapters\\Laravel\\Commands\\TestCommand' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Laravel/Commands/TestCommand.php',
         'NunoMaduro\\Collision\\Adapters\\Laravel\\ExceptionHandler' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Laravel/ExceptionHandler.php',
-        'NunoMaduro\\Collision\\Adapters\\Laravel\\Exceptions\\NotSupportedYetException' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Laravel/Exceptions/NotSupportedYetException.php',
         'NunoMaduro\\Collision\\Adapters\\Laravel\\Exceptions\\RequirementsException' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Laravel/Exceptions/RequirementsException.php',
         'NunoMaduro\\Collision\\Adapters\\Laravel\\IgnitionSolutionsRepository' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Laravel/IgnitionSolutionsRepository.php',
         'NunoMaduro\\Collision\\Adapters\\Laravel\\Inspector' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Laravel/Inspector.php',
         'NunoMaduro\\Collision\\Adapters\\Phpunit\\ConfigureIO' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/ConfigureIO.php',
         'NunoMaduro\\Collision\\Adapters\\Phpunit\\Printer' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Printer.php',
-        'NunoMaduro\\Collision\\Adapters\\Phpunit\\Printers\\DefaultPrinter' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Printers/DefaultPrinter.php',
-        'NunoMaduro\\Collision\\Adapters\\Phpunit\\Printers\\ReportablePrinter' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Printers/ReportablePrinter.php',
         'NunoMaduro\\Collision\\Adapters\\Phpunit\\State' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/State.php',
         'NunoMaduro\\Collision\\Adapters\\Phpunit\\Style' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Style.php',
-        'NunoMaduro\\Collision\\Adapters\\Phpunit\\Subscribers\\EnsurePrinterIsRegisteredSubscriber' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Subscribers/EnsurePrinterIsRegisteredSubscriber.php',
-        'NunoMaduro\\Collision\\Adapters\\Phpunit\\Subscribers\\Subscriber' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Subscribers/Subscriber.php',
-        'NunoMaduro\\Collision\\Adapters\\Phpunit\\Support\\ResultReflection' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Support/ResultReflection.php',
         'NunoMaduro\\Collision\\Adapters\\Phpunit\\TestResult' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/TestResult.php',
         'NunoMaduro\\Collision\\Adapters\\Phpunit\\Timer' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Timer.php',
         'NunoMaduro\\Collision\\ArgumentFormatter' => __DIR__ . '/..' . '/nunomaduro/collision/src/ArgumentFormatter.php',
@@ -4155,16 +4156,12 @@ class ComposerStaticInitdf12afa23ac71fe1005569e1ca54098b
         'NunoMaduro\\Collision\\Contracts\\Handler' => __DIR__ . '/..' . '/nunomaduro/collision/src/Contracts/Handler.php',
         'NunoMaduro\\Collision\\Contracts\\Highlighter' => __DIR__ . '/..' . '/nunomaduro/collision/src/Contracts/Highlighter.php',
         'NunoMaduro\\Collision\\Contracts\\Provider' => __DIR__ . '/..' . '/nunomaduro/collision/src/Contracts/Provider.php',
-        'NunoMaduro\\Collision\\Contracts\\RenderableOnCollisionEditor' => __DIR__ . '/..' . '/nunomaduro/collision/src/Contracts/RenderableOnCollisionEditor.php',
         'NunoMaduro\\Collision\\Contracts\\RenderlessEditor' => __DIR__ . '/..' . '/nunomaduro/collision/src/Contracts/RenderlessEditor.php',
         'NunoMaduro\\Collision\\Contracts\\RenderlessTrace' => __DIR__ . '/..' . '/nunomaduro/collision/src/Contracts/RenderlessTrace.php',
         'NunoMaduro\\Collision\\Contracts\\SolutionsRepository' => __DIR__ . '/..' . '/nunomaduro/collision/src/Contracts/SolutionsRepository.php',
         'NunoMaduro\\Collision\\Contracts\\Writer' => __DIR__ . '/..' . '/nunomaduro/collision/src/Contracts/Writer.php',
-        'NunoMaduro\\Collision\\Coverage' => __DIR__ . '/..' . '/nunomaduro/collision/src/Coverage.php',
         'NunoMaduro\\Collision\\Exceptions\\InvalidStyleException' => __DIR__ . '/..' . '/nunomaduro/collision/src/Exceptions/InvalidStyleException.php',
         'NunoMaduro\\Collision\\Exceptions\\ShouldNotHappen' => __DIR__ . '/..' . '/nunomaduro/collision/src/Exceptions/ShouldNotHappen.php',
-        'NunoMaduro\\Collision\\Exceptions\\TestException' => __DIR__ . '/..' . '/nunomaduro/collision/src/Exceptions/TestException.php',
-        'NunoMaduro\\Collision\\Exceptions\\TestOutcome' => __DIR__ . '/..' . '/nunomaduro/collision/src/Exceptions/TestOutcome.php',
         'NunoMaduro\\Collision\\Handler' => __DIR__ . '/..' . '/nunomaduro/collision/src/Handler.php',
         'NunoMaduro\\Collision\\Highlighter' => __DIR__ . '/..' . '/nunomaduro/collision/src/Highlighter.php',
         'NunoMaduro\\Collision\\Provider' => __DIR__ . '/..' . '/nunomaduro/collision/src/Provider.php',
@@ -6239,7 +6236,6 @@ class ComposerStaticInitdf12afa23ac71fe1005569e1ca54098b
         'SebastianBergmann\\Environment\\OperatingSystem' => __DIR__ . '/..' . '/sebastian/environment/src/OperatingSystem.php',
         'SebastianBergmann\\Environment\\Runtime' => __DIR__ . '/..' . '/sebastian/environment/src/Runtime.php',
         'SebastianBergmann\\Exporter\\Exporter' => __DIR__ . '/..' . '/sebastian/exporter/src/Exporter.php',
-        'SebastianBergmann\\FileIterator\\ExcludeIterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/ExcludeIterator.php',
         'SebastianBergmann\\FileIterator\\Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
         'SebastianBergmann\\FileIterator\\Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',
         'SebastianBergmann\\FileIterator\\Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
@@ -7255,10 +7251,10 @@ class ComposerStaticInitdf12afa23ac71fe1005569e1ca54098b
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitdf12afa23ac71fe1005569e1ca54098b::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitdf12afa23ac71fe1005569e1ca54098b::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitdf12afa23ac71fe1005569e1ca54098b::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitdf12afa23ac71fe1005569e1ca54098b::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitc13eb3802f38c750164eda05c5ef9115::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitc13eb3802f38c750164eda05c5ef9115::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitc13eb3802f38c750164eda05c5ef9115::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitc13eb3802f38c750164eda05c5ef9115::$classMap;
 
         }, null, ClassLoader::class);
     }
