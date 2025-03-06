@@ -17,6 +17,7 @@
         "maatwebsite/excel": "^3.1",
         "phattarachai/thaidate": "^12.1",
         "phpoffice/phpword": "^0.18.3",
+        "psr/log": "*",
         "renanbr/bibtex-parser": "^2.1",
         "spatie/laravel-permission": "^5.4",
         "symfony/process": "^5.4",
