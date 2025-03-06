@@ -137,7 +137,7 @@ Route::group(['middleware' => ['isAdmin', 'auth', 'PreventBackHistory']], functi
     // Route::get('export', [ImportExportController::class, 'export']);
    Route::get('/logs', [LogsController::class, 'index'])->name('logs.index');
 Route::get('/logs/show', [LogsController::class, 'show'])->name('logs.show');
-Route::get('/logs', [LogsController::class, 'index'])->name('admin.logs');
+Route::get('/admin/logs', [LogsController::class, 'index'])->name('admin.logs');
 Route::get('/logs/api/{type}', function ($type) {
     $logPath = storage_path("logs/{$type}.log");
     if (!File::exists($logPath)) {
@@ -158,8 +158,8 @@ Route::group(['middleware' => ['auth', 'PreventBackHistory']], function () {
     Route::post('change-profile-picture', [UserController::class, 'updatePicture'])->name('adminPictureUpdate');
     Route::post('change-password', [ProfileuserController::class, 'changePassword'])->name('adminChangePassword');
     Route::get('dashboard', [ProfileuserController::class, 'index'])->name('dashboard');
-    Route::get('logs/http', [LogsController::class, 'httpLogs'])->name('dashboard.http');
-    Route::get('logs/system', [LogsController::class, 'systemLogs'])->name('dashboard.system');
+    Route::get('dashboard/http', [ProfileuserController::class, 'httpLogs'])->name('dashboard.http');
+    Route::get('dashboard/system', [ProfileuserController::class, 'systemLogs'])->name('dashboard.system');
     Route::get('profile', [ProfileuserController::class, 'profile'])->name('profile');
     Route::get('settings', [ProfileuserController::class, 'settings'])->name('settings');
     Route::resource('funds', FundController::class);

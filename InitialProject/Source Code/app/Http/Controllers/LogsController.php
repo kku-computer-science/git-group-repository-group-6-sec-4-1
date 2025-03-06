@@ -5,136 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use File;
 use Symfony\Component\Finder\SplFileInfo;
-use App\Models\User;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class LogsController extends Controller
 {
     public $perPage = 500;
 
-    public function index(Request $request)
+    public function index()
     {
-        $users = User::all();
-        $logPath = storage_path('logs/activity.log');
-        $userFilter = $request->query('user_id');
-        $activitySearch = $request->query('activity_search');
-
-        if (!File::exists($logPath)) {
-            $pagedLogs = null;
-        } else {
-            $logs = array_reverse(explode("\n", File::get($logPath)));
-            $parsedLogs = [];
-            $usersById = $users->keyBy('id');
-
-            foreach ($logs as $log) {
-                if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
-                    $jsonStart = strpos($log, '{');
-                    $message = $jsonStart !== false ? trim(substr($log, 0, $jsonStart)) : $log;
-                    $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
-
-                    $action = 'Unknown';
-                    $details = [];
-
-                    if ($jsonData && is_array($jsonData)) {
-                        $action = $jsonData['action'] ?? $this->extractActionFromMessage($message);
-                        $details = $jsonData['details'] ?? [];
-                        if (empty($details) && in_array($action, ['login', 'logout'])) {
-                            $details = ['target' => 'session'];
-                        }
-                    } else {
-                        $action = $this->extractActionFromMessage($message);
-                        if (in_array($action, ['login', 'logout'])) {
-                            $details = ['target' => 'session'];
-                        } else {
-                            $details = ['raw' => $log];
-                        }
-                    }
-
-                    $userId = $jsonData['user_id'] ?? 'Unknown';
-                    $user = $usersById->get($userId);
-
-                    if ($userFilter && $userId != $userFilter) {
-                        continue;
-                    }
-                    if ($activitySearch && !str_contains(strtolower($log), strtolower($activitySearch))) {
-                        continue;
-                    }
-
-                    $parsedLogs[] = [
-                        'user_id' => $userId,
-                        'email' => $jsonData['email'] ?? 'Unknown',
-                        'first_name' => $user ? $user->fname_en : 'Unknown',
-                        'last_name' => $user ? $user->lname_en : 'Unknown',
-                        'action' => $action,
-                        'details' => $details,
-                        'timestamp' => $jsonData['timestamp'] ?? $this->extractTimestamp($log),
-                        'ip' => $jsonData['ip'] ?? 'Unknown',
-                    ];
-                }
-            }
-
-            usort($parsedLogs, fn($a, $b) => strcmp($b['timestamp'], $a['timestamp']));
-            $perPage = 20;
-            $currentPage = $request->get('page', 1);
-            $pagedLogs = new LengthAwarePaginator(
-                array_slice($parsedLogs, ($currentPage - 1) * $perPage, $perPage),
-                count($parsedLogs),
-                $perPage,
-                $currentPage,
-                ['path' => url('/logs'), 'query' => $request->query()]
-            );
-        }
-
-        return view('logs.index', [
-            'users' => $users,
-            'pagedLogs' => $pagedLogs,
-            'httpErrorLogs' => null,
-            'systemErrorLogs' => null,
-            'activeTab' => 'activity'
-        ]);
-    }
-
-    public function httpLogs(Request $request)
-    {
-        $users = User::all();
         $files = $this->getLogFiles();
         $latestAccessLog = $files->first(fn(SplFileInfo $file) => str_contains($file->getFilename(), 'access'));
-
-        $httpSearch = $request->query('http_search');
-        $httpErrorLogs = $this->parseHttpErrors($latestAccessLog);
-        if ($httpSearch) {
-            $httpErrorLogs = $httpErrorLogs->filter(fn($log) => $this->filterLogs($log, strtolower($httpSearch)))->values();
-        }
-        $httpErrorLogs = $httpErrorLogs->take(10);
-
-        return view('logs.index', [
-            'users' => $users,
-            'pagedLogs' => null,
-            'httpErrorLogs' => $httpErrorLogs,
-            'systemErrorLogs' => null,
-            'activeTab' => 'http'
-        ]);
-    }
-
-    public function systemLogs(Request $request)
-    {
-        $users = User::all();
-        $files = $this->getLogFiles();
         $latestLaravelLog = $files->first(fn(SplFileInfo $file) => str_contains($file->getFilename(), 'laravel'));
 
-        $systemSearch = $request->query('system_search');
-        $systemErrorLogs = $this->parseSystemErrors($latestLaravelLog);
-        if ($systemSearch) {
-            $systemErrorLogs = $systemErrorLogs->filter(fn($log) => $this->filterLogs($log, strtolower($systemSearch)))->values();
-        }
-        $systemErrorLogs = $systemErrorLogs->take(10);
-
         return view('logs.index', [
-            'users' => $users,
-            'pagedLogs' => null,
-            'httpErrorLogs' => null,
-            'systemErrorLogs' => $systemErrorLogs,
-            'activeTab' => 'system'
+            'httpErrorLogs' => $this->parseHttpErrors($latestAccessLog),
+            'systemErrorLogs' => $this->parseSystemErrors($latestLaravelLog),
+            'pHttp' => null,
+            'pSystem' => null,
+            'searchQuery' => null
         ]);
     }
 
