@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.2.2 (Python 3.13.2 on win32)" generated="2025-02-27T07:29:28.292991" rpa="false" schemaversion="5">
+<suite id="s1" name="Loginlogtest" source="c:\w1\test\loginlogtest.robot">
+<test id="s1-t1" name="TC001 Log in as User" line="10">
+<kw name="Open Browser To Login Page" owner="resource">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-27T07:29:28.756655" level="INFO">${chrome_options} = &lt;selenium.webdriver.chrome.options.Options object at 0x000001E9EF7C8050&gt;</msg>
+<var>${chrome_options}</var>
+<arg>sys.modules['selenium.webdriver'].ChromeOptions()</arg>
+<arg>sys</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-27T07:29:28.756309" elapsed="0.002377"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${chrome_options}</arg>
+<arg>add_argument</arg>
+<arg>--no-sandbox</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2025-02-27T07:29:28.759639" elapsed="0.000557"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2025-02-27T07:29:28.760792" level="INFO">${chrome_options.binary_location} = C:\w1\test\Chrome\chrome.exe</msg>
+<var>${chrome_options.binary_location}</var>
+<arg>${CHROME_BROWSER_PATH}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2025-02-27T07:29:28.760466" elapsed="0.000479"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-27T07:29:28.761780" level="INFO">${service} = &lt;selenium.webdriver.chrome.service.Service object at 0x000001E9EF70BCB0&gt;</msg>
+<var>${service}</var>
+<arg>sys.modules["selenium.webdriver.chrome.service"].Service(executable_path=r"${CHROME_DRIVER_PATH}")</arg>
+<arg>sys</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-27T07:29:28.761133" elapsed="0.000744"/>
+</kw>
+<kw name="Create Webdriver" owner="SeleniumLibrary">
+<msg time="2025-02-27T07:29:28.762349" level="INFO">Creating an instance of the Chrome WebDriver.</msg>
+<arg>Chrome</arg>
+<arg>options=${chrome_options}</arg>
+<arg>service=${service}</arg>
+<doc>Creates an instance of Selenium WebDriver.</doc>
+<status status="PASS" start="2025-02-27T07:29:28.762015" elapsed="1.281663"/>
+</kw>
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2025-02-27T07:29:30.044120" level="INFO">Opening url 'https://csgtesttest66.cpkkuhost.com/login'</msg>
+<arg>${LOGIN URL}</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2025-02-27T07:29:30.043909" elapsed="2.022446"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2025-02-27T07:29:32.067368" elapsed="0.052199"/>
+</kw>
+<kw name="Set Selenium Speed" owner="SeleniumLibrary">
+<arg>${DELAY}</arg>
+<doc>Sets the delay that is waited after each Selenium command.</doc>
+<status status="PASS" start="2025-02-27T07:29:32.119962" elapsed="0.000427"/>
+</kw>
+<kw name="Login Page Should Be Open" owner="resource">
+<kw name="Title Should Be" owner="SeleniumLibrary">
+<msg time="2025-02-27T07:29:32.136834" level="INFO">Page title is 'Login'.</msg>
+<arg>Login</arg>
+<doc>Verifies that the current page title equals ``title``.</doc>
+<status status="PASS" start="2025-02-27T07:29:32.121122" elapsed="0.016207"/>
+</kw>
+<status status="PASS" start="2025-02-27T07:29:32.120710" elapsed="0.016935"/>
+</kw>
+<status status="PASS" start="2025-02-27T07:29:28.755460" elapsed="3.382473"/>
+</kw>
+<kw name="Input Username" owner="resource">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-02-27T07:29:32.140339" level="INFO">Typing text 'ngamnij@kku.ac.th' into text field 'username'.</msg>
+<arg>username</arg>
+<arg>${username}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-02-27T07:29:32.139758" elapsed="0.101105"/>
+</kw>
+<arg>${VALID USER}</arg>
+<status status="PASS" start="2025-02-27T07:29:32.139132" elapsed="0.101921"/>
+</kw>
+<kw name="Input Password" owner="resource">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-02-27T07:29:32.242383" level="INFO">Typing text '123456789' into text field 'password'.</msg>
+<arg>password</arg>
+<arg>${password}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-02-27T07:29:32.242079" elapsed="0.086874"/>
+</kw>
+<arg>${VALID PASSWORD}</arg>
+<status status="PASS" start="2025-02-27T07:29:32.241638" elapsed="0.087490"/>
+</kw>
+<kw name="Submit Credentials" owner="resource">
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-02-27T07:29:32.330063" level="INFO">Clicking button 'Log In'.</msg>
+<arg>Log In</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-02-27T07:29:32.329858" elapsed="0.081086"/>
+</kw>
+<status status="PASS" start="2025-02-27T07:29:32.329577" elapsed="0.081557"/>
+</kw>
+<kw name="Dashboard Page Should Be Open" owner="resource">
+<kw name="Title Should Be" owner="SeleniumLibrary">
+<msg time="2025-02-27T07:29:35.067566" level="INFO">Page title is 'Dashboard'.</msg>
+<arg>Dashboard</arg>
+<doc>Verifies that the current page title equals ``title``.</doc>
+<status status="PASS" start="2025-02-27T07:29:32.411980" elapsed="2.655849"/>
+</kw>
+<status status="PASS" start="2025-02-27T07:29:32.411626" elapsed="2.656317"/>
+</kw>
+<kw name="Logout from system" owner="resource">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>//a[@href="${SERVER}/logout"]</arg>
+<arg>10s</arg>
+<arg>Logout link not found</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-02-27T07:29:35.069219" elapsed="0.024211"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-02-27T07:29:35.094304" level="INFO">Clicking element '//a[@href="https://csgtesttest66.cpkkuhost.com/logout"]'.</msg>
+<arg>//a[@href="${SERVER}/logout"]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-02-27T07:29:35.093810" elapsed="1.033842"/>
+</kw>
+<status status="PASS" start="2025-02-27T07:29:35.068754" elapsed="1.059293"/>
+</kw>
+<kw name="Login Page Should Be Open" owner="resource">
+<kw name="Title Should Be" owner="SeleniumLibrary">
+<msg time="2025-02-27T07:29:36.144276" level="INFO">Page title is 'Login'.</msg>
+<arg>Login</arg>
+<doc>Verifies that the current page title equals ``title``.</doc>
+<status status="PASS" start="2025-02-27T07:29:36.131552" elapsed="0.013241"/>
+</kw>
+<status status="PASS" start="2025-02-27T07:29:36.130557" elapsed="0.014499"/>
+</kw>
+<kw name="Input Username" owner="resource">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-02-27T07:29:36.146370" level="INFO">Typing text 'admin@gmail.com' into text field 'username'.</msg>
+<arg>username</arg>
+<arg>${username}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-02-27T07:29:36.146080" elapsed="0.092680"/>
+</kw>
+<arg>${Admin USER}</arg>
+<status status="PASS" start="2025-02-27T07:29:36.145635" elapsed="0.093335"/>
+</kw>
+<kw name="Input Password" owner="resource">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-02-27T07:29:36.240131" level="INFO">Typing text '12345678' into text field 'password'.</msg>
+<arg>password</arg>
+<arg>${password}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-02-27T07:29:36.239859" elapsed="0.073424"/>
+</kw>
+<arg>${Admin PASSWORD}</arg>
+<status status="PASS" start="2025-02-27T07:29:36.239460" elapsed="0.074057"/>
+</kw>
+<kw name="Submit Credentials" owner="resource">
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-02-27T07:29:36.315240" level="INFO">Clicking button 'Log In'.</msg>
+<arg>Log In</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-02-27T07:29:36.314902" elapsed="0.062696"/>
+</kw>
+<status status="PASS" start="2025-02-27T07:29:36.314422" elapsed="0.063496"/>
+</kw>
+<kw name="Dashboard Page Should Be Open" owner="resource">
+<kw name="Title Should Be" owner="SeleniumLibrary">
+<msg time="2025-02-27T07:29:37.613096" level="INFO">Page title is 'Dashboard'.</msg>
+<arg>Dashboard</arg>
+<doc>Verifies that the current page title equals ``title``.</doc>
+<status status="PASS" start="2025-02-27T07:29:36.379011" elapsed="1.234623"/>
+</kw>
+<status status="PASS" start="2025-02-27T07:29:36.378686" elapsed="1.235244"/>
+</kw>
+<kw name="Verify Recent User Activity Logs" owner="resource">
+<kw name="Get Current Date" owner="DateTime">
+<msg time="2025-02-27T07:29:37.616010" level="INFO">${current_time} = 2025-02-27 07:29:37.615909</msg>
+<var>${current_time}</var>
+<arg>result_format=datetime</arg>
+<doc>Returns current local or UTC time with an optional increment.</doc>
+<status status="PASS" start="2025-02-27T07:29:37.615594" elapsed="0.000843"/>
+</kw>
+<kw name="Subtract Time From Date" owner="DateTime">
+<msg time="2025-02-27T07:29:37.617088" level="INFO">${five_minutes_ago} = 2025-02-27 07:24:37.615909</msg>
+<var>${five_minutes_ago}</var>
+<arg>${current_time}</arg>
+<arg>5 minutes</arg>
+<arg>datetime</arg>
+<doc>Subtracts time from date and returns the resulting date.</doc>
+<status status="PASS" start="2025-02-27T07:29:37.616737" elapsed="0.000479"/>
+</kw>
+<kw name="Get WebElements" owner="SeleniumLibrary">
+<msg time="2025-02-27T07:29:37.628865" level="INFO">${table} = [&lt;selenium.webdriver.remote.webelement.WebElement (session="0f5044f773be95c786e0d703dbbdc4e8", element="f.21C6F24A0120E92FC4F3EFFA815E8B57.d.D4D82ED7896CE2095C10C7F8F9385AEB.e.65")&gt;, &lt;selenium.webdriv...</msg>
+<var>${table}</var>
+<arg>css:div.card:nth-child(3) table</arg>
+<doc>Returns a list of WebElement objects matching the ``locator``.</doc>
+<status status="PASS" start="2025-02-27T07:29:37.617378" elapsed="0.011837"/>
+</kw>
+<kw name="Get WebElements" owner="SeleniumLibrary">
+<msg time="2025-02-27T07:29:37.640762" level="INFO">${rows} = [&lt;selenium.webdriver.remote.webelement.WebElement (session="0f5044f773be95c786e0d703dbbdc4e8", element="f.21C6F24A0120E92FC4F3EFFA815E8B57.d.D4D82ED7896CE2095C10C7F8F9385AEB.e.70")&gt;, &lt;selenium.webdriv...</msg>
+<var>${rows}</var>
+<arg>css:div.card:nth-child(3) table tbody tr</arg>
+<doc>Returns a list of WebElement objects matching the ``locator``.</doc>
+<status status="PASS" start="2025-02-27T07:29:37.629764" elapsed="0.011255"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2025-02-27T07:29:37.641602" level="INFO">${expected_email} = ngamnij@kku.ac.th</msg>
+<var>${expected_email}</var>
+<arg>ngamnij@kku.ac.th</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2025-02-27T07:29:37.641313" elapsed="0.000442"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2025-02-27T07:29:37.642261" level="INFO">${expected_action} = login</msg>
+<var>${expected_action}</var>
+<arg>login</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2025-02-27T07:29:37.641984" elapsed="0.000401"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2025-02-27T07:29:37.642887" level="INFO">${found} = False</msg>
+<var>${found}</var>
+<arg>${False}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2025-02-27T07:29:37.642571" elapsed="0.000442"/>
+</kw>
+<for flavor="IN">
+<iter>
+<kw name="Get WebElements" owner="SeleniumLibrary">
+<msg time="2025-02-27T07:29:37.655470" level="INFO">${cells} = []</msg>
+<var>${cells}</var>
+<arg>${row} css:td</arg>
+<doc>Returns a list of WebElement objects matching the ``locator``.</doc>
+<status status="PASS" start="2025-02-27T07:29:37.643831" elapsed="0.011833"/>
+</kw>
+<kw name="Get Text" owner="SeleniumLibrary">
+<msg time="2025-02-27T07:29:37.656159" level="FAIL">List '${cells}' has no item in index 0.</msg>
+<var>${email}</var>
+<arg>${cells}[0]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<status status="FAIL" start="2025-02-27T07:29:37.655875" elapsed="0.002101">List '${cells}' has no item in index 0.</status>
+</kw>
+<kw name="Get Text" owner="SeleniumLibrary">
+<var>${action}</var>
+<arg>${cells}[1]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<status status="NOT RUN" start="2025-02-27T07:29:37.658215" elapsed="0.000109"/>
+</kw>
+<kw name="Get Text" owner="SeleniumLibrary">
+<var>${timestamp}</var>
+<arg>${cells}[0]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<status status="NOT RUN" start="2025-02-27T07:29:37.658495" elapsed="0.000111"/>
+</kw>
+<kw name="Convert Date" owner="DateTime">
+<var>${log_time}</var>
+<arg>${timestamp}</arg>
+<arg>datetime</arg>
+<arg>%Y-%m-%d %H:%M:%S</arg>
+<doc>Converts between supported `date formats`.</doc>
+<status status="NOT RUN" start="2025-02-27T07:29:37.658766" elapsed="0.000109"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<arg>'${log_time}' &gt;= '${five_minutes_ago}'</arg>
+<arg>Log</arg>
+<arg>Checking log from ${timestamp}</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="NOT RUN" start="2025-02-27T07:29:37.659022" elapsed="0.000083"/>
+</kw>
+<if>
+<branch type="IF" condition="'${email}' == '${expected_email}' and '${action}' == '${expected_action}' and '${log_time}' &gt;= '${five_minutes_ago}'">
+<kw name="Set Test Variable" owner="BuiltIn">
+<arg>${found}</arg>
+<arg>${True}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<status status="NOT RUN" start="2025-02-27T07:29:37.659385" elapsed="0.000075"/>
+</kw>
+<kw name="Exit For Loop" owner="BuiltIn">
+<doc>Stops executing the enclosing FOR loop.</doc>
+<status status="NOT RUN" start="2025-02-27T07:29:37.659606" elapsed="0.000078"/>
+</kw>
+<status status="NOT RUN" start="2025-02-27T07:29:37.659233" elapsed="0.000517"/>
+</branch>
+<status status="NOT RUN" start="2025-02-27T07:29:37.659201" elapsed="0.000618"/>
+</if>
+<var name="${row}">&lt;selenium.webdriver.remote.webelement.WebElement (session="0f5044f773be95c786e0d703dbbdc4e8", element="f.21C6F24A0120E92FC4F3EFFA815E8B57.d.D4D82ED7896CE2095C10C7F8F9385AEB.e.70")&gt;</var>
+<status status="FAIL" start="2025-02-27T07:29:37.643569" elapsed="0.016297">List '${cells}' has no item in index 0.</status>
+</iter>
+<var>${row}</var>
+<value>@{rows}</value>
+<status status="FAIL" start="2025-02-27T07:29:37.643167" elapsed="0.016790">List '${cells}' has no item in index 0.</status>
+</for>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${found}</arg>
+<arg>Expected user activity log for Email '${expected_email}' and Action '${expected_action}' in the last 5 minutes not found.</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="NOT RUN" start="2025-02-27T07:29:37.660076" elapsed="0.000063"/>
+</kw>
+<status status="FAIL" start="2025-02-27T07:29:37.615002" elapsed="0.045297">List '${cells}' has no item in index 0.</status>
+</kw>
+<kw name="Logout from system" owner="resource">
+<status status="NOT RUN" start="2025-02-27T07:29:37.662346" elapsed="0.000151"/>
+</kw>
+<kw name="Login Page Should Be Open" owner="resource">
+<status status="NOT RUN" start="2025-02-27T07:29:37.663421" elapsed="0.000292"/>
+</kw>
+<status status="FAIL" start="2025-02-27T07:29:28.754833" elapsed="8.911518">List '${cells}' has no item in index 0.</status>
+</test>
+<doc>A test suite with a single test for valid login.
+
+This test has a workflow that is created using keywords in
+the imported resource file.</doc>
+<status status="FAIL" start="2025-02-27T07:29:28.297680" elapsed="9.371245"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Loginlogtest" id="s1" pass="0" fail="1" skip="0">Loginlogtest</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
