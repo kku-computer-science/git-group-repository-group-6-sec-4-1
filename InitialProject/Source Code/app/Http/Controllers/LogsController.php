@@ -102,6 +102,7 @@ class LogsController extends Controller
 
         $httpSearch = $request->query('http_search');
         $httpErrorLogs = $this->parseHttpErrors($latestAccessLog);
+
         if ($httpSearch) {
             $httpErrorLogs = $httpErrorLogs->filter(fn($log) => $this->filterLogs($log, strtolower($httpSearch)))->values();
         }
@@ -176,28 +177,32 @@ class LogsController extends Controller
     }
 
     protected function parseHttpErrors($file)
-{
-    if (!$file) return collect();
-    $rawLog = file($file->getPathname(), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    {
+        if (!$file) return collect();
+        $rawLog = file($file->getPathname(), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
-    return collect($rawLog)->map(function ($line) {
-        $pattern = '/\[(.*?)\] .*?"ip":"([\d\.]+)".*?"status":(\d+).*?"method":"(\w+)".*?"url":"([^"]+)"/';
+        return collect($rawLog)->map(function ($line) {
+            $pattern = '/\[(.*?)\] .*?"ip":"([\d\.]+)".*?"method":"(\w+)".*?"url":"([^"]+)".*?"status":(\d+).*?"user_id":(\d+|null).*?"email":"([^"]+)".*?"first_name":"([^"]+)?".*?"last_name":"([^"]+)?"/';
 
-        if (!preg_match($pattern, $line, $matches)) return null;
+            if (!preg_match($pattern, $line, $matches)) return null;
 
-        if ((int)$matches[3] >= 400) { // Filter only HTTP errors (>= 400)
-            return (object) [
-                'timestamp' => $matches[1],
-                'ip' => $matches[2],
-                'status' => $matches[3],
-                'method' => $matches[4],
-                'url' => $matches[5],
-                'message' => "HTTP {$matches[3]} - {$matches[4]} Request"
-            ];
-        }
-        return null;
-    })->filter()->values();
-}
+            if ((int)$matches[5] >= 400) { // Filter only HTTP errors (>= 400)
+                return (object) [
+                    'timestamp' => $matches[1],
+                    'ip' => $matches[2],
+                    'method' => $matches[3],
+                    'url' => $matches[4],
+                    'status' => $matches[5],
+                    'user_id' => $matches[6] === 'null' ? null : (int)$matches[6],
+                    'email' => $matches[7],
+                    'first_name' => $matches[8] ?? 'Unknown',
+                    'last_name' => $matches[9] ?? 'Unknown',
+                    'message' => "HTTP {$matches[5]} - {$matches[3]} Request"
+                ];
+            }
+            return null;
+        })->filter()->values();
+    }
 
 
     protected function parseSystemErrors($file)
@@ -227,6 +232,10 @@ class LogsController extends Controller
                str_contains(strtolower($log->url ?? ''), $query) ||
                str_contains(strtolower($log->ip ?? ''), $query) ||
                str_contains(strtolower($log->status ?? ''), $query) ||
-               str_contains(strtolower($log->method ?? ''), $query);
+               str_contains(strtolower($log->method ?? ''), $query) ||
+               str_contains(strtolower($log->user_id ?? ''), $query) ||
+               str_contains(strtolower($log->email ?? ''), $query) ||
+               str_contains(strtolower($log->first_name ?? ''), $query) ||
+               str_contains(strtolower($log->last_name ?? ''), $query);
     }
 }
