@@ -128,51 +128,53 @@
 
     <!-- HTTP Error Logs Tab -->
     <div class="tab-pane fade {{ $activeTab == 'http' ? 'show active' : '' }}" id="http" role="tabpanel">
-        <h3 class="text-danger">HTTP Error Logs</h3>
-        <div class="mb-3">
-            <form method="GET" action="{{ url('/logs/http') }}" class="d-flex gap-3 align-items-end" id="httpFilterForm">
-                <div class="form-group">
-                    <label for="http_search">Search:</label>
-                    <input type="text" name="http_search" id="http_search" class="form-control" 
-                           value="{{ request('http_search') }}" placeholder="Search HTTP errors...">
-                </div>
-                <button type="submit" class="btn btn-primary">Filter</button>
-                <a href="{{ url('/logs/http') }}" class="btn btn-secondary">Reset</a>
-            </form>
-        </div>
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover table-striped">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Timestamp</th>
-                                <th>IP</th>
-                                <th>Method</th>
-                                <th>Status</th>
-                                <th>URL</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if($httpErrorLogs && $httpErrorLogs->count() > 0)
-                                @foreach($httpErrorLogs as $log)
-                                    <tr>
-                                        <td>{{ $log->timestamp }}</td>
-                                        <td>{{ $log->ip }}</td>
-                                        <td>{{ $log->method }}</td>
-                                        <td class="text-danger fw-bold">{{ $log->status }}</td>
-                                        <td>{{ $log->url }}</td>
-                                    </tr>
-                                @endforeach
-                            @else
-                                <tr><td colspan="5" class="text-center text-muted">No HTTP error logs found.</td></tr>
-                            @endif
-                        </tbody>
-                    </table>
-                </div>
+    <h3 class="text-danger">HTTP Error Logs</h3>
+    <div class="mb-3">
+        <form method="GET" action="{{ url('logs/http') }}" class="d-flex gap-3 align-items-end" id="httpFilterForm">
+            <div class="form-group">
+                <label for="http_search">Search:</label>
+                <input type="text" name="http_search" id="http_search" class="form-control" 
+                       value="{{ request('http_search') }}" placeholder="Search HTTP errors (URL, IP, User)...">
+            </div>
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a href="{{ url('logs/http') }}" class="btn btn-secondary">Reset</a>
+        </form>
+    </div>
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>IP</th>
+                            <th>Method</th>
+                            <th>Status</th>
+                            <th>URL</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if($httpErrorLogs && $httpErrorLogs->count() > 0)
+                            @foreach($httpErrorLogs as $log)
+                                <tr>
+                                    <td>{{ $log->timestamp }}</td>
+                                    <td>{{ $log->ip }}</td>
+                                    <td>{{ $log->method }}</td>
+                                    <td class="text-danger fw-bold">{{ $log->status }}</td>
+                                    <td>{{ $log->url }}</td>
+                                    <td>{{ $log->email }}</td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr><td colspan="9" class="text-center text-muted">No HTTP error logs found.</td></tr>
+                        @endif
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>
 
     <!-- System Error Logs Tab -->
     <div class="tab-pane fade {{ $activeTab == 'system' ? 'show active' : '' }}" id="system" role="tabpanel">
