@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
+    protected $logsController;
+
     public function request($id){
         //$res=User::where('id',$id)->with('paper')->get();
         //User::with(['paper'])->where('id',$id)->get();
@@ -162,4 +164,5 @@ class ProfileController extends Controller
     //return view('researchprofiles',compact('res','papers','year','paper'))->with('year',json_encode($year,JSON_NUMERIC_CHECK))->with('paper',json_encode($paper,JSON_NUMERIC_CHECK));
 
     }
+
 }
