@@ -251,7 +251,10 @@ class LogsController extends Controller
             str_contains(strtolower($log->ip ?? ''), $query) ||
             str_contains(strtolower($log->status ?? ''), $query) ||
             str_contains(strtolower($log->method ?? ''), $query) ||
-            str_contains(strtolower($log->email ?? ''), $query);
+            str_contains(strtolower($log->user_id ?? ''), $query) ||
+            str_contains(strtolower($log->email ?? ''), $query) ||
+            str_contains(strtolower($log->first_name ?? ''), $query) ||
+            str_contains(strtolower($log->last_name ?? ''), $query);
     }
 
     public function getLogSummary()
@@ -307,6 +310,7 @@ class LogsController extends Controller
     {
         preg_match('/^\[(.*?)\]/', $log, $matches);
         return $matches[1] ?? 'Unknown';
+            str_contains(strtolower($log->email ?? ''), $query);
     }
     
 }
