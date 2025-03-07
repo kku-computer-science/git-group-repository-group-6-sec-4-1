@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\UserActionEvent;
 use App\Models\Education; // Fixed typo: Educaton -> Education
 use App\Models\User;
+use App\Models\Paper;
 use App\Models\Expertise;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,17 +15,31 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\Finder\SplFileInfo;
 
+
 class ProfileuserController extends Controller
 {
-    public function __construct()
+    protected $logsController;
+
+    public function __construct(LogsController $logsController)
     {
         $this->middleware('auth');
+        $this->logsController = $logsController;
     }
 
     function index(Request $request)
     {
         $users = User::all();
         $user = Auth::user();
+        $summaryData = null;
+        $totalUsers = 0;
+        $totalPapers = 0;
+        $topActiveUsers = [];
+
+        $summaryData = $this->logsController->getLogSummary();
+        $totalUsers = User::count(); // Total users in the database
+        $totalPapers = Paper::count();
+        $topActiveUsers = $this->getTopActiveUsers();
+
 
         $logPath = storage_path('logs/activity.log');
         $userFilter = $request->query('user_id');
@@ -101,10 +116,90 @@ class ProfileuserController extends Controller
             'pagedLogs' => $pagedLogs,
             'httpErrorLogs' => null, // Null for other tabs
             'systemErrorLogs' => null,
-            'activeTab' => 'activity'
+            'activeTab' => 'activity',
+            'summaryData' => $summaryData,
+            'totalUsers' => $totalUsers,
+            'totalPapers' => $totalPapers,
+            'topActiveUsers' => $topActiveUsers,
         ]);
     }
 
+    protected function getTopActiveUsers()
+    {
+        $logPath = storage_path('logs/activity.log');
+        if (!File::exists($logPath)) {
+            return [];
+        }
+
+        $logs = array_reverse(explode("\n", File::get($logPath)));
+        $userActivityCount = [];
+        $userEmails = User::pluck('email', 'id')->toArray(); // Fetch emails by user ID
+
+        foreach ($logs as $log) {
+            if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
+                $jsonStart = strpos($log, '{');
+                $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
+
+                if ($jsonData && isset($jsonData['user_id']) && $jsonData['user_id'] !== 'Unknown') {
+                    $userId = $jsonData['user_id'];
+                    $userActivityCount[$userId] = ($userActivityCount[$userId] ?? 0) + 1;
+                }
+            }
+        }
+
+        // Sort by activity count (descending) and take top 10
+        arsort($userActivityCount);
+        $top10 = array_slice($userActivityCount, 0, 10, true);
+
+        // Format the result with email and total activity
+        $result = [];
+        foreach ($top10 as $userId => $count) {
+            $result[] = [
+                'user_id' => $userId,
+                'email' => $userEmails[$userId] ?? 'Unknown',
+                'total_activity' => $count,
+            ];
+        }
+
+        return $result;
+    }
+
+    public function userActivityDetail(Request $request, $userId)
+    {
+        $logPath = storage_path('logs/activity.log');
+        $user = User::findOrFail($userId);
+        $activities = [];
+    
+        if (File::exists($logPath)) {
+            $logs = array_reverse(explode("\n", File::get($logPath)));
+            foreach ($logs as $log) {
+                if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
+                    $jsonStart = strpos($log, '{');
+                    $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
+    
+                    if ($jsonData && isset($jsonData['user_id']) && $jsonData['user_id'] == $userId) {
+                        $timestamp = $jsonData['timestamp'] ?? substr($log, 1, 19);
+                        $action = $jsonData['action'] ?? 'Unknown';
+    
+                        // Ensure timestamp and action are strings
+                        if (is_array($timestamp)) $timestamp = json_encode($timestamp);
+                        if (is_array($action)) $action = json_encode($action);
+    
+                        $activities[] = [
+                            'timestamp' => $timestamp,
+                            'action' => $action,
+                            'details' => $jsonData['details'] ?? [],
+                        ];
+                    }
+                }
+            }
+        }
+    
+        return view('dashboards.users.activity_detail', [
+            'user' => $user,
+            'activities' => $activities,
+        ]);
+    }
     // HTTP Error Logs
     function httpLogs(Request $request)
     {

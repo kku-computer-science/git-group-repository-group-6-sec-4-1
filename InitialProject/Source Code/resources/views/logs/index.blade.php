@@ -151,7 +151,6 @@
                             <th>Method</th>
                             <th>Status</th>
                             <th>URL</th>
-                            <th>Email</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -163,7 +162,6 @@
                                     <td>{{ $log->method }}</td>
                                     <td class="text-danger fw-bold">{{ $log->status }}</td>
                                     <td>{{ $log->url }}</td>
-                                    <td>{{ $log->email }}</td>
                                 </tr>
                             @endforeach
                         @else

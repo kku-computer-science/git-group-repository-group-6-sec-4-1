@@ -182,22 +182,18 @@ class LogsController extends Controller
         $rawLog = file($file->getPathname(), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
         return collect($rawLog)->map(function ($line) {
-            $pattern = '/\[(.*?)\] .*?"ip":"([\d\.]+)".*?"method":"(\w+)".*?"url":"([^"]+)".*?"status":(\d+).*?"user_id":(\d+|null).*?"email":"([^"]+)".*?"first_name":"([^"]+)?".*?"last_name":"([^"]+)?"/';
+            $pattern = '/\[(.*?)\] .*?"ip":"([\d\.]+)".*?"status":(\d+).*?"method":"(\w+)".*?"url":"([^"]+)"/';
 
             if (!preg_match($pattern, $line, $matches)) return null;
 
-            if ((int)$matches[5] >= 400) { // Filter only HTTP errors (>= 400)
+            if ((int)$matches[3] >= 400) { // Filter only HTTP errors (>= 400)
                 return (object) [
                     'timestamp' => $matches[1],
                     'ip' => $matches[2],
-                    'method' => $matches[3],
-                    'url' => $matches[4],
-                    'status' => $matches[5],
-                    'user_id' => $matches[6] === 'null' ? null : (int)$matches[6],
-                    'email' => $matches[7],
-                    'first_name' => $matches[8] ?? 'Unknown',
-                    'last_name' => $matches[9] ?? 'Unknown',
-                    'message' => "HTTP {$matches[5]} - {$matches[3]} Request"
+                    'status' => $matches[3],
+                    'method' => $matches[4],
+                    'url' => $matches[5],
+                    'message' => "HTTP {$matches[3]} - {$matches[4]} Request"
                 ];
             }
             return null;
@@ -228,14 +224,66 @@ class LogsController extends Controller
     private function filterLogs($log, $query)
     {
         return str_contains(strtolower($log->timestamp ?? ''), $query) ||
-               str_contains(strtolower($log->message ?? ''), $query) ||
-               str_contains(strtolower($log->url ?? ''), $query) ||
-               str_contains(strtolower($log->ip ?? ''), $query) ||
-               str_contains(strtolower($log->status ?? ''), $query) ||
-               str_contains(strtolower($log->method ?? ''), $query) ||
-               str_contains(strtolower($log->user_id ?? ''), $query) ||
-               str_contains(strtolower($log->email ?? ''), $query) ||
-               str_contains(strtolower($log->first_name ?? ''), $query) ||
-               str_contains(strtolower($log->last_name ?? ''), $query);
+            str_contains(strtolower($log->message ?? ''), $query) ||
+            str_contains(strtolower($log->url ?? ''), $query) ||
+            str_contains(strtolower($log->ip ?? ''), $query) ||
+            str_contains(strtolower($log->status ?? ''), $query) ||
+            str_contains(strtolower($log->method ?? ''), $query);
     }
+
+    public function getLogSummary()
+    {
+        $activityLogPath = storage_path('logs/activity.log');
+        $files = $this->getLogFiles();
+        $latestAccessLog = $files->first(fn(SplFileInfo $file) => str_contains($file->getFilename(), 'access'));
+        $latestLaravelLog = $files->first(fn(SplFileInfo $file) => str_contains($file->getFilename(), 'laravel'));
+
+        $summary = [
+            'activity' => ['total' => 0, 'logins' => 0, 'logouts' => 0],
+            'http_errors' => 0,
+            'system_errors' => 0,
+        ];
+
+        // Activity Logs
+        if (File::exists($activityLogPath)) {
+            $logs = array_reverse(explode("\n", File::get($activityLogPath)));
+            foreach ($logs as $log) {
+                if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
+                    $jsonStart = strpos($log, '{');
+                    $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
+
+                    $summary['activity']['total']++;
+                    if ($jsonData && isset($jsonData['action'])) {
+                        if ($jsonData['action'] === 'login') {
+                            $summary['activity']['logins']++;
+                        } elseif ($jsonData['action'] === 'logout') {
+                            $summary['activity']['logouts']++;
+                        }
+                    }
+                }
+            }
+        }
+
+        // HTTP Errors
+        $httpErrorLogs = $this->parseHttpErrors($latestAccessLog);
+        $summary['http_errors'] = $httpErrorLogs->count();
+
+        // System Errors
+        $systemErrorLogs = $this->parseSystemErrors($latestLaravelLog);
+        $summary['system_errors'] = $systemErrorLogs->count();
+
+        return $summary;
+    }
+
+    private function extractActionFromMessage($message)
+    {
+        return 'Unknown'; // Placeholder; implement actual logic if needed
+    }
+
+    private function extractTimestamp($log)
+    {
+        preg_match('/^\[(.*?)\]/', $log, $matches);
+        return $matches[1] ?? 'Unknown';
+    }
+    
 }
