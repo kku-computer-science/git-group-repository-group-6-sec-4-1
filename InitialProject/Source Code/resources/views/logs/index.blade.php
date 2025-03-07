@@ -147,11 +147,11 @@
                     <thead class="thead-dark">
                         <tr>
                             <th>Timestamp</th>
+                            <th>Email</th>
                             <th>IP</th>
                             <th>Method</th>
                             <th>Status</th>
                             <th>URL</th>
-                            <th>Email</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -159,11 +159,11 @@
                             @foreach($httpErrorLogs as $log)
                                 <tr>
                                     <td>{{ $log->timestamp }}</td>
+                                    <td>{{ $log->email }}</td>
                                     <td>{{ $log->ip }}</td>
                                     <td>{{ $log->method }}</td>
                                     <td class="text-danger fw-bold">{{ $log->status }}</td>
                                     <td>{{ $log->url }}</td>
-                                    <td>{{ $log->email }}</td>
                                 </tr>
                             @endforeach
                         @else

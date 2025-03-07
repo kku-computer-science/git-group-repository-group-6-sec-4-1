@@ -7,6 +7,7 @@ use File;
 use Symfony\Component\Finder\SplFileInfo;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
 
 class LogsController extends Controller
 {
@@ -180,28 +181,45 @@ class LogsController extends Controller
     {
         if (!$file) return collect();
         $rawLog = file($file->getPathname(), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-
-        return collect($rawLog)->map(function ($line) {
-            $pattern = '/\[(.*?)\] .*?"ip":"([\d\.]+)".*?"method":"(\w+)".*?"url":"([^"]+)".*?"status":(\d+).*?"user_id":(\d+|null).*?"email":"([^"]+)".*?"first_name":"([^"]+)?".*?"last_name":"([^"]+)?"/';
-
-            if (!preg_match($pattern, $line, $matches)) return null;
-
-            if ((int)$matches[5] >= 400) { // Filter only HTTP errors (>= 400)
-                return (object) [
-                    'timestamp' => $matches[1],
-                    'ip' => $matches[2],
-                    'method' => $matches[3],
-                    'url' => $matches[4],
-                    'status' => $matches[5],
-                    'user_id' => $matches[6] === 'null' ? null : (int)$matches[6],
-                    'email' => $matches[7],
-                    'first_name' => $matches[8] ?? 'Unknown',
-                    'last_name' => $matches[9] ?? 'Unknown',
-                    'message' => "HTTP {$matches[5]} - {$matches[3]} Request"
-                ];
+    
+        $parsedLogs = collect($rawLog)->map(function ($line) {
+            // Regex ปรับใหม่ให้จับทุกฟิลด์อย่างยืดหยุ่น
+            $pattern = '/\[(.*?)\] .*?(?:HTTP Request Error|Login Failed)?\s*{(.*?)}/';
+            if (preg_match($pattern, $line, $matches)) {
+                $timestamp = $matches[1];
+                $jsonData = $matches[2];
+    
+                // Parse JSON ด้วย json_decode
+                $data = json_decode('{' . $jsonData . '}', true);
+                if ($data === null) {
+                    \Log::warning("Failed to decode JSON in log line: $line");
+                    return null;
+                }
+    
+                $status = (int)($data['status'] ?? 0);
+                if ($status >= 400) {
+                    return (object) [
+                        'timestamp' => $timestamp,
+                        'ip' => $data['ip'] ?? 'Unknown',
+                        'port' => $data['port'] ?? 'N/A',
+                        'status' => $status,
+                        'method' => $data['method'] ?? 'Unknown',
+                        'url' => $data['url'] ?? 'N/A',
+                        'user_id' => isset($data['user_id']) && $data['user_id'] !== null ? (int)$data['user_id'] : null,
+                        'email' => $data['email'] ?? 'Guest', // ดึง email จาก JSON
+                        'first_name' => $data['first_name'] ?? 'Unknown',
+                        'last_name' => $data['last_name'] ?? 'Unknown',
+                        'message' => $data['message'] ?? "HTTP {$status} - " . ($data['method'] ?? 'Unknown') . " Request"
+                    ];
+                }
+            } else {
+                \Log::warning("Failed to parse log line: $line");
             }
             return null;
         })->filter()->values();
+    
+        \Log::info("Parsed HTTP error logs count: " . $parsedLogs->count());
+        return $parsedLogs;
     }
 
 
@@ -233,10 +251,7 @@ class LogsController extends Controller
             str_contains(strtolower($log->ip ?? ''), $query) ||
             str_contains(strtolower($log->status ?? ''), $query) ||
             str_contains(strtolower($log->method ?? ''), $query) ||
-            str_contains(strtolower($log->user_id ?? ''), $query) ||
-            str_contains(strtolower($log->email ?? ''), $query) ||
-            str_contains(strtolower($log->first_name ?? ''), $query) ||
-            str_contains(strtolower($log->last_name ?? ''), $query);
+            str_contains(strtolower($log->email ?? ''), $query);
     }
 
     public function getLogSummary()
@@ -293,4 +308,5 @@ class LogsController extends Controller
         preg_match('/^\[(.*?)\]/', $log, $matches);
         return $matches[1] ?? 'Unknown';
     }
+    
 }

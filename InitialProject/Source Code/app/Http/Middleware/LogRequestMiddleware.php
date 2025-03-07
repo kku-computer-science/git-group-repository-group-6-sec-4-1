@@ -13,7 +13,7 @@ class LogRequestMiddleware
 
         // Log the request
         Log::channel('access')->info('', [
-            'ip' => $request->ip(),
+            'ip' => $request->ip(), 
             'port' => $request->getPort(),
             'status' => $response->getStatusCode(),
             'method' => $request->method(),
