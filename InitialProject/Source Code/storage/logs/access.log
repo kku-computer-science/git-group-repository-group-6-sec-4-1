@@ -13,3 +13,159 @@
 [2025-03-07 22:16:37] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard/user/1/activity"} 
 [2025-03-07 22:16:42] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
 [2025-03-07 22:17:59] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:05:56] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000"} 
+[2025-03-07 23:05:57] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/vendor/bootstrap/js/bootstrap.min.js"} 
+[2025-03-07 23:05:59] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":302,"method":"GET","url":"http://127.0.0.1:8000/login"} 
+[2025-03-07 23:06:00] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:16:36] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:17:01] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:17:09] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:17:11] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:19:23] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:19:55] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:21:30] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:21:50] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:22:34] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:22:42] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:23:53] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:24:07] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:24:30] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:25:18] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:26:11] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:27:15] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:28:15] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:30:32] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-07 23:30:32"} 
+[2025-03-07 23:30:32] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:30:32] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-07 23:30:32"} 
+[2025-03-07 23:30:32] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:30:55] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-07 23:30:55"} 
+[2025-03-07 23:30:55] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:30:55] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-07 23:30:55"} 
+[2025-03-07 23:30:55] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:31:00] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:31:15] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:31:37] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:33:47] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-07 23:33:47"} 
+[2025-03-07 23:33:47] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:34:02] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:34:19] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-07 23:34:19"} 
+[2025-03-07 23:34:19] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:34:23] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-07 23:34:23"} 
+[2025-03-07 23:34:23] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:34:32] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-07 23:34:32"} 
+[2025-03-07 23:34:32] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:34:37] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:35:16] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/logs"} 
+[2025-03-07 23:35:18] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/logs/http","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-07 23:35:18"} 
+[2025-03-07 23:35:18] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/logs/http"} 
+[2025-03-07 23:35:19] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/logs"} 
+[2025-03-07 23:35:20] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/logs/http","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-07 23:35:20"} 
+[2025-03-07 23:35:20] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/logs/http"} 
+[2025-03-07 23:35:23] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/logs"} 
+[2025-03-07 23:35:28] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/logs/system"} 
+[2025-03-07 23:35:35] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:35:36] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/logs/system"} 
+[2025-03-07 23:35:39] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:37:21] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:40:22] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:41:08] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-07 23:41:08"} 
+[2025-03-07 23:41:08] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:41:30] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:41:37] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/logs"} 
+[2025-03-07 23:41:46] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/logs/http","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-07 23:41:46"} 
+[2025-03-07 23:41:46] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/logs/http"} 
+[2025-03-07 23:41:48] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/logs"} 
+[2025-03-07 23:41:50] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/logs/system"} 
+[2025-03-07 23:41:51] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/logs"} 
+[2025-03-07 23:41:55] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:42:22] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:45:08] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:45:13] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:46:39] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:46:42] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":302,"method":"POST","url":"http://127.0.0.1:8000/logout"} 
+[2025-03-07 23:46:42] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/login"} 
+[2025-03-07 23:46:43] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/vendor/bootstrap/css/bootstrap.min.css"} 
+[2025-03-07 23:46:55] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":302,"method":"POST","url":"http://127.0.0.1:8000/login"} 
+[2025-03-07 23:46:55] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":302,"method":"GET","url":"http://127.0.0.1:8000/login"} 
+[2025-03-07 23:46:56] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:47:05] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":404,"method":"GET","url":"http://127.0.0.1:8000/dashboardasdasdasd"} 
+[2025-03-07 23:47:08] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:47:28] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/logs"} 
+[2025-03-07 23:47:34] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:48:59] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:49:06] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:49:24] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:49:43] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:51:16] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:52:40] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:53:55] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:53:59] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-07 23:54:36] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:00:04] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:00:19] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:04:26] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:05:56] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:06:02] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:06:58] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-08 00:06:58"} 
+[2025-03-08 00:06:58] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:07:05] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:07:53] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:09:50] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-08 00:09:50"} 
+[2025-03-08 00:09:50] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:10:00] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:11:44] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-08 00:11:44"} 
+[2025-03-08 00:11:44] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:11:45] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-08 00:11:45"} 
+[2025-03-08 00:11:45] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:12:02] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-08 00:12:02"} 
+[2025-03-08 00:12:02] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:12:14] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-08 00:12:14"} 
+[2025-03-08 00:12:14] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:12:15] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-08 00:12:15"} 
+[2025-03-08 00:12:15] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:12:29] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-08 00:12:29"} 
+[2025-03-08 00:12:29] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:12:41] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-08 00:12:41"} 
+[2025-03-08 00:12:41] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:12:54] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:14:51] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-08 00:14:51"} 
+[2025-03-08 00:14:51] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:15:11] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-08 00:15:11"} 
+[2025-03-08 00:15:11] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:15:12] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-08 00:15:12"} 
+[2025-03-08 00:15:12] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:15:24] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-08 00:15:24"} 
+[2025-03-08 00:15:24] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:15:27] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:15:40] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-08 00:15:40"} 
+[2025-03-08 00:15:40] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:16:01] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:16:29] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:16:36] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:16:41] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:17:21] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:17:38] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:18:10] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:29:18] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:29:26] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:30:11] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:34:08] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:35:10] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:35:20] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:36:08] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:36:11] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:37:01] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:39:42] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:39:53] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:42:43] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:43:05] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:47:55] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:53:17] local.INFO: HTTP Request Error {"ip":"127.0.0.1","method":"GET","url":"http://127.0.0.1:8000/dashboard","status":500,"user_id":1,"email":"admin@gmail.com","first_name":"admin","last_name":"-","timestamp":"2025-03-08 00:53:17"} 
+[2025-03-08 00:53:17] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":500,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:53:22] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:53:35] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:55:14] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 00:56:31] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 01:01:02] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 01:01:05] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
+[2025-03-08 01:01:16] local.INFO:  {"ip":"127.0.0.1","port":8000,"status":200,"method":"GET","url":"http://127.0.0.1:8000/dashboard"} 
