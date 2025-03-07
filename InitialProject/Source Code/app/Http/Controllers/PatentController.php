@@ -9,6 +9,8 @@ use App\Models\Paper;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+    
+
 
 class PatentController extends Controller
 {

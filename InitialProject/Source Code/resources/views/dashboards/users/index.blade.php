@@ -2,6 +2,15 @@
 @section('title', 'Dashboard')
 
 @section('content')
+<div class="card mt-3">
+    <div class="card-header">
+        <h5>สถิติระบบ</h5>
+    </div>
+    <div class="card-body">
+        <canvas id="dashboardChart"></canvas>
+    </div>
+</div>
+
     <h3 style="padding-top: 10px;">ยินดีต้อนรับเข้าสู่ระบบจัดการข้อมูลวิจัยของสาขาวิชาวิทยาการคอมพิวเตอร์</h3>
     <br>
     <h4>สวัสดี {{ Auth::user()->position_th }} {{ Auth::user()->fname_th }} {{ Auth::user()->lname_th }}</h4><br>
@@ -43,7 +52,7 @@
                     <p class="text-muted mt-3">ไม่พบข้อมูล Log สำหรับการสรุป</p>
                 @endif
 
-                <h6 class="mt-3">ผู้ใช้ที่活跃ที่สุด (Top 10)</h6>
+                <h6 class="mt-3">ผู้ใช้ที่บ่อยที่สุด (Top 10)</h6>
                 @if(!empty($topActiveUsers))
                     <div class="table-responsive">
                         <table class="table table-hover">
@@ -75,6 +84,7 @@
             </div>
         </div>
     @endif
+
 
 @endsection
 
@@ -126,6 +136,7 @@
 @endpush
 
 @push('scripts')
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const searchInputs = document.querySelectorAll('input[name="activity_search"], input[name="http_search"], input[name="system_search"]');
@@ -140,3 +151,60 @@
     });
 </script>
 @endpush
+
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const ctx = document.getElementById('dashboardChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['บัญชีผู้ใช้', 'เอกสารวิจัย', 'กิจกรรมทั้งหมด', 'ล็อกอิน', 'ล็อกเอาท์', 'HTTP Errors', 'System Errors'],
+                datasets: [{
+                    label: 'จำนวน',
+                    data: [
+                        { $totalUsers },
+                        { $totalPapers },
+                        { $summaryData,['activity']:['total'] ?? 0 },
+                        { $summaryData,['activity']:['logins'] ?? 0 },
+                        { $summaryData,['activity']:['logouts'] ?? 0 },
+                        { $summaryData,['http_errors'] : 0 },
+                        { $summaryData,['system_errors'] : 0 }
+                    ],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(255, 159, 64, 0.6)',
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(201, 203, 207, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(201, 203, 207, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>
+@endpush
+
+
