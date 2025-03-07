@@ -40,6 +40,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\TcicallController;
 use App\Http\Controllers\LogsController;
+use App\Http\Controllers\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -135,21 +136,24 @@ Route::group(['middleware' => ['isAdmin', 'auth', 'PreventBackHistory']], functi
     Route::get('importfiles', [ImportExportController::class, 'index'])->name('importfiles');
     Route::post('import', [ImportExportController::class, 'import']);
     // Route::get('export', [ImportExportController::class, 'export']);
-   Route::get('/logs', [LogsController::class, 'index'])->name('logs.index');
-Route::get('/logs/show', [LogsController::class, 'show'])->name('logs.show');
-Route::get('/logs', [LogsController::class, 'index'])->name('admin.logs');
-Route::get('/logs/api/{type}', function ($type) {
-    $logPath = storage_path("logs/{$type}.log");
-    if (!File::exists($logPath)) {
-        return response()->json(['error' => 'Log file not found'], 404);
-    }
-    return response()->json([
-        'filename' => "{$type}.log",
-        'content' => File::get($logPath)
-    ]);
-})->name('logs.api');
-Route::get('/export-logs', [ProfileuserController::class, 'exportLogs'])->name('export.logs');
+    Route::get('/logs', [LogsController::class, 'index'])->name('logs.index');
+    Route::get('/logs/show', [LogsController::class, 'show'])->name('logs.show');
+    Route::get('/logs', [LogsController::class, 'index'])->name('admin.logs');
+    Route::get('/logs/api/{type}', function ($type) {
+        $logPath = storage_path("logs/{$type}.log");
+        if (!File::exists($logPath)) {
+            return response()->json(['error' => 'Log file not found'], 404);
+        }
+        return response()->json([
+            'filename' => "{$type}.log",
+            'content' => File::get($logPath)
+        ]);
+    })->name('logs.api');
+    Route::get('/export-logs', [ProfileuserController::class, 'exportLogs'])->name('export.logs');
+    Route::get('/dashboard', [ProfileuserController::class, 'index'])->middleware('auth')->name('dashboard');
+    Route::get('/dashboard/user/{userId}/activity', [ProfileuserController::class, 'userActivityDetail'])->name('dashboard.user.activity');
 });
+
 
 Route::group(['middleware' => ['auth', 'PreventBackHistory']], function () {
     //Route::get('profile',[UserController::class,'profile'])->name('profile2');
