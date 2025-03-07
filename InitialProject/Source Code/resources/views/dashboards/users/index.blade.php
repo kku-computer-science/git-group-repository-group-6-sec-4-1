@@ -2,11 +2,79 @@
 @section('title', 'Dashboard')
 
 @section('content')
+    <h3 style="padding-top: 10px;">ยินดีต้อนรับเข้าสู่ระบบจัดการข้อมูลวิจัยของสาขาวิชาวิทยาการคอมพิวเตอร์</h3>
+    <br>
+    <h4>สวัสดี {{ Auth::user()->position_th }} {{ Auth::user()->fname_th }} {{ Auth::user()->lname_th }}</h4><br>
 
-<h3 style="padding-top: 10px;">ยินดีต้อนรับเข้าสู่ระบบจัดการข้อมูลวิจัยของสาขาวิชาวิทยาการคอมพิวเตอร์</h3>
-<br>
-<h4>สวัสดี {{ Auth::user()->position_th }} {{ Auth::user()->fname_th }} {{ Auth::user()->lname_th }}</h4><br>
+    <h4>Dashboard</h4>
 
+    @if(Auth::user()->hasRole('admin') || (isset(Auth::user()->is_admin) && Auth::user()->is_admin))
+    <div class="card mt-3">
+            <div class="card-header">
+                <h5>สรุปข้อมูลระบบ</h5>
+            </div>
+            <div class="card-body">
+                <h6>ข้อมูลพื้นฐาน</h6>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <strong>จำนวนบัญชีผู้ใช้ทั้งหมด:</strong> {{ $totalUsers }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>จำนวนเอกสารวิจัยทั้งหมด:</strong> {{ $totalPapers }}
+                    </li>
+                </ul>
+
+                @if($summaryData)
+                    <h6 class="mt-3">Activity Logs</h6>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>จำนวนการกระทำทั้งหมด:</strong> {{ $summaryData['activity']['total'] }}</li>
+                        <li class="list-group-item"><strong>จำนวนการล็อกอิน:</strong> {{ $summaryData['activity']['logins'] }}</li>
+                        <li class="list-group-item"><strong>จำนวนการล็อกเอาท์:</strong> {{ $summaryData['activity']['logouts'] }}</li>
+                    </ul>
+                    <h6 class="mt-3">HTTP Errors</h6>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>จำนวนข้อผิดพลาด HTTP (400+):</strong> {{ $summaryData['http_errors'] }}</li>
+                    </ul>
+                    <h6 class="mt-3">System Errors</h6>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>จำนวนข้อผิดพลาดระบบ:</strong> {{ $summaryData['system_errors'] }}</li>
+                    </ul>
+                @else
+                    <p class="text-muted mt-3">ไม่พบข้อมูล Log สำหรับการสรุป</p>
+                @endif
+
+                <h6 class="mt-3">ผู้ใช้ที่活跃ที่สุด (Top 10)</h6>
+                @if(!empty($topActiveUsers))
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Email</th>
+                                    <th>Total Activity</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($topActiveUsers as $index => $activeUser)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $activeUser['email'] }}</td>
+                                        <td>{{ $activeUser['total_activity'] }}</td>
+                                        <td>
+                                            <a href="{{ route('dashboard.user.activity', $activeUser['user_id']) }}" class="btn btn-sm btn-primary">ดูรายละเอียด</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @else
+                    <p class="text-muted">ไม่มีข้อมูลผู้ใช้ที่活跃</p>
+                @endif
+            </div>
+        </div>
+    @endif
 
 @endsection
 
@@ -44,6 +112,15 @@
     .nav-tabs .nav-link.active {
         background-color: #fff;
         border-bottom: none;
+    }.card {
+        border-radius: 8px;
+    }
+    .list-group-item {
+        padding: 0.5rem 1rem;
+    }
+    h6 {
+        font-weight: bold;
+        color: #333;
     }
 </style>
 @endpush
