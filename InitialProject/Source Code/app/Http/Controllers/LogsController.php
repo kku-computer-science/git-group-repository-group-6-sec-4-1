@@ -14,131 +14,194 @@ class LogsController extends Controller
     public $perPage = 500;
 
     public function index(Request $request)
-    {
-        $users = User::all();
-        $logPath = storage_path('logs/activity.log');
-        $userFilter = $request->query('user_id');
-        $activitySearch = $request->query('activity_search');
+{
+    $users = User::all();
+    $logPath = storage_path('logs/activity.log');
+    $userFilter = $request->query('user_id');
+    $activitySearch = $request->query('activity_search');
+    $startDate = $request->query('start_date'); // ดึงวันที่เริ่มต้น
+    $endDate = $request->query('end_date');     // ดึงวันที่สิ้นสุด
 
-        if (!File::exists($logPath)) {
-            $pagedLogs = null;
-        } else {
-            $logs = array_reverse(explode("\n", File::get($logPath)));
-            $parsedLogs = [];
-            $usersById = $users->keyBy('id');
+    if (!File::exists($logPath)) {
+        $pagedLogs = null;
+    } else {
+        $logs = array_reverse(explode("\n", File::get($logPath)));
+        $parsedLogs = [];
+        $usersById = $users->keyBy('id');
 
-            foreach ($logs as $log) {
-                if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
-                    $jsonStart = strpos($log, '{');
-                    $message = $jsonStart !== false ? trim(substr($log, 0, $jsonStart)) : $log;
-                    $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
+        foreach ($logs as $log) {
+            if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
+                $jsonStart = strpos($log, '{');
+                $message = $jsonStart !== false ? trim(substr($log, 0, $jsonStart)) : $log;
+                $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
 
-                    $action = 'Unknown';
-                    $details = [];
+                $action = 'Unknown';
+                $details = [];
 
-                    if ($jsonData && is_array($jsonData)) {
-                        $action = $jsonData['action'] ?? $this->extractActionFromMessage($message);
-                        $details = $jsonData['details'] ?? [];
-                        if (empty($details) && in_array($action, ['login', 'logout'])) {
-                            $details = ['target' => 'session'];
-                        }
+                if ($jsonData && is_array($jsonData)) {
+                    $action = $jsonData['action'] ?? $this->extractActionFromMessage($message);
+                    $details = $jsonData['details'] ?? [];
+                    if (empty($details) && in_array($action, ['login', 'logout'])) {
+                        $details = ['target' => 'session'];
+                    }
+                } else {
+                    $action = $this->extractActionFromMessage($message);
+                    if (in_array($action, ['login', 'logout'])) {
+                        $details = ['target' => 'session'];
                     } else {
-                        $action = $this->extractActionFromMessage($message);
-                        if (in_array($action, ['login', 'logout'])) {
-                            $details = ['target' => 'session'];
-                        } else {
-                            $details = ['raw' => $log];
-                        }
+                        $details = ['raw' => $log];
                     }
-
-                    $userId = $jsonData['user_id'] ?? 'Unknown';
-                    $user = $usersById->get($userId);
-
-                    if ($userFilter && $userId != $userFilter) {
-                        continue;
-                    }
-                    if ($activitySearch && !str_contains(strtolower($log), strtolower($activitySearch))) {
-                        continue;
-                    }
-
-                    $parsedLogs[] = [
-                        'user_id' => $userId,
-                        'email' => $jsonData['email'] ?? 'Unknown',
-                        'first_name' => $user ? $user->fname_en : 'Unknown',
-                        'last_name' => $user ? $user->lname_en : 'Unknown',
-                        'action' => $action,
-                        'details' => $details,
-                        'timestamp' => $jsonData['timestamp'] ?? $this->extractTimestamp($log),
-                        'ip' => $jsonData['ip'] ?? 'Unknown',
-                    ];
                 }
+
+                $userId = $jsonData['user_id'] ?? 'Unknown';
+                $user = $usersById->get($userId);
+                $timestamp = $jsonData['timestamp'] ?? $this->extractTimestamp($log);
+
+                // กรองตามวันที่
+                if ($startDate && $endDate) {
+                    $logDate = date('Y-m-d', strtotime($timestamp));
+                    if ($logDate < $startDate || $logDate > $endDate) {
+                        continue; // ข้าม log ที่อยู่นอกช่วงวันที่
+                    }
+                } elseif ($startDate && !$endDate) {
+                    $logDate = date('Y-m-d', strtotime($timestamp));
+                    if ($logDate < $startDate) {
+                        continue; // ข้าม log ที่น้อยกว่าวันที่เริ่มต้น
+                    }
+                } elseif (!$startDate && $endDate) {
+                    $logDate = date('Y-m-d', strtotime($timestamp));
+                    if ($logDate > $endDate) {
+                        continue; // ข้าม log ที่มากกว่าวันที่สิ้นสุด
+                    }
+                }
+
+                // กรองตาม user_id และ activity_search
+                if ($userFilter && $userId != $userFilter) {
+                    continue;
+                }
+                if ($activitySearch && !str_contains(strtolower($log), strtolower($activitySearch))) {
+                    continue;
+                }
+
+                $parsedLogs[] = [
+                    'user_id' => $userId,
+                    'email' => $jsonData['email'] ?? 'Unknown',
+                    'first_name' => $user ? $user->fname_en : 'Unknown',
+                    'last_name' => $user ? $user->lname_en : 'Unknown',
+                    'action' => $action,
+                    'details' => $details,
+                    'timestamp' => $timestamp,
+                    'ip' => $jsonData['ip'] ?? 'Unknown',
+                ];
             }
-
-            usort($parsedLogs, fn($a, $b) => strcmp($b['timestamp'], $a['timestamp']));
-            $perPage = 20;
-            $currentPage = $request->get('page', 1);
-            $pagedLogs = new LengthAwarePaginator(
-                array_slice($parsedLogs, ($currentPage - 1) * $perPage, $perPage),
-                count($parsedLogs),
-                $perPage,
-                $currentPage,
-                ['path' => url('/logs'), 'query' => $request->query()]
-            );
         }
 
-        return view('logs.index', [
-            'users' => $users,
-            'pagedLogs' => $pagedLogs,
-            'httpErrorLogs' => null,
-            'systemErrorLogs' => null,
-            'activeTab' => 'activity'
-        ]);
+        usort($parsedLogs, fn($a, $b) => strcmp($b['timestamp'], $a['timestamp']));
+        $perPage = 20;
+        $currentPage = $request->get('page', 1);
+        $pagedLogs = new LengthAwarePaginator(
+            array_slice($parsedLogs, ($currentPage - 1) * $perPage, $perPage),
+            count($parsedLogs),
+            $perPage,
+            $currentPage,
+            ['path' => url('/logs'), 'query' => $request->query()]
+        );
     }
 
-    public function httpLogs(Request $request)
-    {
-        $users = User::all();
-        $files = $this->getLogFiles();
-        $latestAccessLog = $files->first(fn(SplFileInfo $file) => str_contains($file->getFilename(), 'access'));
+    return view('logs.index', [
+        'users' => $users,
+        'pagedLogs' => $pagedLogs,
+        'httpErrorLogs' => null,
+        'systemErrorLogs' => null,
+        'activeTab' => 'activity'
+    ]);
+}
 
-        $httpSearch = $request->query('http_search');
-        $httpErrorLogs = $this->parseHttpErrors($latestAccessLog);
+public function httpLogs(Request $request)
+{
+    $users = User::all();
+    $files = $this->getLogFiles();
+    $latestAccessLog = $files->first(fn(SplFileInfo $file) => str_contains($file->getFilename(), 'access'));
 
-        if ($httpSearch) {
-            $httpErrorLogs = $httpErrorLogs->filter(fn($log) => $this->filterLogs($log, strtolower($httpSearch)))->values();
-        }
-        $httpErrorLogs = $httpErrorLogs->take(10);
+    $httpSearch = $request->query('http_search');
+    $startDate = $request->query('start_date'); // ดึงวันที่เริ่มต้น
+    $endDate = $request->query('end_date');     // ดึงวันที่สิ้นสุด
 
-        return view('logs.index', [
-            'users' => $users,
-            'pagedLogs' => null,
-            'httpErrorLogs' => $httpErrorLogs,
-            'systemErrorLogs' => null,
-            'activeTab' => 'http'
-        ]);
+    $httpErrorLogs = $this->parseHttpErrors($latestAccessLog);
+
+    // กรองตามวันที่
+    if ($startDate || $endDate) {
+        $httpErrorLogs = $httpErrorLogs->filter(function ($log) use ($startDate, $endDate) {
+            $logDate = date('Y-m-d', strtotime($log->timestamp));
+            if ($startDate && $endDate) {
+                return $logDate >= $startDate && $logDate <= $endDate;
+            } elseif ($startDate) {
+                return $logDate >= $startDate;
+            } elseif ($endDate) {
+                return $logDate <= $endDate;
+            }
+            return true;
+        })->values();
     }
 
-    public function systemLogs(Request $request)
-    {
-        $users = User::all();
-        $files = $this->getLogFiles();
-        $latestLaravelLog = $files->first(fn(SplFileInfo $file) => str_contains($file->getFilename(), 'laravel'));
-
-        $systemSearch = $request->query('system_search');
-        $systemErrorLogs = $this->parseSystemErrors($latestLaravelLog);
-        if ($systemSearch) {
-            $systemErrorLogs = $systemErrorLogs->filter(fn($log) => $this->filterLogs($log, strtolower($systemSearch)))->values();
-        }
-        $systemErrorLogs = $systemErrorLogs->take(10);
-
-        return view('logs.index', [
-            'users' => $users,
-            'pagedLogs' => null,
-            'httpErrorLogs' => null,
-            'systemErrorLogs' => $systemErrorLogs,
-            'activeTab' => 'system'
-        ]);
+    // กรองตาม http_search
+    if ($httpSearch) {
+        $httpErrorLogs = $httpErrorLogs->filter(fn($log) => $this->filterLogs($log, strtolower($httpSearch)))->values();
     }
+
+    $httpErrorLogs = $httpErrorLogs->take(10);
+
+    return view('logs.index', [
+        'users' => $users,
+        'pagedLogs' => null,
+        'httpErrorLogs' => $httpErrorLogs,
+        'systemErrorLogs' => null,
+        'activeTab' => 'http'
+    ]);
+}
+
+public function systemLogs(Request $request)
+{
+    $users = User::all();
+    $files = $this->getLogFiles();
+    $latestLaravelLog = $files->first(fn(SplFileInfo $file) => str_contains($file->getFilename(), 'laravel'));
+
+    $systemSearch = $request->query('system_search');
+    $startDate = $request->query('start_date'); // ดึงวันที่เริ่มต้น
+    $endDate = $request->query('end_date');     // ดึงวันที่สิ้นสุด
+
+    $systemErrorLogs = $this->parseSystemErrors($latestLaravelLog);
+
+    // กรองตามวันที่
+    if ($startDate || $endDate) {
+        $systemErrorLogs = $systemErrorLogs->filter(function ($log) use ($startDate, $endDate) {
+            $logDate = date('Y-m-d', strtotime($log->timestamp));
+            if ($startDate && $endDate) {
+                return $logDate >= $startDate && $logDate <= $endDate;
+            } elseif ($startDate) {
+                return $logDate >= $startDate;
+            } elseif ($endDate) {
+                return $logDate <= $endDate;
+            }
+            return true;
+        })->values();
+    }
+
+    // กรองตาม system_search
+    if ($systemSearch) {
+        $systemErrorLogs = $systemErrorLogs->filter(fn($log) => $this->filterLogs($log, strtolower($systemSearch)))->values();
+    }
+
+    $systemErrorLogs = $systemErrorLogs->take(10);
+
+    return view('logs.index', [
+        'users' => $users,
+        'pagedLogs' => null,
+        'httpErrorLogs' => null,
+        'systemErrorLogs' => $systemErrorLogs,
+        'activeTab' => 'system'
+    ]);
+}
 
     public function show(Request $request)
     {
