@@ -2,17 +2,18 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="container mt-4">
+<div class="container mt-0">
     <h3 class="text-center text-primary">ยินดีต้อนรับเข้าสู่ระบบจัดการข้อมูลวิจัยของสาขาวิชาวิทยาการคอมพิวเตอร์</h3>
     <h4 class="text-center">สวัสดี {{ Auth::user()->position_th }} {{ Auth::user()->fname_th }} {{ Auth::user()->lname_th }}</h4>
     <h4 class="text-center text-secondary">Dashboard</h4>
 
     @if(Auth::user()->hasRole('admin') || (isset(Auth::user()->is_admin) && Auth::user()->is_admin))
     <div class="d-flex justify-content-between mb-4">
-        <div class="d-flex gap-4">
+        <div class="d-flex gap-4 align-items-center">
             <h2>Dashboard อิอิ</h2>
-            <input type="text" class="form-control" placeholder="Search..." style="width: 200px;">
-            <input type="text" id="datePicker" class="form-control" placeholder="Select Date" style="width: 150px;">
+            <input type="text" class="form-control" placeholder="Search..." style="width: 200px;" name="activity_search">
+            <input type="date" class="form-control" name="selected_date" style="width: 150px;">
+            <button type="submit" class="btn btn-primary" onclick="filterDashboard()">Filter</button>
             <strong>Users Online:</strong> <span class="badge bg-success">{{ $usersOnline }}</span>
         </div>
     </div>
@@ -135,10 +136,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row flex-grow-1 h-50">
-                    <div class="col-md-12 d-flex">
-                        <div class="card mt-3 shadow-sm flex-fill">
+                    <div class="col-md-12 d-flex mt-3">
+                        <div class="card shadow-sm flex-fill">
                             <div class="card-header bg-success text-white">
                                 <h5>User Login Stats</h5>
                             </div>
@@ -168,7 +167,7 @@
 </div>
 @endsection
 
-@push('styles')
+
 <style>
     html,
     body {
@@ -179,10 +178,16 @@
     .container {
         min-height: 100vh;
         overflow-y: auto;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
     }
 
     .row {
         flex-wrap: nowrap;
+    }
+
+    .row.h-50 {
+        height: auto !important;
     }
 
     .column-split {
@@ -237,7 +242,7 @@
         max-height: 400px;
     }
 </style>
-@endpush
+
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -245,14 +250,32 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 @endpush
 
-@Stack('javascript')
+@stack('javascript')
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 
 <script>
     window.updateChart = function() {
         const selectedGranularity = document.getElementById('granularitySelect').value;
+        const selectedDate = document.querySelector('input[name="selected_date"]').value;
+        const activitySearch = document.querySelector('input[name="activity_search"]').value;
+        
+        let url = "{{ route('dashboard') }}?granularity=" + selectedGranularity;
+        if (selectedDate) url += "&selected_date=" + selectedDate;
+        if (activitySearch) url += (selectedDate ? "&" : "?") + "activity_search=" + activitySearch;
+
         console.log('Granularity changed to:', selectedGranularity);
-        window.location.href = "{{ route('dashboard') }}?granularity=" + selectedGranularity;
+        window.location.href = url;
+    };
+
+    window.filterDashboard = function() {
+        const selectedDate = document.querySelector('input[name="selected_date"]').value;
+        const activitySearch = document.querySelector('input[name="activity_search"]').value;
+        
+        let url = "{{ route('dashboard') }}";
+        if (selectedDate) url += "?selected_date=" + selectedDate;
+        if (activitySearch) url += (selectedDate ? "&" : "?") + "activity_search=" + activitySearch;
+
+        window.location.href = url;
     };
 
     const httpErrorsData = {!! json_encode($summaryData['top5'] ?? []) !!};
@@ -307,7 +330,7 @@
                 } else if (granularity === 'weekly') {
                     const date = new Date(interval);
                     const dayIndex = date.getDay();
-                    const dayMap = [6, 1, 2, 3, 4, 5, 0]; // Maps getDay() to labels
+                    const dayMap = [6, 1, 2, 3, 4, 5, 0];
                     const adjustedIndex = dayMap[dayIndex];
                     if (adjustedIndex < labels.length) dataPoints[adjustedIndex] += count;
                 } else if (granularity === 'monthly') {
@@ -398,7 +421,12 @@
         } else {
             console.error('Granularity select element not found');
         }
+
+        // Set default value for date input if it exists in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectedDate = urlParams.get('selected_date');
+        const activitySearch = urlParams.get('activity_search');
+        if (selectedDate) document.querySelector('input[name="selected_date"]').value = selectedDate;
+        if (activitySearch) document.querySelector('input[name="activity_search"]').value = activitySearch;
     });
 </script>
-
-@endstack

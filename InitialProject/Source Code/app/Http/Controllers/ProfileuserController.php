@@ -25,7 +25,6 @@ class ProfileuserController extends Controller
         $this->middleware('auth');
     }
 
-
     public function index(Request $request)
     {
         $users = User::all();
@@ -47,38 +46,39 @@ class ProfileuserController extends Controller
         // Fetch all required data
         $totalUsers = User::count();
         $totalPapers = Paper::count();
-        $topActiveUsers = $this->getTopActiveUsers();
+        $topActiveUsers = $this->getTopActiveUsers(); // เรียกฟังก์ชันที่ปรับแล้ว
         $totalPapersFetched = $this->getTotalPapersFetched();
         $loginStats = $this->getLoginStats();
         $usersOnline = $this->getUsersOnline();
 
-        // Set granularity and date range for HTTP errors
+        // Set granularity and date
         $granularity = $request->input('granularity', 'hourly');
+        $selectedDate = $request->input('selected_date');
+        $activitySearch = $request->input('activity_search');
+
         if ($granularity === 'hourly') {
-            $startDate = Carbon::today()->startOfDay();
-            $endDate = Carbon::today()->endOfDay();
+            $defaultDate = Carbon::today()->startOfDay();
         } elseif ($granularity === 'daily') {
-            $startDate = Carbon::today()->subDays(6)->startOfDay();
-            $endDate = Carbon::today()->endOfDay();
+            $defaultDate = Carbon::today()->subDays(6)->startOfDay();
         } elseif ($granularity === 'weekly') {
-            $startDate = Carbon::today()->startOfWeek();
-            $endDate = Carbon::today()->endOfWeek();
+            $defaultDate = Carbon::today()->startOfWeek();
         } else { // monthly
-            $startDate = Carbon::today()->subMonths(11)->startOfMonth();
-            $endDate = Carbon::today()->endOfMonth();
+            $defaultDate = Carbon::today()->subMonths(11)->startOfMonth();
         }
 
+        // Use selected date if provided, otherwise use default based on granularity
+        $selectedDate = $selectedDate ? Carbon::parse($selectedDate)->startOfDay() : $defaultDate;
+        $endDate = $selectedDate->copy()->endOfDay();
+
         // Fetch HTTP error stats and merge into summaryData
-        $httpErrorStats = $this->getHttpErrorStats($granularity, $startDate, $endDate);
+        $httpErrorStats = $this->getHttpErrorStats($granularity, $selectedDate, $endDate);
         $summaryData = array_merge($summaryData, $httpErrorStats);
         $summaryData['granularity'] = $granularity;
 
-        Log::info('Summary Data', ['summaryData' => $summaryData]); // Debug log
-
+        Log::info('Summary Data', ['summaryData' => $summaryData]);
 
         $logPath = storage_path('logs/activity.log');
         $userFilter = $request->query('user_id');
-        $activitySearch = $request->query('activity_search');
 
         if (!File::exists($logPath)) {
             $pagedLogs = null;
@@ -113,7 +113,15 @@ class ProfileuserController extends Controller
 
                     $userId = $jsonData['user_id'] ?? 'Unknown';
                     $user = $usersById->get($userId);
+                    $timestamp = $jsonData['timestamp'] ?? $this->extractTimestamp($log);
 
+                    // Filter by selected date
+                    $logDate = Carbon::parse($timestamp)->startOfDay();
+                    if ($selectedDate && $logDate->ne($selectedDate)) {
+                        continue;
+                    }
+
+                    // Filter by user_id and activity_search
                     if ($userFilter && $userId != $userFilter) {
                         continue;
                     }
@@ -128,7 +136,7 @@ class ProfileuserController extends Controller
                         'last_name' => $user ? $user->lname_en : 'Unknown',
                         'action' => $action,
                         'details' => $details,
-                        'timestamp' => $jsonData['timestamp'] ?? $this->extractTimestamp($log),
+                        'timestamp' => $timestamp,
                         'ip' => $jsonData['ip'] ?? 'Unknown',
                     ];
                 }
@@ -145,9 +153,6 @@ class ProfileuserController extends Controller
                 ['path' => url('/dashboard'), 'query' => $request->query()]
             );
         }
-
-        //dd($summaryData);
-
 
         return view('dashboards.users.index', [
             'users' => $users,
@@ -169,7 +174,7 @@ class ProfileuserController extends Controller
     {
         $logPath = storage_path('logs/access.log');
         $stats = [];
-    
+
         if (File::exists($logPath)) {
             $logs = array_reverse(explode("\n", File::get($logPath)));
             foreach ($logs as $log) {
@@ -188,29 +193,28 @@ class ProfileuserController extends Controller
                 }
             }
         }
-    
+
         $total = array_sum(array_map(function ($errors) {
             return array_sum($errors);
         }, $stats));
-    
+
         return [
             'total' => $total,
             'top5' => $stats,
             'granularity' => $granularity,
         ];
     }
-    
+
     private function getIntervalKey($timestamp, $granularity)
     {
         switch ($granularity) {
             case 'hourly':
             case 'daily':
-                return $timestamp->format('Y-m-d H:00:00'); // Hourly breakdown
+                return $timestamp->format('Y-m-d H:00:00');
             case 'weekly':
-                // Return the actual date of the error (e.g., "2025-03-09")
                 return $timestamp->format('Y-m-d');
             case 'monthly':
-                return $timestamp->format('Y-m-d'); // Daily within month
+                return $timestamp->format('Y-m-d');
             default:
                 return $timestamp->format('Y-m-d H:00:00');
         }
@@ -241,42 +245,53 @@ class ProfileuserController extends Controller
     }
 
     protected function getTopActiveUsers()
-    {
-        $logPath = storage_path('logs/activity.log');
-        if (!File::exists($logPath)) {
-            return [];
-        }
+{
+    $logPath = storage_path('logs/activity.log');
+    if (!File::exists($logPath)) {
+        return [];
+    }
 
-        $logs = array_reverse(explode("\n", File::get($logPath)));
-        $userActivityCount = [];
-        $userEmails = User::pluck('email', 'id')->toArray();
+    $logs = array_reverse(explode("\n", File::get($logPath)));
+    $userActivityCount = [];
+    $userActions = []; // เก็บ actions ของผู้ใช้แต่ละคน
+    $userEmails = User::pluck('email', 'id')->toArray();
 
-        foreach ($logs as $log) {
-            if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
-                $jsonStart = strpos($log, '{');
-                $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
+    foreach ($logs as $log) {
+        if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
+            $jsonStart = strpos($log, '{');
+            $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
 
-                if ($jsonData && isset($jsonData['user_id']) && $jsonData['user_id'] !== 'Unknown') {
-                    $userId = $jsonData['user_id'];
-                    $userActivityCount[$userId] = ($userActivityCount[$userId] ?? 0) + 1;
+            if ($jsonData && isset($jsonData['user_id']) && $jsonData['user_id'] !== 'Unknown') {
+                $userId = $jsonData['user_id'];
+                $action = $jsonData['action'] ?? 'Unknown';
+
+                // นับจำนวน activity ทั้งหมดของผู้ใช้
+                $userActivityCount[$userId] = ($userActivityCount[$userId] ?? 0) + 1;
+
+                // นับจำนวนครั้งของแต่ละ action
+                if (!isset($userActions[$userId])) {
+                    $userActions[$userId] = [];
                 }
+                $userActions[$userId][$action] = ($userActions[$userId][$action] ?? 0) + 1;
             }
         }
-
-        arsort($userActivityCount);
-        $top10 = array_slice($userActivityCount, 0, 10, true);
-
-        $result = [];
-        foreach ($top10 as $userId => $count) {
-            $result[] = [
-                'user_id' => $userId,
-                'email' => $userEmails[$userId] ?? 'Unknown',
-                'total_activity' => $count,
-            ];
-        }
-
-        return $result;
     }
+
+    arsort($userActivityCount);
+    $top10 = array_slice($userActivityCount, 0, 10, true);
+
+    $result = [];
+    foreach ($top10 as $userId => $count) {
+        $result[] = [
+            'user_id' => $userId,
+            'email' => $userEmails[$userId] ?? 'Unknown',
+            'total_activity' => $count,
+            'actions' => $userActions[$userId] ?? [],
+        ];
+    }
+
+    return $result;
+}
 
     public function userActivityDetail(Request $request, $userId)
     {
