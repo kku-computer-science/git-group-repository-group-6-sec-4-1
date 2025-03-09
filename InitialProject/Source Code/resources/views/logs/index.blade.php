@@ -35,11 +35,20 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="activity_search">Search:</label>
-                    <input type="text" name="activity_search" id="activity_search" class="form-control" 
-                           value="{{ request('activity_search') }}" placeholder="Search actions or details...">
-                </div>
+<!-- แก้ไขส่วนของ User Activity Logs Search -->
+<div class="form-group">
+    <label for="activity_search">Search:</label>
+    <select name="activity_search" id="activity_search" class="form-control">
+        <option value="">-- เลือกการค้นหา --</option>
+        <option value="login" {{ request('activity_search') == 'login' ? 'selected' : '' }}>Login</option>
+        <option value="logout" {{ request('activity_search') == 'logout' ? 'selected' : '' }}>Logout</option>
+        <option value="insert" {{ request('activity_search') == 'insert' ? 'selected' : '' }}>Insert</option>
+        <option value="update" {{ request('activity_search') == 'update' ? 'selected' : '' }}>Update</option>
+        <option value="delete" {{ request('activity_search') == 'delete' ? 'selected' : '' }}>Delete</option>
+        <option value="call_paper" {{ request('activity_search') == 'call_paper' ? 'selected' : '' }}>Call Paper</option>
+        <!-- เพิ่มตัวเลือกอื่นๆ ตามต้องการ -->
+    </select>
+</div>
                 <button type="submit" class="btn btn-primary">Filter</button>
                 <a href="{{ url('/logs') }}" class="btn btn-secondary">Reset</a>
             </form>
