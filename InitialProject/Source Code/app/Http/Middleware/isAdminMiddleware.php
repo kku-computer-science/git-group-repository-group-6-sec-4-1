@@ -21,7 +21,7 @@ class isAdminMiddleware
         if( Auth::check() && Auth::user()->hasRole('admin') ){
             return $next($request);
         }else{
-            return redirect()->route('login');
+            return abort(403, 'Unauthorized: Admins only');
         }
     }
 }
