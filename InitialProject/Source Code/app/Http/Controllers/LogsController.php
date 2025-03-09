@@ -117,50 +117,91 @@ class LogsController extends Controller
     ]);
 }
 
-    public function httpLogs(Request $request)
-    {
-        $users = User::all();
-        $files = $this->getLogFiles();
-        $latestAccessLog = $files->first(fn(SplFileInfo $file) => str_contains($file->getFilename(), 'access'));
+public function httpLogs(Request $request)
+{
+    $users = User::all();
+    $files = $this->getLogFiles();
+    $latestAccessLog = $files->first(fn(SplFileInfo $file) => str_contains($file->getFilename(), 'access'));
 
-        $httpSearch = $request->query('http_search');
-        $httpErrorLogs = $this->parseHttpErrors($latestAccessLog);
+    $httpSearch = $request->query('http_search');
+    $startDate = $request->query('start_date'); // ดึงวันที่เริ่มต้น
+    $endDate = $request->query('end_date');     // ดึงวันที่สิ้นสุด
 
-        if ($httpSearch) {
-            $httpErrorLogs = $httpErrorLogs->filter(fn($log) => $this->filterLogs($log, strtolower($httpSearch)))->values();
-        }
-        $httpErrorLogs = $httpErrorLogs->take(10);
+    $httpErrorLogs = $this->parseHttpErrors($latestAccessLog);
 
-        return view('logs.index', [
-            'users' => $users,
-            'pagedLogs' => null,
-            'httpErrorLogs' => $httpErrorLogs,
-            'systemErrorLogs' => null,
-            'activeTab' => 'http'
-        ]);
+    // กรองตามวันที่
+    if ($startDate || $endDate) {
+        $httpErrorLogs = $httpErrorLogs->filter(function ($log) use ($startDate, $endDate) {
+            $logDate = date('Y-m-d', strtotime($log->timestamp));
+            if ($startDate && $endDate) {
+                return $logDate >= $startDate && $logDate <= $endDate;
+            } elseif ($startDate) {
+                return $logDate >= $startDate;
+            } elseif ($endDate) {
+                return $logDate <= $endDate;
+            }
+            return true;
+        })->values();
     }
 
-    public function systemLogs(Request $request)
-    {
-        $users = User::all();
-        $files = $this->getLogFiles();
-        $latestLaravelLog = $files->first(fn(SplFileInfo $file) => str_contains($file->getFilename(), 'laravel'));
-
-        $systemSearch = $request->query('system_search');
-        $systemErrorLogs = $this->parseSystemErrors($latestLaravelLog);
-        if ($systemSearch) {
-            $systemErrorLogs = $systemErrorLogs->filter(fn($log) => $this->filterLogs($log, strtolower($systemSearch)))->values();
-        }
-        $systemErrorLogs = $systemErrorLogs->take(10);
-
-        return view('logs.index', [
-            'users' => $users,
-            'pagedLogs' => null,
-            'httpErrorLogs' => null,
-            'systemErrorLogs' => $systemErrorLogs,
-            'activeTab' => 'system'
-        ]);
+    // กรองตาม http_search
+    if ($httpSearch) {
+        $httpErrorLogs = $httpErrorLogs->filter(fn($log) => $this->filterLogs($log, strtolower($httpSearch)))->values();
     }
+
+    $httpErrorLogs = $httpErrorLogs->take(10);
+
+    return view('logs.index', [
+        'users' => $users,
+        'pagedLogs' => null,
+        'httpErrorLogs' => $httpErrorLogs,
+        'systemErrorLogs' => null,
+        'activeTab' => 'http'
+    ]);
+}
+
+public function systemLogs(Request $request)
+{
+    $users = User::all();
+    $files = $this->getLogFiles();
+    $latestLaravelLog = $files->first(fn(SplFileInfo $file) => str_contains($file->getFilename(), 'laravel'));
+
+    $systemSearch = $request->query('system_search');
+    $startDate = $request->query('start_date'); // ดึงวันที่เริ่มต้น
+    $endDate = $request->query('end_date');     // ดึงวันที่สิ้นสุด
+
+    $systemErrorLogs = $this->parseSystemErrors($latestLaravelLog);
+
+    // กรองตามวันที่
+    if ($startDate || $endDate) {
+        $systemErrorLogs = $systemErrorLogs->filter(function ($log) use ($startDate, $endDate) {
+            $logDate = date('Y-m-d', strtotime($log->timestamp));
+            if ($startDate && $endDate) {
+                return $logDate >= $startDate && $logDate <= $endDate;
+            } elseif ($startDate) {
+                return $logDate >= $startDate;
+            } elseif ($endDate) {
+                return $logDate <= $endDate;
+            }
+            return true;
+        })->values();
+    }
+
+    // กรองตาม system_search
+    if ($systemSearch) {
+        $systemErrorLogs = $systemErrorLogs->filter(fn($log) => $this->filterLogs($log, strtolower($systemSearch)))->values();
+    }
+
+    $systemErrorLogs = $systemErrorLogs->take(10);
+
+    return view('logs.index', [
+        'users' => $users,
+        'pagedLogs' => null,
+        'httpErrorLogs' => null,
+        'systemErrorLogs' => $systemErrorLogs,
+        'activeTab' => 'system'
+    ]);
+}
 
     public function show(Request $request)
     {
