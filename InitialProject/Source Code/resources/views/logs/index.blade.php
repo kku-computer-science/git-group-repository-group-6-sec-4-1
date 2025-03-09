@@ -75,12 +75,12 @@
                         <table class="table table-striped table-bordered table-hover">
                             <thead class="thead-dark">
                                 <tr>
+                                    <th>Timestamp</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Email</th>
                                     <th>Action</th>
                                     <th>Details</th>
-                                    <th>Timestamp</th>
                                     <th>IP Address</th>
                                 </tr>
                             </thead>
@@ -91,6 +91,7 @@
                                                @elseif(($log['action'] ?? '') == 'insert') table-primary 
                                                @elseif(($log['action'] ?? '') == 'update') table-info 
                                                @elseif(($log['action'] ?? '') == 'delete') table-danger @endif">
+                                        <td class="timestamp-cell">{{ Str::limit($log['timestamp'] ?? 'Unknown', 20, '...') }}</td>
                                         <td>{{ $log['first_name'] ?? 'Unknown' }}</td>
                                         <td>{{ $log['last_name'] ?? 'Unknown' }}</td>
                                         <td>{{ Str::limit($log['email'] ?? 'Unknown', 30, '...') }} (ID: {{ $log['user_id'] ?? 'Unknown' }})</td>
@@ -129,7 +130,6 @@
                                                 -
                                             @endif
                                         </td>
-                                        <td class="timestamp-cell">{{ Str::limit($log['timestamp'] ?? 'Unknown', 20, '...') }}</td>
                                         <td class="ip-cell">{{ $log['ip'] ?? 'Unknown' }}</td>
                                     </tr>
                                 @endforeach

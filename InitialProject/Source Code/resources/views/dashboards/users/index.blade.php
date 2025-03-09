@@ -2,19 +2,18 @@
 @section('title', 'Dashboard')
 
 @section('content')
-
-
-<div class="container mt-4">
+<div class="container mt-0">
     <h3 class="text-center text-primary">ยินดีต้อนรับเข้าสู่ระบบจัดการข้อมูลวิจัยของสาขาวิชาวิทยาการคอมพิวเตอร์</h3>
     <h4 class="text-center">สวัสดี {{ Auth::user()->position_th }} {{ Auth::user()->fname_th }} {{ Auth::user()->lname_th }}</h4>
     <h4 class="text-center text-secondary">Dashboard</h4>
 
     @if(Auth::user()->hasRole('admin') || (isset(Auth::user()->is_admin) && Auth::user()->is_admin))
     <div class="d-flex justify-content-between mb-4">
-        <div class="d-flex gap-4">
+        <div class="d-flex gap-4 align-items-center">
             <h2>Dashboard อิอิ</h2>
-            <input type="text" class="form-control" placeholder="Search..." style="width: 200px;">
-            <input type="text" id="datePicker" class="form-control" placeholder="Select Date" style="width: 150px;">
+            <input type="text" class="form-control" placeholder="Search..." style="width: 200px;" name="activity_search">
+            <input type="date" class="form-control" name="selected_date" style="width: 150px;">
+            <button type="submit" class="btn btn-primary" onclick="filterDashboard()">Filter</button>
             <strong>Users Online:</strong> <span class="badge bg-success">{{ $usersOnline }}</span>
         </div>
     </div>
@@ -137,10 +136,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row flex-grow-1 h-50">
-                    <div class="col-md-12 d-flex">
-                        <div class="card mt-3 shadow-sm flex-fill">
+                    <div class="col-md-12 d-flex mt-3">
+                        <div class="card shadow-sm flex-fill">
                             <div class="card-header bg-success text-white">
                                 <h5>User Login Stats</h5>
                             </div>
@@ -168,13 +165,10 @@
     </div>
     @endif
 </div>
-
 @endsection
 
-@push('styles')
+
 <style>
-
-
     html,
     body {
         height: 100%;
@@ -184,10 +178,16 @@
     .container {
         min-height: 100vh;
         overflow-y: auto;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
     }
 
     .row {
         flex-wrap: nowrap;
+    }
+
+    .row.h-50 {
+        height: auto !important;
     }
 
     .column-split {
@@ -240,49 +240,42 @@
 
     #httpErrorsChart {
         max-height: 400px;
-
-    }
-    .alert {
-        border-radius: 8px;
-        margin-top: 20px;
-    }
-    .d-none {
-        display: none;
-    }
-    .card-body i {
-        margin-bottom: 10px;
-    }
-    .date-picker {
-        position: relative;
-    }
-    .date-picker i {
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #666;
-    }
-    #httpErrorChart {
-        height: 200px !important;
     }
 </style>
-@endpush
+
 
 @push('scripts')
-
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 @endpush
 
-@Stack('javascript')
+@stack('javascript')
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 
 <script>
     window.updateChart = function() {
         const selectedGranularity = document.getElementById('granularitySelect').value;
+        const selectedDate = document.querySelector('input[name="selected_date"]').value;
+        const activitySearch = document.querySelector('input[name="activity_search"]').value;
+        
+        let url = "{{ route('dashboard') }}?granularity=" + selectedGranularity;
+        if (selectedDate) url += "&selected_date=" + selectedDate;
+        if (activitySearch) url += (selectedDate ? "&" : "?") + "activity_search=" + activitySearch;
+
         console.log('Granularity changed to:', selectedGranularity);
-        window.location.href = "{{ route('dashboard') }}?granularity=" + selectedGranularity;
+        window.location.href = url;
+    };
+
+    window.filterDashboard = function() {
+        const selectedDate = document.querySelector('input[name="selected_date"]').value;
+        const activitySearch = document.querySelector('input[name="activity_search"]').value;
+        
+        let url = "{{ route('dashboard') }}";
+        if (selectedDate) url += "?selected_date=" + selectedDate;
+        if (activitySearch) url += (selectedDate ? "&" : "?") + "activity_search=" + activitySearch;
+
+        window.location.href = url;
     };
 
     const httpErrorsData = {!! json_encode($summaryData['top5'] ?? []) !!};
@@ -300,71 +293,8 @@
         Object.values(data).forEach(errors => {
             Object.entries(errors).forEach(([status, count]) => {
                 statusCounts[status] = (statusCounts[status] ?? 0) + count;
-
             });
-        }
-
-        // ฟังก์ชันดึงข้อมูลจาก API
-        async function fetchDashboardData(selectedDate = null) {
-            try {
-                let url = 'https://your-api-endpoint/dashboard-data';
-                if (selectedDate) {
-                    const [day, month, year] = selectedDate.split('/');
-                    const formattedDate = `${year}-${month}-${day}`;
-                    url += `?date=${encodeURIComponent(formattedDate)}`;
-                }
-
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error('ไม่สามารถดึงข้อมูลจาก API ได้');
-                }
-
-                const data = await response.json();
-
-                // อัปเดตข้อมูลในหน้าเว็บ
-                document.getElementById('systemStatus').textContent = `${data.summaryData?.http_errors + data.summaryData?.system_errors || 0}`;
-                document.getElementById('mostActiveUser').textContent = data.activeUser?.email || 'N/A';
-                document.getElementById('paperCount').textContent = data.paperCount || 0;
-                document.getElementById('totalLogins').textContent = `Total: ${data.summaryData?.activity?.total || 0}`;
-                document.getElementById('loginSuccess').textContent = `Success: ${data.summaryData?.activity?.logins || 0}`;
-                document.getElementById('loginFail').textContent = `Fail: ${data.summaryData?.activity?.logouts || 0}`;
-                document.getElementById('paperFetch').textContent = `${data.paperFetch || 0}`;
-                document.getElementById('usersOnline').textContent = `${data.usersOnline || 0} คน`;
-
-                // อัปเดตกราฟ
-                updateChart(data.chartData || []);
-
-                // แสดงการแจ้งเตือนหากมีข้อผิดพลาด
-                if (data.summaryData?.system_errors > 0 || data.summaryData?.http_errors > 0) {
-                    document.getElementById('errorAlert').classList.remove('d-none');
-                } else {
-                    document.getElementById('errorAlert').classList.add('d-none');
-                }
-
-            } catch (error) {
-                console.error('เกิดข้อผิดพลาด:', error);
-                document.getElementById('errorAlert').textContent = 'เกิดข้อผิดพลาดในการดึงข้อมูล โปรดลองใหม่';
-                document.getElementById('errorAlert').classList.remove('d-none');
-            }
-        }
-
-        // ปุ่ม Apply
-        document.getElementById('applyButton').addEventListener('click', function() {
-            const selectedDate = document.getElementById('dashboardDate').value;
-            if (selectedDate) {
-                fetchDashboardData(selectedDate);
-            } else {
-                alert('กรุณาเลือกวันที่ก่อน!');
-            }
         });
-
 
         const uniqueStatusCodes = Object.keys(statusCounts).map(Number).sort().slice(0, 5);
         console.log('Unique Status Codes:', uniqueStatusCodes);
@@ -400,7 +330,7 @@
                 } else if (granularity === 'weekly') {
                     const date = new Date(interval);
                     const dayIndex = date.getDay();
-                    const dayMap = [6, 1, 2, 3, 4, 5, 0]; // Maps getDay() to labels
+                    const dayMap = [6, 1, 2, 3, 4, 5, 0];
                     const adjustedIndex = dayMap[dayIndex];
                     if (adjustedIndex < labels.length) dataPoints[adjustedIndex] += count;
                 } else if (granularity === 'monthly') {
@@ -492,7 +422,11 @@
             console.error('Granularity select element not found');
         }
 
+        // Set default value for date input if it exists in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectedDate = urlParams.get('selected_date');
+        const activitySearch = urlParams.get('activity_search');
+        if (selectedDate) document.querySelector('input[name="selected_date"]').value = selectedDate;
+        if (activitySearch) document.querySelector('input[name="activity_search"]').value = activitySearch;
     });
 </script>
-
-@endstack
