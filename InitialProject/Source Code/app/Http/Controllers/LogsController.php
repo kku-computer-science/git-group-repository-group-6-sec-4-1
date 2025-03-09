@@ -124,8 +124,8 @@ public function httpLogs(Request $request)
     $latestAccessLog = $files->first(fn(SplFileInfo $file) => str_contains($file->getFilename(), 'access'));
 
     $httpSearch = $request->query('http_search');
-    $startDate = $request->query('start_date'); // ดึงวันที่เริ่มต้น
-    $endDate = $request->query('end_date');     // ดึงวันที่สิ้นสุด
+    $startDate = $request->query('start_date');
+    $endDate = $request->query('end_date');
 
     $httpErrorLogs = $this->parseHttpErrors($latestAccessLog);
 
@@ -149,12 +149,24 @@ public function httpLogs(Request $request)
         $httpErrorLogs = $httpErrorLogs->filter(fn($log) => $this->filterLogs($log, strtolower($httpSearch)))->values();
     }
 
-    $httpErrorLogs = $httpErrorLogs->take(10);
+    // เรียงลำดับจากล่าสุดไปเก่าสุด
+    $httpErrorLogs = $httpErrorLogs->sortByDesc('timestamp')->values();
+
+    // เพิ่มการแบ่งหน้า
+    $perPage = 20; // จำนวนรายการต่อหน้า (ปรับได้ตามต้องการ)
+    $currentPage = $request->get('page', 1);
+    $pagedHttpLogs = new LengthAwarePaginator(
+        $httpErrorLogs->slice(($currentPage - 1) * $perPage, $perPage)->values(),
+        $httpErrorLogs->count(),
+        $perPage,
+        $currentPage,
+        ['path' => url('/logs/http'), 'query' => $request->query()]
+    );
 
     return view('logs.index', [
         'users' => $users,
         'pagedLogs' => null,
-        'httpErrorLogs' => $httpErrorLogs,
+        'httpErrorLogs' => $pagedHttpLogs,
         'systemErrorLogs' => null,
         'activeTab' => 'http'
     ]);
@@ -167,8 +179,8 @@ public function systemLogs(Request $request)
     $latestLaravelLog = $files->first(fn(SplFileInfo $file) => str_contains($file->getFilename(), 'laravel'));
 
     $systemSearch = $request->query('system_search');
-    $startDate = $request->query('start_date'); // ดึงวันที่เริ่มต้น
-    $endDate = $request->query('end_date');     // ดึงวันที่สิ้นสุด
+    $startDate = $request->query('start_date');
+    $endDate = $request->query('end_date');
 
     $systemErrorLogs = $this->parseSystemErrors($latestLaravelLog);
 
@@ -192,13 +204,25 @@ public function systemLogs(Request $request)
         $systemErrorLogs = $systemErrorLogs->filter(fn($log) => $this->filterLogs($log, strtolower($systemSearch)))->values();
     }
 
-    $systemErrorLogs = $systemErrorLogs->take(10);
+    // เรียงลำดับจากล่าสุดไปเก่าสุด
+    $systemErrorLogs = $systemErrorLogs->sortByDesc('timestamp')->values();
+
+    // เพิ่มการแบ่งหน้า
+    $perPage = 20; // จำนวนรายการต่อหน้า (ปรับได้ตามต้องการ)
+    $currentPage = $request->get('page', 1);
+    $pagedSystemLogs = new LengthAwarePaginator(
+        $systemErrorLogs->slice(($currentPage - 1) * $perPage, $perPage)->values(),
+        $systemErrorLogs->count(),
+        $perPage,
+        $currentPage,
+        ['path' => url('/logs/system'), 'query' => $request->query()]
+    );
 
     return view('logs.index', [
         'users' => $users,
         'pagedLogs' => null,
         'httpErrorLogs' => null,
-        'systemErrorLogs' => $systemErrorLogs,
+        'systemErrorLogs' => $pagedSystemLogs,
         'activeTab' => 'system'
     ]);
 }
@@ -241,70 +265,65 @@ public function systemLogs(Request $request)
     }
 
     protected function parseHttpErrors($file)
-    {
-        if (!$file) return collect();
-        $rawLog = file($file->getPathname(), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+{
+    if (!$file) return collect(); // คืนค่า collect() ถ้าไม่มีไฟล์
+    $rawLog = file($file->getPathname(), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     
-        $parsedLogs = collect($rawLog)->map(function ($line) {
-            // Regex ปรับใหม่ให้จับทุกฟิลด์อย่างยืดหยุ่น
-            $pattern = '/\[(.*?)\] .*?(?:HTTP Request Error|Login Failed)?\s*{(.*?)}/';
-            if (preg_match($pattern, $line, $matches)) {
-                $timestamp = $matches[1];
-                $jsonData = $matches[2];
+    $parsedLogs = collect($rawLog)->map(function ($line) {
+        $pattern = '/\[(.*?)\] .*?(?:HTTP Request Error|Login Failed)?\s*{(.*?)}/';
+        if (preg_match($pattern, $line, $matches)) {
+            $timestamp = $matches[1];
+            $jsonData = $matches[2];
     
-                // Parse JSON ด้วย json_decode
-                $data = json_decode('{' . $jsonData . '}', true);
-                if ($data === null) {
-                    \Log::warning("Failed to decode JSON in log line: $line");
-                    return null;
-                }
-    
-                $status = (int)($data['status'] ?? 0);
-                if ($status >= 400) {
-                    return (object) [
-                        'timestamp' => $timestamp,
-                        'ip' => $data['ip'] ?? 'Unknown',
-                        'port' => $data['port'] ?? 'N/A',
-                        'status' => $status,
-                        'method' => $data['method'] ?? 'Unknown',
-                        'url' => $data['url'] ?? 'N/A',
-                        'user_id' => isset($data['user_id']) && $data['user_id'] !== null ? (int)$data['user_id'] : null,
-                        'email' => $data['email'] ?? 'Guest', // ดึง email จาก JSON
-                        'first_name' => $data['first_name'] ?? 'Unknown',
-                        'last_name' => $data['last_name'] ?? 'Unknown',
-                        'message' => $data['message'] ?? "HTTP {$status} - " . ($data['method'] ?? 'Unknown') . " Request"
-                    ];
-                }
-            } else {
-                \Log::warning("Failed to parse log line: $line");
+            $data = json_decode('{' . $jsonData . '}', true);
+            if ($data === null) {
+                \Log::warning("Failed to decode JSON in log line: $line");
+                return null;
             }
-            return null;
-        })->filter()->values();
     
-        \Log::info("Parsed HTTP error logs count: " . $parsedLogs->count());
-        return $parsedLogs;
-    }
+            $status = (int)($data['status'] ?? 0);
+            if ($status >= 400) {
+                return (object) [
+                    'timestamp' => $timestamp,
+                    'ip' => $data['ip'] ?? 'Unknown',
+                    'port' => $data['port'] ?? 'N/A',
+                    'status' => $status,
+                    'method' => $data['method'] ?? 'Unknown',
+                    'url' => $data['url'] ?? 'N/A',
+                    'user_id' => isset($data['user_id']) && $data['user_id'] !== null ? (int)$data['user_id'] : null,
+                    'email' => $data['email'] ?? 'Guest',
+                    'first_name' => $data['first_name'] ?? 'Unknown',
+                    'last_name' => $data['last_name'] ?? 'Unknown',
+                    'message' => $data['message'] ?? "HTTP {$status} - " . ($data['method'] ?? 'Unknown') . " Request"
+                ];
+            }
+        }
+        return null;
+    })->filter()->values();
+    
+    return $parsedLogs;
+}
 
 
-    protected function parseSystemErrors($file)
-    {
-        if (!$file) return collect();
-        $rawLog = file($file->getPathname(), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+protected function parseSystemErrors($file)
+{
+    if (!$file) return collect(); // คืนค่า collect() ถ้าไม่มีไฟล์
+    $rawLog = file($file->getPathname(), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
-        return collect($rawLog)->map(function ($line) {
-            $pattern = '/^\[(.*?)\] \w+\.(ERROR): (.+?)(\s?\{.*\})?$/';
-            if (!preg_match($pattern, $line, $matches)) return null;
+    return collect($rawLog)->map(function ($line) {
+        $pattern = '/^\[(.*?)\] \w+\.(ERROR): (.+?)(\s?\{.*\})?$/';
+        if (!preg_match($pattern, $line, $matches)) return null;
 
-            return (object) [
-                'timestamp' => $matches[1],
-                'level' => 'ERROR',
-                'message' => $matches[3],
-                'ip' => 'N/A',
-                'url' => 'N/A',
-                'status' => 'N/A'
-            ];
-        })->filter()->values();
-    }
+        return (object) [
+            'timestamp' => $matches[1],
+            'level' => 'ERROR',
+            'message' => $matches[3],
+            'ip' => 'N/A',
+            'url' => 'N/A',
+            'status' => 'N/A'
+        ];
+    })->filter()->values();
+}
 
     private function filterLogs($log, $query)
     {

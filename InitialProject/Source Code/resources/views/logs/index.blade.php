@@ -148,8 +148,8 @@
         @endif
     </div>
 
-    <!-- HTTP Error Logs Tab -->
-    <div class="tab-pane fade {{ $activeTab == 'http' ? 'show active' : '' }}" id="http" role="tabpanel">
+<!-- HTTP Error Logs Tab -->
+<div class="tab-pane fade {{ $activeTab == 'http' ? 'show active' : '' }}" id="http" role="tabpanel">
     <h3 class="text-danger">HTTP Error Logs</h3>
     <div class="mb-3">
         <form method="GET" action="{{ url('/logs/http') }}" class="d-flex gap-3 align-items-end" id="httpFilterForm">
@@ -158,12 +158,10 @@
                 <input type="text" name="http_search" id="http_search" class="form-control" 
                        value="{{ request('http_search') }}" placeholder="Search HTTP errors (URL, IP, User)...">
             </div>
-            <!-- เพิ่มฟิลด์วันที่เริ่มต้น -->
             <div class="form-group">
                 <label for="http_start_date">Start Date:</label>
                 <input type="date" name="start_date" id="http_start_date" class="form-control" value="{{ request('start_date') }}">
             </div>
-            <!-- เพิ่มฟิลด์วันที่สิ้นสุด -->
             <div class="form-group">
                 <label for="http_end_date">End Date:</label>
                 <input type="date" name="end_date" id="http_end_date" class="form-control" value="{{ request('end_date') }}">
@@ -199,31 +197,35 @@
                                 </tr>
                             @endforeach
                         @else
-                            <tr><td colspan="9" class="text-center text-muted">No HTTP error logs found.</td></tr>
+                            <tr><td colspan="6" class="text-center text-muted">No HTTP error logs found.</td></tr>
                         @endif
                     </tbody>
                 </table>
             </div>
+            <!-- ตรวจสอบก่อนแสดง pagination -->
+            @if($httpErrorLogs && $httpErrorLogs->count() > 0)
+                <div class="mt-3">
+                    {{ $httpErrorLogs->appends(request()->query())->links() }}
+                </div>
+            @endif
         </div>
     </div>
 </div>
 
     <!-- System Error Logs Tab -->
-    <div class="tab-pane fade {{ $activeTab == 'system' ? 'show active' : '' }}" id="system" role="tabpanel">
-        <h3 class="text-warning">System Error Logs</h3>
-        <div class="mb-3">
+<div class="tab-pane fade {{ $activeTab == 'system' ? 'show active' : '' }}" id="system" role="tabpanel">
+    <h3 class="text-warning">System Error Logs</h3>
+    <div class="mb-3">
         <form method="GET" action="{{ url('/logs/system') }}" class="d-flex gap-3 align-items-end" id="systemFilterForm">
             <div class="form-group">
                 <label for="system_search">Search:</label>
                 <input type="text" name="system_search" id="system_search" class="form-control" 
                            value="{{ request('system_search') }}" placeholder="Search system errors...">
             </div>
-            <!-- เพิ่มฟิลด์วันที่เริ่มต้น -->
             <div class="form-group">
                 <label for="system_start_date">Start Date:</label>
                 <input type="date" name="start_date" id="system_start_date" class="form-control" value="{{ request('start_date') }}">
             </div>
-            <!-- เพิ่มฟิลด์วันที่สิ้นสุด -->
             <div class="form-group">
                 <label for="system_end_date">End Date:</label>
                 <input type="date" name="end_date" id="system_end_date" class="form-control" value="{{ request('end_date') }}">
@@ -232,33 +234,39 @@
             <a href="{{ url('/logs/system') }}" class="btn btn-secondary">Reset</a>
         </form>
     </div>
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover table-striped">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Timestamp</th>
-                                <th>Message</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if($systemErrorLogs && $systemErrorLogs->count() > 0)
-                                @foreach($systemErrorLogs as $log)
-                                    <tr>
-                                        <td>{{ $log->timestamp }}</td>
-                                        <td>{{ $log->message }}</td>
-                                    </tr>
-                                @endforeach
-                            @else
-                                <tr><td colspan="2" class="text-center text-muted">No system error logs found.</td></tr>
-                            @endif
-                        </tbody>
-                    </table>
-                </div>
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if($systemErrorLogs && $systemErrorLogs->count() > 0)
+                            @foreach($systemErrorLogs as $log)
+                                <tr>
+                                    <td>{{ $log->timestamp }}</td>
+                                    <td>{{ $log->message }}</td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr><td colspan="2" class="text-center text-muted">No system error logs found.</td></tr>
+                        @endif
+                    </tbody>
+                </table>
             </div>
+            <!-- ตรวจสอบก่อนแสดง pagination -->
+            @if($systemErrorLogs && $systemErrorLogs->count() > 0)
+                <div class="mt-3">
+                    {{ $systemErrorLogs->appends(request()->query())->links() }}
+                </div>
+            @endif
         </div>
     </div>
+</div>
 </div>
 @endsection
 
