@@ -331,6 +331,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+    <script src="multiselect-dropdown.js" ></script>
 
     @yield('javascript')
 
