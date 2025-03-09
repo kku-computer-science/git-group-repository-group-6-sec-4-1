@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileuserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
+    Route::delete('/notifications/{id}', [ProfileuserController::class, 'dismissNotification']);
+    Route::get('/notifications/filter', [ProfileuserController::class, 'filterLogs']);
     return $request->user();
 });
