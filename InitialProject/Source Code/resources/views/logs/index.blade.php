@@ -22,28 +22,50 @@
     <!-- User Activity Logs Tab -->
     <div class="tab-pane fade {{ $activeTab == 'activity' ? 'show active' : '' }}" id="activity" role="tabpanel">
         <h3>User Activity Logs</h3>
-        <div class="mb-3">
-            <form method="GET" action="{{ url('/logs') }}" class="d-flex gap-3 align-items-end" id="activityFilterForm">
-                <div class="form-group">
-                    <label for="user_id">Filter by User:</label>
-                    <select name="user_id" id="user_id" class="form-control">
-                        <option value="">All Users</option>
-                        @foreach($users as $user)
-                            <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
-                                {{ $user->fname_en }} {{ $user->lname_en }} (ID: {{ $user->id }})
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="activity_search">Search:</label>
-                    <input type="text" name="activity_search" id="activity_search" class="form-control" 
-                           value="{{ request('activity_search') }}" placeholder="Search actions or details...">
-                </div>
-                <button type="submit" class="btn btn-primary">Filter</button>
-                <a href="{{ url('/logs') }}" class="btn btn-secondary">Reset</a>
-            </form>
+        <!-- แก้ไขส่วนของ User Activity Logs Search -->
+<div class="mb-3">
+    <form method="GET" action="{{ url('/logs') }}" class="d-flex gap-3 align-items-end" id="activityFilterForm">
+        <div class="form-group">
+            <label for="user_id">Filter by User:</label>
+            <select name="user_id" id="user_id" class="form-control">
+                <option value="">All Users</option>
+                @foreach($users as $user)
+                    <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
+                        {{ $user->fname_en }} {{ $user->lname_en }} (ID: {{ $user->id }})
+                    </option>
+                @endforeach
+            </select>
         </div>
+
+        <div class="form-group">
+            <label for="activity_search">Search:</label>
+            <select name="activity_search" id="activity_search" class="form-control">
+                <option value="">-- เลือกการค้นหา --</option>
+                <option value="login" {{ request('activity_search') == 'login' ? 'selected' : '' }}>Login</option>
+                <option value="logout" {{ request('activity_search') == 'logout' ? 'selected' : '' }}>Logout</option>
+                <option value="insert" {{ request('activity_search') == 'insert' ? 'selected' : '' }}>Insert</option>
+                <option value="update" {{ request('activity_search') == 'update' ? 'selected' : '' }}>Update</option>
+                <option value="delete" {{ request('activity_search') == 'delete' ? 'selected' : '' }}>Delete</option>
+                <option value="call_paper" {{ request('activity_search') == 'call_paper' ? 'selected' : '' }}>Call Paper</option>
+            </select>
+        </div>
+
+        <!-- เพิ่มฟิลด์วันที่เริ่มต้น -->
+        <div class="form-group">
+            <label for="start_date">Start Date:</label>
+            <input type="date" name="start_date" id="start_date" class="form-control" value="{{ request('start_date') }}">
+        </div>
+
+        <!-- เพิ่มฟิลด์วันที่สิ้นสุด -->
+        <div class="form-group">
+            <label for="end_date">End Date:</label>
+            <input type="date" name="end_date" id="end_date" class="form-control" value="{{ request('end_date') }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Filter</button>
+        <a href="{{ url('/logs') }}" class="btn btn-secondary">Reset</a>
+    </form>
+</div>
 
         @if($pagedLogs && $pagedLogs->count() > 0)
             <div class="card shadow-sm mb-4">
@@ -126,18 +148,26 @@
         @endif
     </div>
 
-    <!-- HTTP Error Logs Tab -->
-    <div class="tab-pane fade {{ $activeTab == 'http' ? 'show active' : '' }}" id="http" role="tabpanel">
+<!-- HTTP Error Logs Tab -->
+<div class="tab-pane fade {{ $activeTab == 'http' ? 'show active' : '' }}" id="http" role="tabpanel">
     <h3 class="text-danger">HTTP Error Logs</h3>
     <div class="mb-3">
-        <form method="GET" action="{{ url('logs/http') }}" class="d-flex gap-3 align-items-end" id="httpFilterForm">
+        <form method="GET" action="{{ url('/logs/http') }}" class="d-flex gap-3 align-items-end" id="httpFilterForm">
             <div class="form-group">
                 <label for="http_search">Search:</label>
                 <input type="text" name="http_search" id="http_search" class="form-control" 
                        value="{{ request('http_search') }}" placeholder="Search HTTP errors (URL, IP, User)...">
             </div>
+            <div class="form-group">
+                <label for="http_start_date">Start Date:</label>
+                <input type="date" name="start_date" id="http_start_date" class="form-control" value="{{ request('start_date') }}">
+            </div>
+            <div class="form-group">
+                <label for="http_end_date">End Date:</label>
+                <input type="date" name="end_date" id="http_end_date" class="form-control" value="{{ request('end_date') }}">
+            </div>
             <button type="submit" class="btn btn-primary">Filter</button>
-            <a href="{{ url('logs/http') }}" class="btn btn-secondary">Reset</a>
+            <a href="{{ url('/logs/http') }}" class="btn btn-secondary">Reset</a>
         </form>
     </div>
     <div class="card shadow-sm mb-4">
@@ -167,56 +197,76 @@
                                 </tr>
                             @endforeach
                         @else
-                            <tr><td colspan="9" class="text-center text-muted">No HTTP error logs found.</td></tr>
+                            <tr><td colspan="6" class="text-center text-muted">No HTTP error logs found.</td></tr>
                         @endif
                     </tbody>
                 </table>
             </div>
+            <!-- ตรวจสอบก่อนแสดง pagination -->
+            @if($httpErrorLogs && $httpErrorLogs->count() > 0)
+                <div class="mt-3">
+                    {{ $httpErrorLogs->appends(request()->query())->links() }}
+                </div>
+            @endif
         </div>
     </div>
 </div>
 
     <!-- System Error Logs Tab -->
-    <div class="tab-pane fade {{ $activeTab == 'system' ? 'show active' : '' }}" id="system" role="tabpanel">
-        <h3 class="text-warning">System Error Logs</h3>
-        <div class="mb-3">
-            <form method="GET" action="{{ url('/logs/system') }}" class="d-flex gap-3 align-items-end" id="systemFilterForm">
-                <div class="form-group">
-                    <label for="system_search">Search:</label>
-                    <input type="text" name="system_search" id="system_search" class="form-control" 
+<div class="tab-pane fade {{ $activeTab == 'system' ? 'show active' : '' }}" id="system" role="tabpanel">
+    <h3 class="text-warning">System Error Logs</h3>
+    <div class="mb-3">
+        <form method="GET" action="{{ url('/logs/system') }}" class="d-flex gap-3 align-items-end" id="systemFilterForm">
+            <div class="form-group">
+                <label for="system_search">Search:</label>
+                <input type="text" name="system_search" id="system_search" class="form-control" 
                            value="{{ request('system_search') }}" placeholder="Search system errors...">
-                </div>
-                <button type="submit" class="btn btn-primary">Filter</button>
-                <a href="{{ url('/logs/system') }}" class="btn btn-secondary">Reset</a>
-            </form>
-        </div>
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover table-striped">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Timestamp</th>
-                                <th>Message</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if($systemErrorLogs && $systemErrorLogs->count() > 0)
-                                @foreach($systemErrorLogs as $log)
-                                    <tr>
-                                        <td>{{ $log->timestamp }}</td>
-                                        <td>{{ $log->message }}</td>
-                                    </tr>
-                                @endforeach
-                            @else
-                                <tr><td colspan="2" class="text-center text-muted">No system error logs found.</td></tr>
-                            @endif
-                        </tbody>
-                    </table>
-                </div>
             </div>
+            <div class="form-group">
+                <label for="system_start_date">Start Date:</label>
+                <input type="date" name="start_date" id="system_start_date" class="form-control" value="{{ request('start_date') }}">
+            </div>
+            <div class="form-group">
+                <label for="system_end_date">End Date:</label>
+                <input type="date" name="end_date" id="system_end_date" class="form-control" value="{{ request('end_date') }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a href="{{ url('/logs/system') }}" class="btn btn-secondary">Reset</a>
+        </form>
+    </div>
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if($systemErrorLogs && $systemErrorLogs->count() > 0)
+                            @foreach($systemErrorLogs as $log)
+                                <tr>
+                                    <td>{{ $log->timestamp }}</td>
+                                    <td>{{ $log->message }}</td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr><td colspan="2" class="text-center text-muted">No system error logs found.</td></tr>
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+            <!-- ตรวจสอบก่อนแสดง pagination -->
+            @if($systemErrorLogs && $systemErrorLogs->count() > 0)
+                <div class="mt-3">
+                    {{ $systemErrorLogs->appends(request()->query())->links() }}
+                </div>
+            @endif
         </div>
     </div>
+</div>
 </div>
 @endsection
 

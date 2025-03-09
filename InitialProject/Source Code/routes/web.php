@@ -40,7 +40,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\TcicallController;
 use App\Http\Controllers\LogsController;
-use App\Http\Controllers\DashboardController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -152,6 +152,16 @@ Route::group(['middleware' => ['isAdmin', 'auth', 'PreventBackHistory']], functi
     Route::get('/export-logs', [ProfileuserController::class, 'exportLogs'])->name('export.logs');
     Route::get('/dashboard', [ProfileuserController::class, 'index'])->middleware('auth')->name('dashboard');
     Route::get('/dashboard/user/{userId}/activity', [ProfileuserController::class, 'userActivityDetail'])->name('dashboard.user.activity');
+    Route::get('/debug/error/{code}', function ($code) {
+        // List of allowed error codes for testing
+        $validCodes = [400, 401, 402, 403, 404, 405];
+
+        if (in_array((int)$code, $validCodes)) {
+            abort((int)$code, "Debug: Triggered HTTP $code error");
+        }
+
+        return response()->json(['error' => 'Invalid error code'], 400);
+    })->name('debug.error')->middleware('isAdmin');
 });
 
 

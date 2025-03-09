@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\UserActionEvent;
-use App\Models\Education; // Fixed typo: Educaton -> Education
+use App\Models\Education;
 use App\Models\User;
 use App\Models\Paper;
 use App\Models\Expertise;
@@ -14,31 +14,66 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\Finder\SplFileInfo;
-
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class ProfileuserController extends Controller
 {
-    protected $logsController;
-
-    public function __construct(LogsController $logsController)
+    public function __construct()
     {
         $this->middleware('auth');
-        $this->logsController = $logsController;
     }
 
-    function index(Request $request)
+
+    public function index(Request $request)
     {
         $users = User::all();
         $user = Auth::user();
-        $summaryData = null;
+
+        // Initialize summary data with defaults
+        $summaryData = [
+            'total' => 0,
+            'top5' => [],
+            'granularity' => 'hourly',
+        ];
         $totalUsers = 0;
         $totalPapers = 0;
         $topActiveUsers = [];
+        $totalPapersFetched = 0;
+        $loginStats = ['success' => 0, 'fail' => 0];
+        $usersOnline = 0;
 
-        $summaryData = $this->logsController->getLogSummary();
-        $totalUsers = User::count(); // Total users in the database
+        // Fetch all required data
+        $totalUsers = User::count();
         $totalPapers = Paper::count();
         $topActiveUsers = $this->getTopActiveUsers();
+        $totalPapersFetched = $this->getTotalPapersFetched();
+        $loginStats = $this->getLoginStats();
+        $usersOnline = $this->getUsersOnline();
+
+        // Set granularity and date range for HTTP errors
+        $granularity = $request->input('granularity', 'hourly');
+        if ($granularity === 'hourly') {
+            $startDate = Carbon::today()->startOfDay();
+            $endDate = Carbon::today()->endOfDay();
+        } elseif ($granularity === 'daily') {
+            $startDate = Carbon::today()->subDays(6)->startOfDay();
+            $endDate = Carbon::today()->endOfDay();
+        } elseif ($granularity === 'weekly') {
+            $startDate = Carbon::today()->startOfWeek();
+            $endDate = Carbon::today()->endOfWeek();
+        } else { // monthly
+            $startDate = Carbon::today()->subMonths(11)->startOfMonth();
+            $endDate = Carbon::today()->endOfMonth();
+        }
+
+        // Fetch HTTP error stats and merge into summaryData
+        $httpErrorStats = $this->getHttpErrorStats($granularity, $startDate, $endDate);
+        $summaryData = array_merge($summaryData, $httpErrorStats);
+        $summaryData['granularity'] = $granularity;
+
+        Log::info('Summary Data', ['summaryData' => $summaryData]); // Debug log
 
 
         $logPath = storage_path('logs/activity.log');
@@ -111,17 +146,98 @@ class ProfileuserController extends Controller
             );
         }
 
+        //dd($summaryData);
+
+
         return view('dashboards.users.index', [
             'users' => $users,
             'pagedLogs' => $pagedLogs,
-            'httpErrorLogs' => null, // Null for other tabs
+            'httpErrorLogs' => null,
             'systemErrorLogs' => null,
             'activeTab' => 'activity',
             'summaryData' => $summaryData,
             'totalUsers' => $totalUsers,
             'totalPapers' => $totalPapers,
             'topActiveUsers' => $topActiveUsers,
+            'totalPapersFetched' => $totalPapersFetched,
+            'loginStats' => $loginStats,
+            'usersOnline' => $usersOnline,
         ]);
+    }
+
+    private function getHttpErrorStats($granularity, $startDate, $endDate)
+    {
+        $logPath = storage_path('logs/access.log');
+        $stats = [];
+    
+        if (File::exists($logPath)) {
+            $logs = array_reverse(explode("\n", File::get($logPath)));
+            foreach ($logs as $log) {
+                if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
+                    $jsonStart = strpos($log, '{');
+                    if ($jsonStart !== false) {
+                        $jsonData = json_decode(substr($log, $jsonStart), true);
+                        if ($jsonData && isset($jsonData['status']) && $jsonData['status'] >= 400) {
+                            $timestamp = Carbon::parse($this->extractTimestamp($log));
+                            if ($timestamp->between($startDate, $endDate)) {
+                                $key = $this->getIntervalKey($timestamp, $granularity);
+                                $stats[$key][$jsonData['status']] = ($stats[$key][$jsonData['status']] ?? 0) + 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    
+        $total = array_sum(array_map(function ($errors) {
+            return array_sum($errors);
+        }, $stats));
+    
+        return [
+            'total' => $total,
+            'top5' => $stats,
+            'granularity' => $granularity,
+        ];
+    }
+    
+    private function getIntervalKey($timestamp, $granularity)
+    {
+        switch ($granularity) {
+            case 'hourly':
+            case 'daily':
+                return $timestamp->format('Y-m-d H:00:00'); // Hourly breakdown
+            case 'weekly':
+                // Return the actual date of the error (e.g., "2025-03-09")
+                return $timestamp->format('Y-m-d');
+            case 'monthly':
+                return $timestamp->format('Y-m-d'); // Daily within month
+            default:
+                return $timestamp->format('Y-m-d H:00:00');
+        }
+    }
+
+    protected function getTotalPapersFetched()
+    {
+        $logPath = storage_path('logs/activity.log');
+        if (!File::exists($logPath)) {
+            return 0;
+        }
+
+        $logs = array_reverse(explode("\n", File::get($logPath)));
+        $totalFetched = 0;
+
+        foreach ($logs as $log) {
+            if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
+                $jsonStart = strpos($log, '{');
+                $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
+
+                if ($jsonData && isset($jsonData['action']) && $jsonData['action'] === 'call_paper') {
+                    $totalFetched += 1;
+                }
+            }
+        }
+
+        return $totalFetched;
     }
 
     protected function getTopActiveUsers()
@@ -133,7 +249,7 @@ class ProfileuserController extends Controller
 
         $logs = array_reverse(explode("\n", File::get($logPath)));
         $userActivityCount = [];
-        $userEmails = User::pluck('email', 'id')->toArray(); // Fetch emails by user ID
+        $userEmails = User::pluck('email', 'id')->toArray();
 
         foreach ($logs as $log) {
             if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
@@ -147,11 +263,9 @@ class ProfileuserController extends Controller
             }
         }
 
-        // Sort by activity count (descending) and take top 10
         arsort($userActivityCount);
         $top10 = array_slice($userActivityCount, 0, 10, true);
 
-        // Format the result with email and total activity
         $result = [];
         foreach ($top10 as $userId => $count) {
             $result[] = [
@@ -169,22 +283,21 @@ class ProfileuserController extends Controller
         $logPath = storage_path('logs/activity.log');
         $user = User::findOrFail($userId);
         $activities = [];
-    
+
         if (File::exists($logPath)) {
             $logs = array_reverse(explode("\n", File::get($logPath)));
             foreach ($logs as $log) {
                 if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
                     $jsonStart = strpos($log, '{');
                     $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
-    
+
                     if ($jsonData && isset($jsonData['user_id']) && $jsonData['user_id'] == $userId) {
                         $timestamp = $jsonData['timestamp'] ?? substr($log, 1, 19);
                         $action = $jsonData['action'] ?? 'Unknown';
-    
-                        // Ensure timestamp and action are strings
+
                         if (is_array($timestamp)) $timestamp = json_encode($timestamp);
                         if (is_array($action)) $action = json_encode($action);
-    
+
                         $activities[] = [
                             'timestamp' => $timestamp,
                             'action' => $action,
@@ -194,14 +307,14 @@ class ProfileuserController extends Controller
                 }
             }
         }
-    
+
         return view('dashboards.users.activity_detail', [
             'user' => $user,
             'activities' => $activities,
         ]);
     }
-    // HTTP Error Logs
-    function httpLogs(Request $request)
+
+    public function httpLogs(Request $request)
     {
         $users = User::all();
         $user = Auth::user();
@@ -221,12 +334,11 @@ class ProfileuserController extends Controller
             'pagedLogs' => null,
             'httpErrorLogs' => $httpErrorLogs,
             'systemErrorLogs' => null,
-            'activeTab' => 'http'
+            'activeTab' => 'http',
         ]);
     }
 
-    // System Error Logs
-    function systemLogs(Request $request)
+    public function systemLogs(Request $request)
     {
         $users = User::all();
         $user = Auth::user();
@@ -246,11 +358,10 @@ class ProfileuserController extends Controller
             'pagedLogs' => null,
             'httpErrorLogs' => null,
             'systemErrorLogs' => $systemErrorLogs,
-            'activeTab' => 'system'
+            'activeTab' => 'system',
         ]);
     }
 
-    // Log Parsing Functions from LogsController
     protected function getLogFiles()
     {
         $directory = storage_path('logs');
@@ -305,24 +416,24 @@ class ProfileuserController extends Controller
     private function filterLogs($log, $query)
     {
         return str_contains(strtolower($log->timestamp ?? ''), $query) ||
-               str_contains(strtolower($log->message ?? ''), $query) ||
-               str_contains(strtolower($log->url ?? ''), $query) ||
-               str_contains(strtolower($log->ip ?? ''), $query) ||
-               str_contains(strtolower($log->status ?? ''), $query) ||
-               str_contains(strtolower($log->method ?? ''), $query);
+            str_contains(strtolower($log->message ?? ''), $query) ||
+            str_contains(strtolower($log->url ?? ''), $query) ||
+            str_contains(strtolower($log->ip ?? ''), $query) ||
+            str_contains(strtolower($log->status ?? ''), $query) ||
+            str_contains(strtolower($log->method ?? ''), $query);
     }
 
-    function profile()
+    public function profile()
     {
         return view('dashboards.users.profile');
     }
 
-    function settings()
+    public function settings()
     {
         return view('dashboards.users.settings');
     }
 
-    function updateInfo(Request $request)
+    public function updateInfo(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'fname_en' => 'required',
@@ -340,11 +451,9 @@ class ProfileuserController extends Controller
 
             if ($request->title_name_en == "Mr.") {
                 $title_name_th = 'นาย';
-            }
-            if ($request->title_name_en == "Miss") {
+            } elseif ($request->title_name_en == "Miss") {
                 $title_name_th = 'นางสาว';
-            }
-            if ($request->title_name_en == "Mrs.") {
+            } elseif ($request->title_name_en == "Mrs.") {
                 $title_name_th = 'นาง';
             }
             $pos_eng = '';
@@ -359,16 +468,13 @@ class ProfileuserController extends Controller
                 if ($request->academic_ranks_en == "Professor") {
                     $pos_en = 'Prof.';
                     $pos_th = 'ศ.';
-                }
-                if ($request->academic_ranks_en == "Associate Professo") {
+                } elseif ($request->academic_ranks_en == "Associate Professo") {
                     $pos_en = 'Assoc. Prof.';
                     $pos_th = 'รศ.';
-                }
-                if ($request->academic_ranks_en == "Assistant Professor") {
+                } elseif ($request->academic_ranks_en == "Assistant Professor") {
                     $pos_en = 'Asst. Prof.';
                     $pos_th = 'ผศ.';
-                }
-                if ($request->academic_ranks_en == "Lecturer") {
+                } elseif ($request->academic_ranks_en == "Lecturer") {
                     $pos_en = 'Lecturer';
                     $pos_th = 'อ.';
                 }
@@ -437,7 +543,7 @@ class ProfileuserController extends Controller
         return $value1 !== $value2;
     }
 
-    function updatePicture(Request $request)
+    public function updatePicture(Request $request)
     {
         $path = 'images/imag_user/';
         $file = $request->file('admin_image');
@@ -487,11 +593,12 @@ class ProfileuserController extends Controller
         }
     }
 
-    function changePassword(Request $request)
+    public function changePassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'oldpassword' => [
-                'required', function ($attribute, $value, $fail) {
+                'required',
+                function ($attribute, $value, $fail) {
                     if (!Hash::check($value, Auth::user()->password)) {
                         return $fail(__('The current password is incorrect'));
                     }
@@ -626,5 +733,94 @@ class ProfileuserController extends Controller
         return null;
     }
 
-    
+    protected function getLoginStats()
+    {
+        $logPath = storage_path('logs/activity.log');
+        $logPath1 = storage_path('logs/access.log');
+        $stats = ['success' => 0, 'fail' => 0];
+        $seenEntries = [];
+
+        if (!File::exists($logPath)) {
+            Log::warning('activity.log file not found');
+            $logs = [];
+        } else {
+            $logs = array_reverse(explode("\n", File::get($logPath)));
+        }
+
+        if (!File::exists($logPath1)) {
+            Log::warning('access.log file not found');
+            $logs1 = [];
+        } else {
+            $logs1 = array_reverse(explode("\n", File::get($logPath1)));
+        }
+
+        foreach ($logs as $log) {
+            if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
+                $jsonStart = strpos($log, '{');
+                if ($jsonStart === false) {
+                    Log::warning('No JSON found in activity.log entry', ['log' => $log]);
+                    continue;
+                }
+
+                $jsonString = substr($log, $jsonStart);
+                $jsonData = json_decode($jsonString, true);
+
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    Log::warning('Failed to parse JSON in activity.log', ['log' => $log, 'error' => json_last_error_msg()]);
+                    continue;
+                }
+
+                if ($jsonData && isset($jsonData['action']) && $jsonData['action'] === 'login') {
+                    preg_match('/^\[(.*?)\]/', $log, $matches);
+                    $timestamp = $matches[1] ?? '';
+                    $key = $timestamp . '-' . ($jsonData['url'] ?? '');
+
+                    if (!isset($seenEntries[$key])) {
+                        $stats['success']++;
+                        $seenEntries[$key] = true;
+                    }
+                }
+            }
+        }
+
+        foreach ($logs1 as $log) {
+            if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
+                $jsonStart = strpos($log, '{');
+                if ($jsonStart === false) {
+                    Log::warning('No JSON found in access.log entry', ['log' => $log]);
+                    continue;
+                }
+
+                $jsonString = substr($log, $jsonStart);
+                $jsonData = json_decode($jsonString, true);
+
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    Log::warning('Failed to parse JSON in access.log', ['log' => $log, 'error' => json_last_error_msg()]);
+                    continue;
+                }
+
+                if ($jsonData && isset($jsonData['status']) && $jsonData['status'] === 401) {
+                    preg_match('/^\[(.*?)\]/', $log, $matches);
+                    $timestamp = $matches[1] ?? '';
+                    $key = $timestamp . '-' . ($jsonData['url'] ?? '');
+
+                    if (!isset($seenEntries[$key])) {
+                        $stats['fail']++;
+                        $seenEntries[$key] = true;
+                    }
+                }
+            }
+        }
+
+        Log::info('Login stats calculated', ['stats' => $stats]);
+        return $stats;
+    }
+
+    protected function getUsersOnline()
+    {
+        $users = User::where('last_activity', '>=', Carbon::now()->subMinutes(5)->toDateTimeString())->count();
+        return Cache::remember('users_online', 60, function () use ($users) {
+            return $users;
+        });
+    }
 }
