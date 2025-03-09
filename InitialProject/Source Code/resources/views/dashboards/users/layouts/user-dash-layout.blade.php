@@ -287,7 +287,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             <!-- Content Wrapper. Contains page content -->
             <div class="main-panel">
-                <div class="content-wrapper">
+                <div class="content-wrapper" style="min-height: 1400px;">
                     @yield('content')
                 </div>
                 <footer class="footer">

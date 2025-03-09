@@ -360,12 +360,14 @@ protected function parseSystemErrors($file)
                     $jsonStart = strpos($log, '{');
                     $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
 
-                    $summary['activity']['total']++;
+                    //$summary['activity']['total']++;
                     if ($jsonData && isset($jsonData['action'])) {
                         if ($jsonData['action'] === 'login') {
                             $summary['activity']['logins']++;
+                            $summary['activity']['total']++;
                         } elseif ($jsonData['action'] === 'logout') {
                             $summary['activity']['logouts']++;
+                            $summary['activity']['total']++;
                         }
                     }
                 }
