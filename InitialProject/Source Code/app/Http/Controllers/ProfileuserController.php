@@ -270,14 +270,14 @@ private function storeCriticalMessage($message, $ip, $url, $email, $userAgent, $
 }
 
 public function dismissNotification($id)
-{
-    $notification = CriticalMessage::find($id);
-    if ($notification) {
-        $notification->update(['is_dismissed' => true]);
-        return response()->json(['success' => true, 'message' => 'Notification dismissed']);
+    {
+        $notification = CriticalMessage::find($id);
+        if ($notification) {
+            $notification->update(['is_dismissed' => true]);
+            return response()->json(['success' => true, 'message' => 'Notification dismissed']);
+        }
+        return response()->json(['success' => false, 'message' => 'Notification not found'], 404);
     }
-    return response()->json(['success' => false, 'message' => 'Notification not found'], 404);
-}
 
 public function filterLogsCri(Request $request)
 {

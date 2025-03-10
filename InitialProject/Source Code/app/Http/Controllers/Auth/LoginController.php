@@ -140,6 +140,7 @@ class LoginController extends Controller
 
             if (auth()->attempt(array($fieldType => $input['username'], 'password' => $input['password'])) && $this->checkValidGoogleRecaptchaV3($response)) {
                 //success
+                
                 if (Auth::user()->hasRole('admin')) {
                     return redirect()->route('dashboard');
                 } elseif (Auth::user()->hasRole('student')) { //นักศึกษา

@@ -21,6 +21,7 @@
         <div class="row d-flex align-items-stretch">
             <div class="col-9 d-flex flex-column">
                 <div class="row flex-grow-1 h-50">
+                    <!-- critical message -->
                     <div class="col-md-4 d-flex">
                         <div class="card shadow-sm flex-fill">
                             <div class="card-header bg-primary text-white">
@@ -28,18 +29,20 @@
                             </div>
                             <div class="card-body text-center d-flex flex-column justify-content-start">
                                 @if(!empty($notifications) && count($notifications) > 0)
-                                <ul class="list-group list-group-flush" id="notificationList">
-                                    @foreach($notifications as $notification)
-                                    <li class="list-group-item @if($notification['severity'] === 'high') bg-danger text-white @elseif($notification['severity'] === 'medium') bg-warning text-dark @endif" data-id="{{ $notification['id'] }}">
-                                        <strong>{{ $notification['message'] }}</strong><br>
-                                        <small class="text-muted">{{ $notification['time_ago'] }}</small>
-                                        <div class="mt-2">
-                                            <button class="btn btn-danger btn-sm dismiss-btn" data-id="{{ $notification['id'] }}">Dismiss</button>
-                                            <button class="btn btn-info btn-sm check-btn" data-id="{{ $notification['id'] }}" data-ip="{{ $notification['ip'] }}" data-url="{{ $notification['url'] }}">Check</button>
-                                        </div>
-                                    </li>
-                                    @endforeach
-                                </ul>
+                                <div class="notification-container" style="max-height: 300px; overflow-y: auto;">
+                                    <ul class="list-group list-group-flush" id="notificationList">
+                                        @foreach($notifications as $notification)
+                                        <li class="list-group-item @if($notification['severity'] === 'high') bg-danger text-white @elseif($notification['severity'] === 'medium') bg-warning text-dark @endif" data-id="{{ $notification['id'] }}">
+                                            <strong>{{ $notification['message'] }}</strong><br>
+                                            <small class="text-muted">{{ $notification['time_ago'] }}</small>
+                                            <div class="mt-2">
+                                                <button class="btn btn-danger btn-sm dismiss-btn" data-id="{{ $notification['id'] }}">Dismiss</button>
+                                                <button class="btn btn-info btn-sm check-btn" data-id="{{ $notification['id'] }}" data-ip="{{ $notification['ip'] }}" data-url="{{ $notification['url'] }}">Check</button>
+                                            </div>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                                 @else
                                 <p class="text-muted">ไม่มีการแจ้งเตือนสำคัญ</p>
                                 @endif
@@ -47,6 +50,7 @@
                         </div>
                     </div>
 
+                    <!-- Most Activity -->
                     <div class="col-md-4 d-flex">
                         <div class="card shadow-sm flex-fill">
                             <div class="card-header bg-info text-white">
@@ -86,6 +90,7 @@
                     </div>
 
                     <div class="col-md-4 d-flex flex-column">
+                        <!-- Total Account -->
                         <div class="card shadow-sm flex-fill">
                             <div class="card-header bg-primary text-white">
                                 <h5>จำนวนบัญชีผู้ใช้ทั้งหมด</h5>
@@ -95,6 +100,7 @@
                             </div>
                         </div>
 
+                        <!-- Total Papers -->
                         <div class="card mt-3 shadow-sm flex-fill">
                             <div class="card-header bg-primary text-white">
                                 <h5>จำนวนเอกสารวิจัยทั้งหมด</h5>
@@ -107,6 +113,7 @@
                 </div>
 
                 <div class="col-md-12">
+                    <!-- HTTP Table -->
                     <div class="card mt-3 shadow-sm flex-fill">
                         <div class="card-header bg-danger text-white">
                             <h5>HTTP Errors</h5>
@@ -248,6 +255,37 @@
         text-align: center;
     }
 
+    .notification-container {
+        max-height: 300px;
+        /* Fixed height for the container */
+        overflow-y: auto;
+        /* Vertical scrollbar when content overflows */
+        overflow-x: hidden;
+        /* Prevent horizontal scrollbar */
+    }
+
+    .notification-container::-webkit-scrollbar {
+        width: 8px;
+        /* Width of the scrollbar */
+    }
+
+    .notification-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        /* Track color */
+        border-radius: 4px;
+    }
+
+    .notification-container::-webkit-scrollbar-thumb {
+        background: #888;
+        /* Thumb color */
+        border-radius: 4px;
+    }
+
+    .notification-container::-webkit-scrollbar-thumb:hover {
+        background: #555;
+        /* Thumb color on hover */
+    }
+
     #httpErrorsChart {
         max-height: 400px;
     }
@@ -269,13 +307,13 @@
         window.location.href = "{{ route('dashboard') }}?granularity=" + selectedGranularity;
     };
 
-    const httpErrorsData = {!!json_encode($summaryData['top5'] ?? [])!!};
+    const httpErrorsData = {!!json_encode($summaryData['top5'] ?? []) !!};
     console.log('Raw httpErrorsData:', httpErrorsData);
 
     const granularity = "{{ $summaryData['granularity'] ?? 'hourly' }}";
     console.log('Granularity:', granularity);
 
-    const dailyBreakdown = {!!json_encode($dailyBreakdown ?? [])!!};
+    const dailyBreakdown = {!!json_encode($dailyBreakdown ?? []) !!};
     console.log('Raw Daily Breakdown:', dailyBreakdown);
 
     let chartInstance = null;
@@ -493,33 +531,30 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Existing chart rendering code...
-        renderChart();
-
-        // Dismiss button handler
-        document.querySelectorAll('.dismiss-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                fetch(`/api/notifications/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        'Accept': 'application/json',
-                    },
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const item = document.querySelector(`[data-id="${id}"]`);
-                        if (item) item.remove();
-                        alert('Notification dismissed successfully');
-                    } else {
-                        alert('Failed to dismiss notification');
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-            });
+    document.querySelectorAll('.dismiss-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            fetch(`/api/notifications/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const item = document.querySelector(`div[data-id="${id}"]`);
+                    if (item) item.remove();
+                    alert('Notification dismissed successfully');
+                } else {
+                    alert('Failed to dismiss notification: ' + data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
         });
+    });
+
+
 
         // Check button handler
         document.querySelectorAll('.check-btn').forEach(button => {
@@ -528,29 +563,29 @@
                 const ip = this.getAttribute('data-ip');
                 const url = this.getAttribute('data-url');
                 const defaultStartDate = '{{ $defaultStartDate }}'; // Use passed variable
-                const defaultEndDate = '{{ $defaultEndDate }}';    // Use passed variable
+                const defaultEndDate = '{{ $defaultEndDate }}'; // Use passed variable
                 const startDate = prompt('Enter start date (YYYY-MM-DD):', defaultStartDate);
                 const endDate = prompt('Enter end date (YYYY-MM-DD):', defaultEndDate);
 
                 fetch('/api/notifications/filter', {
-                    method: 'GET',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        'Accept': 'application/json',
-                    },
-                }).params({
-                    ip: ip || '',
-                    url: url || '',
-                    start_date: startDate || defaultStartDate,
-                    end_date: endDate || defaultEndDate,
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Filtered Notifications:', data);
-                    // Update UI or open a modal with filtered results
-                    alert('Filtered logs: ' + JSON.stringify(data));
-                })
-                .catch(error => console.error('Error:', error));
+                        method: 'GET',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Accept': 'application/json',
+                        },
+                    }).params({
+                        ip: ip || '',
+                        url: url || '',
+                        start_date: startDate || defaultStartDate,
+                        end_date: endDate || defaultEndDate,
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Filtered Notifications:', data);
+                        // Update UI or open a modal with filtered results
+                        alert('Filtered logs: ' + JSON.stringify(data));
+                    })
+                    .catch(error => console.error('Error:', error));
             });
         });
     });

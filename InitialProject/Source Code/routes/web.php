@@ -100,7 +100,7 @@ Route::middleware(['middleware' => 'PreventBackHistory'])->group(function () {
 });
 
 
-
+//Route::delete('/notifications/{id}', [ProfileuserController::class, 'dismissNotification']);
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //Route::get('/researchers',[ResearcherController::class,'index'])->name('researchers');
 Route::get('researchers/{id}', [ResearcherController::class, 'request'])->name('researchers');
