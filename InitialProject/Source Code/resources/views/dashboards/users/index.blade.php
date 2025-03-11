@@ -262,25 +262,25 @@
                             <div class="card-body text-center d-flex flex-column justify-content-start">
                                 @if(!empty($notifications) && count($notifications) > 0)
                                 <div class="notification-container flex-grow-1">
-    <ul class="list-group list-group-flush" id="notificationList">
-        @foreach($notifications as $notification)
-        <li class="list-group-item 
-            @if($notification['severity'] === 'high') bg-danger text-white 
-            @elseif($notification['severity'] === 'medium') bg-warning text-dark 
-            @endif"
-            data-id="{{ $notification['id'] }}">
-            <div class="d-flex flex-column align-items-start">
-                <strong class="notification-message text-break">{{ $notification['message'] }}</strong>
-                <small class="text-muted notification-time">{{ $notification['time_ago'] }}</small>
-            </div>
-            <div class="mt-2 d-flex gap-2 justify-content-center">
-                <button class="btn btn-danger btn-sm dismiss-btn" data-id="{{ $notification['id'] }}">ลบ</button>
-                <button class="btn btn-info btn-sm check-btn" data-id="{{ $notification['id'] }}" data-ip="{{ $notification['ip'] }}" data-url="{{ $notification['url'] }}">ตรวจสอบ</button>
-            </div>
-        </li>
-        @endforeach
-    </ul>
-</div>
+                                    <ul class="list-group list-group-flush" id="notificationList">
+                                        @foreach($notifications as $notification)
+                                        <li class="list-group-item 
+                                @if($notification['severity'] === 'high') bg-danger text-white 
+                                @elseif($notification['severity'] === 'medium') bg-warning text-dark 
+                                @endif"
+                                            data-id="{{ $notification['id'] }}">
+                                            <div class="d-flex flex-column align-items-start">
+                                                <strong class="notification-message text-break">{{ $notification['message'] }}</strong>
+                                                <small class="text-muted notification-time">{{ $notification['time_ago'] }}</small>
+                                            </div>
+                                            <div class="mt-2 d-flex     gap-2 justify-content-center">
+                                                <button class="btn btn-danger btn-sm dismiss-btn" data-id="{{ $notification['id'] }}">ลบ</button>
+                                                <button class="btn btn-info btn-sm check-btn" data-id="{{ $notification['id'] }}" data-ip="{{ $notification['ip'] }}" data-url="{{ $notification['url'] }}">ตรวจสอบ</button>
+                                            </div>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                                 @else
                                 <p class="text-muted">ไม่มีการแจ้งเตือนสำคัญ</p>
                                 @endif

@@ -196,33 +196,31 @@ class ProfileuserController extends Controller
 
 private function getCriticalNotifications($startDate, $endDate)
 {
-    $ipErrorFrequency = [];
-    $threshold = 5;
-    $timeWindow = 5;
+    $notifications = [];
     $activityLogPath = storage_path('logs/activity.log');
     $accessLogPath = storage_path('logs/access.log');
 
-    // ไม่ต้องดึง existingNotifications อีกต่อไป เพราะ updateOrCreate จะจัดการเอง
-
+    // Parse activity.log for login attempts
     if (File::exists($activityLogPath)) {
         $logs = array_reverse(explode("\n", File::get($activityLogPath)));
         foreach ($logs as $log) {
             if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
-                $jsonData = $this->parseLogJson($log);
-                if ($jsonData && $jsonData['action'] === 'login_failed') {
-                    $timestamp = Carbon::parse($this->extractTimestamp($log));
-                    if ($timestamp->between($startDate, $endDate)) {
-                        $ip = $jsonData['ip'] ?? 'unknown_ip';
-                        $email = $jsonData['email'] ?? 'unknown_email';
-                        $userAgent = $jsonData['user_agent'] ?? 'unknown_ua';
+                $jsonStart = strpos($log, '{');
+                if ($jsonStart !== false) {
+                    $jsonStr = substr($log, $jsonStart);
+                    $jsonData = json_decode($jsonStr, true);
+                    if ($jsonData && isset($jsonData['action']) && in_array($jsonData['action'], ['login', 'login_failed'])) {
+                        $timestampStr = $this->extractTimestamp($log);
+                        $timestamp = Carbon::parse($timestampStr);
+                        if ($timestamp->between($startDate, $endDate)) {
+                            $email = $jsonData['email'] ?? 'Unknown';
+                            $ip = $jsonData['ip'] ?? 'Unknown';
+                            $userAgent = $jsonData['user_agent'] ?? 'Unknown';
+                            $action = $jsonData['action'] === 'login_failed' ? 'Failed Login Attempt' : 'Successful Login';
+                            $timeAgo = $timestamp->diffForHumans();
 
-                        $this->trackIpFrequency($ipErrorFrequency, $ip, $timestamp, $timeWindow);
-                        $count = $this->getIpErrorCount($ipErrorFrequency, $ip, $timestamp, $timeWindow);
-                        if ($count >= $threshold) {
-                            $baseMessage = "Multiple Failed Login Attempts from IP: $ip (Possible Brute Force)";
-                            $uniqueKey = md5("{$ip}--{$baseMessage}");
-                            $message = "Multiple Failed Login Attempts ($count times) by $email from IP: $ip (Possible Brute Force)";
-                            $this->storeCriticalMessage($message, $ip, null, $email, $userAgent, 'high', $timestamp, $count, $uniqueKey);
+                            $message = "$action by email: $email from IP: $ip (User Agent: $userAgent)";
+                            $this->storeCriticalMessage($message, $ip, null, $email, $userAgent, $jsonData['action'] === 'login_failed' ? 'high' : 'medium', $timestamp, $timeAgo);
                         }
                     }
                 }
@@ -230,27 +228,31 @@ private function getCriticalNotifications($startDate, $endDate)
         }
     }
 
+    // Parse laravel.log for HTTP errors with URLs and IPs
     if (File::exists($accessLogPath)) {
         $logs = array_reverse(explode("\n", File::get($accessLogPath)));
+        $ipFrequency = [];
         foreach ($logs as $log) {
             if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
-                $jsonData = $this->parseLogJson($log);
-                if ($jsonData && $jsonData['status'] >= 400) {
-                    $timestamp = Carbon::parse($this->extractTimestamp($log));
-                    if ($timestamp->between($startDate, $endDate)) {
-                        $ip = $jsonData['ip'] ?? 'unknown_ip';
-                        $url = $jsonData['url'] ?? 'unknown_url';
-                        $userAgent = $jsonData['user_agent'] ?? 'unknown_ua';
-                        $status = $jsonData['status'];
+                $jsonStart = strpos($log, '{');
+                if ($jsonStart !== false) {
+                    $jsonStr = substr($log, $jsonStart);
+                    $jsonData = json_decode($jsonStr, true);
+                    if ($jsonData && isset($jsonData['status']) && $jsonData['status'] >= 400) {
+                        $timestampStr = $this->extractTimestamp($log);
+                        $timestamp = Carbon::parse($timestampStr);
+                        if ($timestamp->between($startDate, $endDate)) {
+                            $ip = $jsonData['ip'] ?? 'Unknown';
+                            $url = $jsonData['url'] ?? 'Unknown URL';
+                            $userAgent = $jsonData['user_agent'] ?? 'Unknown';
+                            $status = $jsonData['status'];
+                            $timeAgo = $timestamp->diffForHumans();
 
-                        $this->trackIpFrequency($ipErrorFrequency, $ip, $timestamp, $timeWindow);
-                        $count = $this->getIpErrorCount($ipErrorFrequency, $ip, $timestamp, $timeWindow);
-                        if ($count >= $threshold) {
-                            $baseMessage = "Multiple HTTP $status Errors from IP: $ip on $url";
-                            $uniqueKey = md5("{$ip}-{$url}-{$baseMessage}");
-                            $message = "Multiple HTTP $status Errors ($count times) from IP: $ip on $url";
-                            $severity = $status >= 500 ? 'high' : 'medium';
-                            $this->storeCriticalMessage($message, $ip, $url, null, $userAgent, $severity, $timestamp, $count, $uniqueKey);
+                            $ipFrequency[$ip] = ($ipFrequency[$ip] ?? 0) + 1;
+                            $isBruteForce = $ipFrequency[$ip] > 5;
+
+                            $message = "HTTP $status Error from IP: $ip requesting $url (User Agent: $userAgent)" . ($isBruteForce ? ' - Possible Brute Force Attack' : '');
+                            $this->storeCriticalMessage($message, $ip, $url, null, $userAgent, $status >= 500 ? 'high' : 'medium', $timestamp, $timeAgo);
                         }
                     }
                 }
@@ -258,99 +260,30 @@ private function getCriticalNotifications($startDate, $endDate)
         }
     }
 
+    // Fetch from database
     return CriticalMessage::where('is_dismissed', false)
-        ->whereBetween('timestamp', [$startDate, $endDate])
-        ->orderBy('severity', 'desc')
         ->orderBy('timestamp', 'desc')
-        ->limit(10)
+        ->limit(5)
         ->get()
-        ->map(function ($item) {
-            $item->time_ago = Carbon::parse($item->timestamp)->diffForHumans();
-            return $item;
-        })
         ->toArray();
 }
 
-private function trackIpFrequency(&$ipFrequency, $ip, $timestamp, $timeWindow)
+private function storeCriticalMessage($message, $ip, $url, $email, $userAgent, $severity, $timestamp, $timeAgo)
 {
-    if (!isset($ipFrequency[$ip])) {
-        $ipFrequency[$ip] = [];
-    }
-    
-    // Add timestamp to the IP's error log
-    $ipFrequency[$ip][] = $timestamp->toDateTimeString();
-    
-    // Clean up old entries outside the time window
-    $ipFrequency[$ip] = array_filter($ipFrequency[$ip], function ($time) use ($timestamp, $timeWindow) {
-        return Carbon::parse($time)->diffInMinutes($timestamp) <= $timeWindow;
-    });
-}
-
-private function getIpErrorCount($ipFrequency, $ip, $timestamp, $timeWindow)
-{
-    if (!isset($ipFrequency[$ip])) {
-        return 0;
-    }
-    
-    // Count errors within the time window
-    return count(array_filter($ipFrequency[$ip], function ($time) use ($timestamp, $timeWindow) {
-        return Carbon::parse($time)->diffInMinutes($timestamp) <= $timeWindow;
-    }));
-}
-
-private function storeCriticalMessage($message, $ip, $url, $email, $userAgent, $severity, $timestamp, $count, $uniqueKey)
-{
-    $ip = $ip ?? 'unknown_ip';
-    $url = $url ?? 'unknown_url';
-    $message = $message ?? 'unknown_message';
-    
-    \Log::info('Storing Critical Message', [
-        'unique_key' => $uniqueKey,
-        'ip' => $ip,
-        'url' => $url,
-        'message' => $message,
-        'count' => $count
-    ]);
-
-    $record = CriticalMessage::updateOrCreate(
-        ['unique_key' => $uniqueKey], // เงื่อนไขสำหรับค้นหา record
+    CriticalMessage::updateOrCreate(
         [
             'message' => $message,
+            'timestamp' => $timestamp,
+        ],
+        [
             'ip' => $ip,
             'url' => $url,
             'email' => $email,
             'user_agent' => $userAgent,
             'severity' => $severity,
-            'timestamp' => $timestamp,
-            'count' => $count,
-            'is_dismissed' => false, // ค่าเริ่มต้นสำหรับ record ใหม่เท่านั้น
+            'time_ago' => $timeAgo,
         ]
     );
-
-    \Log::info('Processed CriticalMessage', ['id' => $record->id, 'unique_key' => $record->unique_key, 'count' => $record->count]);
-}
-
-private function updateCriticalMessage($uniqueKey, $message, $count, $timestamp)
-{
-    $notification = CriticalMessage::where('unique_key', $uniqueKey)->first();
-    if ($notification) {
-        $notification->update([
-            'message' => $message,
-            'count' => $count,
-            'timestamp' => $timestamp, // อัปเดต timestamp ให้เป็นล่าสุด
-        ]);
-        \Log::info('Updated CriticalMessage', ['unique_key' => $uniqueKey, 'count' => $count]);
-    }
-}
-
-private function parseLogJson($log)
-{
-    $jsonStart = strpos($log, '{');
-    if ($jsonStart !== false) {
-        $jsonStr = substr($log, $jsonStart);
-        return json_decode($jsonStr, true) ?: null;
-    }
-    return null;
 }
 
 public function dismissNotification($id)
