@@ -46,7 +46,7 @@ class ProfileuserController extends Controller
         // Fetch all required data
         $totalUsers = User::count();
         $totalPapers = Paper::count();
-        $topActiveUsers = $this->getTopActiveUsers(); // เรียกฟังก์ชันที่ปรับแล้ว
+        $topActiveUsers = $this->getTopActiveUsers(); // ใช้ฟังก์ชันที่ปรับแล้ว
         $totalPapersFetched = $this->getTotalPapersFetched();
         $loginStats = $this->getLoginStats();
         $usersOnline = $this->getUsersOnline();
@@ -245,53 +245,59 @@ class ProfileuserController extends Controller
     }
 
     protected function getTopActiveUsers()
-{
-    $logPath = storage_path('logs/activity.log');
-    if (!File::exists($logPath)) {
-        return [];
-    }
+    {
+        $logPath = storage_path('logs/activity.log');
+        if (!File::exists($logPath)) {
+            return [];
+        }
 
-    $logs = array_reverse(explode("\n", File::get($logPath)));
-    $userActivityCount = [];
-    $userActions = []; // เก็บ actions ของผู้ใช้แต่ละคน
-    $userEmails = User::pluck('email', 'id')->toArray();
+        $logs = array_reverse(explode("\n", File::get($logPath)));
+        $userActivityCount = [];
+        $userActions = []; // เก็บ actions ของผู้ใช้แต่ละคน
+        $userEmails = User::pluck('email', 'id')->toArray();
 
-    foreach ($logs as $log) {
-        if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
-            $jsonStart = strpos($log, '{');
-            $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
+        foreach ($logs as $log) {
+            if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
+                $jsonStart = strpos($log, '{');
+                $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
 
-            if ($jsonData && isset($jsonData['user_id']) && $jsonData['user_id'] !== 'Unknown') {
-                $userId = $jsonData['user_id'];
-                $action = $jsonData['action'] ?? 'Unknown';
+                if ($jsonData && isset($jsonData['user_id']) && $jsonData['user_id'] !== 'Unknown') {
+                    $userId = $jsonData['user_id'];
+                    $action = $jsonData['activity_type'] ?? 'Unknown'; // ใช้ activity_type จาก log
 
-                // นับจำนวน activity ทั้งหมดของผู้ใช้
-                $userActivityCount[$userId] = ($userActivityCount[$userId] ?? 0) + 1;
+                    // แปลง activity_type ให้อยู่ในรูปแบบที่เหมาะสม (เช่น "Login in" -> "login_in")
+                    $action = strtolower(str_replace(' ', '_', $action));
 
-                // นับจำนวนครั้งของแต่ละ action
-                if (!isset($userActions[$userId])) {
-                    $userActions[$userId] = [];
+                    // นับจำนวน activity ทั้งหมดของผู้ใช้
+                    $userActivityCount[$userId] = ($userActivityCount[$userId] ?? 0) + 1;
+
+                    // นับจำนวนครั้งของแต่ละ action
+                    if (!isset($userActions[$userId])) {
+                        $userActions[$userId] = [];
+                    }
+                    $userActions[$userId][$action] = ($userActions[$userId][$action] ?? 0) + 1;
                 }
-                $userActions[$userId][$action] = ($userActions[$userId][$action] ?? 0) + 1;
             }
         }
+
+        arsort($userActivityCount);
+        $top10 = array_slice($userActivityCount, 0, 10, true);
+
+        $result = [];
+        foreach ($top10 as $userId => $count) {
+            $result[] = [
+                'user_id' => $userId,
+                'email' => $userEmails[$userId] ?? 'Unknown',
+                'total_activity' => $count,
+                'actions' => $userActions[$userId] ?? [], // ส่ง array ของ actions ไปให้ Blade
+            ];
+        }
+
+        // Log เพื่อตรวจสอบข้อมูล
+        Log::info('Top Active Users', ['topActiveUsers' => $result]);
+
+        return $result;
     }
-
-    arsort($userActivityCount);
-    $top10 = array_slice($userActivityCount, 0, 10, true);
-
-    $result = [];
-    foreach ($top10 as $userId => $count) {
-        $result[] = [
-            'user_id' => $userId,
-            'email' => $userEmails[$userId] ?? 'Unknown',
-            'total_activity' => $count,
-            'actions' => $userActions[$userId] ?? [],
-        ];
-    }
-
-    return $result;
-}
 
     public function userActivityDetail(Request $request, $userId)
     {

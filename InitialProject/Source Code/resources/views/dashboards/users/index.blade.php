@@ -34,42 +34,59 @@
                     </div>
 
                     <div class="col-md-4 d-flex">
-                        <div class="card shadow-sm flex-fill">
-                            <div class="card-header bg-info text-white">
-                                <h5>ผู้ใช้ที่活躍ที่สุด (Top 10)</h5>
-                            </div>
-                            <div class="card-body">
-                                @if(!empty($topActiveUsers))
-                                <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Email</th>
-                                                <th>Total Activity</th>
-                                                <th>Details</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($topActiveUsers as $index => $activeUser)
-                                            <tr>
-                                                <td>{{ $index + 1 }}</td>
-                                                <td>{{ $activeUser['email'] }}</td>
-                                                <td>{{ $activeUser['total_activity'] }}</td>
-                                                <td>
-                                                    <a href="{{ route('dashboard.user.activity', $activeUser['user_id']) }}" class="btn btn-sm btn-primary">ดูรายละเอียด</a>
-                                                </td>
-                                            </tr>
+    <div class="card shadow-sm flex-fill">
+        <div class="card-header bg-info text-white">
+            <h5>ผู้ใช้ที่活躍ที่สุด (Top 10)</h5>
+        </div>
+        <div class="card-body">
+            @if(!empty($topActiveUsers))
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Email</th>
+                            <th>Total Activity</th>
+                            <th>Actions</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($topActiveUsers as $index => $activeUser)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $activeUser['email'] }}</td>
+                            <td>{{ $activeUser['total_activity'] }}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-{{ $activeUser['user_id'] }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Actions
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-{{ $activeUser['user_id'] }}">
+                                        @if(!empty($activeUser['actions']))
+                                            @foreach($activeUser['actions'] as $action => $count)
+                                                <li><span class="dropdown-item">{{ ucfirst(str_replace('_', ' ', $action)) }}: {{ $count }} ครั้ง</span></li>
                                             @endforeach
-                                        </tbody>
-                                    </table>
+                                        @else
+                                            <li><span class="dropdown-item">ไม่มีข้อมูล Action</span></li>
+                                        @endif
+                                    </ul>
                                 </div>
-                                @else
-                                <p class="text-muted">ไม่มีข้อมูลผู้ใช้ที่活躍</p>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
+                            </td>
+                            <td>
+                                <a href="{{ route('dashboard.user.activity', $activeUser['user_id']) }}" class="btn btn-sm btn-primary">ดูรายละเอียด</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            @else
+            <p class="text-muted">ไม่มีข้อมูลผู้ใช้ที่活躍</p>
+            @endif
+        </div>
+    </div>
+</div>
 
                     <div class="col-md-4 d-flex flex-column">
                         <div class="card shadow-sm flex-fill">
@@ -241,6 +258,38 @@
     #httpErrorsChart {
         max-height: 400px;
     }
+    
+    .table tbody tr {
+        position: relative;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8f9fa;
+        transition: background-color 0.3s ease;
+    }
+
+    .dropdown-menu {
+        width: 100%; /* ทำให้ dropdown กว้างเต็มแถว */
+        max-height: 200px;
+        overflow-y: auto;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .dropdown-item {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+        cursor: default; /* ปิด cursor pointer เพราะไม่ต้องคลิก */
+    }
+
+    .dropdown-item:hover {
+        background-color: #e9ecef;
+    }
+
+    /* ปรับ cursor ให้เหมือนแถบที่คลิกได้ */
+    .dropdown-toggle {
+        cursor: pointer;
+    }
 </style>
 
 
@@ -301,7 +350,7 @@
 
         switch (granularity) {
             case 'hourly':
-            case 'daily':
+            case 'daily': 
                 labels = Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, '0')}:00`);
                 break;
             case 'weekly':
