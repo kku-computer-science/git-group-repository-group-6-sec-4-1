@@ -45,6 +45,7 @@ class ProfileuserController extends Controller
     $loginStats = ['success' => 0, 'fail' => 0];
     $usersOnline = 0;
     $notifications = [];
+    $recentActivities = []; // Add this for recent activities
 
     // Fetch all required data
     $totalUsers = User::count();
@@ -93,9 +94,11 @@ class ProfileuserController extends Controller
 
     if (!File::exists($logPath)) {
         $pagedLogs = null;
+        $recentActivities = []; // No logs, so empty activities
     } else {
         $logs = array_reverse(explode("\n", File::get($logPath)));
         $parsedLogs = [];
+        $recentActivities = []; // Array for recent activities
         $usersById = $users->keyBy('id');
 
         foreach ($logs as $log) {
@@ -125,6 +128,7 @@ class ProfileuserController extends Controller
                 $userId = $jsonData['user_id'] ?? 'Unknown';
                 $user = $usersById->get($userId);
 
+                // Add to parsed logs for pagination
                 if ($userFilter && $userId != $userFilter) {
                     continue;
                 }
@@ -142,9 +146,21 @@ class ProfileuserController extends Controller
                     'timestamp' => $jsonData['timestamp'] ?? $this->extractTimestamp($log),
                     'ip' => $jsonData['ip'] ?? 'Unknown',
                 ];
+
+                // Add to recent activities (before filtering)
+                $recentActivities[] = [
+                    'user_email' => $jsonData['email'] ?? 'Unknown',
+                    'activity' => ucfirst($action) . (isset($details['target']) ? ' on ' . $details['target'] : ''),
+                    'timestamp' => $jsonData['timestamp'] ?? $this->extractTimestamp($log),
+                ];
             }
         }
 
+        // Sort and limit recent activities
+        usort($recentActivities, fn($a, $b) => strcmp($b['timestamp'], $a['timestamp']));
+        $recentActivities = array_slice($recentActivities, 0, 5); // Limit to 5 recent activities
+
+        // Continue with pagination for parsed logs
         usort($parsedLogs, fn($a, $b) => strcmp($b['timestamp'], $a['timestamp']));
         $perPage = 20;
         $currentPage = $request->get('page', 1);
@@ -174,6 +190,7 @@ class ProfileuserController extends Controller
         'notifications' => $notifications,
         'defaultStartDate' => $startDate->toDateString(), // Pass as a variable
         'defaultEndDate' => $endDate->toDateString(),    // Pass as a variable
+        'activities' => $recentActivities, // Pass recent activities to the view
     ]);
 }
 
@@ -270,35 +287,32 @@ private function storeCriticalMessage($message, $ip, $url, $email, $userAgent, $
 }
 
 public function dismissNotification($id)
-    {
-        $notification = CriticalMessage::find($id);
-        if ($notification) {
-            $notification->update(['is_dismissed' => true]);
-            return response()->json(['success' => true, 'message' => 'Notification dismissed']);
-        }
-        return response()->json(['success' => false, 'message' => 'Notification not found'], 404);
-    }
-
-public function filterLogsCri(Request $request)
 {
-    $ip = $request->input('ip');
-    $url = $request->input('url');
-    $startDate = $request->input('start_date') ? Carbon::parse($request->input('start_date')) : Carbon::today()->startOfWeek();
-    $endDate = $request->input('end_date') ? Carbon::parse($request->input('end_date')) : Carbon::today()->endOfWeek();
+    try {
+        $notification = CriticalMessage::find($id);
 
-    $query = CriticalMessage::where('is_dismissed', false)
-        ->whereBetween('timestamp', [$startDate, $endDate]);
+        if (!$notification) {
+            return response()->json(['success' => false, 'message' => 'Notification not found'], 404);
+        }
 
-    if ($ip) {
-        $query->where('ip', $ip);
+        $notification->update(['is_dismissed' => true]);
+
+        return response()->json(['success' => true, 'message' => 'Notification dismissed']);
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
     }
-    if ($url) {
-        $query->where('url', 'like', "%$url%");
-    }
-
-    $notifications = $query->orderBy('timestamp', 'desc')->limit(5)->get();
-    return response()->json($notifications);
 }
+
+
+    public function filterNotifications(Request $request)
+    {
+        $notifications = CriticalMessage::where('ip', 'like', '%' . $request->ip . '%')
+            ->where('url', 'like', '%' . $request->url . '%')
+            ->whereBetween('created_at', [$request->start_date, $request->end_date])
+            ->get();
+
+        return response()->json($notifications);
+    }
 
 private function getHttpErrorStats($granularity, $startDate, $endDate)
 {
