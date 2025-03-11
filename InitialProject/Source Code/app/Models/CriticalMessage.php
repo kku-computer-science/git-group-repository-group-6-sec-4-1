@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class CriticalMessage extends Model
 {
     protected $fillable = [
-        'message', 'ip', 'url', 'email', 'user_agent', 'severity', 'timestamp', 'time_ago', 'is_dismissed'
+        'unique_key', 'message', 'ip', 'url', 'email', 'user_agent', 'severity', 'timestamp', 'time_ago', 'count', 'is_dismissed'
     ];
 
     protected $casts = [
