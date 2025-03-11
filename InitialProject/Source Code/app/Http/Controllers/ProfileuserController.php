@@ -45,6 +45,7 @@ class ProfileuserController extends Controller
     $loginStats = ['success' => 0, 'fail' => 0];
     $usersOnline = 0;
     $notifications = [];
+    $recentActivities = []; // Add this for recent activities
 
     // Fetch all required data
     $totalUsers = User::count();
@@ -93,9 +94,11 @@ class ProfileuserController extends Controller
 
     if (!File::exists($logPath)) {
         $pagedLogs = null;
+        $recentActivities = []; // No logs, so empty activities
     } else {
         $logs = array_reverse(explode("\n", File::get($logPath)));
         $parsedLogs = [];
+        $recentActivities = []; // Array for recent activities
         $usersById = $users->keyBy('id');
 
         foreach ($logs as $log) {
@@ -125,6 +128,7 @@ class ProfileuserController extends Controller
                 $userId = $jsonData['user_id'] ?? 'Unknown';
                 $user = $usersById->get($userId);
 
+                // Add to parsed logs for pagination
                 if ($userFilter && $userId != $userFilter) {
                     continue;
                 }
@@ -142,9 +146,21 @@ class ProfileuserController extends Controller
                     'timestamp' => $jsonData['timestamp'] ?? $this->extractTimestamp($log),
                     'ip' => $jsonData['ip'] ?? 'Unknown',
                 ];
+
+                // Add to recent activities (before filtering)
+                $recentActivities[] = [
+                    'user_email' => $jsonData['email'] ?? 'Unknown',
+                    'activity' => ucfirst($action) . (isset($details['target']) ? ' on ' . $details['target'] : ''),
+                    'timestamp' => $jsonData['timestamp'] ?? $this->extractTimestamp($log),
+                ];
             }
         }
 
+        // Sort and limit recent activities
+        usort($recentActivities, fn($a, $b) => strcmp($b['timestamp'], $a['timestamp']));
+        $recentActivities = array_slice($recentActivities, 0, 5); // Limit to 5 recent activities
+
+        // Continue with pagination for parsed logs
         usort($parsedLogs, fn($a, $b) => strcmp($b['timestamp'], $a['timestamp']));
         $perPage = 20;
         $currentPage = $request->get('page', 1);
@@ -174,6 +190,7 @@ class ProfileuserController extends Controller
         'notifications' => $notifications,
         'defaultStartDate' => $startDate->toDateString(), // Pass as a variable
         'defaultEndDate' => $endDate->toDateString(),    // Pass as a variable
+        'activities' => $recentActivities, // Pass recent activities to the view
     ]);
 }
 

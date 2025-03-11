@@ -17,41 +17,47 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="row d-flex align-items-stretch">
-            <div class="col-9 d-flex flex-column">
-                <div class="row flex-grow-1 h-50">
+    <div class="container" style="height: 100vh;">
+        <div class="row d-flex align-items-stretch h-100">
+            <div class="col-9 d-flex flex-column h-100">
+                <div class="row flex-grow-1 h-25">
                     <!-- Critical Message -->
-                    <div class="col-md-4 d-flex">
-                        <div class="card shadow-sm hover-card flex-fill">
-                            <div class="card-header bg-primary text-white">
-                                <h5>การแจ้งเตือนสำคัญ</h5>
-                            </div>
-                            <div class="card-body text-center d-flex flex-column justify-content-start">
-                                @if(!empty($notifications) && count($notifications) > 0)
-                                <div class="notification-container">
-                                    <ul class="list-group list-group-flush" id="notificationList">
-                                        @foreach($notifications as $notification)
-                                        <li class="list-group-item @if($notification['severity'] === 'high') bg-danger text-white @elseif($notification['severity'] === 'medium') bg-warning text-dark @endif" data-id="{{ $notification['id'] }}">
-                                            <strong>{{ $notification['message'] }}</strong><br>
-                                            <small>{{ $notification['time_ago'] }}</small>
-                                            <div class="mt-2 d-flex gap-2 justify-content-center">
-                                                <button class="btn btn-danger btn-sm dismiss-btn" data-id="{{ $notification['id'] }}">ลบ</button>
-                                                <button class="btn btn-info btn-sm check-btn" data-id="{{ $notification['id'] }}" data-ip="{{ $notification['ip'] }}" data-url="{{ $notification['url'] }}">ตรวจสอบ</button>
-                                            </div>
-                                        </li>
-                                        @endforeach
-                                    </ul>
+                    <div class="col-md-4 d-flex h-100">
+    <div class="card shadow-sm hover-card flex-fill">
+        <div class="card-header bg-primary text-white">
+            <h5>การแจ้งเตือนสำคัญ</h5>
+        </div>
+        <div class="card-body text-center d-flex flex-column justify-content-start">
+            @if(!empty($notifications) && count($notifications) > 0)
+                <div class="notification-container flex-grow-1">
+                    <ul class="list-group list-group-flush" id="notificationList">
+                        @foreach($notifications as $notification)
+                            <li class="list-group-item 
+                                @if($notification['severity'] === 'high') bg-danger text-white 
+                                @elseif($notification['severity'] === 'medium') bg-warning text-dark 
+                                @endif" 
+                                data-id="{{ $notification['id'] }}">
+                                <div class="d-flex flex-column align-items-start">
+                                    <strong class="notification-message text-break">{{ $notification['message'] }}</strong>
+                                    <small class="text-muted notification-time">{{ $notification['time_ago'] }}</small>
                                 </div>
-                                @else
-                                <p class="text-muted">ไม่มีการแจ้งเตือนสำคัญ</p>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
+                                <div class="mt-2 d-flex gap-2 justify-content-center">
+                                    <button class="btn btn-danger btn-sm dismiss-btn" data-id="{{ $notification['id'] }}">ลบ</button>
+                                    <button class="btn btn-info btn-sm check-btn" data-id="{{ $notification['id'] }}" data-ip="{{ $notification['ip'] }}" data-url="{{ $notification['url'] }}">ตรวจสอบ</button>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @else
+                <p class="text-muted">ไม่มีการแจ้งเตือนสำคัญ</p>
+            @endif
+        </div>
+    </div>
+</div>
 
                     <!-- Most Activity -->
-                    <div class="col-md-4 d-flex">
+                    <div class="col-md-4 d-flex h-100">
                         <div class="card shadow-sm hover-card flex-fill">
                             <div class="card-header bg-info text-white">
                                 <h5>ผู้ใช้ที่活躍ที่สุด (Top 10)</h5>
@@ -112,41 +118,43 @@
                     </div>
                 </div>
 
-                <div class="col-md-12">
-                    <!-- HTTP Table -->
-                    <div class="card mt-3 shadow-sm hover-card flex-fill">
-                        <div class="card-header bg-danger text-white">
-                            <h5>HTTP Errors</h5>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <strong>จำนวนข้อผิดพลาด HTTP (400+):</strong>
-                                    <span class="badge bg-light count-up" data-value="{{ $summaryData['total'] ?? 0 }}">0</span>
-                                </li>
-                            </ul>
-
-                            <div class="mb-3">
-                                <label for="granularitySelect" class="form-label">View By:</label>
-                                <select id="granularitySelect" class="form-select">
-                                    <option value="hourly" {{ $summaryData['granularity'] === 'hourly' ? 'selected' : '' }}>Hourly</option>
-                                    <option value="daily" {{ $summaryData['granularity'] === 'daily' ? 'selected' : '' }}>Daily</option>
-                                    <option value="weekly" {{ $summaryData['granularity'] === 'weekly' ? 'selected' : '' }}>Weekly</option>
-                                    <option value="monthly" {{ $summaryData['granularity'] === 'monthly' ? 'selected' : '' }}>Monthly</option>
-                                </select>
+                <div class="row flex-grow-1 h-75">
+                    <div class="col-md-12 h-75">
+                        <!-- HTTP Table -->
+                        <div class="card mt-3 shadow-sm hover-card flex-fill">
+                            <div class="card-header bg-danger text-white">
+                                <h5>HTTP Errors</h5>
                             </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>จำนวนข้อผิดพลาด HTTP (400+):</strong>
+                                        <span class="badge bg-light count-up" data-value="{{ $summaryData['total'] ?? 0 }}">0</span>
+                                    </li>
+                                </ul>
 
-                            <h6>Top 5 HTTP Errors</h6>
-                            <div style="position: relative; height: 400px; width: 100%;">
-                                <canvas id="httpErrorsChart"></canvas>
+                                <div class="mb-3">
+                                    <label for="granularitySelect" class="form-label">View By:</label>
+                                    <select id="granularitySelect" class="form-select">
+                                        <option value="hourly" {{ $summaryData['granularity'] === 'hourly' ? 'selected' : '' }}>Hourly</option>
+                                        <option value="daily" {{ $summaryData['granularity'] === 'daily' ? 'selected' : '' }}>Daily</option>
+                                        <option value="weekly" {{ $summaryData['granularity'] === 'weekly' ? 'selected' : '' }}>Weekly</option>
+                                        <option value="monthly" {{ $summaryData['granularity'] === 'monthly' ? 'selected' : '' }}>Monthly</option>
+                                    </select>
+                                </div>
+
+                                <h6>Top 5 HTTP Errors</h6>
+                                <div style="position: relative; height: 400px; width: 100%;">
+                                    <canvas id="httpErrorsChart"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-3 d-flex flex-column">
-                <div class="row flex-grow-1 h-50">
+            <div class="col-3 d-flex flex-column h-100">
+                <div class="row flex-grow-1 h-25">
                     <div class="col-md-12 d-flex">
                         <div class="card shadow-sm hover-card flex-fill">
                             <div class="card-header bg-primary text-white">
@@ -158,8 +166,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row flex-grow-1 h-50">
-                    <div class="col-md-12 d-flex">
+                <div class="row flex-grow-1 h-75">
+                    <div class="col-md-12 h-75">
                         <div class="card mt-3 shadow-sm hover-card flex-fill">
                             <div class="card-header bg-success text-white">
                                 <h5>User Login Stats</h5>
@@ -181,6 +189,39 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Recent Activity -->
+<div class="card mt-3 shadow-sm hover-card">
+    <div class="card-header bg-warning text-white">
+        <h5>Recent Activity</h5>
+    </div>
+    <div class="card-body">
+        @if(!empty($activities) && count($activities) > 0)
+            <div class="activity-container" style="max-height: 200px; overflow-y: auto;">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Activity</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($activities as $activity)
+                            <tr>
+                                <td>{{ htmlspecialchars($activity['user_email']) }}</td>
+                                <td>{{ htmlspecialchars($activity['activity']) }}</td>
+                                <td>{{ date('Y-m-d H:i', strtotime($activity['timestamp'])) }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @else
+            <p class="text-muted">No recent activities found.</p>
+        @endif
+    </div>
+</div>
                     </div>
                 </div>
             </div>
@@ -190,9 +231,10 @@
 </div>
 @endsection
 
-@push('styles')
+@stack('styles')
 <style>
-    html, body {
+    html,
+    body {
         height: 100%;
         overflow-y: auto;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -209,7 +251,7 @@
         border-radius: 12px;
         background: #ffffff;
         transition: all 0.3s ease;
-        overflow: hidden;
+        overflow: hidden; /* Prevent card content from overflowing */
     }
 
     .hover-card:hover {
@@ -226,6 +268,9 @@
 
     .card-body {
         padding: 20px;
+        display: flex;
+        flex-direction: column;
+        height: 100%; /* Ensure full height usage */
     }
 
     .badge {
@@ -268,41 +313,118 @@
         padding: 12px;
     }
 
-    .notification-container {
-        max-height: 300px;
-        overflow-y: auto;
-        border-radius: 8px;
-    }
-
-    .notification-container::-webkit-scrollbar {
-        width: 6px;
-    }
-
-    .notification-container::-webkit-scrollbar-track {
-        background: #f1f1f1;
-        border-radius: 3px;
-    }
-
-    .notification-container::-webkit-scrollbar-thumb {
-        background: #adb5bd;
-        border-radius: 3px;
-    }
-
-    .notification-container::-webkit-scrollbar-thumb:hover {
-        background: #6c757d;
-    }
-
     .btn-sm {
         padding: 5px 12px;
         font-size: 0.85rem;
         border-radius: 6px;
     }
 
-    .text-primary { color: #007bff !important; }
-    .text-secondary { color: #6c757d !important; }
-    #httpErrorsChart { max-height: 400px; }
+    .text-primary {
+        color: #007bff !important;
+    }
+
+    .text-secondary {
+        color: #6c757d !important;
+    }
+
+    /* Notification Container Styling */
+    .notification-container {
+        max-height: 300px; /* Match or adjust based on design */
+        overflow-y: auto; /* Vertical scrollbar when content overflows */
+        overflow-x: hidden; /* Prevent horizontal overflow */
+        flex-grow: 1; /* Allow it to grow within flex parent */
+    }
+
+    .notification-container::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .notification-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+
+    .notification-container::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+    }
+
+    .notification-container::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+    /* Activity Container Styling (already present) */
+    .activity-container {
+        max-height: 200px; /* Fixed height for the container */
+        overflow-y: auto; /* Vertical scrollbar when content overflows */
+        overflow-x: hidden; /* Prevent horizontal scrollbar */
+    }
+
+    .activity-container::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .activity-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+
+    .activity-container::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+    }
+
+    .activity-container::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+    /* List Item Styling for Notifications */
+    .list-group-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 80px;
+        padding: 10px;
+        border: none;
+    }
+
+    .notification-message {
+        font-size: 0.9rem;
+        word-wrap: break-word;
+        overflow-wrap: anywhere;
+        max-width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .notification-time {
+        font-size: 0.75rem;
+        margin-bottom: 5px;
+    }
+
+    .d-flex.gap-2 {
+        gap: 10px;
+    }
+
+    /* Chart Styling */
+    #httpErrorsChart {
+        max-height: 400px;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .notification-message {
+            font-size: 0.8rem;
+        }
+        .btn-sm {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+        }
+        .notification-container,
+        .activity-container {
+            max-height: 200px; /* Reduce height on mobile */
+        }
+    }
 </style>
-@endpush
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -319,9 +441,9 @@
         window.location.href = "{{ route('dashboard') }}?granularity=" + selectedGranularity;
     };
 
-    const httpErrorsData = {!! json_encode($summaryData['top5'] ?? []) !!};
+    const httpErrorsData = {!!json_encode($summaryData['top5'] ?? []) !!};
     const granularity = "{{ $summaryData['granularity'] ?? 'hourly' }}";
-    const dailyBreakdown = {!! json_encode($dailyBreakdown ?? []) !!};
+    const dailyBreakdown = {!!json_encode($dailyBreakdown ?? []) !!};
 
     let chartInstance = null;
 
@@ -340,13 +462,17 @@
         switch (granularity) {
             case 'hourly':
             case 'daily':
-                labels = Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, '0')}:00`);
+                labels = Array.from({
+                    length: 24
+                }, (_, i) => `${String(i).padStart(2, '0')}:00`);
                 break;
             case 'weekly':
                 labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
                 break;
             case 'monthly':
-                labels = Array.from({ length: 31 }, (_, i) => i + 1);
+                labels = Array.from({
+                    length: 31
+                }, (_, i) => i + 1);
                 break;
             default:
                 labels = Object.keys(data);
@@ -394,7 +520,10 @@
             };
         });
 
-        return { labels, datasets };
+        return {
+            labels,
+            datasets
+        };
     }
 
     function renderChart() {
@@ -403,16 +532,24 @@
 
         if (chartInstance) chartInstance.destroy();
 
-        const { labels, datasets } = transformDataForChart(httpErrorsData, granularity, dailyBreakdown);
+        const {
+            labels,
+            datasets
+        } = transformDataForChart(httpErrorsData, granularity, dailyBreakdown);
 
         chartInstance = new Chart(ctx, {
             type: 'bar',
-            data: { labels, datasets },
+            data: {
+                labels,
+                datasets
+            },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: { position: 'top' },
+                    legend: {
+                        position: 'top'
+                    },
                     title: {
                         display: true,
                         text: `Top 5 HTTP Errors (${granularity.charAt(0).toUpperCase() + granularity.slice(1)})`
@@ -427,7 +564,10 @@
                     },
                     y: {
                         beginAtZero: true,
-                        title: { display: true, text: 'Number of Errors' }
+                        title: {
+                            display: true,
+                            text: 'Number of Errors'
+                        }
                     }
                 }
             }
@@ -452,72 +592,79 @@
 </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.dismiss-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const id = this.getAttribute('data-id');
-            fetch(`/api/notifications/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('api_token')}`
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.querySelector(`li[data-id="${id}"]`)?.remove();
-                    alert('Notification dismissed successfully');
-                } else {
-                    alert('Failed to dismiss notification: ' + data.message);
-                }
-            })
-            .catch(error => console.error('Error:', error));
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.dismiss-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                fetch(`/api/notifications/${id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('api_token')}`
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.querySelector(`li[data-id="${id}"]`)?.remove();
+                            alert('Notification dismissed successfully');
+                        } else {
+                            alert('Failed to dismiss notification: ' + data.message);
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
         });
-    });
 
-    document.querySelectorAll('.check-btn').forEach(button => {
-        button.addEventListener('click', async function() {
-            const ip = this.getAttribute('data-ip') || '';
-            const url = this.getAttribute('data-url') || '';
-            const defaultStartDate = '{{ $defaultStartDate }}';
-            const defaultEndDate = '{{ $defaultEndDate }}';
-            const startDate = prompt('Enter start date (YYYY-MM-DD):', defaultStartDate) || defaultStartDate;
-            const endDate = prompt('Enter end date (YYYY-MM-DD):', defaultEndDate) || defaultEndDate;
+        document.querySelectorAll('.check-btn').forEach(button => {
+            button.addEventListener('click', async function() {
+                const ip = this.getAttribute('data-ip') || '';
+                const url = this.getAttribute('data-url') || '';
+                const defaultStartDate = '{{ $defaultStartDate }}';
+                const defaultEndDate = '{{ $defaultEndDate }}';
+                const startDate = prompt('Enter start date (YYYY-MM-DD):', defaultStartDate) || defaultStartDate;
+                const endDate = prompt('Enter end date (YYYY-MM-DD):', defaultEndDate) || defaultEndDate;
 
-            const params = new URLSearchParams({ ip, url, start_date: startDate, end_date: endDate });
-            try {
-                const response = await fetch(`/api/notifications/filter?${params.toString()}`, {
-                    method: 'GET',
-                    headers: { 'Accept': 'application/json' }
+                const params = new URLSearchParams({
+                    ip,
+                    url,
+                    start_date: startDate,
+                    end_date: endDate
                 });
-                const data = await response.json();
-                console.log('Filtered Notifications:', data);
-                alert('Filtered logs: ' + JSON.stringify(data));
-            } catch (error) {
-                console.error('Error:', error);
-            }
+                try {
+                    const response = await fetch(`/api/notifications/filter?${params.toString()}`, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+                    const data = await response.json();
+                    console.log('Filtered Notifications:', data);
+                    alert('Filtered logs: ' + JSON.stringify(data));
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
         });
     });
-});
 </script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".count-up").forEach(el => {
-        let target = parseInt(el.dataset.value) || 0;
-        let count = 0;
-        let duration = 2000; // 2 seconds
-        let step = target / (duration / 20);
-        
-        let interval = setInterval(() => {
-            count += step;
-            if (count >= target) {
-                count = target;
-                clearInterval(interval);
-            }
-            el.textContent = Math.floor(count).toLocaleString();
-        }, 20);
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll(".count-up").forEach(el => {
+            let target = parseInt(el.dataset.value) || 0;
+            let count = 0;
+            let duration = 2000; // 2 seconds
+            let step = target / (duration / 20);
+
+            let interval = setInterval(() => {
+                count += step;
+                if (count >= target) {
+                    count = target;
+                    clearInterval(interval);
+                }
+                el.textContent = Math.floor(count).toLocaleString();
+            }, 20);
+        });
     });
-});
 </script>
