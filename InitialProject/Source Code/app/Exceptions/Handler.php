@@ -40,18 +40,27 @@ class Handler extends ExceptionHandler
     }
 
     public function report(Throwable $exception)
-{
-    if ($this->shouldReport($exception)) {
-        \Log::error('Error Occurred', [
-            'message' => $exception->getMessage(),
-            'url' => request()->fullUrl(),
-            'ip' => request()->ip(),
-            'user_id' => auth()->id(),
-        ]);
-
-
-        
+    {
+        if ($this->shouldReport($exception)) {
+            \Log::error('Error Occurred', [
+                'message' => $exception->getMessage(),
+                'url' => request()->fullUrl(),
+                'ip' => request()->ip(),
+                'user_id' => auth()->id(),
+            ]);
+        }
+        parent::report($exception);
     }
-    parent::report($exception);
-}
+
+    public function render($request, Throwable $exception)
+    {
+        if ($request->expectsJson()) {  // Check if request expects JSON (API calls)
+            return response()->json([
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ], 500);
+        }
+
+        return parent::render($request, $exception);
+    }
 }
