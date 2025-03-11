@@ -2,229 +2,8 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="container mt-4">
-    <h3 class="text-center text-primary">ยินดีต้อนรับเข้าสู่ระบบจัดการข้อมูลวิจัยของสาขาวิชาวิทยาการคอมพิวเตอร์</h3>
-    <h4 class="text-center">สวัสดี {{ Auth::user()->position_th }} {{ Auth::user()->fname_th }} {{ Auth::user()->lname_th }}</h4>
-    <h4 class="text-center text-secondary">Dashboard</h4>
+<head>
 
-    @if(Auth::user()->hasRole('admin') || (isset(Auth::user()->is_admin) && Auth::user()->is_admin))
-    <div class="d-flex justify-content-between mb-4">
-        <div class="d-flex gap-4 align-items-center">
-            <h2>Dashboard</h2>
-            <input type="text" class="form-control shadow-sm" placeholder="Search..." style="width: 200px;">
-            <input type="text" id="datePicker" class="form-control shadow-sm" placeholder="Select Date" style="width: 150px;">
-            <strong>Users Online:</strong> <span class="badge bg-success fs-5 count-up" data-value="{{ $usersOnline }}">0</span>
-        </div>
-    </div>
-
-    <div class="container" style="height: 100vh;">
-        <div class="row d-flex align-items-stretch h-100">
-            <div class="col-9 d-flex flex-column h-100">
-                <div class="row flex-grow-1 h-25">
-                    <!-- Critical Message -->
-                    <div class="col-md-4 d-flex h-100">
-    <div class="card shadow-sm hover-card flex-fill">
-        <div class="card-header bg-primary text-white">
-            <h5>การแจ้งเตือนสำคัญ</h5>
-        </div>
-        <div class="card-body text-center d-flex flex-column justify-content-start">
-            @if(!empty($notifications) && count($notifications) > 0)
-                <div class="notification-container flex-grow-1">
-                    <ul class="list-group list-group-flush" id="notificationList">
-                        @foreach($notifications as $notification)
-                            <li class="list-group-item 
-                                @if($notification['severity'] === 'high') bg-danger text-white 
-                                @elseif($notification['severity'] === 'medium') bg-warning text-dark 
-                                @endif" 
-                                data-id="{{ $notification['id'] }}">
-                                <div class="d-flex flex-column align-items-start">
-                                    <strong class="notification-message text-break">{{ $notification['message'] }}</strong>
-                                    <small class="text-muted notification-time">{{ $notification['time_ago'] }}</small>
-                                </div>
-                                <div class="mt-2 d-flex gap-2 justify-content-center">
-                                    <button class="btn btn-danger btn-sm dismiss-btn" data-id="{{ $notification['id'] }}">ลบ</button>
-                                    <button class="btn btn-info btn-sm check-btn" data-id="{{ $notification['id'] }}" data-ip="{{ $notification['ip'] }}" data-url="{{ $notification['url'] }}">ตรวจสอบ</button>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            @else
-                <p class="text-muted">ไม่มีการแจ้งเตือนสำคัญ</p>
-            @endif
-        </div>
-    </div>
-</div>
-
-                    <!-- Most Activity -->
-                    <div class="col-md-4 d-flex h-100">
-                        <div class="card shadow-sm hover-card flex-fill">
-                            <div class="card-header bg-info text-white">
-                                <h5>ผู้ใช้ที่活躍ที่สุด (Top 10)</h5>
-                            </div>
-                            <div class="card-body">
-                                @if(!empty($topActiveUsers))
-                                <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" style="width: 10%;">อันดับ</th>
-                                                <th scope="col" style="width: 50%;">อีเมล</th>
-                                                <th scope="col" style="width: 20%;">กิจกรรมทั้งหมด</th>
-                                                <th scope="col" style="width: 20%;">รายละเอียด</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($topActiveUsers as $index => $activeUser)
-                                            <tr>
-                                                <td>{{ $index + 1 }}</td>
-                                                <td>{{ $activeUser['email'] }}</td>
-                                                <td><span class="count-up" data-value="{{ $activeUser['total_activity'] }}">0</span></td>
-                                                <td>
-                                                    <a href="{{ route('dashboard.user.activity', $activeUser['user_id']) }}" class="btn btn-sm btn-primary">ดู</a>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                                @else
-                                <p class="text-muted text-center">ไม่มีข้อมูลผู้ใช้ที่活躍</p>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 d-flex flex-column">
-                        <!-- Total Account -->
-                        <div class="card shadow-sm hover-card flex-fill">
-                            <div class="card-header bg-primary text-white">
-                                <h5>จำนวนบัญชีผู้ใช้ทั้งหมด</h5>
-                            </div>
-                            <div class="card-body text-center d-flex align-items-center justify-content-center">
-                                <span class="badge bg-info fs-4 count-up" data-value="{{ $totalUsers }}">0</span>
-                            </div>
-                        </div>
-
-                        <!-- Total Papers -->
-                        <div class="card mt-3 shadow-sm hover-card flex-fill">
-                            <div class="card-header bg-primary text-white">
-                                <h5>จำนวนเอกสารวิจัยทั้งหมด</h5>
-                            </div>
-                            <div class="card-body text-center d-flex align-items-center justify-content-center">
-                                <span class="badge bg-info fs-4 count-up" data-value="{{ $totalPapers }}">0</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row flex-grow-1 h-75">
-                    <div class="col-md-12 h-75">
-                        <!-- HTTP Table -->
-                        <div class="card mt-3 shadow-sm hover-card flex-fill">
-                            <div class="card-header bg-danger text-white">
-                                <h5>HTTP Errors</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <label for="granularitySelect" class="form-label">View By:</label>
-                                    <select id="granularitySelect" class="form-select">
-                                        <option value="hourly" {{ $summaryData['granularity'] === 'hourly' ? 'selected' : '' }}>Hourly</option>
-                                        <option value="daily" {{ $summaryData['granularity'] === 'daily' ? 'selected' : '' }}>Daily</option>
-                                        <option value="weekly" {{ $summaryData['granularity'] === 'weekly' ? 'selected' : '' }}>Weekly</option>
-                                        <option value="monthly" {{ $summaryData['granularity'] === 'monthly' ? 'selected' : '' }}>Monthly</option>
-                                    </select>
-                                </div>
-
-                                <h6>Top 5 HTTP Errors</h6>
-                                <div style="position: relative; height: 400px; width: 100%;">
-                                    <canvas id="httpErrorsChart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-3 d-flex flex-column h-100">
-                <div class="row flex-grow-1 h-25">
-                    <div class="col-md-12 d-flex">
-                        <div class="card shadow-sm hover-card flex-fill">
-                            <div class="card-header bg-primary text-white">
-                                <h5>จำนวนเอกสารที่ดึงมาทั้งหมด</h5>
-                            </div>
-                            <div class="card-body text-center d-flex align-items-center justify-content-center">
-                                <span class="badge bg-info fs-4 count-up" data-value="{{ $totalPapersFetched }}">0</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row flex-grow-1 h-75">
-                    <div class="col-md-12 h-75">
-                        <div class="card mt-3 shadow-sm hover-card flex-fill">
-                            <div class="card-header bg-success text-white">
-                                <h5>User Login Stats</h5>
-                            </div>
-                            <div class="card-body">
-                                <div>
-                                    <strong>Total Login:</strong>
-                                    <span class="badge bg-primary count-up" data-value="{{ ($loginStats['success'] ?? 0) + ($loginStats['fail'] ?? 0) }}">0</span>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-6 d-flex flex-column">
-                                        <strong>Success:</strong>
-                                        <span class="badge bg-success count-up" data-value="{{ $loginStats['success'] ?? 0 }}">0</span>
-                                    </div>
-                                    <div class="col-6 d-flex flex-column">
-                                        <strong>Fail:</strong>
-                                        <span class="badge bg-danger count-up" data-value="{{ $loginStats['fail'] ?? 0 }}">0</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Recent Activity -->
-<div class="card mt-3 shadow-sm hover-card">
-    <div class="card-header bg-warning text-white">
-        <h5>Recent Activity</h5>
-    </div>
-    <div class="card-body">
-        @if(!empty($activities) && count($activities) > 0)
-            <div class="activity-container" style="max-height: 200px; overflow-y: auto;">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Email</th>
-                            <th>Activity</th>
-                            <th>Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($activities as $activity)
-                            <tr>
-                                <td>{{ htmlspecialchars($activity['user_email']) }}</td>
-                                <td>{{ htmlspecialchars($activity['activity']) }}</td>
-                                <td>{{ date('Y-m-d H:i', strtotime($activity['timestamp'])) }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @else
-            <p class="text-muted">No recent activities found.</p>
-        @endif
-    </div>
-</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
-</div>
-@endsection
-
-@stack('styles')
 <style>
     html,
     body {
@@ -243,8 +22,11 @@
         border: none;
         border-radius: 12px;
         background: #ffffff;
-        transition: all 0.3s ease;
-        overflow: hidden; /* Prevent card content from overflowing */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        /* Specify transitions explicitly */
+        overflow: hidden;
+        opacity: 0;
+        /* Start hidden for animation */
     }
 
     .hover-card:hover {
@@ -263,7 +45,7 @@
         padding: 20px;
         display: flex;
         flex-direction: column;
-        height: 100%; /* Ensure full height usage */
+        height: 100%;
     }
 
     .badge {
@@ -322,10 +104,10 @@
 
     /* Notification Container Styling */
     .notification-container {
-        max-height: 300px; /* Match or adjust based on design */
-        overflow-y: auto; /* Vertical scrollbar when content overflows */
-        overflow-x: hidden; /* Prevent horizontal overflow */
-        flex-grow: 1; /* Allow it to grow within flex parent */
+        max-height: 300px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        flex-grow: 1;
     }
 
     .notification-container::-webkit-scrollbar {
@@ -346,11 +128,11 @@
         background: #555;
     }
 
-    /* Activity Container Styling (already present) */
+    /* Activity Container Styling */
     .activity-container {
-        max-height: 200px; /* Fixed height for the container */
-        overflow-y: auto; /* Vertical scrollbar when content overflows */
-        overflow-x: hidden; /* Prevent horizontal scrollbar */
+        max-height: 200px;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 
     .activity-container::-webkit-scrollbar {
@@ -403,30 +185,285 @@
         max-height: 400px;
     }
 
+    /* Animation for Cards */
+    .animated-card {
+        animation: fadeInUp 0.5s ease-out forwards;
+        animation-delay: calc(var(--order) * 0.2s);
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Ensure hover works after animation */
+    .animated-card:hover {
+        transform: translateY(-8px) !important;
+        /* Override animation's final transform */
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
+
     /* Responsive Adjustments */
     @media (max-width: 768px) {
         .notification-message {
             font-size: 0.8rem;
         }
+
         .btn-sm {
             font-size: 0.7rem;
             padding: 2px 8px;
         }
+
         .notification-container,
         .activity-container {
-            max-height: 200px; /* Reduce height on mobile */
+            max-height: 200px;
         }
     }
 </style>
 
-@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-@endpush
+
+</head>
+<div class="container mt-4">
+    <h3 class="text-center text-primary">ยินดีต้อนรับเข้าสู่ระบบจัดการข้อมูลวิจัยของสาขาวิชาวิทยาการคอมพิวเตอร์</h3>
+    <h4 class="text-center">สวัสดี {{ Auth::user()->position_th }} {{ Auth::user()->fname_th }} {{ Auth::user()->lname_th }}</h4>
+    <h4 class="text-center text-secondary">Dashboard</h4>
+
+    @if(Auth::user()->hasRole('admin') || (isset(Auth::user()->is_admin) && Auth::user()->is_admin))
+    <div class="d-flex justify-content-between mb-4">
+        <div class="d-flex gap-4 align-items-center">
+            <h2>Dashboard</h2>
+            <input type="text" class="form-control shadow-sm" placeholder="Search..." style="width: 200px;">
+            <input type="text" id="datePicker" class="form-control shadow-sm" placeholder="Select Date" style="width: 150px;">
+            <strong>Users Online:</strong> <span class="badge bg-success fs-5 count-up" data-value="{{ $usersOnline }}">0</span>
+        </div>
+    </div>
+
+    <div class="container" style="height: 100vh;">
+        <div class="row d-flex align-items-stretch h-100">
+            <div class="col-9 d-flex flex-column h-100">
+                <div class="row flex-grow-1 h-25">
+                    <!-- Critical Message -->
+                    <div class="col-md-4 d-flex h-100">
+                        <div class="card shadow-sm hover-card flex-fill animated-card">
+                            <div class="card-header bg-primary text-white">
+                                <h5>การแจ้งเตือนสำคัญ</h5>
+                            </div>
+                            <div class="card-body text-center d-flex flex-column justify-content-start">
+                                @if(!empty($notifications) && count($notifications) > 0)
+                                <div class="notification-container flex-grow-1">
+                                    <ul class="list-group list-group-flush" id="notificationList">
+                                        @foreach($notifications as $notification)
+                                        <li class="list-group-item 
+                                @if($notification['severity'] === 'high') bg-danger text-white 
+                                @elseif($notification['severity'] === 'medium') bg-warning text-dark 
+                                @endif"
+                                            data-id="{{ $notification['id'] }}">
+                                            <div class="d-flex flex-column align-items-start">
+                                                <strong class="notification-message text-break">{{ $notification['message'] }}</strong>
+                                                <small class="text-muted notification-time">{{ $notification['time_ago'] }}</small>
+                                            </div>
+                                            <div class="mt-2 d-flex     gap-2 justify-content-center">
+                                                <button class="btn btn-danger btn-sm dismiss-btn" data-id="{{ $notification['id'] }}">ลบ</button>
+                                                <button class="btn btn-info btn-sm check-btn" data-id="{{ $notification['id'] }}" data-ip="{{ $notification['ip'] }}" data-url="{{ $notification['url'] }}">ตรวจสอบ</button>
+                                            </div>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                @else
+                                <p class="text-muted">ไม่มีการแจ้งเตือนสำคัญ</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Most Activity -->
+                    <div class="col-md-4 d-flex h-100">
+                        <div class="card shadow-sm hover-card flex-fill animated-card">
+                            <div class="card-header bg-info text-white">
+                                <h5>Most Active User (Top 10)</h5>
+                            </div>
+                            <div class="card-body">
+                                @if(!empty($topActiveUsers))
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" style="width: 10%;">อันดับ</th>
+                                                <th scope="col" style="width: 50%;">อีเมล</th>
+                                                <th scope="col" style="width: 20%;">กิจกรรมทั้งหมด</th>
+                                                <th scope="col" style="width: 20%;">รายละเอียด</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($topActiveUsers as $index => $activeUser)
+                                            <tr>
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{ $activeUser['email'] }}</td>
+                                                <td><span class="count-up" data-value="{{ $activeUser['total_activity'] }}">0</span></td>
+                                                <td>
+                                                    <a href="{{ route('dashboard.user.activity', $activeUser['user_id']) }}" class="btn btn-sm btn-primary">ดู</a>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                @else
+                                <p class="text-muted text-center">ไม่มีข้อมูลผู้ใช้</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 d-flex flex-column h-100">
+                        <!-- Total Account -->
+                        <div class="card shadow-sm hover-card flex-fill animated-card">
+                            <div class="card-header bg-primary text-white">
+                                <h5>จำนวนบัญชีผู้ใช้ทั้งหมด</h5>
+                            </div>
+                            <div class="card-body text-center d-flex align-items-center justify-content-center">
+                                <span class="badge bg-info fs-4 count-up" data-value="{{ $totalUsers }}">0</span>
+                            </div>
+                        </div>
+
+                        <!-- Total Papers -->
+                        <div class="card shadow-sm hover-card flex-fill animated-card">
+                            <div class="card-header bg-primary text-white">
+                                <h5>จำนวนเอกสารวิจัยทั้งหมด</h5>
+                            </div>
+                            <div class="card-body text-center d-flex align-items-center justify-content-center">
+                                <span class="badge bg-info fs-4 count-up" data-value="{{ $totalPapers }}">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row flex-grow-1 h-75">
+                    <div class="col-md-12 h-75">
+                        <!-- HTTP Table -->
+                        <div class="card mt-3 shadow-sm hover-card flex-fill animated-card">
+                            <div class="card-header bg-danger text-white">
+                                <h5>HTTP Errors</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>จำนวนข้อผิดพลาด HTTP (400+):</strong>
+                                        <span class="badge bg-light count-up" data-value="{{ $summaryData['total'] ?? 0 }}">0</span>
+                                    </li>
+                                </ul>
+
+                                <div class="mb-3">
+                                    <label for="granularitySelect" class="form-label">View By:</label>
+                                    <select id="granularitySelect" class="form-select">
+                                        <option value="hourly" {{ $summaryData['granularity'] === 'hourly' ? 'selected' : '' }}>Hourly</option>
+                                        <option value="daily" {{ $summaryData['granularity'] === 'daily' ? 'selected' : '' }}>Daily</option>
+                                        <option value="weekly" {{ $summaryData['granularity'] === 'weekly' ? 'selected' : '' }}>Weekly</option>
+                                        <option value="monthly" {{ $summaryData['granularity'] === 'monthly' ? 'selected' : '' }}>Monthly</option>
+                                    </select>
+                                </div>
+
+                                <h6>Top 5 HTTP Errors</h6>
+                                <div style="position: relative; height: 400px; width: 100%;">
+                                    <canvas id="httpErrorsChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3 d-flex flex-column h-100">
+                <div class="row flex-grow-1 h-25">
+                    <div class="col-md-12 d-flex">
+                        <div class="card shadow-sm hover-card flex-fill animated-card">
+                            <div class="card-header bg-primary text-white">
+                                <h5>จำนวนเอกสารที่ดึงมาทั้งหมด</h5>
+                            </div>
+                            <div class="card-body text-center d-flex align-items-center justify-content-center">
+                                <span class="badge bg-info fs-4 count-up" data-value="{{ $totalPapersFetched }}">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row flex-grow-1 h-75">
+                    <div class="col-md-12 h-75">
+                        <div class="card mt-3 shadow-sm hover-card flex-fill animated-card">
+                            <div class="card-header bg-success text-white">
+                                <h5>User Login Stats</h5>
+                            </div>
+                            <div class="card-body">
+                                <div>
+                                    <strong>Total Login:</strong>
+                                    <span class="badge bg-primary count-up" data-value="{{ ($loginStats['success'] ?? 0) + ($loginStats['fail'] ?? 0) }}">0</span>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-6 d-flex flex-column">
+                                        <strong>Success:</strong>
+                                        <span class="badge bg-success count-up" data-value="{{ $loginStats['success'] ?? 0 }}">0</span>
+                                    </div>
+                                    <div class="col-6 d-flex flex-column">
+                                        <strong>Fail:</strong>
+                                        <span class="badge bg-danger count-up" data-value="{{ $loginStats['fail'] ?? 0 }}">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="card mt-3 shadow-sm hover-card animated-card">
+                            <div class="card-header bg-warning text-white">
+                                <h5>Recent Activity</h5>
+                            </div>
+                            <div class="card-body">
+                                @if(!empty($activities) && count($activities) > 0)
+                                <div class="activity-container">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Email</th>
+                                                <th>Activity</th>
+                                                <th>Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($activities as $activity)
+                                            <tr>
+                                                <td>{{ htmlspecialchars($activity['user_email']) }}</td>
+                                                <td>{{ htmlspecialchars($activity['activity']) }}</td>
+                                                <td>{{ date('Y-m-d H:i', strtotime($activity['timestamp'])) }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                @else
+                                <p class="text-muted">No recent activities found.</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+</div>
+@endsection
 
 @stack('javascript')
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 <script>
     window.updateChart = function() {
         const selectedGranularity = document.getElementById('granularitySelect').value;
@@ -586,60 +623,82 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.animated-card');
+        cards.forEach((card, index) => {
+            card.style.setProperty('--order', index); // Set delay order
+        });
+
+        // Existing chart rendering, dismiss, and check button handlers...
+        renderChart();
+
         document.querySelectorAll('.dismiss-btn').forEach(button => {
             button.addEventListener('click', function() {
                 const id = this.getAttribute('data-id');
+                console.log('Dismissing notification with ID:', id);
                 fetch(`/api/notifications/${id}`, {
                         method: 'DELETE',
                         headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                             'Accept': 'application/json',
-                            'Authorization': `Bearer ${localStorage.getItem('api_token')}`
-                        }
+                        },
                     })
-                    .then(response => response.json())
+                    .then(response => {
+                        console.log('Response status:', response.status);
+                        return response.json();
+                    })
                     .then(data => {
+                        console.log('Response data:', data);
                         if (data.success) {
-                            document.querySelector(`li[data-id="${id}"]`)?.remove();
+                            const item = document.querySelector(`[data-id="${id}"]`);
+                            if (item) item.remove();
                             alert('Notification dismissed successfully');
                         } else {
                             alert('Failed to dismiss notification: ' + data.message);
                         }
                     })
-                    .catch(error => console.error('Error:', error));
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while dismissing the notification');
+                    });
             });
         });
 
         document.querySelectorAll('.check-btn').forEach(button => {
-            button.addEventListener('click', async function() {
-                const ip = this.getAttribute('data-ip') || '';
-                const url = this.getAttribute('data-url') || '';
+            button.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const ip = this.getAttribute('data-ip');
+                const url = this.getAttribute('data-url');
                 const defaultStartDate = '{{ $defaultStartDate }}';
                 const defaultEndDate = '{{ $defaultEndDate }}';
-                const startDate = prompt('Enter start date (YYYY-MM-DD):', defaultStartDate) || defaultStartDate;
-                const endDate = prompt('Enter end date (YYYY-MM-DD):', defaultEndDate) || defaultEndDate;
+                const startDate = prompt('Enter start date (YYYY-MM-DD):', defaultStartDate);
+                const endDate = prompt('Enter end date (YYYY-MM-DD):', defaultEndDate);
 
-                const params = new URLSearchParams({
-                    ip,
-                    url,
-                    start_date: startDate,
-                    end_date: endDate
-                });
-                try {
-                    const response = await fetch(`/api/notifications/filter?${params.toString()}`, {
+                fetch('/api/notifications/filter', {
                         method: 'GET',
                         headers: {
-                            'Accept': 'application/json'
-                        }
-                    });
-                    const data = await response.json();
-                    console.log('Filtered Notifications:', data);
-                    alert('Filtered logs: ' + JSON.stringify(data));
-                } catch (error) {
-                    console.error('Error:', error);
-                }
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Accept': 'application/json',
+                        },
+                    }).params({
+                        ip: ip || '',
+                        url: url || '',
+                        start_date: startDate || defaultStartDate,
+                        end_date: endDate || defaultEndDate,
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Filtered Notifications:', data);
+                        alert('Filtered logs: ' + JSON.stringify(data));
+                    })
+                    .catch(error => console.error('Error:', error));
             });
         });
     });
+
+    fetch.prototype.params = function(params) {
+        this.url += '?' + new URLSearchParams(params).toString();
+        return this;
+    };
 </script>
 
 <script>
