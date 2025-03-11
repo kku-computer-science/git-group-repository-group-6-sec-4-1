@@ -22,8 +22,8 @@
             <div class="col-9 d-flex flex-column h-100">
                 <div class="row flex-grow-1 h-25">
                     <!-- Critical Message -->
-                    <div class="col-md-4 d-flex h-100">
-    <div class="card shadow-sm hover-card flex-fill">
+<div class="col-md-4 d-flex h-100">
+    <div class="card shadow-sm hover-card flex-fill animated-card">
         <div class="card-header bg-primary text-white">
             <h5>การแจ้งเตือนสำคัญ</h5>
         </div>
@@ -58,7 +58,7 @@
 
                     <!-- Most Activity -->
                     <div class="col-md-4 d-flex h-100">
-                        <div class="card shadow-sm hover-card flex-fill">
+                        <div class="card shadow-sm hover-card flex-fill animated-card">
                             <div class="card-header bg-info text-white">
                                 <h5>ผู้ใช้ที่活躍ที่สุด (Top 10)</h5>
                             </div>
@@ -97,7 +97,7 @@
 
                     <div class="col-md-4 d-flex flex-column">
                         <!-- Total Account -->
-                        <div class="card shadow-sm hover-card flex-fill">
+                        <div class="card shadow-sm hover-card flex-fill animated-card">
                             <div class="card-header bg-primary text-white">
                                 <h5>จำนวนบัญชีผู้ใช้ทั้งหมด</h5>
                             </div>
@@ -107,7 +107,7 @@
                         </div>
 
                         <!-- Total Papers -->
-                        <div class="card mt-3 shadow-sm hover-card flex-fill">
+                        <div class="card shadow-sm hover-card flex-fill animated-card">
                             <div class="card-header bg-primary text-white">
                                 <h5>จำนวนเอกสารวิจัยทั้งหมด</h5>
                             </div>
@@ -121,7 +121,7 @@
                 <div class="row flex-grow-1 h-75">
                     <div class="col-md-12 h-75">
                         <!-- HTTP Table -->
-                        <div class="card mt-3 shadow-sm hover-card flex-fill">
+                        <div class="card mt-3 shadow-sm hover-card flex-fill animated-card">
                             <div class="card-header bg-danger text-white">
                                 <h5>HTTP Errors</h5>
                             </div>
@@ -156,7 +156,7 @@
             <div class="col-3 d-flex flex-column h-100">
                 <div class="row flex-grow-1 h-25">
                     <div class="col-md-12 d-flex">
-                        <div class="card shadow-sm hover-card flex-fill">
+                        <div class="card shadow-sm hover-card flex-fill animated-card">
                             <div class="card-header bg-primary text-white">
                                 <h5>จำนวนเอกสารที่ดึงมาทั้งหมด</h5>
                             </div>
@@ -168,7 +168,7 @@
                 </div>
                 <div class="row flex-grow-1 h-75">
                     <div class="col-md-12 h-75">
-                        <div class="card mt-3 shadow-sm hover-card flex-fill">
+                        <div class="card mt-3 shadow-sm hover-card flex-fill animated-card">
                             <div class="card-header bg-success text-white">
                                 <h5>User Login Stats</h5>
                             </div>
@@ -191,13 +191,13 @@
                         </div>
 
                         <!-- Recent Activity -->
-<div class="card mt-3 shadow-sm hover-card">
+                        <div class="card shadow-sm hover-card animated-card">
     <div class="card-header bg-warning text-white">
         <h5>Recent Activity</h5>
     </div>
     <div class="card-body">
         @if(!empty($activities) && count($activities) > 0)
-            <div class="activity-container" style="max-height: 200px; overflow-y: auto;">
+            <div class="activity-container">
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -250,8 +250,9 @@
         border: none;
         border-radius: 12px;
         background: #ffffff;
-        transition: all 0.3s ease;
-        overflow: hidden; /* Prevent card content from overflowing */
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Specify transitions explicitly */
+        overflow: hidden;
+        opacity: 0; /* Start hidden for animation */
     }
 
     .hover-card:hover {
@@ -270,7 +271,7 @@
         padding: 20px;
         display: flex;
         flex-direction: column;
-        height: 100%; /* Ensure full height usage */
+        height: 100%;
     }
 
     .badge {
@@ -329,10 +330,10 @@
 
     /* Notification Container Styling */
     .notification-container {
-        max-height: 300px; /* Match or adjust based on design */
-        overflow-y: auto; /* Vertical scrollbar when content overflows */
-        overflow-x: hidden; /* Prevent horizontal overflow */
-        flex-grow: 1; /* Allow it to grow within flex parent */
+        max-height: 300px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        flex-grow: 1;
     }
 
     .notification-container::-webkit-scrollbar {
@@ -353,11 +354,11 @@
         background: #555;
     }
 
-    /* Activity Container Styling (already present) */
+    /* Activity Container Styling */
     .activity-container {
-        max-height: 200px; /* Fixed height for the container */
-        overflow-y: auto; /* Vertical scrollbar when content overflows */
-        overflow-x: hidden; /* Prevent horizontal scrollbar */
+        max-height: 200px;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 
     .activity-container::-webkit-scrollbar {
@@ -410,6 +411,29 @@
         max-height: 400px;
     }
 
+    /* Animation for Cards */
+    .animated-card {
+        animation: fadeInUp 0.5s ease-out forwards;
+        animation-delay: calc(var(--order) * 0.2s);
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Ensure hover works after animation */
+    .animated-card:hover {
+        transform: translateY(-8px) !important; /* Override animation's final transform */
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
+
     /* Responsive Adjustments */
     @media (max-width: 768px) {
         .notification-message {
@@ -421,7 +445,7 @@
         }
         .notification-container,
         .activity-container {
-            max-height: 200px; /* Reduce height on mobile */
+            max-height: 200px;
         }
     }
 </style>
@@ -593,60 +617,82 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.animated-card');
+        cards.forEach((card, index) => {
+            card.style.setProperty('--order', index); // Set delay order
+        });
+
+        // Existing chart rendering, dismiss, and check button handlers...
+        renderChart();
+
         document.querySelectorAll('.dismiss-btn').forEach(button => {
             button.addEventListener('click', function() {
                 const id = this.getAttribute('data-id');
+                console.log('Dismissing notification with ID:', id);
                 fetch(`/api/notifications/${id}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Authorization': `Bearer ${localStorage.getItem('api_token')}`
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            document.querySelector(`li[data-id="${id}"]`)?.remove();
-                            alert('Notification dismissed successfully');
-                        } else {
-                            alert('Failed to dismiss notification: ' + data.message);
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json',
+                    },
+                })
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Response data:', data);
+                    if (data.success) {
+                        const item = document.querySelector(`[data-id="${id}"]`);
+                        if (item) item.remove();
+                        alert('Notification dismissed successfully');
+                    } else {
+                        alert('Failed to dismiss notification: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while dismissing the notification');
+                });
             });
         });
 
         document.querySelectorAll('.check-btn').forEach(button => {
-            button.addEventListener('click', async function() {
-                const ip = this.getAttribute('data-ip') || '';
-                const url = this.getAttribute('data-url') || '';
+            button.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const ip = this.getAttribute('data-ip');
+                const url = this.getAttribute('data-url');
                 const defaultStartDate = '{{ $defaultStartDate }}';
                 const defaultEndDate = '{{ $defaultEndDate }}';
-                const startDate = prompt('Enter start date (YYYY-MM-DD):', defaultStartDate) || defaultStartDate;
-                const endDate = prompt('Enter end date (YYYY-MM-DD):', defaultEndDate) || defaultEndDate;
+                const startDate = prompt('Enter start date (YYYY-MM-DD):', defaultStartDate);
+                const endDate = prompt('Enter end date (YYYY-MM-DD):', defaultEndDate);
 
-                const params = new URLSearchParams({
-                    ip,
-                    url,
-                    start_date: startDate,
-                    end_date: endDate
-                });
-                try {
-                    const response = await fetch(`/api/notifications/filter?${params.toString()}`, {
-                        method: 'GET',
-                        headers: {
-                            'Accept': 'application/json'
-                        }
-                    });
-                    const data = await response.json();
+                fetch('/api/notifications/filter', {
+                    method: 'GET',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json',
+                    },
+                }).params({
+                    ip: ip || '',
+                    url: url || '',
+                    start_date: startDate || defaultStartDate,
+                    end_date: endDate || defaultEndDate,
+                })
+                .then(response => response.json())
+                .then(data => {
                     console.log('Filtered Notifications:', data);
                     alert('Filtered logs: ' + JSON.stringify(data));
-                } catch (error) {
-                    console.error('Error:', error);
-                }
+                })
+                .catch(error => console.error('Error:', error));
             });
         });
     });
+
+    fetch.prototype.params = function(params) {
+        this.url += '?' + new URLSearchParams(params).toString();
+        return this;
+    };
 </script>
 
 <script>
@@ -668,3 +714,4 @@
         });
     });
 </script>
+
