@@ -126,13 +126,6 @@
                                 <h5>HTTP Errors</h5>
                             </div>
                             <div class="card-body">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">
-                                        <strong>จำนวนข้อผิดพลาด HTTP (400+):</strong>
-                                        <span class="badge bg-light count-up" data-value="{{ $summaryData['total'] ?? 0 }}">0</span>
-                                    </li>
-                                </ul>
-
                                 <div class="mb-3">
                                     <label for="granularitySelect" class="form-label">View By:</label>
                                     <select id="granularitySelect" class="form-select">
