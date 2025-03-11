@@ -85,10 +85,8 @@
                                                 </td>
                                             </tr>
                                             @endforeach
-                                        @else
-                                            <li><span class="dropdown-item">ไม่มีข้อมูล Action</span></li>
-                                        @endif
-                                    </ul>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 @else
                                 <p class="text-muted text-center">ไม่มีข้อมูลผู้ใช้ที่活躍</p>
@@ -439,26 +437,8 @@
 <script>
     window.updateChart = function() {
         const selectedGranularity = document.getElementById('granularitySelect').value;
-        const selectedDate = document.querySelector('input[name="selected_date"]').value;
-        const activitySearch = document.querySelector('input[name="activity_search"]').value;
-        
-        let url = "{{ route('dashboard') }}?granularity=" + selectedGranularity;
-        if (selectedDate) url += "&selected_date=" + selectedDate;
-        if (activitySearch) url += (selectedDate ? "&" : "?") + "activity_search=" + activitySearch;
-
         console.log('Granularity changed to:', selectedGranularity);
-        window.location.href = url;
-    };
-
-    window.filterDashboard = function() {
-        const selectedDate = document.querySelector('input[name="selected_date"]').value;
-        const activitySearch = document.querySelector('input[name="activity_search"]').value;
-        
-        let url = "{{ route('dashboard') }}";
-        if (selectedDate) url += "?selected_date=" + selectedDate;
-        if (activitySearch) url += (selectedDate ? "&" : "?") + "activity_search=" + activitySearch;
-
-        window.location.href = url;
+        window.location.href = "{{ route('dashboard') }}?granularity=" + selectedGranularity;
     };
 
     const httpErrorsData = {!!json_encode($summaryData['top5'] ?? []) !!};
