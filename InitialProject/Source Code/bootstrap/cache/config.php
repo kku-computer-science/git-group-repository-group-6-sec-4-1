@@ -107,9 +107,14 @@
       ),
       'api' => 
       array (
-        'driver' => 'token',
+        'driver' => 'sanctum',
         'provider' => 'users',
         'hash' => false,
+      ),
+      'sanctum' => 
+      array (
+        'driver' => 'sanctum',
+        'provider' => NULL,
       ),
     ),
     'providers' => 
@@ -193,7 +198,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\Users\\User\\Documents\\GitHub\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\framework/cache/data',
+        'path' => 'C:\\soften_project\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -452,7 +457,7 @@
     ),
     'temporary_files' => 
     array (
-      'local_path' => 'C:\\Users\\User\\Documents\\GitHub\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\framework/cache/laravel-excel',
+      'local_path' => 'C:\\soften_project\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\framework/cache/laravel-excel',
       'remote_disk' => NULL,
       'remote_prefix' => NULL,
       'force_resync_remote' => NULL,
@@ -466,12 +471,12 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\User\\Documents\\GitHub\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\app',
+        'root' => 'C:\\soften_project\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\User\\Documents\\GitHub\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\app/public',
+        'root' => 'C:\\soften_project\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\app/public',
         'url' => 'https://localhost/storage',
         'visibility' => 'public',
       ),
@@ -488,7 +493,7 @@
     ),
     'links' => 
     array (
-      'C:\\Users\\User\\Documents\\GitHub\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\public\\storage' => 'C:\\Users\\User\\Documents\\GitHub\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\app/public',
+      'C:\\soften_project\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\public\\storage' => 'C:\\soften_project\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\app/public',
     ),
   ),
   'hashing' => 
@@ -536,13 +541,13 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\Users\\User\\Documents\\GitHub\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\logs/laravel.log',
+        'path' => 'C:\\soften_project\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\logs/laravel.log',
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\Users\\User\\Documents\\GitHub\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\logs/laravel.log',
+        'path' => 'C:\\soften_project\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
       ),
@@ -589,7 +594,7 @@
       'system' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\Users\\User\\Documents\\GitHub\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\logs/system.log',
+        'path' => 'C:\\soften_project\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\logs/system.log',
         'level' => 'critical',
       ),
       'null' => 
@@ -599,19 +604,19 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\Users\\User\\Documents\\GitHub\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\logs/laravel.log',
+        'path' => 'C:\\soften_project\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\logs/laravel.log',
         'level' => 'emergency',
       ),
       'activity' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\Users\\User\\Documents\\GitHub\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\logs/activity.log',
+        'path' => 'C:\\soften_project\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\logs/activity.log',
         'level' => 'info',
       ),
       'access' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\Users\\User\\Documents\\GitHub\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\logs/access.log',
+        'path' => 'C:\\soften_project\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\logs/access.log',
         'level' => 'info',
       ),
     ),
@@ -669,7 +674,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\Users\\User\\Documents\\GitHub\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\resources\\views/vendor/mail',
+        0 => 'C:\\soften_project\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -765,6 +770,28 @@
       'table' => 'failed_jobs',
     ),
   ),
+  'sanctum' => 
+  array (
+    'stateful' => 
+    array (
+      0 => 'localhost',
+      1 => 'localhost:3000',
+      2 => '127.0.0.1',
+      3 => '127.0.0.1:8000',
+      4 => '::1',
+      5 => 'localhost',
+    ),
+    'guard' => 
+    array (
+      0 => 'web',
+    ),
+    'expiration' => NULL,
+    'middleware' => 
+    array (
+      'verify_csrf_token' => 'App\\Http\\Middleware\\VerifyCsrfToken',
+      'encrypt_cookies' => 'App\\Http\\Middleware\\EncryptCookies',
+    ),
+  ),
   'services' => 
   array (
     'mailgun' => 
@@ -788,7 +815,7 @@
   array (
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\Users\\User\\Documents\\GitHub\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\framework/sessions',
+    'files' => 'C:\\soften_project\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -810,9 +837,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\Users\\User\\Documents\\GitHub\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\resources\\views',
+      0 => 'C:\\soften_project\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\resources\\views',
     ),
-    'compiled' => 'C:\\Users\\User\\Documents\\GitHub\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\framework\\views',
+    'compiled' => 'C:\\soften_project\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\framework\\views',
   ),
   'dompdf' => 
   array (
@@ -821,10 +848,10 @@
     'convert_entities' => true,
     'defines' => 
     array (
-      'font_dir' => 'C:\\Users\\User\\Documents\\GitHub\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\fonts',
-      'font_cache' => 'C:\\Users\\User\\Documents\\GitHub\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\fonts',
-      'temp_dir' => 'C:\\Users\\User\\AppData\\Local\\Temp',
-      'chroot' => 'C:\\Users\\User\\Documents\\GitHub\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code',
+      'font_dir' => 'C:\\soften_project\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\fonts',
+      'font_cache' => 'C:\\soften_project\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code\\storage\\fonts',
+      'temp_dir' => 'C:\\Users\\nutta\\AppData\\Local\\Temp',
+      'chroot' => 'C:\\soften_project\\git-group-repository-group-6-sec-4-1\\InitialProject\\Source Code',
       'enable_font_subsetting' => false,
       'pdf_backend' => 'CPDF',
       'default_media_type' => 'screen',
