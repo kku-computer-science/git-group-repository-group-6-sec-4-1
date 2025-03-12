@@ -3,7 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class LogRequestMiddleware
 {
@@ -18,6 +20,9 @@ class LogRequestMiddleware
             'status' => $response->getStatusCode(),
             'method' => $request->method(),
             'url' => $request->fullUrl(),
+            'user_id' => Auth::id(),
+            'email' => Auth::user() ? Auth::user()->email : null,
+            'timestamp' => now()->toDateTimeString(),
         ]);
 
         return $response;

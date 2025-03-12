@@ -240,67 +240,72 @@
     <h4 class="text-center text-secondary">Dashboard</h4>
 
     @if(Auth::user()->hasRole('admin') || (isset(Auth::user()->is_admin) && Auth::user()->is_admin))
+    <!-- ฟอร์มค้นหาด้วยวันที่เดียว -->
+    <div class="mb-4">
+        <form method="GET" action="{{ route('dashboard') }}" class="d-flex gap-3 align-items-end">
+            <div class="form-group">
+                <label for="selected_date">เลือกวันที่:</label>
+                <input type="date" name="selected_date" id="selected_date" class="form-control" value="{{ request('selected_date', now()->toDateString()) }}">
+            </div>
+            <button type="submit" class="btn btn-primary">ค้นหา</button>
+            <a href="{{ route('dashboard') }}" class="btn btn-secondary">รีเซ็ต</a>
+        </form>
+    </div>
+
     <div class="d-flex justify-content-between mb-4">
         <div class="d-flex gap-4 align-items-center">
             <h2>Dashboard</h2>
-            <input type="text" id="datePicker" class="form-control shadow-sm" placeholder="Select Date" style="width: 150px;">
             <strong>Users Online:</strong> <span class="badge bg-success fs-5 count-up" data-value="{{ $usersOnline }}">0</span>
         </div>
     </div>
 
-
     <div class="container" style="height: 100vh;">
         <div class="row d-flex align-items-stretch h-100">
             <div class="row h-25">
-                                    <!-- Critical Message -->
-                                    <div class="col-6 d-flex h-100">
-    <div class="card shadow-sm hover-card flex-fill animated-card">
-        <div class="card-header bg-primary text-white">
-            <h5>การแจ้งเตือนสำคัญ</h5>
-        </div>
-        <div class="card-body text-center d-flex flex-column justify-content-start">
-            @if(!empty($notifications) && count($notifications) > 0)
-                <div class="notification-container flex-grow-1">
-                    <ul class="list-group list-group-flush" id="notificationList">
-                        @foreach($notifications as $notification)
-                            <li class="list-group-item 
-                            @if($notification['severity'] === 'high') bg-danger text-white 
-                            @elseif($notification['severity'] === 'medium') bg-warning text-dark 
-                            @endif" data-id="{{ $notification['id'] }}">
-                                <div class="d-flex flex-column align-items-start">
-                                    <strong class="notification-message text-break">{{ $notification['message'] }}</strong>
-                                    <div class="mt-2 d-flex justify-content-between w-100">
-                                        <small class="text-muted notification-time">{{ $notification['time_ago'] }}</small>
-                                        <div class="d-flex gap-2">
-                                            <button class="btn btn-danger btn-sm dismiss-btn"
-                                                data-id="{{ $notification['id'] }}">ลบ</button>
-                                            <button class="btn btn-info btn-sm check-btn"
-                                                data-id="{{ $notification['id'] }}" data-ip="{{ $notification['ip'] }}"
-                                                data-url="{{ $notification['url'] }}">ตรวจสอบ</button>
-                                        </div>
-                                    </div>
-                                    
+                <!-- Critical Message -->
+                <div class="col-6 d-flex h-100">
+                    <div class="card shadow-sm hover-card flex-fill animated-card">
+                        <div class="card-header bg-primary text-white">
+                            <h5>การแจ้งเตือนสำคัญ</h5>
+                        </div>
+                        <div class="card-body text-center d-flex flex-column justify-content-start">
+                            @if(!empty($notifications) && count($notifications) > 0)
+                                <div class="notification-container flex-grow-1">
+                                    <ul class="list-group list-group-flush" id="notificationList">
+                                        @foreach($notifications as $notification)
+                                            <li class="list-group-item 
+                                                @if($notification['severity'] === 'high') bg-danger text-white 
+                                                @elseif($notification['severity'] === 'medium') bg-warning text-dark 
+                                                @endif" data-id="{{ $notification['id'] }}">
+                                                <div class="d-flex flex-column align-items-start">
+                                                    <strong class="notification-message text-break">{{ $notification['message'] }}</strong>
+                                                    <div class="mt-2 d-flex justify-content-between w-100">
+                                                        <small class="text-muted notification-time">{{ $notification['time_ago'] }}</small>
+                                                        <div class="d-flex gap-2">
+                                                            <button class="btn btn-danger btn-sm dismiss-btn" data-id="{{ $notification['id'] }}">ลบ</button>
+                                                            <button class="btn btn-info btn-sm check-btn" data-id="{{ $notification['id'] }}" data-ip="{{ $notification['ip'] }}" data-url="{{ $notification['url'] }}">ตรวจสอบ</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        @endforeach
+                                    </ul>
                                 </div>
-                            </li>
-                        @endforeach
-                    </ul>
+                            @else
+                                <p class="text-muted">ไม่มีการแจ้งเตือนสำคัญ</p>
+                            @endif
+                        </div>
+                    </div>
                 </div>
-            @else
-                <p class="text-muted">ไม่มีการแจ้งเตือนสำคัญ</p>
-            @endif
-        </div>
-    </div>
-</div>
 
-
-                    <!-- Most Activity -->
-                    <div class="col-6 d-flex h-100">
-                        <div class="card shadow-sm hover-card flex-fill animated-card">
-                            <div class="card-header bg-info text-white">
-                                <h5>Most Active User (Top 10)</h5>
-                            </div>
-                            <div class="card-body">
-                                @if(!empty($topActiveUsers))
+                <!-- Most Activity -->
+                <div class="col-6 d-flex h-100">
+                    <div class="card shadow-sm hover-card flex-fill animated-card">
+                        <div class="card-header bg-info text-white">
+                            <h5>Most Active User (Top 10)</h5>
+                        </div>
+                        <div class="card-body">
+                            @if(!empty($topActiveUsers))
                                 <div class="table-responsive">
                                     <table class="table table-hover">
                                         <thead>
@@ -313,184 +318,178 @@
                                         </thead>
                                         <tbody>
                                             @foreach($topActiveUsers as $index => $activeUser)
-                                            <tr>
-                                                <td>{{ $index + 1 }}</td>
-                                                <td>{{ $activeUser['email'] }}</td>
-                                                <td><span class="count-up" data-value="{{ $activeUser['total_activity'] }}">0</span></td>
-                                                <td>
-                                                    <a href="{{ route('dashboard.user.activity', $activeUser['user_id']) }}" class="btn btn-sm btn-primary">ดู</a>
-                                                </td>
-                                            </tr>
+                                                <tr>
+                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>{{ $activeUser['email'] }}</td>
+                                                    <td><span class="count-up" data-value="{{ $activeUser['total_activity'] }}">0</span></td>
+                                                    <td>
+                                                        <a href="{{ route('dashboard.user.activity', [$activeUser['user_id'], 'selected_date' => request('selected_date')]) }}" class="btn btn-sm btn-primary">ดู</a>
+                                                    </td>
+                                                </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
                                 </div>
-                                @else
+                            @else
                                 <p class="text-muted text-center">ไม่มีข้อมูลผู้ใช้</p>
-                                @endif
-                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="row d-flex align-items-stretch h-100" >
+            <div class="row d-flex align-items-stretch h-100">
                 <div class="col-9 d-flex flex-column h-75" style="margin-top: 0.5%;">
-                <div class="col-12 h-25">
-                    <!-- Recent Activity -->
-                    <div class="card mt-3 shadow-sm hover-card animated-card h-100">
+                    <div class="col-12 h-25">
+                        <!-- Recent Activity -->
+                        <div class="card mt-3 shadow-sm hover-card animated-card h-100">
                             <div class="card-header bg-warning text-white">
                                 <h5>Recent Activity</h5>
                             </div>
                             <div class="card-body">
                                 @if(!empty($activities) && count($activities) > 0)
-                                <div class="activity-container">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Email</th>
-                                                <th>Activity</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($activities as $activity)
-                                            <tr>
-                                                <td>{{ htmlspecialchars($activity['user_email']) }}</td>
-                                                <td>{{ htmlspecialchars($activity['activity']) }}</td>
-                                                <td>{{ date('Y-m-d H:i', strtotime($activity['timestamp'])) }}</td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    <div class="activity-container">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Email</th>
+                                                    <th>Activity</th>
+                                                    <th>Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($activities as $activity)
+                                                    <tr>
+                                                        <td>{{ htmlspecialchars($activity['user_email']) }}</td>
+                                                        <td>{{ htmlspecialchars($activity['activity']) }}</td>
+                                                        <td>{{ date('Y-m-d H:i', strtotime($activity['timestamp'])) }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 @else
-                                <p class="text-muted">No recent activities found.</p>
+                                    <p class="text-muted">No recent activities found.</p>
                                 @endif
                             </div>
                         </div>
+                    </div>
 
-                    <!-- <div class="col-md-4 d-flex flex-column h-100">
-                    </div> -->
-                </div>
-
-                <div class="row flex-grow-1 h-75" style="margin-top: 2%;">
-                    <div class="col-md-12 h-75">
-                        <!-- HTTP Table -->
-                        <div class="card mt-3 shadow-sm hover-card flex-fill animated-card">
-                            <div class="card-header bg-danger text-white">
-                                <h5>HTTP Errors</h5>
-                            </div>
-                            <div class="card-body">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">
-                                        <strong>จำนวนข้อผิดพลาด HTTP (400+):</strong>
-                                        <span class="badge bg-light count-up" data-value="{{ $summaryData['total'] ?? 0 }}">0</span>
-                                    </li>
-                                </ul>
-
-                                <div class="mb-3">
-                                    <label for="granularitySelect" class="form-label">View By:</label>
-                                    <select id="granularitySelect" class="form-select">
-                                        <option value="daily" {{ $summaryData['granularity'] === 'daily' ? 'selected' : '' }}>Daily</option>
-                                        <option value="weekly" {{ $summaryData['granularity'] === 'weekly' ? 'selected' : '' }}>Weekly</option>
-                                        <option value="monthly" {{ $summaryData['granularity'] === 'monthly' ? 'selected' : '' }}>Monthly</option>
-                                    </select>
+                    <div class="row flex-grow-1 h-75" style="margin-top: 2%;">
+                        <div class="col-md-12 h-75">
+                            <!-- HTTP Table -->
+                            <div class="card mt-3 shadow-sm hover-card flex-fill animated-card">
+                                <div class="card-header bg-danger text-white">
+                                    <h5>HTTP Errors</h5>
                                 </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <strong>จำนวนข้อผิดพลาด HTTP (400+):</strong>
+                                            <span class="badge bg-light count-up" data-value="{{ $summaryData['total'] ?? 0 }}">0</span>
+                                        </li>
+                                    </ul>
 
-                                <h6>Top 5 HTTP Errors</h6>
-                                <div style="position: relative; height: 400px; width: 100%;">
-                                    <canvas id="httpErrorsChart"></canvas>
+                                    <div class="mb-3">
+                                        <label for="granularitySelect" class="form-label">View By:</label>
+                                        <select id="granularitySelect" class="form-select">
+                                            <option value="daily" {{ $summaryData['granularity'] === 'daily' ? 'selected' : '' }}>Daily</option>
+                                            <option value="weekly" {{ $summaryData['granularity'] === 'weekly' ? 'selected' : '' }}>Weekly</option>
+                                            <option value="monthly" {{ $summaryData['granularity'] === 'monthly' ? 'selected' : '' }}>Monthly</option>
+                                        </select>
+                                    </div>
+
+                                    <h6>Top 5 HTTP Errors</h6>
+                                    <div style="position: relative; height: 400px; width: 100%;">
+                                        <canvas id="httpErrorsChart"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="col-3 d-flex flex-column h-75">
+                    <!-- Total Account -->
+                    <a href="{{ route('users.index') }}" class="text-decoration-none">
+                        <div class="row flex-grow-1 h-20" style="margin-top: 8%;">
+                            <div class="col-md-12 d-flex">
+                                <div class="card shadow-sm hover-card flex-fill animated-card">
+                                    <div class="card-header bg-primary text-white">
+                                        <h5>จำนวนบัญชีผู้ใช้ทั้งหมด</h5>
+                                    </div>
+                                    <div class="card-body text-center d-flex align-items-center justify-content-center">
+                                        <span class="badge bg-info fs-4 count-up" data-value="{{ $totalUsers }}">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Total Papers -->
+                    <a href="{{ route('papers.index', ['selected_date' => request('selected_date')]) }}" class="text-decoration-none">
+                        <div class="row flex-grow-1 h-20" style="margin-top: 10%;">
+                            <div class="col-md-12 d-flex">
+                                <div class="card shadow-sm hover-card flex-fill animated-card">
+                                    <div class="card-header bg-primary text-white">
+                                        <h5>จำนวนเอกสารวิจัยทั้งหมด</h5>
+                                    </div>
+                                    <div class="card-body text-center d-flex align-items-center justify-content-center">
+                                        <span class="badge bg-info fs-4 count-up" data-value="{{ $totalPapers }}">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Total Papers Fetched -->
+                    <a href="{{ url('logs?user_id=&activity_search=call_paper&selected_date=' . request('selected_date')) }}" class="text-decoration-none">
+                        <div class="row flex-grow-1 h-20" style="margin-top: 14%;">
+                            <div class="col-md-12 d-flex">
+                                <div class="card shadow-sm hover-card flex-fill animated-card">
+                                    <div class="card-header bg-primary text-white">
+                                        <h5>จำนวนเอกสารที่ดึงมาทั้งหมด</h5>
+                                    </div>
+                                    <div class="card-body text-center d-flex align-items-center justify-content-center">
+                                        <span class="badge bg-info fs-4 count-up" data-value="{{ $totalPapersFetched }}">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- User Login Stats -->
+                    <div class="row flex-grow-1 h-40" style="margin-top: 10%;">
+    <div class="col-md-12 h-75">
+        <div class="card mt-3 shadow-sm hover-card flex-fill animated-card">
+            <div class="card-header bg-success text-white">
+                <h5>User Login Stats</h5>
             </div>
-
-            <div class="col-3 d-flex flex-column h-75">
-                <!-- Total Account -->
-                 <a href="{{ route('users.index') }}" class="text-decoration-none">
-                 <div class="row flex-grow-1 h-20 " style="margin-top: 8%;">
-                    <div class="col-md-12 d-flex">
-                        <div class="card shadow-sm hover-card flex-fill animated-card">
-                            <div class="card-header bg-primary text-white">
-                                <h5>จำนวนบัญชีผู้ใช้ทั้งหมด</h5>
-                            </div>
-                            <div class="card-body text-center d-flex align-items-center justify-content-center">
-                                <span class="badge bg-info fs-4 count-up" data-value="{{ $totalUsers }}">0</span>
-                            </div>
-                        </div>
-                    </div>
-                 </div>
-                 </a>
-
-                 <!-- Total Papers -->
-                  <a href="{{ route('papers.index') }}" class="text-decoration-none">
-                  <div class="row flex-grow-1 h-20" style="margin-top: 10%;">
-                    <div class="col-md-12 d-flex">
-                        <div class="card shadow-sm hover-card flex-fill animated-card">
-                            <div class="card-header bg-primary text-white">
-                                <h5>จำนวนเอกสารวิจัยทั้งหมด</h5>
-                            </div>
-                            <div class="card-body text-center d-flex align-items-center justify-content-center">
-                                <span class="badge bg-info fs-4 count-up" data-value="{{ $totalPapers }}">0</span>
-                            </div>
-                        </div>
-                    </div>
-                 </div>
-
-                  </a>
-
-                 <a href="{{ url('logs?user_id=&activity_search=call_paper&start_date=' . now()->toDateString() . '&end_date=' . now()->toDateString()) }}" class="text-decoration-none">
-    <div class="row flex-grow-1 h-20" style="margin-top: 14%;">
-        <div class="col-md-12 d-flex">
-            <div class="card shadow-sm hover-card flex-fill animated-card">
-                <div class="card-header bg-primary text-white">
-                    <h5>จำนวนเอกสารที่ดึงมาทั้งหมด</h5>
+            <div class="card-body">
+                <div>
+                    <strong>Total Login:</strong>
+                    <span class="badge bg-primary count-up" data-value="{{ ($loginStats['success'] ?? 0) + ($loginStats['fail'] ?? 0) }}">0</span>
                 </div>
-                <div class="card-body text-center d-flex align-items-center justify-content-center">
-                    <span class="badge bg-info fs-4 count-up" data-value="{{ $totalPapersFetched }}">0</span>
+                <div class="row mt-2">
+                    <a href="{{ route('admin.logs', ['user_id' => '', 'activity_search' => 'login', 'start_date' => request('selected_date'), 'end_date' => request('selected_date')]) }}" class="text-decoration-none">
+                        <div class="col-6 d-flex flex-column">
+                            <strong>Success:</strong>
+                            <span class="badge bg-success count-up" data-value="{{ $loginStats['success'] ?? 0 }}">0</span>
+                        </div>
+                    </a>
+                    <a href="{{ route('logs.http', ['http_search' => '401', 'start_date' => request('selected_date'), 'end_date' => request('selected_date')]) }}" class="text-decoration-none">
+                        <div class="col-6 d-flex flex-column">
+                            <strong>Fail:</strong>
+                            <span class="badge bg-danger count-up" data-value="{{ $loginStats['fail'] ?? 0 }}">0</span>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-</a>
-
-
-                <div class="row flex-grow-1 h-40" style="margin-top: 10%;">
-                    <div class="col-md-12 h-75">
-                        <div class="card mt-3 shadow-sm hover-card flex-fill animated-card">
-                            <div class="card-header bg-success text-white">
-                                <h5>User Login Stats</h5>
-                            </div>
-                            <div class="card-body">
-                                <div>
-                                    <strong>Total Login:</strong>
-                                    <span class="badge bg-primary count-up" data-value="{{ ($loginStats['success'] ?? 0) + ($loginStats['fail'] ?? 0) }}">0</span>
-                                </div>
-                                <div class="row mt-2">
-                                <a href="{{ url('logs?user_id=&activity_search=login&start_date=' . now()->toDateString() . '&end_date=' . now()->toDateString()) }}" class="text-decoration-none">
-    <div class="col-6 d-flex flex-column">
-        <strong>Success:</strong>
-        <span class="badge bg-success count-up" data-value="{{ $loginStats['success'] ?? 0 }}">0</span>
-    </div>
-</a>
-
-                                    <a href="{{ url('logs?user_id=&activity_search=logout&start_date=' . now()->toDateString() . '&end_date=' . now()->toDateString()) }}" class="text-decoration-none">
-    <div class="col-6 d-flex flex-column">
-        <strong>Fail:</strong>
-        <span class="badge bg-danger count-up" data-value="{{ $loginStats['fail'] ?? 0 }}">0</span>
-    </div>
-</a>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+</div>
                 </div>
             </div>
-                </div>
         </div>
     </div>
     @endif
@@ -501,13 +500,13 @@
 <script>
     window.updateChart = function() {
         const selectedGranularity = document.getElementById('granularitySelect').value;
-        console.log('Granularity changed to:', selectedGranularity);
-        window.location.href = "{{ route('dashboard') }}?granularity=" + selectedGranularity;
+        const selectedDate = document.getElementById('selected_date').value;
+        window.location.href = "{{ route('dashboard') }}?granularity=" + selectedGranularity + "&selected_date=" + selectedDate;
     };
 
-    const httpErrorsData = {!!json_encode($summaryData['top5'] ?? []) !!};
-    const granularity = "{{ $summaryData['granularity'] ?? 'hourly' }}";
-    const dailyBreakdown = {!!json_encode($dailyBreakdown ?? []) !!};
+    const httpErrorsData = {!! json_encode($summaryData['top5'] ?? []) !!};
+    const granularity = "{{ $summaryData['granularity'] ?? 'daily' }}";
+    const dailyBreakdown = {!! json_encode($dailyBreakdown ?? []) !!};
 
     let chartInstance = null;
 
@@ -524,19 +523,14 @@
         const uniqueStatusCodes = Object.keys(statusCounts).map(Number).sort().slice(0, 5);
 
         switch (granularity) {
-            case 'hourly':
             case 'daily':
-                labels = Array.from({
-                    length: 24
-                }, (_, i) => `${String(i).padStart(2, '0')}:00`);
+                labels = Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, '0')}:00`);
                 break;
             case 'weekly':
                 labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
                 break;
             case 'monthly':
-                labels = Array.from({
-                    length: 31
-                }, (_, i) => i + 1);
+                labels = Array.from({ length: 31 }, (_, i) => i + 1);
                 break;
             default:
                 labels = Object.keys(data);
@@ -563,7 +557,7 @@
             } else {
                 Object.entries(data).forEach(([interval, errors]) => {
                     const count = errors[status] || 0;
-                    if (granularity === 'hourly' || granularity === 'daily') {
+                    if (granularity === 'daily') {
                         const parts = interval.split(' ');
                         if (parts.length > 1 && parts[1]) {
                             const hour = parseInt(parts[1].split(':')[0]);
@@ -584,10 +578,7 @@
             };
         });
 
-        return {
-            labels,
-            datasets
-        };
+        return { labels, datasets };
     }
 
     function renderChart() {
@@ -596,24 +587,16 @@
 
         if (chartInstance) chartInstance.destroy();
 
-        const {
-            labels,
-            datasets
-        } = transformDataForChart(httpErrorsData, granularity, dailyBreakdown);
+        const { labels, datasets } = transformDataForChart(httpErrorsData, granularity, dailyBreakdown);
 
         chartInstance = new Chart(ctx, {
             type: 'bar',
-            data: {
-                labels,
-                datasets
-            },
+            data: { labels, datasets },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        position: 'top'
-                    },
+                    legend: { position: 'top' },
                     title: {
                         display: true,
                         text: `Top 5 HTTP Errors (${granularity.charAt(0).toUpperCase() + granularity.slice(1)})`
@@ -623,15 +606,12 @@
                     x: {
                         title: {
                             display: true,
-                            text: granularity === 'hourly' || granularity === 'daily' ? 'Hour' : granularity === 'weekly' ? 'Day of Week' : 'Day of Month'
+                            text: granularity === 'daily' ? 'Hour' : granularity === 'weekly' ? 'Day of Week' : 'Day of Month'
                         }
                     },
                     y: {
                         beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Number of Errors'
-                        }
+                        title: { display: true, text: 'Number of Errors' }
                     }
                 }
             }
@@ -659,41 +639,35 @@
     document.addEventListener('DOMContentLoaded', function() {
         const cards = document.querySelectorAll('.animated-card');
         cards.forEach((card, index) => {
-            card.style.setProperty('--order', index); // Set delay order
+            card.style.setProperty('--order', index);
         });
 
-        // Existing chart rendering, dismiss, and check button handlers...
         renderChart();
 
         document.querySelectorAll('.dismiss-btn').forEach(button => {
             button.addEventListener('click', function() {
                 const id = this.getAttribute('data-id');
-                console.log('Dismissing notification with ID:', id);
                 fetch(`/api/notifications/${id}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                            'Accept': 'application/json',
-                        },
-                    })
-                    .then(response => {
-                        console.log('Response status:', response.status);
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('Response data:', data);
-                        if (data.success) {
-                            const item = document.querySelector(`[data-id="${id}"]`);
-                            if (item) item.remove();
-                            alert('Notification dismissed successfully');
-                        } else {
-                            alert('Failed to dismiss notification: ' + data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('An error occurred while dismissing the notification');
-                    });
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json',
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const item = document.querySelector(`[data-id="${id}"]`);
+                        if (item) item.remove();
+                        alert('Notification dismissed successfully');
+                    } else {
+                        alert('Failed to dismiss notification: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while dismissing the notification');
+                });
             });
         });
 
@@ -702,29 +676,26 @@
                 const id = this.getAttribute('data-id');
                 const ip = this.getAttribute('data-ip');
                 const url = this.getAttribute('data-url');
-                const defaultStartDate = '{{ $defaultStartDate }}';
-                const defaultEndDate = '{{ $defaultEndDate }}';
-                const startDate = prompt('Enter start date (YYYY-MM-DD):', defaultStartDate);
-                const endDate = prompt('Enter end date (YYYY-MM-DD):', defaultEndDate);
+                const defaultDate = '{{ $defaultDate }}';
+                const selectedDate = prompt('Enter date (YYYY-MM-DD):', defaultDate);
 
                 fetch('/api/notifications/filter', {
-                        method: 'GET',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                            'Accept': 'application/json',
-                        },
-                    }).params({
-                        ip: ip || '',
-                        url: url || '',
-                        start_date: startDate || defaultStartDate,
-                        end_date: endDate || defaultEndDate,
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Filtered Notifications:', data);
-                        alert('Filtered logs: ' + JSON.stringify(data));
-                    })
-                    .catch(error => console.error('Error:', error));
+                    method: 'GET',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json',
+                    },
+                }).params({
+                    ip: ip || '',
+                    url: url || '',
+                    selected_date: selectedDate || defaultDate,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Filtered Notifications:', data);
+                    alert('Filtered logs: ' + JSON.stringify(data));
+                })
+                .catch(error => console.error('Error:', error));
             });
         });
     });
