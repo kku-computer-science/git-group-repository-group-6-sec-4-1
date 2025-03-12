@@ -7,7 +7,7 @@
 <style>
     html,
     body {
-        height: 100%;
+        height: auto !important;
         overflow-y: auto;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         background: #f4f6f9;
@@ -243,53 +243,58 @@
     <div class="d-flex justify-content-between mb-4">
         <div class="d-flex gap-4 align-items-center">
             <h2>Dashboard</h2>
-            <input type="text" class="form-control shadow-sm" placeholder="Search..." style="width: 200px;">
             <input type="text" id="datePicker" class="form-control shadow-sm" placeholder="Select Date" style="width: 150px;">
             <strong>Users Online:</strong> <span class="badge bg-success fs-5 count-up" data-value="{{ $usersOnline }}">0</span>
         </div>
     </div>
 
+
     <div class="container" style="height: 100vh;">
         <div class="row d-flex align-items-stretch h-100">
-            <div class="col-9 d-flex flex-column h-100">
-                <div class="row flex-grow-1 h-25">
-                    <!-- Critical Message -->
-                    <div class="col-md-4 d-flex h-100">
-                        <div class="card shadow-sm hover-card flex-fill animated-card">
-                            <div class="card-header bg-primary text-white">
-                                <h5>การแจ้งเตือนสำคัญ</h5>
-                            </div>
-                            <div class="card-body text-center d-flex flex-column justify-content-start">
-                                @if(!empty($notifications) && count($notifications) > 0)
-                                <div class="notification-container flex-grow-1">
-                                    <ul class="list-group list-group-flush" id="notificationList">
-                                        @foreach($notifications as $notification)
-                                        <li class="list-group-item 
-                                @if($notification['severity'] === 'high') bg-danger text-white 
-                                @elseif($notification['severity'] === 'medium') bg-warning text-dark 
-                                @endif"
-                                            data-id="{{ $notification['id'] }}">
-                                            <div class="d-flex flex-column align-items-start">
-                                                <strong class="notification-message text-break">{{ $notification['message'] }}</strong>
-                                                <small class="text-muted notification-time">{{ $notification['time_ago'] }}</small>
-                                            </div>
-                                            <div class="mt-2 d-flex     gap-2 justify-content-center">
-                                                <button class="btn btn-danger btn-sm dismiss-btn" data-id="{{ $notification['id'] }}">ลบ</button>
-                                                <button class="btn btn-info btn-sm check-btn" data-id="{{ $notification['id'] }}" data-ip="{{ $notification['ip'] }}" data-url="{{ $notification['url'] }}">ตรวจสอบ</button>
-                                            </div>
-                                        </li>
-                                        @endforeach
-                                    </ul>
+            <div class="row h-25">
+                                    <!-- Critical Message -->
+                                    <div class="col-6 d-flex h-100">
+    <div class="card shadow-sm hover-card flex-fill animated-card">
+        <div class="card-header bg-primary text-white">
+            <h5>การแจ้งเตือนสำคัญ</h5>
+        </div>
+        <div class="card-body text-center d-flex flex-column justify-content-start">
+            @if(!empty($notifications) && count($notifications) > 0)
+                <div class="notification-container flex-grow-1">
+                    <ul class="list-group list-group-flush" id="notificationList">
+                        @foreach($notifications as $notification)
+                            <li class="list-group-item 
+                            @if($notification['severity'] === 'high') bg-danger text-white 
+                            @elseif($notification['severity'] === 'medium') bg-warning text-dark 
+                            @endif" data-id="{{ $notification['id'] }}">
+                                <div class="d-flex flex-column align-items-start">
+                                    <strong class="notification-message text-break">{{ $notification['message'] }}</strong>
+                                    <div class="mt-2 d-flex justify-content-between w-100">
+                                        <small class="text-muted notification-time">{{ $notification['time_ago'] }}</small>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-danger btn-sm dismiss-btn"
+                                                data-id="{{ $notification['id'] }}">ลบ</button>
+                                            <button class="btn btn-info btn-sm check-btn"
+                                                data-id="{{ $notification['id'] }}" data-ip="{{ $notification['ip'] }}"
+                                                data-url="{{ $notification['url'] }}">ตรวจสอบ</button>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
-                                @else
-                                <p class="text-muted">ไม่มีการแจ้งเตือนสำคัญ</p>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @else
+                <p class="text-muted">ไม่มีการแจ้งเตือนสำคัญ</p>
+            @endif
+        </div>
+    </div>
+</div>
+
 
                     <!-- Most Activity -->
-                    <div class="col-md-4 d-flex h-100">
+                    <div class="col-6 d-flex h-100">
                         <div class="card shadow-sm hover-card flex-fill animated-card">
                             <div class="card-header bg-info text-white">
                                 <h5>Most Active User (Top 10)</h5>
@@ -326,104 +331,13 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-md-4 d-flex flex-column h-100">
-                        <!-- Total Account -->
-                        <div class="card shadow-sm hover-card flex-fill animated-card">
-                            <div class="card-header bg-primary text-white">
-                                <h5>จำนวนบัญชีผู้ใช้ทั้งหมด</h5>
-                            </div>
-                            <div class="card-body text-center d-flex align-items-center justify-content-center">
-                                <span class="badge bg-info fs-4 count-up" data-value="{{ $totalUsers }}">0</span>
-                            </div>
-                        </div>
-
-                        <!-- Total Papers -->
-                        <div class="card shadow-sm hover-card flex-fill animated-card">
-                            <div class="card-header bg-primary text-white">
-                                <h5>จำนวนเอกสารวิจัยทั้งหมด</h5>
-                            </div>
-                            <div class="card-body text-center d-flex align-items-center justify-content-center">
-                                <span class="badge bg-info fs-4 count-up" data-value="{{ $totalPapers }}">0</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
-                <div class="row flex-grow-1 h-75">
-                    <div class="col-md-12 h-75">
-                        <!-- HTTP Table -->
-                        <div class="card mt-3 shadow-sm hover-card flex-fill animated-card">
-                            <div class="card-header bg-danger text-white">
-                                <h5>HTTP Errors</h5>
-                            </div>
-                            <div class="card-body">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">
-                                        <strong>จำนวนข้อผิดพลาด HTTP (400+):</strong>
-                                        <span class="badge bg-light count-up" data-value="{{ $summaryData['total'] ?? 0 }}">0</span>
-                                    </li>
-                                </ul>
-
-                                <div class="mb-3">
-                                    <label for="granularitySelect" class="form-label">View By:</label>
-                                    <select id="granularitySelect" class="form-select">
-                                        <option value="hourly" {{ $summaryData['granularity'] === 'hourly' ? 'selected' : '' }}>Hourly</option>
-                                        <option value="daily" {{ $summaryData['granularity'] === 'daily' ? 'selected' : '' }}>Daily</option>
-                                        <option value="weekly" {{ $summaryData['granularity'] === 'weekly' ? 'selected' : '' }}>Weekly</option>
-                                        <option value="monthly" {{ $summaryData['granularity'] === 'monthly' ? 'selected' : '' }}>Monthly</option>
-                                    </select>
-                                </div>
-
-                                <h6>Top 5 HTTP Errors</h6>
-                                <div style="position: relative; height: 400px; width: 100%;">
-                                    <canvas id="httpErrorsChart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-3 d-flex flex-column h-100">
-                <div class="row flex-grow-1 h-25">
-                    <div class="col-md-12 d-flex">
-                        <div class="card shadow-sm hover-card flex-fill animated-card">
-                            <div class="card-header bg-primary text-white">
-                                <h5>จำนวนเอกสารที่ดึงมาทั้งหมด</h5>
-                            </div>
-                            <div class="card-body text-center d-flex align-items-center justify-content-center">
-                                <span class="badge bg-info fs-4 count-up" data-value="{{ $totalPapersFetched }}">0</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row flex-grow-1 h-75">
-                    <div class="col-md-12 h-75">
-                        <div class="card mt-3 shadow-sm hover-card flex-fill animated-card">
-                            <div class="card-header bg-success text-white">
-                                <h5>User Login Stats</h5>
-                            </div>
-                            <div class="card-body">
-                                <div>
-                                    <strong>Total Login:</strong>
-                                    <span class="badge bg-primary count-up" data-value="{{ ($loginStats['success'] ?? 0) + ($loginStats['fail'] ?? 0) }}">0</span>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-6 d-flex flex-column">
-                                        <strong>Success:</strong>
-                                        <span class="badge bg-success count-up" data-value="{{ $loginStats['success'] ?? 0 }}">0</span>
-                                    </div>
-                                    <div class="col-6 d-flex flex-column">
-                                        <strong>Fail:</strong>
-                                        <span class="badge bg-danger count-up" data-value="{{ $loginStats['fail'] ?? 0 }}">0</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Recent Activity -->
-                        <div class="card mt-3 shadow-sm hover-card animated-card">
+                <div class="row d-flex align-items-stretch h-100" >
+                <div class="col-9 d-flex flex-column h-75" style="margin-top: 0.5%;">
+                <div class="col-12 h-25">
+                    <!-- Recent Activity -->
+                    <div class="card mt-3 shadow-sm hover-card animated-card h-100">
                             <div class="card-header bg-warning text-white">
                                 <h5>Recent Activity</h5>
                             </div>
@@ -454,9 +368,129 @@
                                 @endif
                             </div>
                         </div>
+
+                    <!-- <div class="col-md-4 d-flex flex-column h-100">
+                    </div> -->
+                </div>
+
+                <div class="row flex-grow-1 h-75" style="margin-top: 2%;">
+                    <div class="col-md-12 h-75">
+                        <!-- HTTP Table -->
+                        <div class="card mt-3 shadow-sm hover-card flex-fill animated-card">
+                            <div class="card-header bg-danger text-white">
+                                <h5>HTTP Errors</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>จำนวนข้อผิดพลาด HTTP (400+):</strong>
+                                        <span class="badge bg-light count-up" data-value="{{ $summaryData['total'] ?? 0 }}">0</span>
+                                    </li>
+                                </ul>
+
+                                <div class="mb-3">
+                                    <label for="granularitySelect" class="form-label">View By:</label>
+                                    <select id="granularitySelect" class="form-select">
+                                        <option value="daily" {{ $summaryData['granularity'] === 'daily' ? 'selected' : '' }}>Daily</option>
+                                        <option value="weekly" {{ $summaryData['granularity'] === 'weekly' ? 'selected' : '' }}>Weekly</option>
+                                        <option value="monthly" {{ $summaryData['granularity'] === 'monthly' ? 'selected' : '' }}>Monthly</option>
+                                    </select>
+                                </div>
+
+                                <h6>Top 5 HTTP Errors</h6>
+                                <div style="position: relative; height: 400px; width: 100%;">
+                                    <canvas id="httpErrorsChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <div class="col-3 d-flex flex-column h-75">
+                <!-- Total Account -->
+                 <a href="{{ route('users.index') }}" class="text-decoration-none">
+                 <div class="row flex-grow-1 h-20 " style="margin-top: 8%;">
+                    <div class="col-md-12 d-flex">
+                        <div class="card shadow-sm hover-card flex-fill animated-card">
+                            <div class="card-header bg-primary text-white">
+                                <h5>จำนวนบัญชีผู้ใช้ทั้งหมด</h5>
+                            </div>
+                            <div class="card-body text-center d-flex align-items-center justify-content-center">
+                                <span class="badge bg-info fs-4 count-up" data-value="{{ $totalUsers }}">0</span>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                 </a>
+
+                 <!-- Total Papers -->
+                  <a href="{{ route('papers.index') }}" class="text-decoration-none">
+                  <div class="row flex-grow-1 h-20" style="margin-top: 10%;">
+                    <div class="col-md-12 d-flex">
+                        <div class="card shadow-sm hover-card flex-fill animated-card">
+                            <div class="card-header bg-primary text-white">
+                                <h5>จำนวนเอกสารวิจัยทั้งหมด</h5>
+                            </div>
+                            <div class="card-body text-center d-flex align-items-center justify-content-center">
+                                <span class="badge bg-info fs-4 count-up" data-value="{{ $totalPapers }}">0</span>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+
+                  </a>
+
+                 <a href="{{ url('logs?user_id=&activity_search=call_paper&start_date=' . now()->toDateString() . '&end_date=' . now()->toDateString()) }}" class="text-decoration-none">
+    <div class="row flex-grow-1 h-20" style="margin-top: 14%;">
+        <div class="col-md-12 d-flex">
+            <div class="card shadow-sm hover-card flex-fill animated-card">
+                <div class="card-header bg-primary text-white">
+                    <h5>จำนวนเอกสารที่ดึงมาทั้งหมด</h5>
+                </div>
+                <div class="card-body text-center d-flex align-items-center justify-content-center">
+                    <span class="badge bg-info fs-4 count-up" data-value="{{ $totalPapersFetched }}">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
+
+
+                <div class="row flex-grow-1 h-40" style="margin-top: 10%;">
+                    <div class="col-md-12 h-75">
+                        <div class="card mt-3 shadow-sm hover-card flex-fill animated-card">
+                            <div class="card-header bg-success text-white">
+                                <h5>User Login Stats</h5>
+                            </div>
+                            <div class="card-body">
+                                <div>
+                                    <strong>Total Login:</strong>
+                                    <span class="badge bg-primary count-up" data-value="{{ ($loginStats['success'] ?? 0) + ($loginStats['fail'] ?? 0) }}">0</span>
+                                </div>
+                                <div class="row mt-2">
+                                <a href="{{ url('logs?user_id=&activity_search=login&start_date=' . now()->toDateString() . '&end_date=' . now()->toDateString()) }}" class="text-decoration-none">
+    <div class="col-6 d-flex flex-column">
+        <strong>Success:</strong>
+        <span class="badge bg-success count-up" data-value="{{ $loginStats['success'] ?? 0 }}">0</span>
+    </div>
+</a>
+
+                                    <a href="{{ url('logs?user_id=&activity_search=logout&start_date=' . now()->toDateString() . '&end_date=' . now()->toDateString()) }}" class="text-decoration-none">
+    <div class="col-6 d-flex flex-column">
+        <strong>Fail:</strong>
+        <span class="badge bg-danger count-up" data-value="{{ $loginStats['fail'] ?? 0 }}">0</span>
+    </div>
+</a>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+                </div>
         </div>
     </div>
     @endif
