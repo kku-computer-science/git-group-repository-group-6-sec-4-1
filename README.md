@@ -64,6 +64,14 @@ USERNAME และ PASSWORD <br>
 <br>
 ✨ **USERNAME : admin@gmail.com <br>
 ✨ **PASSWORD : 12345678 <br>
+<br>
+เมื่อเราเข้าสู่ระบบด้วย Admin แล้วจะแสดงหน้า Dashbord ของ Log เพื่อให้เห็นภาพรวมทุกอย่างของระบบจัดการข้อมูลวิจัยของสาขาวิชาวิทยาการคอมพิวเตอร์
+<br>
+![Login Page](imge/p2.png) <br>
+![Login Page](imge/p3.png) <br>
+![Login Page](imge/p4.png) <br>
+
+
 
 
 
