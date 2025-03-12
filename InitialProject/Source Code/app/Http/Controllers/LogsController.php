@@ -111,6 +111,8 @@ public function httpLogs(Request $request)
     $httpSearch = $request->query('http_search');
     $startDate = $request->query('start_date', now()->toDateString());
     $endDate = $request->query('end_date', now()->toDateString());
+    $ipFilter = $request->query('ip');
+    $urlFilter = $request->query('url');
     $startCarbon = Carbon::parse($startDate)->startOfDay();
     $endCarbon = Carbon::parse($endDate)->endOfDay();
 
@@ -122,9 +124,19 @@ public function httpLogs(Request $request)
         return $timestamp->between($startCarbon, $endCarbon);
     })->values();
 
-    // กรองตาม http_search
+    // กรองตาม http_search (เช่น รหัส HTTP Error)
     if ($httpSearch) {
-        $httpErrorLogs = $httpErrorLogs->filter(fn($log) => $this->filterLogs($log, strtolower($httpSearch)))->values();
+        $httpErrorLogs = $httpErrorLogs->filter(fn($log) => str_contains(strtolower($log->status ?? ''), strtolower($httpSearch)))->values();
+    }
+
+    // กรองตาม IP (ถ้ามี)
+    if ($ipFilter) {
+        $httpErrorLogs = $httpErrorLogs->filter(fn($log) => str_contains(strtolower($log->ip ?? ''), strtolower($ipFilter)))->values();
+    }
+
+    // กรองตาม URL (ถ้ามี)
+    if ($urlFilter) {
+        $httpErrorLogs = $httpErrorLogs->filter(fn($log) => str_contains(strtolower($log->url ?? ''), strtolower($urlFilter)))->values();
     }
 
     // เรียงลำดับจากล่าสุดไปเก่าสุด
@@ -147,8 +159,8 @@ public function httpLogs(Request $request)
         'httpErrorLogs' => $pagedHttpLogs,
         'systemErrorLogs' => null,
         'activeTab' => 'http',
-        'selected_start_date' => $startDate, // ส่งไปให้ Blade
-        'selected_end_date' => $endDate,     // ส่งไปให้ Blade
+        'selected_start_date' => $startDate,
+        'selected_end_date' => $endDate,
     ]);
 }
 

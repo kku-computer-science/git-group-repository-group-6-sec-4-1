@@ -26,20 +26,28 @@ class ProfileuserController extends Controller
         $this->middleware('auth');
     }
 
-
     public function index(Request $request)
     {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        // กำหนดค่าเริ่มต้นของ selected_date เป็นวันปัจจุบันถ้าไม่มีใน request
+        $selectedDate = $request->query('selected_date', now()->toDateString());
+
+        // ถ้าไม่มี selected_date ใน URL ให้ redirect ไปยัง URL ที่มีวันที่ปัจจุบัน
+        if (!$request->has('selected_date')) {
+            return redirect()->route('dashboard', ['selected_date' => $selectedDate]);
+        }
+
         $users = User::all();
         $user = Auth::user();
-
-        // รับวันที่จาก request
-        $selectedDate = $request->input('selected_date', now()->toDateString());
         $startDate = Carbon::parse($selectedDate)->startOfDay();
         $endDate = Carbon::parse($selectedDate)->endOfDay();
 
         // ปรับข้อมูลให้กรองตามวันที่
-        $totalUsers = User::count(); // ไม่กรองตามวันที่ เพราะนับจำนวนผู้ใช้ทั้งหมด
-        $totalPapers = Paper::count(); // ไม่กรองตามวันที่ เพราะนับจำนวนเอกสารทั้งหมด
+        $totalUsers = User::count();
+        $totalPapers = Paper::count();
         $topActiveUsers = $this->getTopActiveUsers($startDate, $endDate);
         $totalPapersFetched = $this->getTotalPapersFetched($startDate, $endDate);
         $loginStats = $this->getLoginStats($startDate, $endDate);
@@ -120,20 +128,20 @@ class ProfileuserController extends Controller
             'loginStats' => $loginStats,
             'usersOnline' => $usersOnline,
             'notifications' => $notifications,
-            'defaultDate' => $startDate->toDateString(),
+            'defaultDate' => $selectedDate, // ใช้ selectedDate แทน startDate->toDateString()
             'activities' => $recentActivities,
         ]);
     }
 
+    // ฟังก์ชันอื่น ๆ คงเดิม (ยกเว้นถ้ามีการอ้างถึง defaultDate ให้เปลี่ยนเป็น selectedDate)
     private function getCriticalNotifications($startDate, $endDate)
     {
         $notifications = [];
         $accessLogPath = storage_path('logs/access.log');
         $activityLogPath = storage_path('logs/activity.log');
-        $ipErrorFrequency = []; // เก็บความถี่ HTTP errors
-        $userActionFrequency = []; // เก็บความถี่ของ user actions
+        $ipErrorFrequency = [];
+        $userActionFrequency = [];
 
-        // Parse access.log for HTTP errors
         if (File::exists($accessLogPath)) {
             $logs = array_reverse(explode("\n", File::get($accessLogPath)));
             foreach ($logs as $log) {
@@ -149,7 +157,7 @@ class ProfileuserController extends Controller
                                 $ip = $jsonData['ip'] ?? 'Unknown';
                                 $url = $jsonData['url'] ?? 'Unknown URL';
                                 $status = $jsonData['status'];
-                                $userAgent = $jsonData['email'] ?? 'Unknown'; // ควรเปลี่ยนเป็น user_agent ถ้ามี
+                                $userAgent = $jsonData['email'] ?? 'Unknown';
                                 $timeAgo = $timestamp->diffForHumans();
 
                                 if (in_array($status, [400, 401, 402, 403, 404, 405, 500])) {
@@ -173,7 +181,6 @@ class ProfileuserController extends Controller
             }
         }
 
-        // Parse activity.log for user actions (insert, update, delete, call_paper)
         if (File::exists($activityLogPath)) {
             $logs = array_reverse(explode("\n", File::get($activityLogPath)));
             foreach ($logs as $log) {
@@ -211,7 +218,6 @@ class ProfileuserController extends Controller
             }
         }
 
-        // ดึงจากฐานข้อมูล โดยกรองตามวันที่และสถานะที่ยังไม่ถูก dismiss
         return CriticalMessage::where('is_dismissed', false)
             ->whereBetween('timestamp', [$startDate, $endDate])
             ->orderBy('timestamp', 'desc')
@@ -256,7 +262,7 @@ class ProfileuserController extends Controller
                 'time_ago' => $timeAgo,
                 'count' => $count,
                 'action_type' => $actionType,
-                'is_dismissed' => false, // 確保設為 false
+                'is_dismissed' => false,
             ]
         );
     }
@@ -278,128 +284,101 @@ class ProfileuserController extends Controller
         }
     }
 
-
     public function filterNotifications(Request $request)
     {
         $notifications = CriticalMessage::where('ip', 'like', '%' . $request->ip . '%')
             ->where('url', 'like', '%' . $request->url . '%')
-            ->whereBetween('timestamp', [$request->start_date, $request->end_date]) // เปลี่ยนเป็น timestamp
+            ->whereBetween('timestamp', [$request->start_date, $request->end_date])
             ->get();
 
         return response()->json($notifications);
     }
 
-private function getHttpErrorStats($granularity, $startDate, $endDate)
-{
-    $logPath = storage_path('logs/access.log'); // Changed to laravel.log
-    $stats = [];
-    $dailyBreakdown = [];
+    private function getHttpErrorStats($granularity, $startDate, $endDate)
+    {
+        $logPath = storage_path('logs/access.log');
+        $stats = [];
+        $dailyBreakdown = [];
 
-    if (File::exists($logPath)) {
-        $logs = array_reverse(explode("\n", File::get($logPath)));
-        Log::info('Access Log Lines', ['count' => count($logs)]);
-        foreach ($logs as $log) {
-            if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
-                Log::info('Processing Log Line', ['log' => $log]);
-                $jsonStart = strpos($log, '{');
-                if ($jsonStart !== false) {
-                    $jsonStr = substr($log, $jsonStart);
-                    $jsonData = json_decode($jsonStr, true);
-                    if (json_last_error() !== JSON_ERROR_NONE) {
-                        Log::error('JSON Decode Error', ['log' => $log, 'error' => json_last_error_msg()]);
-                        continue;
-                    }
-                    if ($jsonData && isset($jsonData['status']) && $jsonData['status'] >= 400) {
-                        Log::info('HTTP Error Found', ['status' => $jsonData['status'], 'date' => $this->extractTimestamp($log)]);
-                        $timestampStr = $this->extractTimestamp($log);
-                        if (!$timestampStr) {
-                            Log::warning('Failed to extract timestamp', ['log' => $log]);
-                            continue;
-                        }
-                        try {
+        if (File::exists($logPath)) {
+            $logs = array_reverse(explode("\n", File::get($logPath)));
+            foreach ($logs as $log) {
+                if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
+                    $jsonStart = strpos($log, '{');
+                    if ($jsonStart !== false) {
+                        $jsonStr = substr($log, $jsonStart);
+                        $jsonData = json_decode($jsonStr, true);
+                        if ($jsonData && isset($jsonData['status']) && $jsonData['status'] >= 400) {
+                            $timestampStr = $this->extractTimestamp($log);
                             $timestamp = Carbon::parse($timestampStr);
-                            Log::info('Parsed Timestamp', ['timestamp' => $timestamp->toDateTimeString()]);
-                        } catch (\Exception $e) {
-                            Log::error('Timestamp Parse Error', ['log' => $log, 'error' => $e->getMessage()]);
-                            continue;
-                        }
-                        if ($timestamp->between($startDate, $endDate)) {
-                            Log::info('Timestamp in Range', ['timestamp' => $timestamp->toDateTimeString(), 'start' => $startDate->toDateTimeString(), 'end' => $endDate->toDateTimeString()]);
-                            $key = $this->getIntervalKey($timestamp, $granularity, $startDate);
-                            Log::info('Interval Key', ['key' => $key]);
-                            if ($granularity === 'weekly') {
-                                $dailyKey = $timestamp->format('Y-m-d');
-                                Log::info('Daily Key', ['dailyKey' => $dailyKey]);
-                                $dailyBreakdown[$key][$dailyKey][$jsonData['status']] = ($dailyBreakdown[$key][$dailyKey][$jsonData['status']] ?? 0) + 1;
-                                $stats[$key][$jsonData['status']] = ($stats[$key][$jsonData['status']] ?? 0) + 1;
-                            } else {
-                                $stats[$key][$jsonData['status']] = ($stats[$key][$jsonData['status']] ?? 0) + 1;
+                            if ($timestamp->between($startDate, $endDate)) {
+                                $key = $this->getIntervalKey($timestamp, $granularity, $startDate);
+                                if ($granularity === 'weekly') {
+                                    $dailyKey = $timestamp->format('Y-m-d');
+                                    $dailyBreakdown[$key][$dailyKey][$jsonData['status']] = ($dailyBreakdown[$key][$dailyKey][$jsonData['status']] ?? 0) + 1;
+                                    $stats[$key][$jsonData['status']] = ($stats[$key][$jsonData['status']] ?? 0) + 1;
+                                } else {
+                                    $stats[$key][$jsonData['status']] = ($stats[$key][$jsonData['status']] ?? 0) + 1;
+                                }
                             }
-                        } else {
-                            Log::info('Timestamp Out of Range', ['timestamp' => $timestamp->toDateTimeString(), 'start' => $startDate->toDateTimeString(), 'end' => $endDate->toDateTimeString()]);
                         }
                     }
                 }
             }
         }
-    } else {
-        Log::error('Access Log File Not Found', ['path' => $logPath]);
+
+        $total = array_sum(array_map(function ($errors) {
+            return array_sum($errors);
+        }, $stats));
+
+        foreach ($dailyBreakdown as $weekKey => &$days) {
+            ksort($days);
+        }
+        unset($days);
+
+        return [
+            'total' => $total,
+            'top5' => $stats,
+            'dailyBreakdown' => $dailyBreakdown,
+            'granularity' => $granularity,
+        ];
     }
 
-    $total = array_sum(array_map(function ($errors) {
-        return array_sum($errors);
-    }, $stats));
-
-    // Sort dailyBreakdown by date keys
-    foreach ($dailyBreakdown as $weekKey => &$days) {
-        ksort($days); // Sort by date key (e.g., 2025-03-10, 2025-03-11, ...)
-    }
-    unset($days); // Unset reference to avoid issues
-
-    return [
-        'total' => $total,
-        'top5' => $stats,
-        'dailyBreakdown' => $dailyBreakdown,
-        'granularity' => $granularity,
-    ];
-}
-
-private function getIntervalKey($timestamp, $granularity, $startDate = null)
-{
-    switch ($granularity) {
-        case 'hourly':
-        case 'daily':
-            return $timestamp->format('Y-m-d H:00:00');
-        case 'weekly':
-            // Use the $startDate to ensure all logs in the range use the same week key
-            return 'Week ' . $startDate->weekOfYear . ' (' . $startDate->format('Y-m-d') . ')';
-        case 'monthly':
-            return $timestamp->format('Y-m-d');
-        default:
-            return $timestamp->format('Y-m-d H:00:00');
-    }
-}
-
-protected function getTotalPapersFetched($startDate, $endDate)
-{
-    $logPath = storage_path('logs/activity.log');
-    if (!File::exists($logPath)) return 0;
-
-    $logs = array_reverse(explode("\n", File::get($logPath)));
-    $totalFetched = 0;
-
-    foreach ($logs as $log) {
-        if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
-            $jsonStart = strpos($log, '{');
-            $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
-            $timestamp = Carbon::parse($jsonData['timestamp'] ?? $this->extractTimestamp($log));
-            if ($timestamp->between($startDate, $endDate) && $jsonData && isset($jsonData['action']) && $jsonData['action'] === 'call_paper') {
-                $totalFetched += 1;
-            }
+    private function getIntervalKey($timestamp, $granularity, $startDate = null)
+    {
+        switch ($granularity) {
+            case 'hourly':
+            case 'daily':
+                return $timestamp->format('Y-m-d H:00:00');
+            case 'weekly':
+                return 'Week ' . $startDate->weekOfYear . ' (' . $startDate->format('Y-m-d') . ')';
+            case 'monthly':
+                return $timestamp->format('Y-m-d');
+            default:
+                return $timestamp->format('Y-m-d H:00:00');
         }
     }
-    return $totalFetched;
-}
+
+    protected function getTotalPapersFetched($startDate, $endDate)
+    {
+        $logPath = storage_path('logs/activity.log');
+        if (!File::exists($logPath)) return 0;
+
+        $logs = array_reverse(explode("\n", File::get($logPath)));
+        $totalFetched = 0;
+
+        foreach ($logs as $log) {
+            if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
+                $jsonStart = strpos($log, '{');
+                $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
+                $timestamp = Carbon::parse($jsonData['timestamp'] ?? $this->extractTimestamp($log));
+                if ($timestamp->between($startDate, $endDate) && $jsonData && isset($jsonData['action']) && $jsonData['action'] === 'call_paper') {
+                    $totalFetched += 1;
+                }
+            }
+        }
+        return $totalFetched;
+    }
 
     protected function getTopActiveUsers($startDate, $endDate)
     {
@@ -437,48 +416,45 @@ protected function getTotalPapersFetched($startDate, $endDate)
     }
 
     public function userActivityDetail(Request $request, $userId)
-{
-    $logPath = storage_path('logs/activity.log');
-    $user = User::findOrFail($userId);
-    $activities = [];
+    {
+        $logPath = storage_path('logs/activity.log');
+        $user = User::findOrFail($userId);
+        $activities = [];
 
-    // รับวันที่จาก request
-    $selectedDate = $request->input('selected_date', now()->toDateString());
-    $startDate = Carbon::parse($selectedDate)->startOfDay();
-    $endDate = Carbon::parse($selectedDate)->endOfDay();
+        $selectedDate = $request->input('selected_date', now()->toDateString());
+        $startDate = Carbon::parse($selectedDate)->startOfDay();
+        $endDate = Carbon::parse($selectedDate)->endOfDay();
 
-    if (File::exists($logPath)) {
-        $logs = array_reverse(explode("\n", File::get($logPath)));
-        foreach ($logs as $log) {
-            if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
-                $jsonStart = strpos($log, '{');
-                $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
+        if (File::exists($logPath)) {
+            $logs = array_reverse(explode("\n", File::get($logPath)));
+            foreach ($logs as $log) {
+                if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
+                    $jsonStart = strpos($log, '{');
+                    $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
 
-                if ($jsonData && isset($jsonData['user_id']) && $jsonData['user_id'] == $userId) {
-                    $timestamp = Carbon::parse($jsonData['timestamp'] ?? substr($log, 1, 19));
-                    // กรองตามวันที่
-                    if ($timestamp->between($startDate, $endDate)) {
-                        $action = $jsonData['action'] ?? 'Unknown';
+                    if ($jsonData && isset($jsonData['user_id']) && $jsonData['user_id'] == $userId) {
+                        $timestamp = Carbon::parse($jsonData['timestamp'] ?? substr($log, 1, 19));
+                        if ($timestamp->between($startDate, $endDate)) {
+                            $action = $jsonData['action'] ?? 'Unknown';
+                            if (is_array($action)) $action = json_encode($action);
 
-                        if (is_array($action)) $action = json_encode($action);
-
-                        $activities[] = [
-                            'timestamp' => $timestamp->toDateTimeString(),
-                            'action' => $action,
-                            'details' => $jsonData['details'] ?? [],
-                        ];
+                            $activities[] = [
+                                'timestamp' => $timestamp->toDateTimeString(),
+                                'action' => $action,
+                                'details' => $jsonData['details'] ?? [],
+                            ];
+                        }
                     }
                 }
             }
         }
-    }
 
-    return view('dashboards.users.activity_detail', [
-        'user' => $user,
-        'activities' => $activities,
-        'selected_date' => $selectedDate, // ส่งวันที่ไปให้ Blade ด้วย
-    ]);
-}
+        return view('dashboards.users.activity_detail', [
+            'user' => $user,
+            'activities' => $activities,
+            'selected_date' => $selectedDate,
+        ]);
+    }
 
     public function httpLogs(Request $request)
     {
@@ -517,7 +493,7 @@ protected function getTotalPapersFetched($startDate, $endDate)
         if ($systemSearch) {
             $systemErrorLogs = $systemErrorLogs->filter(fn($log) => $this->filterLogs($log, strtolower($systemSearch)))->values();
         }
-        $systemErrorLogs = $systemErrorLogs->take(10);
+        $systemErrorLogs = $systemErrorNotes = $systemErrorLogs->take(10);
 
         return view('dashboards.users.index', [
             'users' => $users,

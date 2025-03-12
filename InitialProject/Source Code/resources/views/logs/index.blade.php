@@ -174,44 +174,27 @@
 <div class="tab-pane fade {{ $activeTab == 'http' ? 'show active' : '' }}" id="http" role="tabpanel">
     <h3 class="text-danger">HTTP Error Logs</h3>
     <div class="mb-3">
-    <form method="GET" action="{{ url('/logs') }}" class="d-flex gap-3 align-items-center" id="activityFilterForm">
+    <form method="GET" action="{{ url('/logs/http') }}" class="d-flex gap-3 align-items-center" id="httpFilterForm">
         <div class="form-group mb-0 d-flex align-items-center">
-            <label for="user_id" class="mb-0 me-2">Filter by User:</label>
-            <select name="user_id" id="user_id" class="form-control" style="height: 38px; max-width: 180px;">
-                <option value="">All Users</option>
-                @foreach($users as $user)
-                    <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
-                        {{ $user->fname_en }} {{ $user->lname_en }} (ID: {{ $user->id }})
-                    </option>
-                @endforeach
-            </select>
+            <label for="http_search" class="mb-0 me-2">Search:</label>
+            <input type="text" name="http_search" id="http_search" class="form-control" 
+                   value="{{ request('http_search') }}" placeholder="Search http errors..." style="height: 38px;">
+        </div>
+        
+        <div class="form-group mb-0 d-flex align-items-center">
+            <label for="http_start_date" class="mb-0 me-2">Start Date:</label>
+            <input type="date" name="start_date" id="http_start_date" class="form-control" 
+                   value="{{ request('start_date') }}" style="height: 38px;">
         </div>
 
         <div class="form-group mb-0 d-flex align-items-center">
-            <label for="activity_search" class="mb-0 me-2">Search:</label>
-            <select name="activity_search" id="activity_search" class="form-control" style="height: 38px;">
-                <option value="">-- เลือกการค้นหา --</option>
-                <option value="login" {{ request('activity_search') == 'login' ? 'selected' : '' }}>Login</option>
-                <option value="logout" {{ request('activity_search') == 'logout' ? 'selected' : '' }}>Logout</option>
-                <option value="insert" {{ request('activity_search') == 'insert' ? 'selected' : '' }}>Insert</option>
-                <option value="update" {{ request('activity_search') == 'update' ? 'selected' : '' }}>Update</option>
-                <option value="delete" {{ request('activity_search') == 'delete' ? 'selected' : '' }}>Delete</option>
-                <option value="call_paper" {{ request('activity_search') == 'call_paper' ? 'selected' : '' }}>Call Paper</option>
-            </select>
-        </div>
-
-        <div class="form-group mb-0 d-flex align-items-center">
-            <label for="start_date" class="mb-0 me-2">Start Date:</label>
-            <input type="date" name="start_date" id="start_date" class="form-control" style="height: 38px;" value="{{ $selected_start_date ?? request('start_date') }}">
-        </div>
-
-        <div class="form-group mb-0 d-flex align-items-center">
-            <label for="end_date" class="mb-0 me-2">End Date:</label>
-            <input type="date" name="end_date" id="end_date" class="form-control" style="height: 38px;" value="{{ $selected_end_date ?? request('end_date') }}">
+            <label for="http_end_date" class="mb-0 me-2">End Date:</label>
+            <input type="date" name="end_date" id="http_end_date" class="form-control" 
+                   value="{{ request('end_date') }}" style="height: 38px;">
         </div>
 
         <button type="submit" class="btn btn-primary" style="height: 38px;">Filter</button>
-        <a href="{{ url('/logs') }}" class="btn btn-secondary" style="height: 38px;">Reset</a>
+        <a href="{{ url('/logs/http') }}" class="btn btn-secondary" style="height: 38px;">Reset</a>
     </form>
 </div>
 
