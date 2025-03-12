@@ -28,287 +28,262 @@ class ProfileuserController extends Controller
 
 
     public function index(Request $request)
-{
-    $users = User::all();
-    $user = Auth::user();
+    {
+        $users = User::all();
+        $user = Auth::user();
 
-    // Initialize summary data with defaults
-    $summaryData = [
-        'total' => 0,
-        'top5' => [],
-        'granularity' => 'hourly',
-    ];
-    $totalUsers = 0;
-    $totalPapers = 0;
-    $topActiveUsers = [];
-    $totalPapersFetched = 0;
-    $loginStats = ['success' => 0, 'fail' => 0];
-    $usersOnline = 0;
-    $notifications = [];
-    $recentActivities = []; // Add this for recent activities
+        // รับวันที่จาก request
+        $selectedDate = $request->input('selected_date', now()->toDateString());
+        $startDate = Carbon::parse($selectedDate)->startOfDay();
+        $endDate = Carbon::parse($selectedDate)->endOfDay();
 
-    // Fetch all required data
-    $totalUsers = User::count();
-    $totalPapers = Paper::count();
-    $topActiveUsers = $this->getTopActiveUsers();
-    $totalPapersFetched = $this->getTotalPapersFetched();
-    $loginStats = $this->getLoginStats();
-    $usersOnline = $this->getUsersOnline();
+        // ปรับข้อมูลให้กรองตามวันที่
+        $totalUsers = User::count(); // ไม่กรองตามวันที่ เพราะนับจำนวนผู้ใช้ทั้งหมด
+        $totalPapers = Paper::count(); // ไม่กรองตามวันที่ เพราะนับจำนวนเอกสารทั้งหมด
+        $topActiveUsers = $this->getTopActiveUsers($startDate, $endDate);
+        $totalPapersFetched = $this->getTotalPapersFetched($startDate, $endDate);
+        $loginStats = $this->getLoginStats($startDate, $endDate);
+        $usersOnline = $this->getUsersOnline();
+        $summaryData = $this->getHttpErrorStats($request->input('granularity', 'daily'), $startDate, $endDate);
+        $notifications = $this->getCriticalNotifications($startDate, $endDate);
 
-    // Set granularity and date range for HTTP errors and notifications
-    $granularity = $request->input('granularity', 'hourly');
-    if ($granularity === 'hourly') {
-        $startDate = Carbon::today()->startOfDay();
-        $endDate = Carbon::today()->endOfDay();
-    } elseif ($granularity === 'daily') {
-        $startDate = Carbon::today()->subDays(6)->startOfDay();
-        $endDate = Carbon::today()->endOfDay();
-    } elseif ($granularity === 'weekly') {
-        $startDate = Carbon::today()->startOfWeek(); // Monday of this week
-        $endDate = Carbon::today()->endOfWeek();     // Sunday of the current week
-    } else { // monthly
-        $startDate = Carbon::today()->subMonths(11)->startOfMonth();
-        $endDate = Carbon::today()->endOfMonth();
+        // Activity Logs
+        $logPath = storage_path('logs/activity.log');
+        if (File::exists($logPath)) {
+            $logs = array_reverse(explode("\n", File::get($logPath)));
+            $parsedLogs = [];
+            $recentActivities = [];
+            $usersById = $users->keyBy('id');
+
+            foreach ($logs as $log) {
+                if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
+                    $jsonStart = strpos($log, '{');
+                    $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
+                    $timestamp = Carbon::parse($jsonData['timestamp'] ?? $this->extractTimestamp($log));
+                    
+                    if ($timestamp->between($startDate, $endDate)) {
+                        $userId = $jsonData['user_id'] ?? 'Unknown';
+                        $user = $usersById->get($userId);
+                        $action = $jsonData['action'] ?? 'Unknown';
+                        $details = $jsonData['details'] ?? [];
+
+                        $parsedLogs[] = [
+                            'user_id' => $userId,
+                            'email' => $jsonData['email'] ?? 'Unknown',
+                            'first_name' => $user ? $user->fname_en : 'Unknown',
+                            'last_name' => $user ? $user->lname_en : 'Unknown',
+                            'action' => $action,
+                            'details' => $details,
+                            'timestamp' => $timestamp->toDateTimeString(),
+                            'ip' => $jsonData['ip'] ?? 'Unknown',
+                        ];
+
+                        $recentActivities[] = [
+                            'user_email' => $jsonData['email'] ?? 'Unknown',
+                            'activity' => ucfirst($action) . (isset($details['target']) ? ' on ' . $details['target'] : ''),
+                            'timestamp' => $timestamp->toDateTimeString(),
+                        ];
+                    }
+                }
+            }
+
+            usort($recentActivities, fn($a, $b) => strcmp($b['timestamp'], $a['timestamp']));
+            $recentActivities = array_slice($recentActivities, 0, 5);
+
+            usort($parsedLogs, fn($a, $b) => strcmp($b['timestamp'], $a['timestamp']));
+            $perPage = 20;
+            $currentPage = $request->get('page', 1);
+            $pagedLogs = new LengthAwarePaginator(
+                array_slice($parsedLogs, ($currentPage - 1) * $perPage, $perPage),
+                count($parsedLogs),
+                $perPage,
+                $currentPage,
+                ['path' => url('/dashboard'), 'query' => $request->query()]
+            );
+        } else {
+            $pagedLogs = null;
+            $recentActivities = [];
+        }
+
+        return view('dashboards.users.index', [
+            'users' => $users,
+            'pagedLogs' => $pagedLogs,
+            'httpErrorLogs' => null,
+            'systemErrorLogs' => null,
+            'activeTab' => 'activity',
+            'summaryData' => $summaryData,
+            'dailyBreakdown' => $summaryData['dailyBreakdown'] ?? [],
+            'totalUsers' => $totalUsers,
+            'totalPapers' => $totalPapers,
+            'topActiveUsers' => $topActiveUsers,
+            'totalPapersFetched' => $totalPapersFetched,
+            'loginStats' => $loginStats,
+            'usersOnline' => $usersOnline,
+            'notifications' => $notifications,
+            'defaultDate' => $startDate->toDateString(),
+            'activities' => $recentActivities,
+        ]);
     }
 
-    Log::info('Date Range for Weekly', [
-        'startDate' => $startDate->toDateTimeString(),
-        'endDate' => $endDate->toDateTimeString(),
-    ]);
+    private function getCriticalNotifications($startDate, $endDate)
+    {
+        $notifications = [];
+        $accessLogPath = storage_path('logs/access.log');
+        $activityLogPath = storage_path('logs/activity.log');
+        $ipErrorFrequency = []; // เก็บความถี่ HTTP errors
+        $userActionFrequency = []; // เก็บความถี่ของ user actions
 
-    // Fetch HTTP error stats and merge into summaryData
-    $httpErrorStats = $this->getHttpErrorStats($granularity, $startDate, $endDate);
-    $summaryData = array_merge($summaryData, $httpErrorStats);
-    $summaryData['granularity'] = $granularity;
+        // Parse access.log for HTTP errors
+        if (File::exists($accessLogPath)) {
+            $logs = array_reverse(explode("\n", File::get($accessLogPath)));
+            foreach ($logs as $log) {
+                if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
+                    $jsonStart = strpos($log, '{');
+                    if ($jsonStart !== false) {
+                        $jsonStr = substr($log, $jsonStart);
+                        $jsonData = json_decode($jsonStr, true);
+                        if ($jsonData && isset($jsonData['status']) && $jsonData['status'] >= 400) {
+                            $timestampStr = $this->extractTimestamp($log);
+                            $timestamp = Carbon::parse($timestampStr);
+                            if ($timestamp->between($startDate, $endDate)) {
+                                $ip = $jsonData['ip'] ?? 'Unknown';
+                                $url = $jsonData['url'] ?? 'Unknown URL';
+                                $status = $jsonData['status'];
+                                $userAgent = $jsonData['email'] ?? 'Unknown'; // ควรเปลี่ยนเป็น user_agent ถ้ามี
+                                $timeAgo = $timestamp->diffForHumans();
 
-    // Fetch critical notifications
-    $notifications = $this->getCriticalNotifications($startDate, $endDate);
+                                if (in_array($status, [400, 401, 402, 403, 404, 405, 500])) {
+                                    $minuteKey = $timestamp->format('Y-m-d H:i');
+                                    $ipMinuteKey = "$ip-$minuteKey-$status";
+                                    $ipErrorFrequency[$ipMinuteKey] = ($ipErrorFrequency[$ipMinuteKey] ?? 0) + 1;
 
-    Log::info('Summary Data', ['summaryData' => $summaryData]);
-    Log::info('Notifications', ['notifications' => $notifications]);
-
-    // Activity Logs Processing
-    $logPath = storage_path('logs/activity.log');
-    $userFilter = $request->query('user_id');
-    $activitySearch = $request->query('activity_search');
-
-    if (!File::exists($logPath)) {
-        $pagedLogs = null;
-        $recentActivities = []; // No logs, so empty activities
-    } else {
-        $logs = array_reverse(explode("\n", File::get($logPath)));
-        $parsedLogs = [];
-        $recentActivities = []; // Array for recent activities
-        $usersById = $users->keyBy('id');
-
-        foreach ($logs as $log) {
-            if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
-                $jsonStart = strpos($log, '{');
-                $message = $jsonStart !== false ? trim(substr($log, 0, $jsonStart)) : $log;
-                $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
-
-                $action = 'Unknown';
-                $details = [];
-
-                if ($jsonData && is_array($jsonData)) {
-                    $action = $jsonData['action'] ?? $this->extractActionFromMessage($message);
-                    $details = $jsonData['details'] ?? [];
-                    if (empty($details) && in_array($action, ['login', 'logout'])) {
-                        $details = ['target' => 'session'];
-                    }
-                } else {
-                    $action = $this->extractActionFromMessage($message);
-                    if (in_array($action, ['login', 'logout'])) {
-                        $details = ['target' => 'session'];
-                    } else {
-                        $details = ['raw' => $log];
+                                    if ($ipErrorFrequency[$ipMinuteKey] >= 10) {
+                                        $count = $ipErrorFrequency[$ipMinuteKey];
+                                        $message = "Suspicious Activity: Repeated HTTP $status Error ($count times) from IP: $ip on $url in 1 minute (User Agent: $userAgent)";
+                                        $this->storeCriticalMessage($message, $ip, $url, null, $userAgent, 'high', $timestamp, $timeAgo, $count);
+                                    }
+                                } else {
+                                    $message = "HTTP $status Error from IP: $ip requesting $url (User Agent: $userAgent)";
+                                    $this->storeCriticalMessage($message, $ip, $url, null, $userAgent, $status >= 500 ? 'high' : 'medium', $timestamp, $timeAgo);
+                                }
+                            }
+                        }
                     }
                 }
-
-                $userId = $jsonData['user_id'] ?? 'Unknown';
-                $user = $usersById->get($userId);
-
-                // Add to parsed logs for pagination
-                if ($userFilter && $userId != $userFilter) {
-                    continue;
-                }
-                if ($activitySearch && !str_contains(strtolower($log), strtolower($activitySearch))) {
-                    continue;
-                }
-
-                $parsedLogs[] = [
-                    'user_id' => $userId,
-                    'email' => $jsonData['email'] ?? 'Unknown',
-                    'first_name' => $user ? $user->fname_en : 'Unknown',
-                    'last_name' => $user ? $user->lname_en : 'Unknown',
-                    'action' => $action,
-                    'details' => $details,
-                    'timestamp' => $jsonData['timestamp'] ?? $this->extractTimestamp($log),
-                    'ip' => $jsonData['ip'] ?? 'Unknown',
-                ];
-
-                // Add to recent activities (before filtering)
-                $recentActivities[] = [
-                    'user_email' => $jsonData['email'] ?? 'Unknown',
-                    'activity' => ucfirst($action) . (isset($details['target']) ? ' on ' . $details['target'] : ''),
-                    'timestamp' => $jsonData['timestamp'] ?? $this->extractTimestamp($log),
-                ];
             }
         }
 
-        // Sort and limit recent activities
-        usort($recentActivities, fn($a, $b) => strcmp($b['timestamp'], $a['timestamp']));
-        $recentActivities = array_slice($recentActivities, 0, 5); // Limit to 5 recent activities
+        // Parse activity.log for user actions (insert, update, delete, call_paper)
+        if (File::exists($activityLogPath)) {
+            $logs = array_reverse(explode("\n", File::get($activityLogPath)));
+            foreach ($logs as $log) {
+                if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
+                    $jsonStart = strpos($log, '{');
+                    if ($jsonStart !== false) {
+                        $jsonStr = substr($log, $jsonStart);
+                        $jsonData = json_decode($jsonStr, true);
+                        if ($jsonData && isset($jsonData['action'])) {
+                            $timestampStr = $this->extractTimestamp($log);
+                            $timestamp = Carbon::parse($timestampStr);
+                            if ($timestamp->between($startDate, $endDate)) {
+                                $userId = $jsonData['user_id'] ?? 'Unknown';
+                                $action = $jsonData['action'];
+                                $email = $jsonData['email'] ?? 'Unknown';
+                                $ip = $jsonData['ip'] ?? 'Unknown';
+                                $timeAgo = $timestamp->diffForHumans();
 
-        // Continue with pagination for parsed logs
-        usort($parsedLogs, fn($a, $b) => strcmp($b['timestamp'], $a['timestamp']));
-        $perPage = 20;
-        $currentPage = $request->get('page', 1);
-        $pagedLogs = new LengthAwarePaginator(
-            array_slice($parsedLogs, ($currentPage - 1) * $perPage, $perPage),
-            count($parsedLogs),
-            $perPage,
-            $currentPage,
-            ['path' => url('/dashboard'), 'query' => $request->query()]
+                                $trackedActions = ['insert', 'update', 'delete', 'call_paper'];
+                                if (in_array($action, $trackedActions)) {
+                                    $minuteKey = $timestamp->format('Y-m-d H:i');
+                                    $userActionKey = "$userId-$minuteKey-$action";
+                                    $userActionFrequency[$userActionKey] = ($userActionFrequency[$userActionKey] ?? 0) + 1;
+
+                                    if ($userActionFrequency[$userActionKey] >= 10) {
+                                        $count = $userActionFrequency[$userActionKey];
+                                        $message = "Suspicious Activity: User $email performed $action $count times in 1 minute from IP: $ip";
+                                        $this->storeCriticalMessage($message, $ip, null, $email, null, 'high', $timestamp, $timeAgo, $count, $action);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // ดึงจากฐานข้อมูล โดยกรองตามวันที่และสถานะที่ยังไม่ถูก dismiss
+        return CriticalMessage::where('is_dismissed', false)
+            ->whereBetween('timestamp', [$startDate, $endDate])
+            ->orderBy('timestamp', 'desc')
+            ->limit(5)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'message' => $item->message,
+                    'severity' => $item->severity,
+                    'time_ago' => $item->time_ago,
+                    'ip' => $item->ip,
+                    'url' => $item->url,
+                ];
+            })
+            ->toArray();
+    }
+
+    private function storeCriticalMessage($message, $ip, $url, $email, $userAgent, $severity, $timestamp, $timeAgo, $count = 1, $actionType = null)
+    {
+        $existing = CriticalMessage::where('ip', $ip)
+            ->where('url', $url)
+            ->where('timestamp', $timestamp->startOfMinute())
+            ->where('severity', $severity)
+            ->first();
+
+        if ($existing && $existing->is_dismissed) {
+            return;
+        }
+
+        CriticalMessage::updateOrCreate(
+            [
+                'ip' => $ip,
+                'url' => $url,
+                'timestamp' => $timestamp->startOfMinute(),
+                'severity' => $severity,
+            ],
+            [
+                'message' => $message,
+                'email' => $email,
+                'user_agent' => $userAgent,
+                'time_ago' => $timeAgo,
+                'count' => $count,
+                'action_type' => $actionType,
+                'is_dismissed' => false, // 確保設為 false
+            ]
         );
     }
 
-    return view('dashboards.users.index', [
-        'users' => $users,
-        'pagedLogs' => $pagedLogs,
-        'httpErrorLogs' => null,
-        'systemErrorLogs' => null,
-        'activeTab' => 'activity',
-        'summaryData' => $summaryData,
-        'dailyBreakdown' => $httpErrorStats['dailyBreakdown'] ?? [],
-        'totalUsers' => $totalUsers,
-        'totalPapers' => $totalPapers,
-        'topActiveUsers' => $topActiveUsers,
-        'totalPapersFetched' => $totalPapersFetched,
-        'loginStats' => $loginStats,
-        'usersOnline' => $usersOnline,
-        'notifications' => $notifications,
-        'defaultStartDate' => $startDate->toDateString(), // Pass as a variable
-        'defaultEndDate' => $endDate->toDateString(),    // Pass as a variable
-        'activities' => $recentActivities, // Pass recent activities to the view
-    ]);
-}
+    public function dismissNotification($id)
+    {
+        try {
+            $notification = CriticalMessage::find($id);
 
-private function getCriticalNotifications($startDate, $endDate)
-{
-    $notifications = [];
-    $activityLogPath = storage_path('logs/activity.log');
-    $accessLogPath = storage_path('logs/access.log');
-
-    // Parse activity.log for login attempts
-    if (File::exists($activityLogPath)) {
-        $logs = array_reverse(explode("\n", File::get($activityLogPath)));
-        foreach ($logs as $log) {
-            if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
-                $jsonStart = strpos($log, '{');
-                if ($jsonStart !== false) {
-                    $jsonStr = substr($log, $jsonStart);
-                    $jsonData = json_decode($jsonStr, true);
-                    if ($jsonData && isset($jsonData['action']) && in_array($jsonData['action'], ['login', 'login_failed'])) {
-                        $timestampStr = $this->extractTimestamp($log);
-                        $timestamp = Carbon::parse($timestampStr);
-                        if ($timestamp->between($startDate, $endDate)) {
-                            $email = $jsonData['email'] ?? 'Unknown';
-                            $ip = $jsonData['ip'] ?? 'Unknown';
-                            $userAgent = $jsonData['user_agent'] ?? 'Unknown';
-                            $action = $jsonData['action'] === 'login_failed' ? 'Failed Login Attempt' : 'Successful Login';
-                            $timeAgo = $timestamp->diffForHumans();
-
-                            $message = "$action by email: $email from IP: $ip (User Agent: $userAgent)";
-                            $this->storeCriticalMessage($message, $ip, null, $email, $userAgent, $jsonData['action'] === 'login_failed' ? 'high' : 'medium', $timestamp, $timeAgo);
-                        }
-                    }
-                }
+            if (!$notification) {
+                return response()->json(['success' => false, 'message' => 'Notification not found'], 404);
             }
+
+            $notification->update(['is_dismissed' => true]);
+
+            return response()->json(['success' => true, 'message' => 'Notification dismissed']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
-
-    // Parse laravel.log for HTTP errors with URLs and IPs
-    if (File::exists($accessLogPath)) {
-        $logs = array_reverse(explode("\n", File::get($accessLogPath)));
-        $ipFrequency = [];
-        foreach ($logs as $log) {
-            if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
-                $jsonStart = strpos($log, '{');
-                if ($jsonStart !== false) {
-                    $jsonStr = substr($log, $jsonStart);
-                    $jsonData = json_decode($jsonStr, true);
-                    if ($jsonData && isset($jsonData['status']) && $jsonData['status'] >= 400) {
-                        $timestampStr = $this->extractTimestamp($log);
-                        $timestamp = Carbon::parse($timestampStr);
-                        if ($timestamp->between($startDate, $endDate)) {
-                            $ip = $jsonData['ip'] ?? 'Unknown';
-                            $url = $jsonData['url'] ?? 'Unknown URL';
-                            $userAgent = $jsonData['user_agent'] ?? 'Unknown';
-                            $status = $jsonData['status'];
-                            $timeAgo = $timestamp->diffForHumans();
-
-                            $ipFrequency[$ip] = ($ipFrequency[$ip] ?? 0) + 1;
-                            $isBruteForce = $ipFrequency[$ip] > 5;
-
-                            $message = "HTTP $status Error from IP: $ip requesting $url (User Agent: $userAgent)" . ($isBruteForce ? ' - Possible Brute Force Attack' : '');
-                            $this->storeCriticalMessage($message, $ip, $url, null, $userAgent, $status >= 500 ? 'high' : 'medium', $timestamp, $timeAgo);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // Fetch from database
-    return CriticalMessage::where('is_dismissed', false)
-        ->orderBy('timestamp', 'desc')
-        ->limit(5)
-        ->get()
-        ->toArray();
-}
-
-private function storeCriticalMessage($message, $ip, $url, $email, $userAgent, $severity, $timestamp, $timeAgo)
-{
-    CriticalMessage::updateOrCreate(
-        [
-            'message' => $message,
-            'timestamp' => $timestamp,
-        ],
-        [
-            'ip' => $ip,
-            'url' => $url,
-            'email' => $email,
-            'user_agent' => $userAgent,
-            'severity' => $severity,
-            'time_ago' => $timeAgo,
-        ]
-    );
-}
-
-public function dismissNotification($id)
-{
-    try {
-        $notification = CriticalMessage::find($id);
-
-        if (!$notification) {
-            return response()->json(['success' => false, 'message' => 'Notification not found'], 404);
-        }
-
-        $notification->update(['is_dismissed' => true]);
-
-        return response()->json(['success' => true, 'message' => 'Notification dismissed']);
-    } catch (\Exception $e) {
-        return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
-    }
-}
 
 
     public function filterNotifications(Request $request)
     {
         $notifications = CriticalMessage::where('ip', 'like', '%' . $request->ip . '%')
             ->where('url', 'like', '%' . $request->url . '%')
-            ->whereBetween('created_at', [$request->start_date, $request->end_date])
+            ->whereBetween('timestamp', [$request->start_date, $request->end_date]) // เปลี่ยนเป็น timestamp
             ->get();
 
         return response()->json($notifications);
@@ -405,36 +380,31 @@ private function getIntervalKey($timestamp, $granularity, $startDate = null)
     }
 }
 
-    protected function getTotalPapersFetched()
-    {
-        $logPath = storage_path('logs/activity.log');
-        if (!File::exists($logPath)) {
-            return 0;
-        }
+protected function getTotalPapersFetched($startDate, $endDate)
+{
+    $logPath = storage_path('logs/activity.log');
+    if (!File::exists($logPath)) return 0;
 
-        $logs = array_reverse(explode("\n", File::get($logPath)));
-        $totalFetched = 0;
+    $logs = array_reverse(explode("\n", File::get($logPath)));
+    $totalFetched = 0;
 
-        foreach ($logs as $log) {
-            if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
-                $jsonStart = strpos($log, '{');
-                $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
-
-                if ($jsonData && isset($jsonData['action']) && $jsonData['action'] === 'call_paper') {
-                    $totalFetched += 1;
-                }
+    foreach ($logs as $log) {
+        if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
+            $jsonStart = strpos($log, '{');
+            $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
+            $timestamp = Carbon::parse($jsonData['timestamp'] ?? $this->extractTimestamp($log));
+            if ($timestamp->between($startDate, $endDate) && $jsonData && isset($jsonData['action']) && $jsonData['action'] === 'call_paper') {
+                $totalFetched += 1;
             }
         }
-
-        return $totalFetched;
     }
+    return $totalFetched;
+}
 
-    protected function getTopActiveUsers()
+    protected function getTopActiveUsers($startDate, $endDate)
     {
         $logPath = storage_path('logs/activity.log');
-        if (!File::exists($logPath)) {
-            return [];
-        }
+        if (!File::exists($logPath)) return [];
 
         $logs = array_reverse(explode("\n", File::get($logPath)));
         $userActivityCount = [];
@@ -444,8 +414,8 @@ private function getIntervalKey($timestamp, $granularity, $startDate = null)
             if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
                 $jsonStart = strpos($log, '{');
                 $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
-
-                if ($jsonData && isset($jsonData['user_id']) && $jsonData['user_id'] !== 'Unknown') {
+                $timestamp = Carbon::parse($jsonData['timestamp'] ?? $this->extractTimestamp($log));
+                if ($timestamp->between($startDate, $endDate) && $jsonData && isset($jsonData['user_id']) && $jsonData['user_id'] !== 'Unknown') {
                     $userId = $jsonData['user_id'];
                     $userActivityCount[$userId] = ($userActivityCount[$userId] ?? 0) + 1;
                 }
@@ -463,32 +433,37 @@ private function getIntervalKey($timestamp, $granularity, $startDate = null)
                 'total_activity' => $count,
             ];
         }
-
         return $result;
     }
 
     public function userActivityDetail(Request $request, $userId)
-    {
-        $logPath = storage_path('logs/activity.log');
-        $user = User::findOrFail($userId);
-        $activities = [];
+{
+    $logPath = storage_path('logs/activity.log');
+    $user = User::findOrFail($userId);
+    $activities = [];
 
-        if (File::exists($logPath)) {
-            $logs = array_reverse(explode("\n", File::get($logPath)));
-            foreach ($logs as $log) {
-                if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
-                    $jsonStart = strpos($log, '{');
-                    $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
+    // รับวันที่จาก request
+    $selectedDate = $request->input('selected_date', now()->toDateString());
+    $startDate = Carbon::parse($selectedDate)->startOfDay();
+    $endDate = Carbon::parse($selectedDate)->endOfDay();
 
-                    if ($jsonData && isset($jsonData['user_id']) && $jsonData['user_id'] == $userId) {
-                        $timestamp = $jsonData['timestamp'] ?? substr($log, 1, 19);
+    if (File::exists($logPath)) {
+        $logs = array_reverse(explode("\n", File::get($logPath)));
+        foreach ($logs as $log) {
+            if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
+                $jsonStart = strpos($log, '{');
+                $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
+
+                if ($jsonData && isset($jsonData['user_id']) && $jsonData['user_id'] == $userId) {
+                    $timestamp = Carbon::parse($jsonData['timestamp'] ?? substr($log, 1, 19));
+                    // กรองตามวันที่
+                    if ($timestamp->between($startDate, $endDate)) {
                         $action = $jsonData['action'] ?? 'Unknown';
 
-                        if (is_array($timestamp)) $timestamp = json_encode($timestamp);
                         if (is_array($action)) $action = json_encode($action);
 
                         $activities[] = [
-                            'timestamp' => $timestamp,
+                            'timestamp' => $timestamp->toDateTimeString(),
                             'action' => $action,
                             'details' => $jsonData['details'] ?? [],
                         ];
@@ -496,12 +471,14 @@ private function getIntervalKey($timestamp, $granularity, $startDate = null)
                 }
             }
         }
-
-        return view('dashboards.users.activity_detail', [
-            'user' => $user,
-            'activities' => $activities,
-        ]);
     }
+
+    return view('dashboards.users.activity_detail', [
+        'user' => $user,
+        'activities' => $activities,
+        'selected_date' => $selectedDate, // ส่งวันที่ไปให้ Blade ด้วย
+    ]);
+}
 
     public function httpLogs(Request $request)
     {
@@ -922,48 +899,23 @@ private function getIntervalKey($timestamp, $granularity, $startDate = null)
         return null;
     }
 
-    protected function getLoginStats()
+    protected function getLoginStats($startDate, $endDate)
     {
         $logPath = storage_path('logs/activity.log');
         $logPath1 = storage_path('logs/access.log');
         $stats = ['success' => 0, 'fail' => 0];
         $seenEntries = [];
 
-        if (!File::exists($logPath)) {
-            Log::warning('activity.log file not found');
-            $logs = [];
-        } else {
-            $logs = array_reverse(explode("\n", File::get($logPath)));
-        }
-
-        if (!File::exists($logPath1)) {
-            Log::warning('access.log file not found');
-            $logs1 = [];
-        } else {
-            $logs1 = array_reverse(explode("\n", File::get($logPath1)));
-        }
+        $logs = File::exists($logPath) ? array_reverse(explode("\n", File::get($logPath))) : [];
+        $logs1 = File::exists($logPath1) ? array_reverse(explode("\n", File::get($logPath1))) : [];
 
         foreach ($logs as $log) {
             if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
                 $jsonStart = strpos($log, '{');
-                if ($jsonStart === false) {
-                    Log::warning('No JSON found in activity.log entry', ['log' => $log]);
-                    continue;
-                }
-
-                $jsonString = substr($log, $jsonStart);
-                $jsonData = json_decode($jsonString, true);
-
-                if (json_last_error() !== JSON_ERROR_NONE) {
-                    Log::warning('Failed to parse JSON in activity.log', ['log' => $log, 'error' => json_last_error_msg()]);
-                    continue;
-                }
-
-                if ($jsonData && isset($jsonData['action']) && $jsonData['action'] === 'login') {
-                    preg_match('/^\[(.*?)\]/', $log, $matches);
-                    $timestamp = $matches[1] ?? '';
-                    $key = $timestamp . '-' . ($jsonData['url'] ?? '');
-
+                $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
+                $timestamp = Carbon::parse($jsonData['timestamp'] ?? $this->extractTimestamp($log));
+                if ($timestamp->between($startDate, $endDate) && $jsonData && $jsonData['action'] === 'login') {
+                    $key = $timestamp->toDateTimeString() . '-' . ($jsonData['url'] ?? '');
                     if (!isset($seenEntries[$key])) {
                         $stats['success']++;
                         $seenEntries[$key] = true;
@@ -975,24 +927,10 @@ private function getIntervalKey($timestamp, $granularity, $startDate = null)
         foreach ($logs1 as $log) {
             if (trim($log) && preg_match('/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/', $log)) {
                 $jsonStart = strpos($log, '{');
-                if ($jsonStart === false) {
-                    Log::warning('No JSON found in access.log entry', ['log' => $log]);
-                    continue;
-                }
-
-                $jsonString = substr($log, $jsonStart);
-                $jsonData = json_decode($jsonString, true);
-
-                if (json_last_error() !== JSON_ERROR_NONE) {
-                    Log::warning('Failed to parse JSON in access.log', ['log' => $log, 'error' => json_last_error_msg()]);
-                    continue;
-                }
-
-                if ($jsonData && isset($jsonData['status']) && $jsonData['status'] === 401) {
-                    preg_match('/^\[(.*?)\]/', $log, $matches);
-                    $timestamp = $matches[1] ?? '';
-                    $key = $timestamp . '-' . ($jsonData['url'] ?? '');
-
+                $jsonData = $jsonStart !== false ? json_decode(substr($log, $jsonStart), true) : null;
+                $timestamp = Carbon::parse($jsonData['timestamp'] ?? $this->extractTimestamp($log));
+                if ($timestamp->between($startDate, $endDate) && $jsonData && $jsonData['status'] == 401) {
+                    $key = $timestamp->toDateTimeString() . '-' . ($jsonData['url'] ?? '');
                     if (!isset($seenEntries[$key])) {
                         $stats['fail']++;
                         $seenEntries[$key] = true;
@@ -1000,8 +938,6 @@ private function getIntervalKey($timestamp, $granularity, $startDate = null)
                 }
             }
         }
-
-        Log::info('Login stats calculated', ['stats' => $stats]);
         return $stats;
     }
 
