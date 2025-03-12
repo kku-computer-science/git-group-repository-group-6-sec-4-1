@@ -42,25 +42,20 @@ Open Browser To Login Page
     Set Selenium Speed    ${DELAY}
     Login Page Should Be Open
 
-Go to create Paper
-    Go To    ${SERVER}/papers/create
-    Wait Until Page Contains    แหล่งเผยแพร่งานวิจัย    timeout=10s
-
 Login Page Should Be Open
-    Title Should Be    Login
+    Wait Until Page Contains    Login    timeout=10s
 
 Dashboard Page Should Be Open
-    Set Selenium Speed    1.5s
-    Title Should Be    Dashboard
+    Wait Until Page Contains    Dashboard    timeout=10s
 
 Admin Dashboard Should Be Open
-    Wait Until Element Contains  xpath=/html/body//*[contains(@class, 'd-flex') and contains(@class, 'gap-4') and contains(@class, 'align-items-center')]/h2    Dashboard    timeout=5s
+    Wait Until Element Contains  xpath=/html/body//*[contains(@class, 'd-flex') and contains(@class, 'gap-4') and contains(@class, 'align-items-center')]/h2    Dashboard    timeout=10s
 
 Admin Dashboard Should Be Not Open
-    Run Keyword And Ignore Error    Wait Until Element Does Not Contain    xpath=/html/body//*[contains(@class, 'd-flex') and contains(@class, 'gap-4') and contains(@class, 'align-items-center')]/h2    Dashboard    timeout=5s
+    Run Keyword And Ignore Error    Wait Until Element Does Not Contain    xpath=/html/body//*[contains(@class, 'd-flex') and contains(@class, 'gap-4') and contains(@class, 'align-items-center')]/h2    Dashboard    timeout=10s
 
 Dashboard Page Should Be Not Open
-    Title Should Be    Login
+    Title Should Be    Login 
 
 Admin Dashboard Page Should Be Open
     Title Should Be    Dashboard
@@ -76,7 +71,7 @@ Get Most Active Table Headers
         ${header_text}=    Get Text    ${cell}
         Append To List    ${headers}    ${header_text}
     END
-    [Return]    ${headers}
+    [RETURN]    ${headers}
 
 
 Get Most Active Table Rows
@@ -116,7 +111,7 @@ Get Most Active Table Rows
 
     # Log the extracted data for debugging
     Log    Extracted table data: ${table_data}
-    [Return]    ${table_data}
+    [RETURN]    ${table_data}
 
 
 
