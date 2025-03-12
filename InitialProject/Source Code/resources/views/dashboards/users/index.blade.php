@@ -1,3 +1,4 @@
+
 @extends('dashboards.users.layouts.user-dash-layout')
 @section('title', 'Dashboard')
 
@@ -5,6 +6,8 @@
 <head>
 <!-- Bootstrap Icons CDN (ใส่ใน <head> ถ้ายังไม่มี) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+
 <style>
     html,
     body {
@@ -198,6 +201,8 @@
         margin-bottom: 5px;
     }
 
+    
+
     .notification-time {
         font-size: 0.75rem;
         margin-bottom: 5px;
@@ -268,40 +273,40 @@
 </h3>
 
 <h4 class="text-center mb-2">
-    <i class="bi bi-greeting me-2"></i> สวัสดี {{ Auth::user()->position_th }} {{ Auth::user()->fname_th }} {{ Auth::user()->lname_th }}
+    <i class="bi bi-greeting me-2 "></i> สวัสดี {{ Auth::user()->position_th }} {{ Auth::user()->fname_th }} {{ Auth::user()->lname_th }}
 </h4>
 
-<h4 class="text-center text-secondary">
-    <i class="bi bi-house-door me-2"></i> Dashboard
-</h4>
+
 
 
     @if(Auth::user()->hasRole('admin') || (isset(Auth::user()->is_admin) && Auth::user()->is_admin))
     <!-- ฟอร์มค้นหาด้วยวันที่เดียว -->
-<div class="mb-4">
-    <form method="GET" action="{{ route('dashboard') }}" class="d-flex gap-3 align-items-end">
-        <div class="form-group">
-            <label for="selected_date">
-                <i class="bi bi-calendar-date me-2"></i> เลือกวันที่:
+    <div class="mb-4">
+    <form method="GET" action="{{ route('dashboard') }}" class="d-flex gap-3 align-items-center justify-content-end">
+        <div class="form-group mb-0 d-flex align-items-center">
+            <label for="selected_date" class="me-2 mb-0" style="white-space: nowrap; line-height: 38px;">
+                เลือกวันที่:
             </label>
-            <input type="date" name="selected_date" id="selected_date" class="form-control" value="{{ request('selected_date', now()->toDateString()) }}">
+            <input type="date" name="selected_date" id="selected_date" class="form-control" value="{{ request('selected_date', now()->toDateString()) }}" style="max-width: 220px; height: 38px; line-height: 38px; padding: 0 10px;">
         </div>
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary" style="height: 38px; padding: 0 15px; line-height: 38px; display: flex; align-items: center;">
             <i class="bi bi-search me-2"></i> ค้นหา
         </button>
-        <a href="{{ route('dashboard') }}" class="btn btn-secondary">
+        <a href="{{ route('dashboard') }}" class="btn btn-secondary" style="height: 38px; padding: 0 15px; line-height: 38px; display: flex; align-items: center;">
             <i class="bi bi-arrow-clockwise me-2"></i> รีเซ็ต
         </a>
     </form>
 </div>
+
+
+
 
 <div class="d-flex justify-content-between mb-4">
     <div class="d-flex gap-4 align-items-center">
         <h2>
             <i class="bi bi-house-door me-2"></i> Dashboard
         </h2>
-        <strong><i class="bi bi-person-circle me-2"></i> Users Online:</strong> 
-        <span class="badge bg-success fs-5 count-up" data-value="{{ $usersOnline }}">0</span>
+        
     </div>
 </div>
 
