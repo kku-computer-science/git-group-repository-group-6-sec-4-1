@@ -17,7 +17,7 @@ class LoginController extends Controller
     use ThrottlesLogins;
 
     protected $redirectTo = RouteServiceProvider::HOME;
-    protected $maxAttempts = 10; // Default is 5
+    protected $maxAttempts = 50; // Default is 5
     protected $decayMinutes = 5; // Default is 1
 
     public function __construct()
