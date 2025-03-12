@@ -20,6 +20,8 @@ ${VALID PASSWORD}    123456789
 ${Admin USER}     admin@gmail.com
 ${Admin PASSWORD}    12345678
 
+${Wrong PASSWORD}    0987654321
+
 @{EXPECTED_ROW_1}    1    ngamnij@kku.ac.th     4
 @{EXPECTED_ROW_2}    2    admin@gmail.com    3
 @{EXPECTED_ROW_3}    3    chakso@kku.ac.th    2
@@ -42,25 +44,32 @@ Open Browser To Login Page
     Set Selenium Speed    ${DELAY}
     Login Page Should Be Open
 
+Go to create Paper
+    Go To    ${SERVER}/papers/create
+    Wait Until Page Contains    แหล่งเผยแพร่งานวิจัย    timeout=10s
+
 Login Page Should Be Open
-    Wait Until Page Contains    Login    timeout=10s
+    Title Should Be    Login
 
 Dashboard Page Should Be Open
-    Wait Until Page Contains    Dashboard    timeout=10s
+    Set Selenium Speed    1.5s
+    Title Should Be    Dashboard
 
 Admin Dashboard Should Be Open
-    Wait Until Element Contains  xpath=/html/body//*[contains(@class, 'd-flex') and contains(@class, 'gap-4') and contains(@class, 'align-items-center')]/h2    Dashboard    timeout=10s
+    Wait Until Element Contains  xpath=/html/body//*[contains(@class, 'd-flex') and contains(@class, 'gap-4') and contains(@class, 'align-items-center')]/h2    Dashboard    timeout=5s
 
 Admin Dashboard Should Be Not Open
-    Run Keyword And Ignore Error    Wait Until Element Does Not Contain    xpath=/html/body//*[contains(@class, 'd-flex') and contains(@class, 'gap-4') and contains(@class, 'align-items-center')]/h2    Dashboard    timeout=10s
+    Run Keyword And Ignore Error    Wait Until Element Does Not Contain    xpath=/html/body//*[contains(@class, 'd-flex') and contains(@class, 'gap-4') and contains(@class, 'align-items-center')]/h2    Dashboard    timeout=5s
 
 Dashboard Page Should Be Not Open
-    Title Should Be    Login 
+    Title Should Be    Login
 
 Admin Dashboard Page Should Be Open
     Title Should Be    Dashboard
     Wait Until Element Is Visible    //a[@href="${SERVER}/logs"]
 
+Go To Logs Page
+    Title Should Be    HTTP Error Logs
 
 
 Get Most Active Table Headers
@@ -71,13 +80,13 @@ Get Most Active Table Headers
         ${header_text}=    Get Text    ${cell}
         Append To List    ${headers}    ${header_text}
     END
-    [RETURN]    ${headers}
+    [Return]    ${headers}
 
 
 Get Most Active Table Rows
     [Documentation]    Returns a list of data from the specified table cells based on the given XPaths.
     @{table_data}=    Create List
-
+    
     # Wait until the table is visible
     Wait Until Element Is Visible    xpath=(//table[@class="table table-hover"])[1]/tbody/tr    timeout=10s
     Set Selenium Speed    1.5s
@@ -111,8 +120,10 @@ Get Most Active Table Rows
 
     # Log the extracted data for debugging
     Log    Extracted table data: ${table_data}
-    [RETURN]    ${table_data}
+    [Return]    ${table_data}
 
+Submit Critical check
+    Click Element    css=.bi.bi-eye
 
 
 Submit Credentials
@@ -139,3 +150,20 @@ Verify Submission Success
 
 Submit Paper Form
     Click Button    css:button[name="submit"]
+
+Call Debug Error Page
+    [Arguments]    ${endpoint}    ${expected_message}    ${times}
+    FOR    ${i}    IN RANGE    ${times}
+        Log    Navigating to ${SERVER}${endpoint} (Attempt ${i+1}/${times})
+        Go To    ${SERVER}${endpoint}
+        Wait Until Element Contains    xpath=//div[contains(@class, 'ui-exception-message') and contains(@class, 'ui-exception-message-full')]    ${expected_message}    timeout=10s
+    END
+
+Verify No Error Message
+    ${status}=    Run Keyword And Return Status    Page Should Not Contain Element    xpath=//div[contains(@class, 'ui-exception-message') and contains(@class, 'ui-exception-message-full')]
+    Run Keyword Unless    ${status}    Fail    Error message element found when it should not be present
+
+    
+
+        
+    
