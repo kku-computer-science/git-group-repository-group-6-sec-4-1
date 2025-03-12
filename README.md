@@ -142,8 +142,6 @@ USERNAME และ PASSWORD <br>
 
 - - -
 
----
-
 จะแสดงหน้า Login โดยกรอก
 USERNAME และ PASSWORD <br>
 ![Login Page](imge/p1.png) <br>
@@ -163,6 +161,8 @@ USERNAME และ PASSWORD <br>
 <br>
 ![Login Page](imge/p23.png) <br>
 ผู้ใช้สามารถใช้งานฟังก์ชันต่างๆของระบบจัดการข้อมูลวิจัยของสาขาวิชาวิทยาการคอมพิวเตอร์ หาทำการเปลี่ยนแปลงใด ข้อมูลต่างๆก็จะแสดงที่ส่วนของ Log ของ Admin ครับ... <br>
+
+***
 
 
 
