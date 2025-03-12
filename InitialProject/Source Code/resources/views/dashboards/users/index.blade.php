@@ -3,6 +3,7 @@
 
 @section('content')
 <head>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <!-- Bootstrap Icons CDN -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 <style>
