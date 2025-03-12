@@ -482,6 +482,36 @@
                             </div>
                         </div>
                     </a>
+                    <!-- User Login Stats -->
+                    <div class="row flex-grow-1 h-40" style="margin-top: 10%;">
+    <div class="col-md-12 h-75">
+        <div class="card mt-3 shadow-sm hover-card flex-fill animated-card">
+            <div class="card-header bg-success text-white">
+                <h5>User Login Stats</h5>
+            </div>
+            <div class="card-body">
+                <div>
+                    <strong>Total Login:</strong>
+                    <span class="badge bg-primary count-up" data-value="{{ ($loginStats['success'] ?? 0) + ($loginStats['fail'] ?? 0) }}">0</span>
+                </div>
+                <div class="row mt-2">
+                    <a href="{{ route('admin.logs', ['user_id' => '', 'activity_search' => 'login', 'start_date' => request('selected_date'), 'end_date' => request('selected_date')]) }}" class="text-decoration-none">
+                        <div class="col-6 d-flex flex-column">
+                            <strong>Success:</strong>
+                            <span class="badge bg-success count-up" data-value="{{ $loginStats['success'] ?? 0 }}">0</span>
+                        </div>
+                    </a>
+                    <a href="{{ route('logs.http', ['http_search' => '401', 'start_date' => request('selected_date'), 'end_date' => request('selected_date')]) }}" class="text-decoration-none">
+                        <div class="col-6 d-flex flex-column">
+                            <strong>Fail:</strong>
+                            <span class="badge bg-danger count-up" data-value="{{ $loginStats['fail'] ?? 0 }}">0</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                 </div>
             </div>
         </div>
